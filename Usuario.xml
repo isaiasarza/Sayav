@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Usuario>
+ <Nombre> </Nombre>
+ <Apellido> </Apellido>
+ <Telefono> </Telefono>
+ <Email> </Email>
+ <Direccion> </Direccion>
+ <Subdominio> </Subdominio>
+ <Contraseña> </Contraseña>
+ <!-- <listaDM>
+    <DispositivoM> </DispositivoM>
+ 	<DispositivoM> </DispositivoM>
+ 	<DispositivoM> </DispositivoM>
+ 	<DispositivoM> </DispositivoM>
+ 	<DispositivoM> </DispositivoM>
+ </listaDM>
+ <listaSen>
+ 	<Sensor></Sensor>
+ 	<Sensor></Sensor>
+ 	<Sensor></Sensor>
+ 	<Sensor></Sensor>
+ 	<Sensor></Sensor>
+ </listaSen> -->
+</Usuario>

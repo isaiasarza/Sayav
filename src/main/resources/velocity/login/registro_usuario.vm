@@ -1,0 +1,28 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+<h1>SAYAV</h1>
+<h2>Registro de Usuario</h2>
+
+ <form id= "registrationForm" method = "post" action = "/registration/">
+  Nombre:<br>
+  <input type="text" name="nombre"><br>
+  Apellido:<br>
+  <input type="text" name="apellido"><br>
+  Email:<br>
+  <input type="email" name="email"><br>
+  Domicilio:<br>
+  <input type="text" name="domicilio"><br>
+  Nro Telefono:<br>
+  <input type="text" name="nro"><br>
+  Subdominio:<br>
+  <input type="text" name="subdom"><br>
+  Contrase�a:<br>
+  <input type="password" name="psw1"><br>
+  Repita Contrase�a:<br>
+  <input type="password" name="psw2"><br>
+  <br>
+  <input type="submit" value="Registrar">
+  
+</form> 
+
+#end

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Usuario xmlns="http://www.example.org/UsuarioXMLSchema">
+    <Nombre>Isaías</Nombre>
+    <Apellido>Arza</Apellido>
+    <Telefono>2804979239</Telefono>
+    <Email>arza.isaias@gmail.com</Email>
+    <Direccion>Entre Rios 740</Direccion>
+    <Subdominio>isaiasarza@outlook.com</Subdominio>
+    <Contraseña>$2a$10$ZF04AsTZRKeOUmE8t2jQI.W08RJFE7jiyrCESRXASd7LiD0NKnjYW</Contraseña>
+    <Salt>$2a$10$ZF04AsTZRKeOUmE8t2jQI.</Salt>
+</Usuario>

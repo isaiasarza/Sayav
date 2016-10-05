@@ -1,0 +1,7 @@
+<root>
+  <facet id="jpt.jaxb">
+    <node name="classgen">
+      <attribute name="package" value="SAYAV2.SAYAV2.model"/>
+    </node>
+  </facet>
+</root>
