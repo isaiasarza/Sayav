@@ -21,7 +21,7 @@ public class ViewUtil {
     public static String render(Request request, Map<String, Object> model, String templatePath) {
     	System.out.println("Render");
         model.put("msg", new MessageBundle(getSessionLocale(request)));
-       // model.put("currentUser", getSessionCurrentUser(request));
+        model.put("currentUser", getSessionCurrentUser(request));
         model.put("WebPath", PathUtil.Web.class); // Access application URLs from templates
         return strictVelocityEngine().render(new ModelAndView(model, templatePath));
     }

@@ -2,7 +2,7 @@
 // Este archivo ha sido generado por la arquitectura JavaTM para la implantación de la referencia de enlace (JAXB) XML v2.2.11 
 // Visite <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Todas las modificaciones realizadas en este archivo se perderán si se vuelve a compilar el esquema de origen. 
-// Generado el: 2016.10.02 a las 05:40:21 PM ART 
+// Generado el: 2016.10.11 a las 12:15:19 AM ART 
 //
 
 
@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
  *         &lt;element name="codigo" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="descripcion" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="activado" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -39,7 +40,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "SensoresType", propOrder = {
     "id",
     "codigo",
-    "descripcion"
+    "descripcion",
+    "activado"
 })
 public class SensoresType {
 
@@ -48,6 +50,7 @@ public class SensoresType {
     protected String codigo;
     @XmlElement(required = true)
     protected String descripcion;
+    protected boolean activado;
 
     /**
      * Obtiene el valor de la propiedad id.
@@ -111,6 +114,22 @@ public class SensoresType {
      */
     public void setDescripcion(String value) {
         this.descripcion = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad activado.
+     * 
+     */
+    public boolean isActivado() {
+        return activado;
+    }
+
+    /**
+     * Define el valor de la propiedad activado.
+     * 
+     */
+    public void setActivado(boolean value) {
+        this.activado = value;
     }
 
 }

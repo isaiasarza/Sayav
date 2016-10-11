@@ -272,6 +272,31 @@ a .bookCover img {
     cursor: pointer;
 }
 
+#registrationForm {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+#registrationForm label {
+    display: block;
+    width: 100%
+}
+
+#registrationForm input {
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    width: 100%;
+    border-radius: 3px;
+    margin: 2px 0 20px 0;
+}
+
+#registrationForm input[type="submit"] {
+    color: white;
+    background: #274555;
+    border: 0;
+    cursor: pointer;
+}
+
 .notification {
     padding: 10px;
     background: #333;

@@ -2,6 +2,7 @@ package SAYAV2.SAYAV2.dao;
 
 import java.io.File;
 
+import javax.xml.bind.Binder;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -29,7 +30,7 @@ public class GenericDao {
 
 	}
 
-	public Object cargar(Object entidad, File file) {
+	public Object cargar(Object entidad , File file) {
 		try {
 			JAXBContext context = JAXBContext.newInstance(entidad.getClass());
 			Unmarshaller um = context.createUnmarshaller();
@@ -48,6 +49,22 @@ public class GenericDao {
 			e.printStackTrace();
 		}
 		return entidad;
+	}
+	
+	public void actualizar(Object entidad, File file) {
+		//StringWriter writer = new StringWriter();
+		JAXBContext context;
+		try {
+
+			
+			context = JAXBContext.newInstance(entidad.getClass());
+			Binder b = context.createBinder(entidad.getClass());
+			b.updateXML(entidad);
+
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+
 	}
 	
 }

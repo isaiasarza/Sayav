@@ -2,7 +2,7 @@
 // Este archivo ha sido generado por la arquitectura JavaTM para la implantaci�n de la referencia de enlace (JAXB) XML v2.2.11 
 // Visite <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Todas las modificaciones realizadas en este archivo se perder�n si se vuelve a compilar el esquema de origen. 
-// Generado el: 2016.10.02 a las 05:40:21 PM ART 
+// Generado el: 2016.10.11 a las 12:15:19 AM ART 
 //
 
 
@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlType;
  *           &lt;element name="Subdominio" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *           &lt;element name="Contraseña" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *           &lt;element name="Salt" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
-
+ *           &lt;element name="AlarmaHabilitada" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
  *         &lt;/sequence&gt;
  *         &lt;element name="DispositivosMoviles" type="{http://www.example.org/UsuarioXMLSchema}DispositivosType" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element name="Sensores" type="{http://www.example.org/UsuarioXMLSchema}SensoresType" maxOccurs="unbounded" minOccurs="0"/&gt;
@@ -56,10 +56,11 @@ import javax.xml.bind.annotation.XmlType;
     "email",
     "direccion",
     "subdominio",
-    "contraseña",
+    "contrase\u00f1a",
+    "salt",
+    "alarmaHabilitada",
     "dispositivosMoviles",
-    "sensores",
-    "salt"
+    "sensores"
 })
 @XmlRootElement(name = "Usuario")
 public class Usuario {
@@ -80,6 +81,8 @@ public class Usuario {
     protected String contraseña;
     @XmlElement(name = "Salt")
     protected String salt;
+    @XmlElement(name = "AlarmaHabilitada")
+    protected Boolean alarmaHabilitada;
     @XmlElement(name = "DispositivosMoviles")
     protected List<DispositivosType> dispositivosMoviles;
     @XmlElement(name = "Sensores")
@@ -253,24 +256,55 @@ public class Usuario {
         this.contraseña = value;
     }
 
-    
+    /**
+     * Obtiene el valor de la propiedad salt.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
     public String getSalt() {
-		return salt;
-	}
+        return salt;
+    }
 
-	public void setSalt(String salt) {
-		this.salt = salt;
-	}
+    /**
+     * Define el valor de la propiedad salt.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setSalt(String value) {
+        this.salt = value;
+    }
 
-	public void setDispositivosMoviles(List<DispositivosType> dispositivosMoviles) {
-		this.dispositivosMoviles = dispositivosMoviles;
-	}
+    /**
+     * Obtiene el valor de la propiedad alarmaHabilitada.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
+     */
+    public Boolean isAlarmaHabilitada() {
+        return alarmaHabilitada;
+    }
 
-	public void setSensores(List<SensoresType> sensores) {
-		this.sensores = sensores;
-	}
+    /**
+     * Define el valor de la propiedad alarmaHabilitada.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
+     */
+    public void setAlarmaHabilitada(Boolean value) {
+        this.alarmaHabilitada = value;
+    }
 
-	/**
+    /**
      * Gets the value of the dispositivosMoviles property.
      * 
      * <p>
@@ -327,12 +361,5 @@ public class Usuario {
         }
         return this.sensores;
     }
-
-	@Override
-	public String toString() {
-		return "Usuario [nombre=" + nombre + ", apellido=" + apellido + ", telefono=" + telefono + ", email=" + email
-				+ ", direccion=" + direccion + ", subdominio=" + subdominio + ", contraseña=" + contraseña + "]";
-	}
-
 
 }

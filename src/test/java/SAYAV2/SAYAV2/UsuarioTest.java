@@ -31,6 +31,8 @@ public class UsuarioTest {
 	@Test
 	public void guardarUsuarioTest(){
 		genericDao.guardar(usuario,usuarioFile);
+		usuario.setAlarmaHabilitada(true);
+		genericDao.actualizar(usuario, usuarioFile);
 	}
 	
 	@Test

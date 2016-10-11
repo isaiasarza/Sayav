@@ -1,6 +1,7 @@
 package SAYAV2.SAYAV2;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,15 +16,22 @@ public class UsuarioControllerTest {
 	public void setBefore(){
 		
 		usuario = new Usuario();
-		usuario.setNombre("Isaías");
+		usuario.setNombre("Daniel Isaías");
 		usuario.setApellido("Arza");
 		usuario.setContraseña("abc");
 		usuario.setDireccion("Entre Rios 749");
-		usuario.setEmail("arza.isaias@gmail.com");
+		usuario.setEmail("isaisaarza@gmail.com");
 	}
 	
 	@Test
 	public void registrarUsuarioTest(){
 		assertEquals(UsuarioController.registrarUsuario(usuario),"registrationSucceeded");
+		assertTrue(UsuarioController.authenticate(usuario.getEmail(), "abc", usuario.getNombre(), usuario.getApellido()));
+		
+	}
+	
+	@Test
+	public void buscarUsuarioTest(){
+//		System.out.println(UsuarioController.authenticate(usuario.getEmail(), usuario.getContraseña(), usuario.getNombre(), usuario.getApellido()));
 	}
 }

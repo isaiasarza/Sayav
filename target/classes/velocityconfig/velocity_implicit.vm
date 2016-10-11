@@ -3,11 +3,14 @@
 #* @vtlvariable name="msg" type="SAYAV2.SAYAV2.Utils.MessageBundle" *#
 #* @vtlvariable name="currentUser" type="java.lang.String" *#
 #* @vtlvariable name="loggedOut" type="java.lang.String" *#
+#* @vtlvariable name="loginRedirect" type="java.lang.String" *#
 #* @vtlvariable name="authenticationFailed" type="java.lang.String" *#
 #* @vtlvariable name="authenticationSucceeded" type="java.lang.String" *#
 #* @vtlvariable name="registrationFailed" type="java.lang.String" *#
 #* @vtlvariable name="registrationSucceeded" type="java.lang.String" *#
 #* @vtlvariable name="registrationRedirect" type="java.lang.String" *#
-#* @vtlvariable name="loginRedirect" type="java.lang.String" *#
 #* @vtlvariable name="prueba" type="SAYAV2.SAYAV2.model.Prueba" *#
+#* @vtlvariable name="enableAlarm" type="java.lang.String" *#
+
+
 
