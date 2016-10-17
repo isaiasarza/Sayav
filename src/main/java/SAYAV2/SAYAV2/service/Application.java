@@ -31,11 +31,20 @@ public class Application {
 		post(PathUtil.Web.REGISTRATION,RegistrationController.registrarNuevoUsuario);
 		
 		//REST de login de usuario
-		get(PathUtil.Web.LOGIN,LogginController.serveLoginPage);	
-		post(PathUtil.Web.LOGIN,LogginController.handleLoginPost); 
-		post(PathUtil.Web.LOGOUT,    LogginController.handleLogoutPost);
+		get(PathUtil.Web.LOGIN,LoginController.serveLoginPage);	
+		post(PathUtil.Web.LOGIN,LoginController.handleLoginPost); 
+		post(PathUtil.Web.LOGOUT,    LoginController.handleLogoutPost);
 		
 		post(PathUtil.Web.ALARM, AlarmController.enableAlarmPost);
+		
+		get(PathUtil.Web.MENU, UsuarioController.viewUserData);
+		
+
+		get(PathUtil.Web.UPDATE_U, UsuarioController.update);
+		post(PathUtil.Web.UPDATE_U, UsuarioController.showUpdate);
+
+		post(PathUtil.Web.UPDATE_USER, UsuarioController.updateUser);
+
 		
 		get("*",                     ViewUtil.notFound);
         //Set up after-filters (called after each get/post)

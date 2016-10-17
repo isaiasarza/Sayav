@@ -1,0 +1,20 @@
+#parse("/velocity/menu/menu.vm")
+#@menuLayout()
+
+<table style="width:100%">
+	<tr>
+		<th>$msg.get("USER_NAME")</th>
+		<th>$msg.get("USER_LASTNAME")</th>
+		<th>$msg.get("USER_EMAIL")</th>
+		<th>$msg.get("USER_SUBDOM")</th>  
+		<th><input type="checkbox" name="updateData" value="">$msg.get("USER_UPDATE")</th>		
+	</tr>
+  	<tr>
+    	<td>$!user.getNombre()</td>
+    	<td>$!user.getApellido()</td>
+    	<td>$!user.getEmail()</td>
+    	<td>$!user.getSubdominio()</td>
+	</tr>
+</table> 
+
+#end

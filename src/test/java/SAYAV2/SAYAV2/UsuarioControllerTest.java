@@ -1,7 +1,8 @@
 package SAYAV2.SAYAV2;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+
+import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +27,7 @@ public class UsuarioControllerTest {
 	@Test
 	public void registrarUsuarioTest(){
 		assertEquals(UsuarioController.registrarUsuario(usuario),"registrationSucceeded");
-		assertTrue(UsuarioController.authenticate(usuario.getEmail(), "abc", usuario.getNombre(), usuario.getApellido()));
+		assertEquals(UsuarioController.authenticate(usuario.getEmail(), "abc",new HashMap<>()),"authentificationSucceeded");
 		
 	}
 	

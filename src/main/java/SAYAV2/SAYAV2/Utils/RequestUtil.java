@@ -49,6 +49,9 @@ public class RequestUtil {
 	public static String getQueryLoginRedirect(Request request) {
 		return request.queryParams("loginRedirect");
 	}
+	public static String getQueryMenuRedirect(Request request) {
+		return request.queryParams("menuRedirect");
+	}
 
 	public static String getSessionLocale(Request request) {
 		return request.session().attribute("locale");
@@ -68,6 +71,18 @@ public class RequestUtil {
 		String loginRedirect = request.session().attribute("loginRedirect");
 		request.session().removeAttribute("loginRedirect");
 		return loginRedirect;
+	}
+	
+	public static String removeSessionAttrUser(Request request) {
+		String user = request.session().attribute("user");
+		request.session().removeAttribute("user");
+		return user;
+	}
+	
+	public static String removeSessionAttrMenuRedirect(Request request) {
+		String menuRedirect = request.session().attribute("menuRedirect");
+		request.session().removeAttribute("menuRedirect");
+		return menuRedirect;
 	}
 
 	public static String removeSessionAttrRegisterRedirect(Request request) {

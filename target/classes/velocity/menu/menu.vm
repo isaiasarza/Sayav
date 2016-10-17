@@ -1,0 +1,45 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+
+	<h1> $msg.get("COMMON_TITLE") </h1>
+	<nav>       
+        <ul id="userMenu">
+	 		##<li><a href="$WebPath.getMOVILS()">$msg.get("COMMON_NAV_ALLMOVILS")</a></li>
+          	##<li><a href="$WebPath.getSENSORS()">$msg.get("COMMON_NAV_SENSORS")</a></li>
+          ##  <li>
+          ##       <form method="post" action="$WebPath.getAlarm()">
+          ##          <button id="alarm">$msg.get("COMMON_NAV_ALARM")</button>
+          ##       </form>
+          ##  </li>
+          	<li>
+          		<form method="post" action="$WebPath.getUpdateU()">
+            	    <button id="updateUser">$msg.get("USER_UPDATE")</button>
+               </form> 
+    	    </li>
+        </ul>
+    </nav>
+   
+   		<table style="width:100%">
+			<tr>
+				<th>$msg.get("USER_NAME")</th>
+				<th>$msg.get("USER_LASTNAME")</th>
+				<th>$msg.get("USER_EMAIL")</th>
+				<th>$msg.get("USER_SUBDOM")</th>		
+			</tr>
+  			<tr>
+    			<td>$!user.getNombre()</td>
+    			<td>$!user.getApellido()</td>
+    			<td>$!user.getEmail()</td>
+    			<td>$!user.getSubdominio()</td>  			
+			</tr>
+		</table> 
+		
+		#if($updateUser)
+			<h1>Anduvo</h1>
+		#end
+		
+		#if($menuRedirect)
+       	 <input type="hidden" name="menuRedirect" value="$menuRedirect">
+    	#end
+		
+#end

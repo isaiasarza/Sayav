@@ -8,32 +8,24 @@
 </head>
 <body>
 <header>
-   <nav>       
+   <nav> 
+   		<a><img id="logo" src="/img/logo.png" alt="Sayav"></a>      
         <ul id="menu">        
-            #if($currentUser)
-             ##	<li><a href="$WebPath.getMOVILS()">$msg.get("COMMON_NAV_ALLMOVILS")</a></li>
-             ##	<li><a href="$WebPath.getSENSORS()">$msg.get("COMMON_NAV_SENSORS")</a></li>
-             ##	<li><a href="$WebPath.getUSERDATA()">$msg.get("COMMON_NAV_USERDATA")</a></li>
-             ##   <li>
-             ##       <form method="post" action="$WebPath.getALARM()">
-             ##           <input type="checkbox" name="alarm" placeholder="$msg.get("COMMON_NAV_ALARM")">
-             ##       </form>
-             ##	</li> 
-             ##   <li>
-             ##       <form method="post" action="$WebPath.getLOGOUT()">
-             ##          <button id="logout">$msg.get("COMMON_NAV_LOGOUT")</button>
-             ##       </form>
-             ##  </li>    
-          	<p>$WebPath.getLOGOUT()</p>
-          ##  #else
-          ##     <li><a href="$WebPath.getLOGIN()">$msg.get("COMMON_NAV_LOGIN")</a></li>
+            #if($currentUser)            
+                <li>
+                    <form method="post" action="$WebPath.getLogout()">
+                       <button id="logout">$msg.get("COMMON_NAV_LOGOUT")</button>
+                    </form>
+               </li>             	
+            #else
+               <li><a href="$WebPath.getLogin()">$msg.get("COMMON_NAV_LOGIN")</a></li>
             #end
         </ul>
     </nav>
 </header>
 <main>
     <div id="content">
-    	$bodyContent
+    	$!bodyContent
     </div>
 </main>
 <footer>

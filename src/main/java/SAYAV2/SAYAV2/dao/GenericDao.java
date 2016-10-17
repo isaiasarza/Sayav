@@ -2,14 +2,14 @@ package SAYAV2.SAYAV2.dao;
 
 import java.io.File;
 
-import javax.xml.bind.Binder;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-public class GenericDao {
+public class GenericDao<E> {
 	
+	protected E e;
 	
 
 	public void guardar(Object entidad, File file) {
@@ -18,7 +18,7 @@ public class GenericDao {
 		try {
 
 			
-			context = JAXBContext.newInstance(entidad.getClass());
+			context = JAXBContext.newInstance(e.getClass());
 			Marshaller m;
 			m = context.createMarshaller();
 			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -30,14 +30,15 @@ public class GenericDao {
 
 	}
 
-	public Object cargar(Object entidad , File file) {
-		try {
-			JAXBContext context = JAXBContext.newInstance(entidad.getClass());
+	@SuppressWarnings("unchecked")
+	public E cargar( File file) throws JAXBException{
+			E entidad;
+			JAXBContext context = JAXBContext.newInstance(e.getClass());
 			Unmarshaller um = context.createUnmarshaller();
 
 			// Reading XML from the file and unmarshalling.
 			
-			entidad =  um.unmarshal(file);
+			entidad =  (E) um.unmarshal(file);
 
 			// personData.clear();
 			// personData.addAll(wrapper.getPersons());
@@ -45,26 +46,9 @@ public class GenericDao {
 			// Save the file path to the registry.
 			// setPersonFilePath(file);
 
-		} catch (Exception e) { // catches ANY exception
-			e.printStackTrace();
-		}
+	
 		return entidad;
 	}
 	
-	public void actualizar(Object entidad, File file) {
-		//StringWriter writer = new StringWriter();
-		JAXBContext context;
-		try {
-
-			
-			context = JAXBContext.newInstance(entidad.getClass());
-			Binder b = context.createBinder(entidad.getClass());
-			b.updateXML(entidad);
-
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
-
-	}
 	
 }

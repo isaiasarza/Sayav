@@ -129,7 +129,9 @@ nav ul, nav li {
 }
 
 /* Needlessly fancy menu hover effect */
-
+#userMenu li{
+	position: relative;
+}
 #menu li {
     position: relative;
 }
@@ -141,9 +143,10 @@ nav ul, nav li {
     width: 100%;
     height: 4px;
     background: rgba(255, 255, 255, 0.5);
+    color: rgb(0,0,0);
     border-radius: 5px;
     content: '';
-    opacity: 0;
+    opacity: 1;
     -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
     transition: opacity 0.3s, transform 0.3s;
     -webkit-transform: translateY(10px);
@@ -154,7 +157,7 @@ nav ul, nav li {
 #logout:focus::after,
 #menu li a:hover::after,
 #menu li a:focus::after {
-    opacity: 1;
+    opacity: 15;
     -webkit-transform: translateY(0px);
     transform: translateY(0px);
 }
@@ -291,6 +294,32 @@ a .bookCover img {
 }
 
 #registrationForm input[type="submit"] {
+    color: white;
+    background: #274555;
+    border: 0;
+    cursor: pointer;
+}
+
+/* User Update Form */
+#userUpdateForm {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+#userUpdateForm label {
+    display: block;
+    width: 100%
+}
+
+#userUpdateForm input {
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    width: 100%;
+    border-radius: 3px;
+    margin: 2px 0 20px 0;
+}
+
+#userUpdateForm input[type="submit"] {
     color: white;
     background: #274555;
     border: 0;

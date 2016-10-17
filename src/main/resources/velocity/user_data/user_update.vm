@@ -1,0 +1,36 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+
+<form id="userUpdateForm" method="post" action="$WebPath.getUpdateUser()">
+  
+    <h1>$msg.get("USER_UPDATE_HEADING")</h1>
+    
+    <label>$msg.get("REGISTRATION_LABEL_NAME")</label><br>
+    <input type="text" name="name" placeholder="$msg.get("REGISTRATION_LABEL_NAME")" value="" ><br>
+    
+    <label>$msg.get("REGISTRATION_LABEL_LASTNAME")</label><br>
+    <input type="text" name="lastname" placeholder="$msg.get("REGISTRATION_LABEL_LASTNAME")" value="" ><br>
+    
+    <label>$msg.get("REGISTRATION_LABEL_EMAIL")</label><br>
+    <input type="email" name="email" placeholder="$msg.get("REGISTRATION_LABEL_EMAIL")" value="" ><br>
+    
+    <label>$msg.get("REGISTRATION_LABEL_ADDRESS")</label><br>
+    <input type="text" name="address" placeholder="$msg.get("REGISTRATION_LABEL_ADDRESS")" value="" ><br>
+    
+    <label>$msg.get("REGISTRATION_LABEL_PHONE_NUMBER")</label><br>
+    <input type="text" name="phoneNumber" placeholder="$msg.get("REGISTRATION_LABEL_PHONE_NUMBER")" value="" ><br>
+    
+    <label>$msg.get("REGISTRATION_LABEL_SUBDOM")</label><br>
+    <input type="text" name="subdom" placeholder="$msg.get("REGISTRATION_LABEL_SUBDOM")" value="" ><br>
+       
+    <label>$msg.get("REGISTRATION_LABEL_PASSWORD")</label><br>
+    <input type="password" name="psw1" placeholder="$msg.get("REGISTRATION_LABEL_PASSWORD")" value="" ><br>
+    
+    <label>$msg.get("REGISTRATION_LABEL_REPEATPASSWORD")</label><br>
+    <input type="password" name="psw2" placeholder="$msg.get("REGISTRATION_LABEL_REPEATPASSWORD")" value="" ><br>
+    
+    <input type="submit" value="$msg.get("USER_UPDATE")">
+    
+</form>    
+	
+#end

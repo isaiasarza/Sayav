@@ -362,4 +362,14 @@ public class Usuario {
         return this.sensores;
     }
 
+	@Override
+	public String toString() {
+		return "Usuario [nombre=" + nombre + ", apellido=" + apellido + ", telefono=" + telefono + ", email=" + email
+				+ ", direccion=" + direccion + ", subdominio=" + subdominio + ", contraseña=" + contraseña + ", salt="
+				+ salt + ", alarmaHabilitada=" + alarmaHabilitada + ", dispositivosMoviles=" + dispositivosMoviles
+				+ ", sensores=" + sensores + "]";
+	}
+    
+    
+
 }

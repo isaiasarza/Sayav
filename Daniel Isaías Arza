@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Usuario xmlns="http://www.example.org/UsuarioXMLSchema">
-    <Nombre>Daniel Isaías</Nombre>
-    <Apellido>Arza</Apellido>
-    <Email>isaisaarza@gmail.com</Email>
-    <Direccion>Entre Rios 749</Direccion>
-    <Contraseña>$2a$10$rM58KGbEED299Sjuppmw..SgpWhYqHO4th8D8RMEZYQp/LcKQgg2e</Contraseña>
-    <Salt>$2a$10$rM58KGbEED299Sjuppmw..</Salt>
-</Usuario>

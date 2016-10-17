@@ -2,23 +2,21 @@
 #@mainLayout()
 
 
-<form id="loginForm" method="post" action="/login/">
+<form id="loginForm" method="post" action="$WebPath.getLogin()">
 
 	#if($authenticationFailed)
         <p class="bad notification">$msg.get("LOGIN_AUTH_FAILED")</p>
-    #elseif($authenticationSucceeded)
+    #elseif($wrongPassword)
+        <p class="bad notification">$msg.get("LOGIN_AUTH_FAILED")</p>
+    #elseif($wrongEmail)
+        <p class="bad notification">$msg.get("LOGIN_AUTH_FAILED")</p>
+    #elseif($authenticationSucceeded)   
         <p class="good notification">$msg.get("LOGIN_AUTH_SUCCEEDED")</p>
     #elseif($loggedOut)
-       <p class="notification">$msg.get("LOGIN_LOGGED_OUT")</p>
+        <p class="notification">$msg.get("LOGIN_LOGGED_OUT")</p>
     #end
  
     <h1>$msg.get("LOGIN_HEADING")</h1>
-    
-    <label>$msg.get("LOGIN_LABEL_NAME")</label>
-    <input type="text" name="name" placeholder="$msg.get("LOGIN_LABEL_NAME")" value="" required>
-    
-    <label>$msg.get("LOGIN_LABEL_LASTNAME")</label>
-    <input type="text" name="lastname" placeholder="$msg.get("LOGIN_LABEL_LASTNAME")" value="" required>
     
     <label>$msg.get("LOGIN_LABEL_EMAIL")</label>
     <input type="text" name="email" placeholder="$msg.get("LOGIN_LABEL_EMAIL")" value="" required>
