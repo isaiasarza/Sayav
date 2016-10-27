@@ -9,7 +9,17 @@
 <body>
 <header>
    <nav> 
-   		<a><img id="logo" src="/img/logo.png" alt="Sayav"></a>      
+   		<a><img id="logo" src="/img/alarm.png" alt="Sayav"></a>     
+   		<ul id="chooseLanguage">
+            <form>
+                <li>
+                    <button name="locale" value="sp" style="background-image: url(/img/german.png);"></button>
+                </li>
+                <li>
+                    <button name="locale" value="en" style="background-image: url(/img/english.png);"></button>
+                </li>
+            </form>
+        </ul> 
         <ul id="menu">        
             #if($currentUser)            
                 <li>

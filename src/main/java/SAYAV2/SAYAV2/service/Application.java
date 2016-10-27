@@ -43,6 +43,7 @@ public class Application {
 		get(PathUtil.Web.UPDATE_U, UsuarioController.update);
 		post(PathUtil.Web.UPDATE_U, UsuarioController.showUpdate);
 
+		get(PathUtil.Web.UPDATE_USER, UsuarioController.viewUpdateUser);
 		post(PathUtil.Web.UPDATE_USER, UsuarioController.updateUser);
 
 		

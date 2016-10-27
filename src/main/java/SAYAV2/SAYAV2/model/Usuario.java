@@ -87,8 +87,18 @@ public class Usuario {
     protected List<DispositivosType> dispositivosMoviles;
     @XmlElement(name = "Sensores")
     protected List<SensoresType> sensores;
+    
+    
 
-    /**
+    public Usuario() {
+		super();
+		
+		this.alarmaHabilitada = new Boolean(false);
+		this.sensores = new ArrayList<SensoresType>();
+		this.dispositivosMoviles = new ArrayList<DispositivosType>();
+	}
+
+	/**
      * Obtiene el valor de la propiedad nombre.
      * 
      * @return
@@ -304,7 +314,20 @@ public class Usuario {
         this.alarmaHabilitada = value;
     }
 
-    /**
+    
+    public Boolean getAlarmaHabilitada() {
+		return alarmaHabilitada;
+	}
+
+	public void setDispositivosMoviles(List<DispositivosType> dispositivosMoviles) {
+		this.dispositivosMoviles = dispositivosMoviles;
+	}
+
+	public void setSensores(List<SensoresType> sensores) {
+		this.sensores = sensores;
+	}
+
+	/**
      * Gets the value of the dispositivosMoviles property.
      * 
      * <p>

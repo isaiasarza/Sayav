@@ -47,6 +47,7 @@ public class UsuarioController {
 			String hashedPassword = PasswordUtils.generarContraseña(usuario);
 			usuario.setContraseña(hashedPassword);
 			usuarioDao.guardar(usuario, file);
+			currentUser = usuario;
 			System.out.println("Usuario guardado");
 			return "registrationSucceeded";
 		}
@@ -103,6 +104,7 @@ public class UsuarioController {
         Map<String, Object> model = new HashMap<>();
 		model.put("menuRedirect", RequestUtil.removeSessionAttrMenuRedirect(request));
         model.put("user",currentUser);
+    	//model.put("enableAlarm", current);
         return ViewUtil.render(request, model, PathUtil.Template.MENU);
     };
     
@@ -111,7 +113,6 @@ public class UsuarioController {
 		LoginController.ensureUserIsLoggedIn(request, response);
     	System.out.println("update");  	
     	Map<String, Object> model = new HashMap<>();
-
         return ViewUtil.render(request, model, PathUtil.Template.UPDATE_USER);
     };
    
@@ -119,19 +120,48 @@ public class UsuarioController {
     public static Route showUpdate = (Request request, Response response) -> {
     	System.out.println("ShowUpdate");  
     	Map<String, Object> model = new HashMap<>();
-
+    	model.put("user", currentUser);
 		System.out.println(PathUtil.Web.MENU);
         return ViewUtil.render(request, model, PathUtil.Template.UPDATE_USER);
 
     };
     
+    public static Route viewUpdateUser = (Request request, Response response) -> {
+		LoginController.ensureUserIsLoggedIn(request, response);
+    	System.out.println("viewUpdateUser");  
+    	Map<String, Object> model = new HashMap<>();   	
+    	completarFormulario(model,request);
+    	model.put("user", currentUser);
+        return ViewUtil.render(request, model, PathUtil.Template.UPDATE_USER);
+//    	response.redirect(PathUtil.Web.UPDATE_U);
+//    	return null;
+    };
     public static Route updateUser = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
-    	System.out.println("ShowUpdate");  
-    	Map<String, Object> model = new HashMap<>();
+    	System.out.println("updateUser");  
+    	Map<String, Object> model = new HashMap<>();   	
+    	Usuario usuario;
+    	try{
+    		if((usuario = update(request))== null){
+        		model.put("wrongPassword", true);
+        		return ViewUtil.render(request, model, PathUtil.Template.UPDATE_USER);
+    		}
+    		usuarioDao.guardar(usuario, file);
+    		System.out.println(usuario);
+//    		request.session().attribute("updateSucceeded",true);
+    		model.put("user", usuario);
+    	}catch(JAXBException e){
+    		e.printStackTrace();
+        	model.put("updateFailed", true);
+        	System.out.println("Update Failed");
 
-		System.out.println(PathUtil.Web.MENU);
-        return ViewUtil.render(request, model, PathUtil.Template.UPDATE_USER);
+//        	request.session().attribute("updateFailed",true);
+        	return ViewUtil.render(request, model, PathUtil.Template.UPDATE_USER);
+    	}
+    	
+//        return ViewUtil.render(request, model, PathUtil.Template.UPDATE_USER);
+    	System.out.println("Update Succeeded");
+    	return ViewUtil.render(request, model, PathUtil.Template.UPDATE_USER);
 
     };
     
@@ -139,9 +169,14 @@ public class UsuarioController {
     	return currentUser;
     }
     
-    public static Usuario update(Request request) throws JAXBException{
+    private static void completarFormulario(Map<String, Object> model, Request request) {
+		// TODO Auto-generated method stub
+		model.put("name",currentUser.getNombre());
+		model.put("lastname", currentUser.getApellido());
+	}
+	public static Usuario update(Request request) throws JAXBException{
 
-    	Usuario usuario = (Usuario) usuarioDao.cargar( file);
+    	Usuario usuario = (Usuario) usuarioDao.cargar(file);
         String nombre = RequestUtil.getQueryName(request);
         String apellido = RequestUtil.getQueryLastName(request);
         String domicilio = RequestUtil.getQueryAddress(request);
@@ -162,8 +197,12 @@ public class UsuarioController {
         	usuario.setSubdominio(subdominio);
         if(!numeroTelefono.isEmpty())
         	usuario.setTelefono(numeroTelefono);
-        if(!contraseña.isEmpty() && contraseña.equals(contraseñaRepetida))
-        	usuario.setContraseña(BCrypt.hashpw(contraseña, usuario.getSalt()));
+        if(!contraseña.isEmpty()){
+        	if(contraseña.equals(contraseñaRepetida))
+        		usuario.setContraseña(BCrypt.hashpw(contraseña, usuario.getSalt()));
+        	else
+        		return null;
+        }
     	return usuario;
     }
       

@@ -3,25 +3,32 @@
 
 <form id="userUpdateForm" method="post" action="$WebPath.getUpdateUser()">
   
+  	#if($updateFailed)
+        <p class="bad notification">$msg.get("UPDATE_FAILED")</p>
+    #elseif($wrongPassword)
+       <p class="bad notification">$msg.get("PASSWORD_FAILED")</p>
+    #elseif($updateSucceeded)   
+        <p class="good notification">$msg.get("UPDATE_SUCCEEDED")</p>
+    #end
     <h1>$msg.get("USER_UPDATE_HEADING")</h1>
     
     <label>$msg.get("REGISTRATION_LABEL_NAME")</label><br>
-    <input type="text" name="name" placeholder="$msg.get("REGISTRATION_LABEL_NAME")" value="" ><br>
+    <input type="text" name="name" placeholder="$msg.get("REGISTRATION_LABEL_NAME")" value="$!user.getNombre()" ><br>
     
     <label>$msg.get("REGISTRATION_LABEL_LASTNAME")</label><br>
-    <input type="text" name="lastname" placeholder="$msg.get("REGISTRATION_LABEL_LASTNAME")" value="" ><br>
+    <input type="text" name="lastname" placeholder="$msg.get("REGISTRATION_LABEL_LASTNAME")" value="$!user.getApellido()" ><br>
     
     <label>$msg.get("REGISTRATION_LABEL_EMAIL")</label><br>
-    <input type="email" name="email" placeholder="$msg.get("REGISTRATION_LABEL_EMAIL")" value="" ><br>
+    <input type="email" name="email" placeholder="$msg.get("REGISTRATION_LABEL_EMAIL")" value="$!user.getEmail()" ><br>
     
     <label>$msg.get("REGISTRATION_LABEL_ADDRESS")</label><br>
-    <input type="text" name="address" placeholder="$msg.get("REGISTRATION_LABEL_ADDRESS")" value="" ><br>
+    <input type="text" name="address" placeholder="$msg.get("REGISTRATION_LABEL_ADDRESS")" value="$!user.getDireccion()" ><br>
     
     <label>$msg.get("REGISTRATION_LABEL_PHONE_NUMBER")</label><br>
-    <input type="text" name="phoneNumber" placeholder="$msg.get("REGISTRATION_LABEL_PHONE_NUMBER")" value="" ><br>
+    <input type="text" name="phoneNumber" placeholder="$msg.get("REGISTRATION_LABEL_PHONE_NUMBER")" value="$!user.getTelefono()" ><br>
     
     <label>$msg.get("REGISTRATION_LABEL_SUBDOM")</label><br>
-    <input type="text" name="subdom" placeholder="$msg.get("REGISTRATION_LABEL_SUBDOM")" value="" ><br>
+    <input type="text" name="subdom" placeholder="$msg.get("REGISTRATION_LABEL_SUBDOM")" value="$!user.getSubdominio()" ><br>
        
     <label>$msg.get("REGISTRATION_LABEL_PASSWORD")</label><br>
     <input type="password" name="psw1" placeholder="$msg.get("REGISTRATION_LABEL_PASSWORD")" value="" ><br>
@@ -30,7 +37,6 @@
     <input type="password" name="psw2" placeholder="$msg.get("REGISTRATION_LABEL_REPEATPASSWORD")" value="" ><br>
     
     <input type="submit" value="$msg.get("USER_UPDATE")">
-    
 </form>    
 	
 #end

@@ -18,6 +18,14 @@ public class RegistrationController {
 	 */
 	public static Route servicioPaginaRegistrar = (Request request, Response response) -> {
 		Map<String, Object> model = new HashMap<>();
+		model.put("name", "");
+		model.put("lastname", "");
+		model.put("email", "");
+		model.put("address", "");
+		model.put("phoneNumber", "");
+		model.put("subdom", "");
+		model.put("psw1","");
+		model.put("psw2", "");
 		return ViewUtil.render(request, model, PathUtil.Template.REGISTRATION);
 	};
 	/**
@@ -32,12 +40,19 @@ public class RegistrationController {
 		if (!isContraseñaValida(request)) {
 			System.out.println("Contraseña invalida");
 			model.put("registrationFailed", true);
+			completarFormulario(model,request);
 			return ViewUtil.render(request, model, PathUtil.Template.REGISTRATION);
 		}
 		usuario = initUsuario(request);
 		String status = UsuarioController.registrarUsuario(usuario);
 		model.put(status, true);
-		return ViewUtil.render(request, model, PathUtil.Template.REGISTRATION);
+		if(status.equals("registrationFailed")){
+			completarFormulario(model,request);
+			return ViewUtil.render(request, model, PathUtil.Template.REGISTRATION);
+		}
+		model.put("user", usuario);
+		model.put("authentificationSucceeded",true);
+		return ViewUtil.render(request, model, PathUtil.Template.MENU);
 	};
 
 	public static boolean isContraseñaValida(Request request) {
@@ -46,6 +61,16 @@ public class RegistrationController {
 		contraseña2 = RequestUtil.getQueryRepeatPassword(request);
 		System.out.println(contraseña1 + " " + contraseña2);
 		return contraseña1.equals(contraseña2);
+	}
+
+	private static void completarFormulario(Map<String, Object> model, Request request) {
+		
+		model.put("name", RequestUtil.getQueryName(request));
+		model.put("lastname",RequestUtil.getQueryLastName(request));
+		model.put("email", RequestUtil.getQueryEmail(request));
+		model.put("address", RequestUtil.getQueryAddress(request));
+		model.put("phoneNumber", RequestUtil.getQueryPhoneNumber(request));
+		model.put("subdom", RequestUtil.getQuerySubdom(request));
 	}
 
 	private static Usuario initUsuario(Request request) {

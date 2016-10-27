@@ -26,7 +26,7 @@ public class PathUtil {
 		@Getter
 		public static final String USER_DATA = "/menu/user_data/";
 		@Getter
-		public static final String UPDATE_USER = "/menu/user_data/update";
+		public static final String UPDATE_USER = "/menu/user_data/update/";
 		@Getter
 		public static final String UPDATE_U = "/menu/user_data/u/";
 		@Getter

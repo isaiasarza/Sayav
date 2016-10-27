@@ -5,7 +5,7 @@ import spark.*;
 public class RequestUtil {
 
 	
-
+	
 	public static String getQueryLocale(Request request) {
 		return request.queryParams("locale");
 	}
@@ -101,8 +101,8 @@ public class RequestUtil {
 		return accept != null && accept.contains("application/json");
 	}
 
-	public static boolean getQueryAlarmStatus(Request request) {
-		return request.queryParams("alarm") != null;
+	public static String getQueryAlarmStatus(Request request) {
+		return request.queryParams("status");
 	}
 
 }

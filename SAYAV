@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Usuario xmlns="http://www.example.org/UsuarioXMLSchema">
     <Nombre>Daniel Isaías</Nombre>
-    <Apellido>Arza</Apellido>
-    <Telefono>2804979239</Telefono>
+    <Apellido>Arza Echaves</Apellido>
+    <Telefono>2804380689</Telefono>
     <Email>arza.isaias@gmail.com</Email>
     <Direccion>Entre Rios 749</Direccion>
-    <Subdominio>isaias</Subdominio>
-    <Contraseña>$2a$10$SXELsg9Dj3yhmrHJzpeog.Sbk0R4x/IJolZi98gLWbUMUKaYTDlJW</Contraseña>
-    <Salt>$2a$10$SXELsg9Dj3yhmrHJzpeog.</Salt>
+    <Subdominio>isaiasarza.dyndns.dk</Subdominio>
+    <Contraseña>$2a$10$5IBepv4CBxQpW9tMbJdyme6L.tGudaGanIJmLnk93RbFeZwb1dRk.</Contraseña>
+    <Salt>$2a$10$5IBepv4CBxQpW9tMbJdyme</Salt>
+    <AlarmaHabilitada>false</AlarmaHabilitada>
 </Usuario>
