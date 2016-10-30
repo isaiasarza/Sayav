@@ -6,6 +6,7 @@ import java.util.Map;
 
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
+import SAYAV2.SAYAV2.bussines.Alarma;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
 import SAYAV2.SAYAV2.model.Usuario;
 import spark.Request;
@@ -34,7 +35,8 @@ public class AlarmController {
 		usuario.setAlarmaHabilitada(!status);	
 		System.out.println("Us " + usuario);
 		usuarioDao.guardar(usuario, file);
-		
+		UsuarioController.setCurrentUser(usuario);
+
 		model.put("user", usuario);
 		Usuario u = request.session().attribute("user");
 		System.out.println("Usuario " + u);
@@ -42,4 +44,23 @@ public class AlarmController {
 		return ViewUtil.render(request, model, PathUtil.Template.MENU);
 //		return null;
 	};
+	
+	public static Route panicButton = (Request request, Response response) -> {
+		usuarioDao = UsuarioDao.getInstance();
+		System.out.println("Panic Button");
+
+		// request.session().removeAttribute("currentUser");
+		// request.session().attribute("loggedOut", true);
+		Map<String, Object> model = new HashMap<>();
+		
+		Usuario usuario;
+		usuario = usuarioDao.cargar(file);
+		Alarma.notificar(usuario);
+		model.put("panicButton",true);
+		model.put("user",usuario);
+
+		return ViewUtil.render(request, model, PathUtil.Template.MENU);
+
+	};
+	
 }

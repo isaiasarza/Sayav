@@ -31,6 +31,8 @@ public class PathUtil {
 		public static final String UPDATE_U = "/menu/user_data/u/";
 		@Getter
 		public static final String ALARM = "/alarm/";
+		@Getter
+		public static final String PANIC_BUTTON = "/alarm/panic_button/";
 		
 		public static String getPrueba() {
 			return PRUEBA;
@@ -67,6 +69,9 @@ public class PathUtil {
 		}
 		public static String getUpdateU() {
 			return UPDATE_U;
+		}
+		public static String getPanicButton() {
+			return PANIC_BUTTON;
 		}
 		
 		

@@ -37,6 +37,8 @@ public class Application {
 		
 		post(PathUtil.Web.ALARM, AlarmController.enableAlarmPost);
 		
+		post(PathUtil.Web.PANIC_BUTTON, AlarmController.panicButton);
+		
 		get(PathUtil.Web.MENU, UsuarioController.viewUserData);
 		
 

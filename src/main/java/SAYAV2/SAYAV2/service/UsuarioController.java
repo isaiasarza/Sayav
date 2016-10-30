@@ -104,7 +104,6 @@ public class UsuarioController {
         Map<String, Object> model = new HashMap<>();
 		model.put("menuRedirect", RequestUtil.removeSessionAttrMenuRedirect(request));
         model.put("user",currentUser);
-    	//model.put("enableAlarm", current);
         return ViewUtil.render(request, model, PathUtil.Template.MENU);
     };
     
@@ -169,8 +168,18 @@ public class UsuarioController {
     	return currentUser;
     }
     
-    private static void completarFormulario(Map<String, Object> model, Request request) {
-		// TODO Auto-generated method stub
+    public static void setCurrentUser(Usuario currentUser) {
+		UsuarioController.currentUser = currentUser;
+	}
+    
+    
+	public static File getFile() {
+		return file;
+	}
+	public static void setFile(File file) {
+		UsuarioController.file = file;
+	}
+	private static void completarFormulario(Map<String, Object> model, Request request) {
 		model.put("name",currentUser.getNombre());
 		model.put("lastname", currentUser.getApellido());
 	}

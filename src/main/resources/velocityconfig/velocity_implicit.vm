@@ -19,8 +19,11 @@
 #* @vtlvariable name="registrationSucceeded" type="java.lang.String" *#
 #* @vtlvariable name="existingUser" type="java.lang.String" *
 #* @vtlvariable name="prueba" type="SAYAV2.SAYAV2.model.Prueba" *#
+
 #* @vtlvariable name="status" type="java.lang.String" *#
 #* @vtlvariable name="enableAlarm" type="java.lang.String" *#
+#* @vtlvariable name="panicButton" type="java.lang.String" *#
+
 
 #* @vtlvariable name="name" type="java.lang.String" *#
 #* @vtlvariable name="lastname" type="java.lang.String" *#
