@@ -49,6 +49,11 @@ public class RequestUtil {
 	public static String getQueryLoginRedirect(Request request) {
 		return request.queryParams("loginRedirect");
 	}
+	
+//	public static String getQueryLocale(Request request) {
+//		return request.queryParams("loginRedirect");
+//	}
+	
 	public static String getQueryMenuRedirect(Request request) {
 		return request.queryParams("menuRedirect");
 	}

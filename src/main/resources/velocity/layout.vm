@@ -11,15 +11,22 @@
    <nav> 
    		<a><img id="logo" src="/img/alarm.png" alt="Sayav"></a>     
    		<ul id="chooseLanguage">
-            <form>
-                <li>
-                    <button name="locale" value="sp" style="background-image: url(/img/german.png);"></button>
-                </li>
-                <li>
-                    <button name="locale" value="en" style="background-image: url(/img/english.png);"></button>
-                </li>
-            </form>
-        </ul> 
+    ##        <form>
+    ##            <li>
+    ##                <button name="locale" value="sp" style="background-image: url(/img/german.png);"></button>
+    ##            </li>
+    ##            <li>
+    ##                <button name="locale" value="en" style="background-image: url(/img/english.png);"></button>
+    ##            </li>
+    ##        </form>
+    ##    </ul> 
+    <ul
+    	<form>
+       		<li>
+               <input type="hidden" name="locale" value="sp" ></input>
+       		</li>
+    	</form>
+    </ul> 
         <ul id="menu">        
             #if($currentUser)            
                 <li>
@@ -39,7 +46,7 @@
     </div>
 </main>
 <footer>
-    $msg.get("COMMON_FOOTER_TEXT")
+
 </footer>
 </body>
 </html>

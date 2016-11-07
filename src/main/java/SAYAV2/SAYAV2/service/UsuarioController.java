@@ -14,7 +14,6 @@ import SAYAV2.SAYAV2.Utils.RequestUtil;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
 import SAYAV2.SAYAV2.model.Usuario;
-import SAYAV2.SAYAV2.service.LoginController;
 import spark.Request;
 import spark.Response;
 import spark.Route;

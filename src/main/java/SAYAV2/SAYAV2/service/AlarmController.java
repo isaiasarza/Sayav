@@ -9,6 +9,7 @@ import SAYAV2.SAYAV2.Utils.ViewUtil;
 import SAYAV2.SAYAV2.bussines.Alarma;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
 import SAYAV2.SAYAV2.model.Usuario;
+
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -55,6 +56,8 @@ public class AlarmController {
 		
 		Usuario usuario;
 		usuario = usuarioDao.cargar(file);
+		String message = "El boton de panico ha sido activado en el domicilio " + usuario.getDireccion() + "\nEl dueño del domicilio es " + usuario.getNombre() + " " + usuario.getApellido();
+		FirebaseCloudMessageController.post("Peligro!",message);
 		Alarma.notificar(usuario);
 		model.put("panicButton",true);
 		model.put("user",usuario);

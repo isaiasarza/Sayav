@@ -1,7 +1,7 @@
 package SAYAV2.SAYAV2.Utils;
 
+
 import spark.*;
-import static SAYAV2.SAYAV2.Utils.RequestUtil.*;
 
 public class Filters {
 
@@ -16,8 +16,8 @@ public class Filters {
     // Locale change can be initiated from any page
     // The locale is extracted from the request and saved to the user's session
     public static Filter handleLocaleChange = (Request request, Response response) -> {
-        if (getQueryLocale(request) != null) {
-            request.session().attribute("locale", getQueryLocale(request));
+        if (RequestUtil.getQueryLocale(request) != null) {
+            request.session().attribute("locale", RequestUtil.getQueryLocale(request));
             response.redirect(request.pathInfo());
         }
     };

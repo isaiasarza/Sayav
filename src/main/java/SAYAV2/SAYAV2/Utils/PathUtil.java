@@ -33,6 +33,9 @@ public class PathUtil {
 		public static final String ALARM = "/alarm/";
 		@Getter
 		public static final String PANIC_BUTTON = "/alarm/panic_button/";
+		public static final String NOTIFICATION = "";
+		public static final String NOTIFICATION_TOKEN = "/notification/:token/";
+		public static final String NOTIFICATION_PUSH = "/notification/push/";
 		
 		public static String getPrueba() {
 			return PRUEBA;
