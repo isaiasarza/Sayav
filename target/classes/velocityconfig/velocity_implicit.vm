@@ -40,6 +40,9 @@
 #* @vtlvariable name="updateUser" type="java.lang.String" *#
 #* @vtlvariable name="viewUser" type="java.lang.String" *#
 
+#* @vtlvariable name="language" type="java.lang.String" *#
+
+
 
 
 

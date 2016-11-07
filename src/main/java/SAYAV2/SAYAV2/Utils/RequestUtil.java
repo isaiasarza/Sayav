@@ -7,7 +7,7 @@ public class RequestUtil {
 	
 	
 	public static String getQueryLocale(Request request) {
-		return request.queryParams("locale");
+		return request.queryParams("localeLanguage");
 	}
 
 	public static String getParamIsbn(Request request) {
@@ -64,6 +64,10 @@ public class RequestUtil {
 
 	public static String getSessionCurrentUser(Request request) {
 		return request.session().attribute("currentUser");
+	}
+	
+	public static String getSessionLanguage(Request request) {
+		return request.session().attribute("language");
 	}
 
 	public static boolean removeSessionAttrLoggedOut(Request request) {

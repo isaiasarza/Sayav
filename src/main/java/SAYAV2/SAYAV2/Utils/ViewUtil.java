@@ -20,7 +20,8 @@ public class ViewUtil {
     // and to see if the user is logged in
     public static String render(Request request, Map<String, Object> model, String templatePath) {
     	System.out.println("Render");
-        model.put("msg", new MessageBundle(RequestUtil.getQueryLocale(request)));
+    	
+        model.put("msg", new MessageBundle("sp"));
         model.put("currentUser", RequestUtil.getSessionCurrentUser(request));
         model.put("WebPath", PathUtil.Web.class); // Access application URLs from templates
         return strictVelocityEngine().render(new ModelAndView(model, templatePath));

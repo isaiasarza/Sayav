@@ -275,6 +275,9 @@ a .bookCover img {
     cursor: pointer;
 }
 
+
+/* Registration Form */
+
 #registrationForm {
     max-width: 400px;
     margin: 0 auto;

@@ -19,25 +19,23 @@
     ##                <button name="locale" value="en" style="background-image: url(/img/english.png);"></button>
     ##            </li>
     ##        </form>
-    ##    </ul> 
-    <ul
-    	<form>
-       		<li>
-               <input type="hidden" name="locale" value="sp" ></input>
-       		</li>
-    	</form>
-    </ul> 
-        <ul id="menu">        
-            #if($currentUser)            
-                <li>
-                    <form method="post" action="$WebPath.getLogout()">
-                       <button id="logout">$msg.get("COMMON_NAV_LOGOUT")</button>
+    		#set( $language = "sp" )
+    		<form>
+               		<input type="hidden" name="localeLanguage" value="sp"></input>
+    		</form>
+        </ul> 
+    
+    	<ul id="menu">        
+        	#if($currentUser)            
+            	<li>
+                	<form method="post" action="$WebPath.getLogout()">
+                 	   <button id="logout">$msg.get("COMMON_NAV_LOGOUT")</button>
                     </form>
                </li>             	
             #else
                <li><a href="$WebPath.getLogin()">$msg.get("COMMON_NAV_LOGIN")</a></li>
             #end
-        </ul>
+    	</ul>
     </nav>
 </header>
 <main>

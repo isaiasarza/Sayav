@@ -9,7 +9,6 @@
     <Contraseña>$2a$10$5IBepv4CBxQpW9tMbJdyme0Dw0zImmP0g8dD22TDcyaDmlna2j/iW</Contraseña>
     <Salt>$2a$10$5IBepv4CBxQpW9tMbJdyme</Salt>
     <AlarmaHabilitada>true</AlarmaHabilitada>
-
     <DispositivosMoviles>
         <id>0</id>
         <codigo>cVAo9-XkHr4:APA91bFCYORWipjPqCKF_8x-fPaiPpJ8CRuXVd8chgBfy_m3Fvp6GxG6-XEfeeaD_pnGefPzBrwkEy8TE8rlfzWgWs8TTP6x2oDcYayKl7Cb8EAqH0Tdz6d-IptL_sEY_gFmWb4CMAte</codigo>
