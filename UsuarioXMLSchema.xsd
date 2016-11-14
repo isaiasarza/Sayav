@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/UsuarioXMLSchema"
-	xmlns:tns="http://www.example.org/UsuarioXMLSchema" elementFormDefault="qualified">
-	<include schemaLocation="http://www.example.org/DispositivoMXMLSchema" />
+	xmlns:tns="http://www.example.org/UsuarioXMLSchema" elementFormDefault="qualified"
+	xmlns:Q1="http://www.example.org/GrupoXMLSchema">
 
 	<element name="Usuario">
 		<complexType>
@@ -21,6 +21,9 @@
 					maxOccurs="unbounded" minOccurs="0">
 				</element>
 				<element name="Sensores" type="tns:SensoresType" maxOccurs="unbounded"
+					minOccurs="0">
+				</element>
+				<element name="Grupo" type="tns:Grupo" maxOccurs="unbounded"
 					minOccurs="0"></element>
 			</choice>
 		</complexType>
@@ -29,11 +32,7 @@
 
 
 
-	<group name="NewGroupDefinition">
-		<sequence></sequence>
-	</group>
 
-	<complexType name="DispositivoType"></complexType>
 
 	<complexType name="DispositivosType">
 		<sequence>
@@ -51,4 +50,18 @@
 
 		</sequence>
 	</complexType>
+
+
+	<complexType name="Grupo">
+		<sequence >
+			<element name="dominios" type="string" maxOccurs="unbounded"
+				minOccurs="0">
+			</element>
+		<element name="nombre" type="string" maxOccurs="1" minOccurs="1"></element>
+
+		</sequence>
+
+	</complexType>
+
+
 </schema>

@@ -19,6 +19,8 @@ public class FirebaseCloudMessageController {
 	private static String TITLE = "Test Title";
 	private static String MESSAGE = "Test Message";
 	private static String apiKey = "AIzaSyCNKGXQDvhI24i2SwDq4QqsgOS1Fx1TBFI";
+	private static String apiKey2 = "AIzaSyDxao-acT9_Gdsy6_GC2l0ZPNJioyD5T4Q";
+	
 
 	static UsuarioDao usuarioDao = UsuarioDao.getInstance();
 	private static File file = new File("SAYAV");

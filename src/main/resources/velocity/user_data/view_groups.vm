@@ -1,0 +1,19 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+
+	<h1>$msg.get("LIST_GROUP_HEADING")</h1>
+	
+	<table style="width:100%">
+  		<tr>
+    		<th>Nombre</th>
+    		
+  		</tr>
+  		#foreach($group in $user.getGroup())
+  		<tr>
+   		 	<td>$group.getNombre()</td>   		
+  		</tr>
+       
+    	#end
+  		
+	</table>
+#end

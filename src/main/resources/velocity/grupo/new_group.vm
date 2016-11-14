@@ -1,0 +1,6 @@
+#parse("/velocity/menu/menu.vm")
+#@menuLayout()
+
+	
+	<h1>Hola Mundo</h1>
+#end

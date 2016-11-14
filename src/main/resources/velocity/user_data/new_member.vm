@@ -1,0 +1,31 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+	
+	<form id="newGroupMemberForm" onsubmit="return validateForm()" method="post" action="$WebPath.getNewGroup()$groupName/"> 
+  		#if($existingGroup)
+        	<p class="bad notification">$msg.get("EXISTING_GROUP")</p>
+    	#elseif($addGroupSucceeded)   
+       		<p class="good notification">$msg.get("NEW_GROUP_SUCCEEDED")</p>
+    	#end
+   		<h1>$msg.get("NEW_GROUP_MEMBER_HEADING")</h1>
+    
+    	<label>$msg.get("MEMBER_LABEL_DOMAIN")</label><br>
+    	<input type="text" name="memberDomain" placeholder="$msg.get("MEMBER_LABEL_DOMAIN")" value="" required><br>
+   
+    	<input type="submit" value="$msg.get("NEW_GROUP_MEMBER")">
+	</form>  
+	
+	<script>
+	function validateForm() {
+		var y = "false";
+    	var x = document.forms["newGroupMemberForm"]["memberDomain"].value;
+    	if (x == null || x == "") {
+    		y = "true";
+        	alert("$msg.get("NEW_GROUP_MEMBER_ALERT_DOMAIN")");	
+    	}    
+    	if(y == "true"){
+    		return false;
+		}
+	}
+	</script>  
+#end

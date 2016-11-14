@@ -142,6 +142,7 @@ public class UsuarioController {
     	try{
     		if((usuario = update(request))== null){
         		model.put("wrongPassword", true);
+        		model.put("user",usuario);
         		return ViewUtil.render(request, model, PathUtil.Template.UPDATE_USER);
     		}
     		usuarioDao.guardar(usuario, file);
@@ -206,10 +207,12 @@ public class UsuarioController {
         if(!numeroTelefono.isEmpty())
         	usuario.setTelefono(numeroTelefono);
         if(!contraseña.isEmpty()){
-        	if(contraseña.equals(contraseñaRepetida))
-        		usuario.setContraseña(BCrypt.hashpw(contraseña, usuario.getSalt()));
-        	else
+        	if(contraseñaRepetida.isEmpty() || contraseñaRepetida == null || contraseñaRepetida == "")
         		return null;
+        	if(!contraseña.equals(contraseñaRepetida))
+        		return null;
+        	usuario.setContraseña(BCrypt.hashpw(contraseña, usuario.getSalt()));
+        	
         }
     	return usuario;
     }

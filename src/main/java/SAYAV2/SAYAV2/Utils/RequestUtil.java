@@ -5,7 +5,9 @@ import spark.*;
 public class RequestUtil {
 
 	
-	
+	public static String getNewGroupName(Request request) {
+		return request.queryParams("groupName");
+	}
 	public static String getQueryLocale(Request request) {
 		return request.queryParams("localeLanguage");
 	}
@@ -112,6 +114,9 @@ public class RequestUtil {
 
 	public static String getQueryAlarmStatus(Request request) {
 		return request.queryParams("status");
+	}
+	public static String getQueryMemberDomain(Request request) {
+		return request.queryParams("memberDomain");
 	}
 
 }

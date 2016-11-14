@@ -1,0 +1,18 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+	<h1>Miembros de Grupo "$group.getNombre()"</h1>
+ 	#if($group.getDominios().isEmpty())
+   		<p class="notification">$group.getNombre() no contiene miembros</p>
+   	#else	 
+	<table >
+  		<tr>
+    		<th  align="center">Miembros</th>	    		
+  		</tr>
+  		
+  		#foreach($dominio in $group.getDominios())
+			<tr><td>$!dominio</td></tr>
+ 		#end   		      
+							
+	</table>
+	#end 
+#end	

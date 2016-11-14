@@ -3,6 +3,8 @@
 #* @vtlvariable name="msg" type="SAYAV2.SAYAV2.Utils.MessageBundle" *#
 #* @vtlvariable name="currentUser" type="java.lang.String" *#
 #* @vtlvariable name="user" type="SAYAV2.SAYAV2.model.Usuario" *#
+#* @vtlvariable name="group" type="SAYAV2.SAYAV2.model.Grupo" *#
+
 
 #* @vtlvariable name="loggedOut" type="java.lang.String" *#
 #* @vtlvariable name="loginRedirect" type="java.lang.String" *#
@@ -42,8 +44,10 @@
 
 #* @vtlvariable name="language" type="java.lang.String" *#
 
+#* @vtlvariable name="existingGroup" type="java.lang.String" *#
+#* @vtlvariable name="addGroupSucceeded" type="java.lang.String" *#
 
-
+#* @vtlvariable name="groupName" type="java.lang.String" *#
 
 
 

@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Usuario xmlns="http://www.example.org/UsuarioXMLSchema">
-    <Nombre>Isaías</Nombre>
+    <Nombre>Daniel Isaías</Nombre>
     <Apellido>Arza</Apellido>
-    <Telefono>2804380689</Telefono>
+    <Telefono>2804979239</Telefono>
     <Email>arza.isaias@gmail.com</Email>
     <Direccion>Entre Rios 749</Direccion>
-    <Subdominio>isaiasarza.dyndns.dk</Subdominio>
-    <Contraseña>$2a$10$5IBepv4CBxQpW9tMbJdyme0Dw0zImmP0g8dD22TDcyaDmlna2j/iW</Contraseña>
-    <Salt>$2a$10$5IBepv4CBxQpW9tMbJdyme</Salt>
-    <AlarmaHabilitada>true</AlarmaHabilitada>
+    <Subdominio>isaiasarza.dns.dk</Subdominio>
+    <Contraseña>$2a$10$tIwC2czax/VnzZZT98SlR.z66HKG18RxCgvp6ihBm5SzCSHtChHyW</Contraseña>
+    <Salt>$2a$10$tIwC2czax/VnzZZT98SlR.</Salt>
+    <AlarmaHabilitada>false</AlarmaHabilitada>
     <DispositivosMoviles>
         <id>0</id>
         <codigo>cVAo9-XkHr4:APA91bFCYORWipjPqCKF_8x-fPaiPpJ8CRuXVd8chgBfy_m3Fvp6GxG6-XEfeeaD_pnGefPzBrwkEy8TE8rlfzWgWs8TTP6x2oDcYayKl7Cb8EAqH0Tdz6d-IptL_sEY_gFmWb4CMAte</codigo>
     </DispositivosMoviles>
+    <Grupo>
+        <nombre>Nuevo Grupo</nombre>
+    </Grupo>
+    <Grupo>
+        <dominios>juanarza.dns.dk</dominios>
+        <dominios>jacqueline.dns.dk</dominios>
+        <nombre>Familia</nombre>
+    </Grupo>
+    <Grupo>
+        <nombre>Trabajo</nombre>
+    </Grupo>
+    <Grupo>
+        <nombre>Universidad</nombre>
+    </Grupo>
 </Usuario>

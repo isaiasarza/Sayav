@@ -24,6 +24,7 @@ public class ViewUtil {
         model.put("msg", new MessageBundle("sp"));
         model.put("currentUser", RequestUtil.getSessionCurrentUser(request));
         model.put("WebPath", PathUtil.Web.class); // Access application URLs from templates
+        //System.out.println(model);
         return strictVelocityEngine().render(new ModelAndView(model, templatePath));
     }
 

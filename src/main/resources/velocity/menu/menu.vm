@@ -27,6 +27,12 @@
             	    <button id="panicButton">$msg.get("PANIC_BUTTON")</button>
                </form> 
     	    </li>
+    	   <li>
+          		<form method="get" action="$WebPath.getNewGroup()">
+            	    <button id="newGroup">$msg.get("NEW_GROUP")</button>
+               </form> 
+    	    </li>
+    	   
         </ul>
     </nav>
    

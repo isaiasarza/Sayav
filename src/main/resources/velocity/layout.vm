@@ -19,7 +19,7 @@
     ##                <button name="locale" value="en" style="background-image: url(/img/english.png);"></button>
     ##            </li>
     ##        </form>
-    		#set( $language = "sp" )
+    ##		#set( $language = "sp" )
     		<form>
                		<input type="hidden" name="localeLanguage" value="sp"></input>
     		</form>
