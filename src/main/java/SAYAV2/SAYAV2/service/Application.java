@@ -5,6 +5,9 @@ import static spark.Spark.before;
 import static spark.Spark.get;
 import static spark.Spark.port;
 import static spark.Spark.post;
+import static spark.Spark.init;
+import static spark.Spark.webSocket;
+
 import static spark.Spark.staticFiles;
 
 import SAYAV2.SAYAV2.Utils.Filters;
@@ -19,16 +22,17 @@ public class Application {
 	
 	public static void main(String[] args) {
 	
-		port(8080);
+		port(29100);
 		staticFiles.location("/public");
 		staticFiles.expireTime(600L);
 
 		// Set up before-filters (called before each get/post)
-        before("*",                  Filters.addTrailingSlashes);
-        before("*",                  Filters.handleLocaleChange);
+//        before("*",                  Filters.addTrailingSlashes);
+//        before("*",                  Filters.handleLocaleChange);
         
-        
+
 	
+        
         //REST de registro de usuario
 		get(PathUtil.Web.REGISTRATION,RegistrationController.servicioPaginaRegistrar);
 		post(PathUtil.Web.REGISTRATION,RegistrationController.registrarNuevoUsuario);
@@ -43,8 +47,16 @@ public class Application {
 //		POST Botón de pánico
 		post(PathUtil.Web.PANIC_BUTTON, AlarmController.panicButton);
 		
-
+		//REST de dispositivos moviles
+		get(PathUtil.Web.DISPOSITIVO,DispositivoController.dispositivoVelocityEngine);
+		post(PathUtil.Web.DISPOSITIVO,DispositivoController.nuevoDispositivo);
+		post(PathUtil.Web.ELIMINAR_DISPOSITIVO,DispositivoController.eliminarDispositivo);
 		
+		//REST de sectores
+		get(PathUtil.Web.SECTOR,SectorController.sectorVelocityEngine);
+		post(PathUtil.Web.SECTOR,SectorController.numeroSectores); 
+		post(PathUtil.Web.RENOMBRAR_SECTOR,SectorController.renombrarSector); 
+		post(PathUtil.Web.CAMBIAR_ESTADO,SectorController.cambiarEstado);
 		
 		//		REST Actualizar Usuario
 		get(PathUtil.Web.MENU, UsuarioController.viewUserData);
@@ -80,11 +92,11 @@ public class Application {
 		get(PathUtil.Web.NOTIFICATION_TOKEN, (req, res) -> "Get Token");
 		post(PathUtil.Web.NOTIFICATION_TOKEN, FirebaseCloudMessageController.postNewToken);
 
-		
-		
-		get("*",                     ViewUtil.notFound);
+		get(PathUtil.Web.GRUOP_NOTIFICATION, GrupoController.getNotificar);
+		post(PathUtil.Web.GRUOP_NOTIFICATION,  GrupoController.notificar);
+//		get("*",                     ViewUtil.notFound);
         //Set up after-filters (called after each get/post)
-        after("*",                  Filters.addGzipHeader);
+//        after("*",                  Filters.addGzipHeader);
 		
 	}
 }

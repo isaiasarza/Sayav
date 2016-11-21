@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.sun.tools.xjc.model.Model;
+
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.RequestUtil;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
@@ -25,9 +27,9 @@ public class GroupController {
 		System.out.println("Nuevo Grupo");
 		Usuario usuario = usuarioDao.cargar(file);
 		System.out.println(usuario);
-		model.put("user",usuario);
+		model.put("user", usuario);
 		return ViewUtil.render(request, model, PathUtil.Template.NEW_GROUP);
-	
+
 	};
 
 	public static Route postNewGroup = (Request request, Response response) -> {
@@ -36,13 +38,15 @@ public class GroupController {
 
 		Usuario usuario = usuarioDao.cargar(file);
 		String nombre = RequestUtil.getNewGroupName(request);
-	
+
 		if (usuario.addGrupo(new Grupo(nombre))) {
 			model.put("addGroupSucceeded", true);
-			usuarioDao.guardar(usuario, file);
+			model.put("user", usuario);
 
+			usuarioDao.guardar(usuario, file);
 		} else {
-			System.out.println("Grupo existente");
+			model.put("user", usuario);
+
 			model.put("existingGroup", true);
 		}
 		return ViewUtil.render(request, model, PathUtil.Template.NEW_GROUP);
@@ -51,77 +55,97 @@ public class GroupController {
 	public static Route getAllGroups = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
 		Map<String, Object> model = new HashMap<>();
-
+		Usuario usuario = usuarioDao.cargar(file);
+		model.put("user", usuario);
 		return ViewUtil.render(request, model, PathUtil.Template.VIEW_ALL_GROUPS);
-	
+
 	};
-	
-	public static Route getNewGroupMember= (Request request, Response response) -> {
+
+	public static Route getNewGroupMember = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
 		Map<String, Object> model = new HashMap<>();
+		Usuario usuario = usuarioDao.cargar(file);
 		String groupName = request.params("groupName");
-		model.put("groupName",groupName);
-		return ViewUtil.render(request, model, PathUtil.Template.NEW_GROUP_MEMBER);
-	
+		model.put("user", usuario);
+		model.put("groupName", groupName);
+		return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
+
 	};
-	
-	public static Route postNewGroupMember= (Request request, Response response) -> {
+
+	public static Route postNewGroupMember = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
 		Map<String, Object> model = new HashMap<>();
-		String memberDomain,groupName;
+
+		System.out.println("Agregando Miembro");
+		String memberDomain, groupName;
 		Usuario usuario = usuarioDao.cargar(file);
 		groupName = request.params("groupName");
-	
+
 		Grupo grupo = usuario.getSingleGrupo(groupName);
-		
+
 		memberDomain = RequestUtil.getQueryMemberDomain(request);
-		notificarNuevoMiembro(grupo,memberDomain,usuario);
-		
-		grupo.addDominio(memberDomain);
-		
+
+		notificarNuevoMiembro(grupo, memberDomain, usuario);
+		model.put("groupName", groupName);
+		model.put("group", grupo);
+		model.put("user", usuario);
+
+		// grupo.setNombre(memberDomain);
+		if (!grupo.addPeer(memberDomain)) {
+			
+			model.put("existingMember", true);
+			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
+		}
+
 		usuarioDao.guardar(usuario, file);
 		RequestUtil.removeSessionAttrUser(request);
-		model.put("user",usuario);
-		return ViewUtil.render(request, model, PathUtil.Template.NEW_GROUP);
-	};
 	
+		model.put("addMemberSucceeded", true);
+		return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
+
+	};
+
 	public static Route getViewMembers = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
-		Map<String, Object> model = new HashMap<>();
-		System.out.println("View Members");
-		Usuario usuario = usuarioDao.cargar(file);
-		String groupName = request.params("groupName");
-		Grupo group = usuario.getSingleGrupo(groupName);
-		model.put("group", group);
-	
-		return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
-	
+		 Map<String, Object> model = new HashMap<>();
+		 System.out.println("View Members");
+		 Usuario usuario = usuarioDao.cargar(file);
+		 String groupName = request.params("groupName");
+		 Grupo group = usuario.getSingleGrupo(groupName);
+		 model.put("groupName", groupName);
+		 model.put("group", group);
+		 model.put("user", usuario);
+		 return ViewUtil.render(request, model,
+		 PathUtil.Template.VIEW_GROUP_MEMBER);
 	};
 
 	/**
 	 * Se avisara al resto del grupo que hay un nuevo miembro
+	 * 
 	 * @param grupo
 	 * @param memberDomain
 	 */
-	private static void notificarNuevoMiembro(Grupo grupo, String memberDomain,Usuario usuario) {
-		// TODO 
-		notificarGrupos(grupo,memberDomain);
-		notificarMiembro(grupo,memberDomain,usuario.getSubdominio());
+	private static void notificarNuevoMiembro(Grupo grupo, String memberDomain, Usuario usuario) {
+		// TODO
+		notificarGrupos(grupo, memberDomain);
+		notificarMiembro(grupo, memberDomain, usuario.getSubdominio());
 	}
 
 	/**
-	 * Se avisa al nuevo miembro que pertenece a un nuevo grupo, y se envian los integrantes del grupo
+	 * Se avisa al nuevo miembro que pertenece a un nuevo grupo, y se envian los
+	 * integrantes del grupo
+	 * 
 	 * @param grupo
 	 * @param memberDomain
-	 * @param string 
+	 * @param string
 	 */
 	private static void notificarMiembro(Grupo grupo, String memberDomain, String currentUserDomain) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private static void notificarGrupos(Grupo grupo, String memberDomain) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

@@ -22,10 +22,11 @@
   		<tr>
     		<th  align="center"> Nombre</th>	
     		<th align="center">Ver Miembros</th>
-    		<th align="center">Añadir Miembro</th>
+    	## TODO
+    	##	<th align="center">Abandonar Grupo</th>
     		
   		</tr>
-  		#foreach($g in $user.getGrupo())
+  		#foreach($g in $user.getGrupos())
   		<tr>
    		 	<td>$g.getNombre()</td>
    			
@@ -34,11 +35,11 @@
         	    	<button id="viewMembers">Ver Miembros</button>
            		</form>  
            	</td> 
-	 		<td>
-   			<form method="get" action="$WebPath.getNewGroup()$g.getNombre()">
-        	    <button id="newMember">$msg.get("NEW_GROUP_MEMBER")</button>
-           	</form>  
-           </td> 
+	 	##	<td>
+   		##	<form method="get" action="$WebPath.getLeaveGroup()$g.getNombre()/">
+        ##	    <button id="newMember">$msg.get("NEW_GROUP_MEMBER")</button>
+        ##   	</form>  
+        ##   </td> 
            	
        	</tr>       
 		#end			

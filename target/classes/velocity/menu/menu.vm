@@ -2,51 +2,7 @@
 #@mainLayout()
 
 	<h1> $msg.get("COMMON_TITLE") </h1>
-	<h2> $msg.get("WELCOME_TITLE") $user.getNombre()</h2>
-	<nav>       
-        <ul id="userMenu">
-	 		
-            <li>
-            	#if($!user.getAlarmaHabilitada())
-                	<form method="post" action="$WebPath.getAlarm()">
-                    	<button id="alarm">$msg.get("ENABLE_ALARM")</button>
-                 	</form>
-                #else
-               		<form method="post" action="$WebPath.getAlarm()">
-                    	<button id="alarm">$msg.get("DISABLE_ALARM")</button>
-                 	</form>
-                #end
-            </li>
-          	<li>
-          		<form method="post" action="$WebPath.getUpdateU()">
-            	    <button id="updateUser">$msg.get("USER_UPDATE")</button>
-               </form> 
-    	    </li>
-    	    <li>
-          		<form method="post" action="$WebPath.getPanicButton()">
-            	    <button id="panicButton">$msg.get("PANIC_BUTTON")</button>
-               </form> 
-    	    </li>
-    	   <li>
-          		<form method="get" action="$WebPath.getNewGroup()">
-            	    <button id="newGroup">$msg.get("NEW_GROUP")</button>
-               </form> 
-    	    </li>
-    	   
-        </ul>
-    </nav>
-   
-   
-		#if($!panicButton)
-	   		<div class="alert">
-  			<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-  			$msg.get("ALARM_ACTIVATE")</div>
-		#else
-			
-		#end
-		
-		#if($menuRedirect)
-       	 <input type="hidden" name="menuRedirect" value="$menuRedirect">
-    	#end
+	<h2> $msg.get("WELCOME_TITLE") $!user.getNombre()</h2>
+	
 		
 #end

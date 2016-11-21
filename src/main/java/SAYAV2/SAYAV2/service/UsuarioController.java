@@ -111,6 +111,8 @@ public class UsuarioController {
 		LoginController.ensureUserIsLoggedIn(request, response);
     	System.out.println("update");  	
     	Map<String, Object> model = new HashMap<>();
+    	Usuario usuario = usuarioDao.cargar(file);
+    	model.put("user", usuario);
         return ViewUtil.render(request, model, PathUtil.Template.UPDATE_USER);
     };
    

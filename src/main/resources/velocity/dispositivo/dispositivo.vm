@@ -1,0 +1,10 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+    #if($dispositivo)
+    <h1>$book.getTitle()</h1>
+    <div class="dispositivo">
+        
+    </div>
+    #else
+    #end
+#end

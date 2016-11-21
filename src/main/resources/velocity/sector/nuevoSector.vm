@@ -1,0 +1,82 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+<h1>SAYAV</h1>
+<h2>Sectores</h2>
+
+#if($existingSector)
+	<p class="bad notification">Ya existe sector con ese nombre, por favor cambielo</p>
+#end
+
+<table>
+ <caption>Sectores Existentes</caption>
+  <thead>
+    <tr>
+      <th>Estado</th>
+      <th>Id</th>
+      <th>Nombre</th>
+    </tr>
+  </thead>
+  #foreach($sector in $listaSectores) 
+  	<tbody>
+	<tr>
+    	#if($!sector.isActivado())
+    	<td>
+    		<form method="post" action="$WebPath.getSector()$!sector.getNombre()/">
+     			<input type="image" id="imagen1" src="/img/alarmaActivada.gif" alt="Sayav">         	              
+         	</form>
+        </td>
+      	#else
+      	<td>
+    		<form method="post" action="$WebPath.getSector()$!sector.getNombre()/">
+     			<input type="image" id="imagen2" src="/img/alarmaDesactivada.gif" alt="Sayav">         	              
+         	</form>
+        </td>
+      	#end 
+      	<td> $!sector.getId()</td>
+    	<td>
+    	 	<form method="post" action="$WebPath.getRenombrarSector()">
+    	 		<input type="text" name="nuevoNombreSector" value="$!sector.getNombre()" required>
+    	 		<input type="hidden" name="nombreActualSector" value="$!sector.getNombre()">	
+            	<button id="update">$msg.get("SECTOR_UPDATE")</button>            	              
+         	</form>
+        </td>
+	</tr>
+    </tbody>
+   #end     
+</table>
+
+
+
+
+
+
+
+<script>
+
+function modifica() {
+  tab=document.getElementById('tabla');
+  for (i=0; ele=tab.getElementsByTagName('input')[i]; i++) {
+    if (ele.checked) edita(ele);
+    ele.checked = false;
+  }
+}
+
+function edita(obj) {
+  padre = obj.parentNode.parentNode;
+  celda = padre.getElementsByTagName('td')[1];
+  txt = celda.innerHTML;
+  celda.innerHTML = '';
+  inp = celda.appendChild(document.createElement('input'));
+  inp.value=txt;
+  inp.onblur = function() { this.parentNode.innerHTML = this.value  }
+  
+}
+
+</script>
+
+<script>
+	function cambiarEstado() {
+	
+	}
+</script>
+#end

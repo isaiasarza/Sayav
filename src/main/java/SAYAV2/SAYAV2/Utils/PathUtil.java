@@ -8,6 +8,10 @@ public class PathUtil {
 	// the variables from Velocity Templates
 	public static class Web {
 		@Getter
+		public static final String PEER = "/peer/";
+		@Getter
+		public static final String PEER_VER = "/peer";
+		@Getter
 		public static final String PRUEBA = "/prueba/";
 		@Getter
 		public static final String MENU = "/menu/";
@@ -42,6 +46,8 @@ public class PathUtil {
 		@Getter
 		public static final String GROUP = "/group/";
 		@Getter
+		public static final String GRUPO = "/grupo/";
+		@Getter
 		public static final String NEW_GROUP = "/group/new/";
 		@Getter
 		public static final String VIEW_ALL_GROUPS = "/group/new/";
@@ -51,6 +57,22 @@ public class PathUtil {
 
 		public static final String VIEW_GROUP_MEMBER = "/group/view/members/:groupName/";
 		public static final String VIEW_MEMBERS = "/group/view/members/";
+		@Getter
+		public static final String DISPOSITIVO = "/dispositivo/";
+		@Getter
+		public static final String ELIMINAR_DISPOSITIVO = "/dispositivo/eliminar/";
+		@Getter
+		public static final String SECTOR = "/sector/";
+		@Getter
+		public static final String RENOMBRAR_SECTOR = "/sector/renombrar/";
+		@Getter
+		public static final String TABLADISPOSITIVOS = "/tabladispositivos/";
+		@Getter
+		public static final String TABLASECTORES = "/tablasectores/";
+		@Getter
+		public static final String ONE_DISPOSITIVO = "/dispositivo:numero/";
+		public static final String CAMBIAR_ESTADO = "/sector/:nombre/";
+		public static final String GRUOP_NOTIFICATION = "/grupo/notificar/";
 
 		public static String getPrueba() {
 			return PRUEBA;
@@ -132,8 +154,6 @@ public class PathUtil {
 			return NEW_GROUP_MEMBER;
 		}
 
-	
-
 		public static String getViewGroupMember() {
 			return VIEW_GROUP_MEMBER;
 		}
@@ -146,11 +166,56 @@ public class PathUtil {
 			return VIEW_NEW_MEMBER;
 		}
 
+		public static String getDispositivo() {
+			return DISPOSITIVO;
+		}
+
+		public static String getEliminarDispositivo() {
+			return ELIMINAR_DISPOSITIVO;
+		}
+
+		public static String getSector() {
+			return SECTOR;
+		}
+
+		public static String getRenombrarSector() {
+			return RENOMBRAR_SECTOR;
+		}
+
+		public static String getTabladispositivos() {
+			return TABLADISPOSITIVOS;
+		}
+
+		public static String getTablasectores() {
+			return TABLASECTORES;
+		}
+
+		public static String getOneDispositivo() {
+			return ONE_DISPOSITIVO;
+		}
+
+		public static String getPeer() {
+			return PEER;
+		}
+
+		public static String getPeerVer() {
+			return PEER_VER;
+		}
+
+		public static String getGrupo() {
+			return GRUPO;
+		}
+
+		public static String getCambiarEstado() {
+			return CAMBIAR_ESTADO;
+		}
 		
 		
+
 	}
 
 	public static class Template {
+		public static final String PEER = "/velocity/peer/nuevoPeer.vm/";
 		public static final String PRUEBA = "/velocity/pruebas/prueba.vm/";
 		public static final String MENU = "/velocity/menu/menu.vm";
 		public final static String INDEX = "/velocity/index/index.vm";
@@ -166,6 +231,12 @@ public class PathUtil {
 		public static final String VIEW_ALL_GROUPS = "/velocity/user_data/view_groups.vm";
 		public static final String NEW_GROUP_MEMBER = "/velocity/user_data/new_member.vm";
 		public static final String VIEW_GROUP_MEMBER = "/velocity/user_data/view_members.vm";
+		public final static String DISPOSITIVO = "/velocity/dispositivo/nuevoDispositivo.vm";
+		public final static String ONE_DISPOSITIVO = "/velocity/dispositivo/dispositivo.vm";
+		public final static String SECTOR = "/velocity/sector/nuevoSector.vm";
+		public static final String TABLADISPOSITIVOS = "/velocity/dispositivo/tablaDispositivos.vm";
+		public static final String TABLASECTORES = "/velocity/sensor/tablasectores.vm";
+		public static final String GRUPO = "/velocity/grupo/nuevoGrupo.vm/";
 
 	}
 

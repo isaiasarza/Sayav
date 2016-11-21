@@ -7,7 +7,7 @@ import java.util.List;
 import javax.xml.bind.JAXBException;
 
 import SAYAV2.SAYAV2.dao.UsuarioDao;
-import SAYAV2.SAYAV2.model.DispositivosType;
+import SAYAV2.SAYAV2.model.DispositivoM;
 import SAYAV2.SAYAV2.model.Notification;
 import SAYAV2.SAYAV2.model.Usuario;
 import spark.Request;
@@ -19,7 +19,7 @@ public class FirebaseCloudMessageController {
 	private static String TITLE = "Test Title";
 	private static String MESSAGE = "Test Message";
 	private static String apiKey = "AIzaSyCNKGXQDvhI24i2SwDq4QqsgOS1Fx1TBFI";
-	private static String apiKey2 = "AIzaSyDxao-acT9_Gdsy6_GC2l0ZPNJioyD5T4Q";
+
 	
 
 	static UsuarioDao usuarioDao = UsuarioDao.getInstance();
@@ -62,26 +62,26 @@ public class FirebaseCloudMessageController {
 	}
 
 	private static void createToken(String token) throws JAXBException {
-		DispositivosType d = new DispositivosType(token);
+		DispositivoM d = new DispositivoM(token);
 		Usuario usuario = usuarioDao.cargar(file);
 		usuario.getDispositivosMoviles().add(d);
 		usuarioDao.guardar(usuario, file);
 	}
 
 	private static List<String> getTokens() {
-		List<DispositivosType> dispositivos = getDispositivos();
+		List<DispositivoM> dispositivos = getDispositivos();
 		List<String> tokens = new ArrayList<String>();
 		if (dispositivos != null) {
-			for (DispositivosType d : dispositivos) {
-				if (d.getCodigo() != null || d.getCodigo() != "") {
-					tokens.add(d.getCodigo());
+			for (DispositivoM d : dispositivos) {
+				if (d.getToken() != null || d.getToken() != "") {
+					tokens.add(d.getToken());
 				}
 			}
 		}
 		return tokens;
 	}
 
-	private static List<DispositivosType> getDispositivos() {
+	private static List<DispositivoM> getDispositivos() {
 		Usuario u = null;
 		try {
 			u = (Usuario) usuarioDao.cargar(file);

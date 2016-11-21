@@ -1,0 +1,802 @@
+* {
+	box-sizing: border-box;
+}
+
+html, body {
+	margin: 0;
+	padding: 0;
+	font-family: Tahoma, Arial, sans-serif;
+	position: relative;
+	min-height: 100%;
+}
+
+body {
+	padding: 0 0 40px;
+	color: #333;
+	background: #f9f9f9;
+}
+
+h1, h2, h3, h4 {
+	font-family: monospace;
+	font-weight: 300;
+	color: #444;
+}
+
+small {
+	color: #555;
+}
+
+header {
+	background: #274555;
+	border-bottom: 5px solid #ff7761;
+	box-shadow: 0 1px 0 0 rgba(0, 0, 0, .6);
+}
+
+nav {
+	padding: 15px;
+	margin: 0 auto;
+	max-width: 800px;
+	position: relative;
+}
+
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #274555;
+}
+
+li {
+	float: left;
+}
+
+li a {
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+
+li a:hover {
+	background-color: transparent;
+}
+
+/* nav #menu { */
+/*     margin-top: 20px; */
+/*     float: right; */
+/* } */
+
+/* #menu a { */
+/*     text-decoration: none; */
+/*     color: #ff7761; */
+/* } */
+
+/* #menu li { */
+/*     float: left; */
+/*     margin: 0 10px; */
+/* } */
+#logout {
+	background: transparent;
+	cursor: pointer;
+	border: 0;
+	font-size: 16px;
+	display: inline-block;
+	color: #fff;
+	text-align: center;
+	height: 30px;
+	line-height: 30px;
+	padding: 0 10px;
+	text-decoration: none;
+}
+
+#logo {
+	max-height: 70px;
+	position: relative;
+	top: 0px;
+	left: 0px;
+}
+
+#chooseLanguage {
+	top: 15px;
+	right: 35px;
+	position: absolute;
+}
+
+#chooseLanguage li {
+	float: left;
+}
+
+#chooseLanguage button {
+	cursor: pointer;
+	margin-left: 8px;
+	width: 18px;
+	height: 18px;
+	border-radius: 9px;
+	opacity: 0.6;
+	border: 1px solid #222;
+	background-size: 100%;
+}
+
+#chooseLanguage button:hover {
+	opacity: 0.8;
+}
+
+main {
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 15px;
+}
+
+#content {
+	padding: 15px;
+	background: #fff;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+}
+
+footer {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	height: 40px;
+	line-height: 40px;
+	width: 100%;
+	text-align: center;
+	background: #fff;
+	border-top: 1px solid #f9a11b;
+	font-size: 14px;
+}
+
+nav ul, nav li {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+/* Needlessly fancy menu hover effect */
+#menu li {
+	position: relative;
+}
+
+#menu li a::after, #logout:after {
+	position: absolute;
+	top: 28px;
+	left: 0;
+	width: 100%;
+	height: 4px;
+	background: rgba(255, 255, 255, 0.5);
+	border-radius: 5px;
+	content: '';
+	opacity: 0;
+	-webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+	transition: opacity 0.3s, transform 0.3s;
+	-webkit-transform: translateY(10px);
+	transform: translateY(10px);
+}
+
+#logout:hover::after, #logout:focus::after, #menu li a:hover::after,
+	#menu li a:focus::after {
+	opacity: 1;
+	-webkit-transform: translateY(0px);
+	transform: translateY(0px);
+}
+
+/* Very basic grid */
+.row {
+	width: 100%;
+	overflow: auto;
+}
+
+.row>* {
+	float: left;
+}
+
+.row-2 .col {
+	width: 49%
+}
+
+.row-2 .col:nth-child(odd) {
+	margin: 0% 1% 0% 0%
+}
+
+.row-2 .col:nth-child(even) {
+	margin: 0% 0% 0% 1%
+}
+
+.row-3 .col {
+	width: 32%
+}
+
+.row-3 .col:nth-child(3n+1) {
+	margin: 0% 1% 0% 0%
+}
+
+.row-3 .col:nth-child(3n+2) {
+	margin: 0% 1% 0% 1%
+}
+
+.row-3 .col:nth-child(3n+3) {
+	margin: 0% 0% 0% 1%
+}
+
+@media screen and (max-width: 550px) {
+	.row .col:nth-child(n) {
+		width: 100%;
+		margin-right: 0;
+		margin-left: 0;
+	}
+}
+
+.col img {
+	display: block;
+	width: 100%;
+}
+
+#bienvenidaForm ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #333;
+}
+
+#bienvenidaForm li {
+	float: left;
+}
+
+#bienvenidaForm li a {
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+
+#bienvenidaForm li a:hover {
+	background-color: #111;
+}
+
+/* Login Form */
+#loginForm {
+	max-width: 400px;
+	margin: 0 auto;
+}
+
+#loginForm label {
+	display: block;
+	width: 100%
+}
+
+#loginForm input {
+	border: 1px solid #ddd;
+	padding: 8px 12px;
+	width: 100%;
+	border-radius: 3px;
+	margin: 2px 0 20px 0;
+}
+
+#loginForm input[type="submit"] {
+	color: white;
+	background: #274555;
+	border: 0;
+	cursor: pointer;
+}
+
+#registrationForm {
+	max-width: 400px;
+	margin: 0 auto;
+}
+
+#registrationForm label {
+	display: block;
+	width: 100%
+}
+
+#registrationForm input {
+	border: 1px solid #ddd;
+	padding: 8px 12px;
+	width: 100%;
+	border-radius: 3px;
+	margin: 2px 0 20px 0;
+}
+
+/*Dispositivo Form*/
+#dispositivoForm {
+	max-width: 400px;
+	margin: 0 auto;
+}
+
+#dispositivoForm input {
+	border: 1px solid #ddd;
+	padding: 8px 12px;
+	width: 100%;
+	border-radius: 3px;
+	margin: 2px 0 20px 0;
+}
+
+#dispositivoForm input[type="submit"] {
+	color: white;
+	background: #274555;
+	border: 0;
+	cursor: pointer;
+	max-width: 100px;
+	position: relative;
+	top: -10px;
+	left: 300px;
+}
+
+#dispositivoForm table {
+	color: #333;
+	font-family: sans-serif;
+	font-size: .9em;
+	font-weight: 400;
+	text-align: left;
+	line-height: 40px;
+	border-collapse: separate;
+	border-spacing: 0;
+	border: 2px solid #ffa500;
+	width: 600px;
+	margin: 25px auto;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .16);
+	border-radius: 2px;
+}
+
+#dispositivoForm thead tr:first-child {
+	background: #ff8000;
+	color: #fff;
+	border: none;
+}
+
+#dispositivoForm th {
+	font-weight: bold;
+}
+
+#dispositivoForm th:first-child, td:first-child {
+	padding: 0 15px 0 20px;
+}
+
+#dispositivoForm thead tr:last-child th {
+	border-bottom: 3px solid #ddd;
+}
+
+#dispositivoForm tbody tr:hover {
+	background-color: rgba(237, 28, 64, .1);
+}
+
+#dispositivoForm tbody tr:last-child td {
+	border: none;
+}
+
+#dispositivoForm tbody td {
+	border-bottom: 1px solid #ddd;
+}
+
+#dispositivoForm td:last-child {
+	text-align: right;
+	padding-right: 20px;
+}
+
+#dispositivoForm .button {
+	color: #aaa;
+	cursor: pointer;
+	vertical-align: middle;
+}
+
+#dispositivoForm .editar:hover {
+	color: #0a79df;
+}
+
+#dispositivoForm .guardar:hover {
+	color: #0a79df;
+}
+
+#dispositivoForm .eliminar:hover {
+	color: #dc2a2a;
+}
+
+/*Falso*/
+table {
+	color: #333;
+	font-family: sans-serif;
+	font-size: .9em;
+	font-weight: 400;
+	text-align: left;
+	line-height: 40px;
+	border-collapse: separate;
+	border-spacing: 0;
+	border: 2px solid #ffa500;
+	width: 600px;
+	margin: 25px auto;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .16);
+	border-radius: 2px;
+}
+
+thead tr:first-child {
+	background: #ff8000;
+	color: #fff;
+	border: none;
+}
+
+th {
+	font-weight: bold;
+}
+
+th:first-child, td:first-child {
+	padding: 0 15px 0 20px;
+}
+
+thead tr:last-child th {
+	border-bottom: 3px solid #ddd;
+}
+
+tbody tr:hover {
+	background-color: rgba(237, 28, 64, .1);
+}
+
+tbody tr:last-child td {
+	border: none;
+}
+
+tbody td {
+	border-bottom: 1px solid #ddd;
+}
+
+td:last-child {
+	text-align: right;
+	padding-right: 20px;
+}
+
+#falso .button {
+	color: #aaa;
+	cursor: pointer;
+	vertical-align: middle;
+}
+
+/*Sector Form*/
+#SectorForm {
+	max-width: 400px;
+	margin: 0 auto;
+}
+
+#sectorForm input {
+	border: 1px solid #ddd;
+	padding: 8px 12px;
+	width: 100%;
+	border-radius: 3px;
+	margin: 2px 0 20px 0;
+}
+
+#sectorForm input[type="submit"] {
+	color: white;
+	background: #274555;
+	border: 0;
+	cursor: pointer;
+	position: relative;
+	top: 0px;
+	left: 0px;
+}
+
+#sectorForm table {
+	color: #333;
+	font-family: sans-serif;
+	font-size: .9em;
+	font-weight: 300;
+	text-align: left;
+	line-height: 40px;
+	border-collapse: separate;
+	border-spacing: 0;
+	border: 2px solid #ffa500;
+	width: 500px;
+	margin: 50px auto;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .16);
+	border-radius: 2px;
+}
+
+#sectorForm thead tr:first-child {
+	background: #ff8000;
+	color: #fff;
+	border: none;
+}
+
+#sectorForm th {
+	font-weight: bold;
+}
+
+#sectorForm th:first-child, td:first-child {
+	padding: 0 15px 0 20px;
+}
+
+#sectorForm thead tr:last-child th {
+	border-bottom: 3px solid #ddd;
+}
+
+#sectorForm tbody tr:hover {
+	background-color: rgba(237, 28, 64, .1);
+}
+
+#sectorForm tbody tr:last-child td {
+	border: none;
+}
+
+#sectorForm tbody td {
+	border-bottom: 1px solid #ddd;
+}
+
+#sectorForm td:last-child {
+	text-align: right;
+	padding-right: 10px;
+}
+
+#sectorForm .button {
+	color: #aaa;
+	cursor: pointer;
+	vertical-align: middle;
+}
+
+#sectorForm .editar:hover {
+	color: #0a79df;
+}
+
+#sectorForm .guardar:hover {
+	color: #0a79df;
+}
+
+#sectorForm .eliminar:hover {
+	color: #dc2a2a;
+}
+
+/*User Form*/
+#userForm input {
+	border: 1px solid #ddd;
+	padding: 8px 12px;
+	width: 100%;
+	border-radius: 3px;
+	margin: 2px 0 20px 0;
+}
+
+#userForm input[type="submit"] {
+	color: white;
+	background: #274555;
+	border: 0;
+	cursor: pointer;
+}
+
+#userForm table {
+	color: #333;
+	font-family: sans-serif;
+	font-size: .9em;
+	font-weight: 300;
+	text-align: left;
+	line-height: 40px;
+	border-collapse: separate;
+	border-spacing: 0;
+	border: 2px solid #ed1c40;
+	width: 500px;
+	margin: 50px auto;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .16);
+	border-radius: 2px;
+}
+
+#userForm thead tr:first-child {
+	background: #ed1c40;
+	color: #fff;
+	border: none;
+}
+
+#userForm th {
+	font-weight: bold;
+}
+
+#userForm th:first-child, td:first-child {
+	padding: 0 15px 0 20px;
+}
+
+#userForm thead tr:last-child th {
+	border-bottom: 3px solid #ddd;
+}
+
+#userForm tbody tr:hover {
+	background-color: rgba(237, 28, 64, .1);
+}
+
+#userForm tbody tr:last-child td {
+	border: none;
+}
+
+#userForm tbody td {
+	border-bottom: 1px solid #ddd;
+}
+
+#userForm td:last-child {
+	text-align: right;
+	padding-right: 10px;
+}
+
+#userForm .button {
+	color: #aaa;
+	cursor: pointer;
+	vertical-align: middle;
+}
+
+#userForm .editar:hover {
+	color: #0a79df;
+}
+
+#userForm .guardar:hover {
+	color: #0a79df;
+}
+
+#userForm .eliminar:hover {
+	color: #dc2a2a;
+}
+
+/*Menu Form*/
+#menuForm input {
+	border: 1px solid #ddd;
+	padding: 8px 12px;
+	width: 50%;
+	border-radius: 3px;
+	margin: 2px 0 20px 0;
+}
+
+#menuForm input[type="submit"] {
+	color: white;
+	background: #274555;
+	border: 0;
+	cursor: pointer;
+}
+
+#menuForm table {
+	color: #333;
+	font-family: sans-serif;
+	font-size: .9em;
+	font-weight: 600;
+	text-align: left;
+	line-height: 40px;
+	border-collapse: separate;
+	border-spacing: 0;
+	border: 2px solid #ed1c40;
+	width: 600px;
+	margin: 50px auto;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .16);
+	border-radius: 2px;
+}
+
+#menuForm thead tr:first-child {
+	background: #1e90ff;
+	color: #fff;
+	border: none;
+}
+
+#menuForm th {
+	font-weight: bold;
+}
+
+#menuForm th:first-child, td:first-child {
+	padding: 0 15px 0 20px;
+}
+
+#menuForm thead tr:last-child th {
+	border-bottom: 3px solid #ddd;
+}
+
+#menuForm tbody tr:hover {
+	background-color: rgba(237, 28, 64, .1);
+}
+
+#menuForm tbody tr:last-child td {
+	border: none;
+}
+
+#menuForm tbody td {
+	border-bottom: 1px solid #ddd;
+}
+
+#menuForm td:last-child {
+	text-align: right;
+	padding-right: 10px;
+}
+
+#menuForm .button {
+	color: #aaa;
+	cursor: pointer;
+	vertical-align: middle;
+}
+
+#menuForm .editar:hover {
+	color: #0a79df;
+}
+
+#menuForm .guardar:hover {
+	color: #0a79df;
+}
+
+#menuForm .eliminar:hover {
+	color: #dc2a2a;
+}
+
+form {
+	max-width: 400px;
+	margin: 0 auto;
+}
+
+form label {
+	display: block;
+	width: 100%
+}
+
+form input {
+	border: 1px solid #ddd;
+	padding: 8px 12px;
+	width: 100%;
+	border-radius: 3px;
+	margin: 2px 0 20px 0;
+}
+
+form input[type="submit"] {
+	color: white;
+	background: #274555;
+	border: 0;
+	cursor: pointer;
+}
+
+.notification {
+	padding: 10px;
+	background: #333;
+	color: white;
+	border-radius: 3px;
+}
+
+.good.notification {
+	background: #008900;
+}
+
+.bad.notification {
+	background: #bb0000;
+}
+
+/* The alert message box */
+.alert {
+	padding: 20px;
+	background-color: #f44336; /* Red */
+	color: white;
+	margin-bottom: 15px;
+	opacity: 1;
+	transition: opacity 0.6s; /* 600ms to fade out */
+}
+
+/* The close button */
+.closebtn {
+	margin-left: 15px;
+	color: white;
+	font-weight: bold;
+	float: right;
+	font-size: 22px;
+	line-height: 20px;
+	cursor: pointer;
+	transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.closebtn:hover {
+	color: black;
+}
+
+
+#menu2 {
+	padding: 15px;
+	margin: 0 auto;
+	max-width: 800px;
+	position: relative;
+}
+
+#menu2 ul {
+	text-align: center;
+	width: 450px;
+}
+
+li {
+	display: inline-block;
+	padding: 15px;
+}

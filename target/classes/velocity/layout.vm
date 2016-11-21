@@ -2,24 +2,18 @@
 <html>
 <head>
     <title>$msg.get("COMMON_TITLE")</title>
-    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/main2.css">
     <link rel="icon" href="/favicon.png">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="ISO-8859-1" name="viewport" content="width=device-width, initial-scale=1">
+    
+    
 </head>
 <body>
 <header>
    <nav> 
    		<a><img id="logo" src="/img/alarm.png" alt="Sayav"></a>     
    		<ul id="chooseLanguage">
-    ##        <form>
-    ##            <li>
-    ##                <button name="locale" value="sp" style="background-image: url(/img/german.png);"></button>
-    ##            </li>
-    ##            <li>
-    ##                <button name="locale" value="en" style="background-image: url(/img/english.png);"></button>
-    ##            </li>
-    ##        </form>
-    ##		#set( $language = "sp" )
+    
     		<form>
                		<input type="hidden" name="localeLanguage" value="sp"></input>
     		</form>
@@ -39,9 +33,55 @@
     </nav>
 </header>
 <main>
+	#if($currentUser)
+	
+		<nav id ="menuFlotante" class="navbar navbar-inverse">
+	  	<div class="container-fluid">
+    		<div class="collapse navbar-collapse" id="myNavbar">
+      			<ul class="nav navbar-nav">
+        			<li><a href=$WebPath.getUpdateU();">Datos</a> </li>
+        			<li><a href='/dispositivo/';">Movil</a> </li>
+        			<li><a href='/sector/';">Sectores</a> </li>
+        			<li><a href=$WebPath.getNewGroup()>Grupo</a> </li>
+        			<li>
+  			
+            			#if($!user.getAlarmaHabilitada())
+                			<form method="post" action="$WebPath.getAlarm()">
+                    			<button id="alarm">$msg.get("ENABLE_ALARM")</button>
+             				</form>
+                		#else
+               				<form method="post" action="$WebPath.getAlarm()">
+                    			<button id="alarm" >$msg.get("DISABLE_ALARM")</button>
+                 			</form>
+                		#end
+           		</li>  
+      			</ul>
+			</div>
+  		</div>
+		</nav>
+		
+	
+		
+		<div class="row" >
+  			<form method="post" action="$WebPath.getPanicButton()">
+    	    	<input type="image" id="panicButton" src="/img/boton_panico_4.png" >    
+    	   	</form> 
+  		</div>
+	
+ 	
+	
+   		#if($!panicButton)
+	   		<div class="alert">	
+	   		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>$msg.get("ALARM_ACTIVATE")
+	   		</div>
+		#end
+            
+	#end
+	
     <div id="content">
     	$!bodyContent
     </div>
+    
 </main>
 <footer>
 

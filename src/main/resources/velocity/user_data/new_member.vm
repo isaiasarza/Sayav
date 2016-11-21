@@ -2,10 +2,10 @@
 #@mainLayout()
 	
 	<form id="newGroupMemberForm" onsubmit="return validateForm()" method="post" action="$WebPath.getNewGroup()$groupName/"> 
-  		#if($existingGroup)
-        	<p class="bad notification">$msg.get("EXISTING_GROUP")</p>
-    	#elseif($addGroupSucceeded)   
-       		<p class="good notification">$msg.get("NEW_GROUP_SUCCEEDED")</p>
+  		#if($existingMember)
+        	<p class="bad notification">$msg.get("EXISTING_PEER")</p>
+    	#elseif($addMemberSucceeded)   
+       		<p class="good notification">$msg.get("NEW_PEER_SUCCEEDED")</p>
     	#end
    		<h1>$msg.get("NEW_GROUP_MEMBER_HEADING")</h1>
     

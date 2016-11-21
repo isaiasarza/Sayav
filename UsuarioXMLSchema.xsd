@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/UsuarioXMLSchema"
-	xmlns:tns="http://www.example.org/UsuarioXMLSchema" elementFormDefault="qualified"
-	xmlns:Q1="http://www.example.org/GrupoXMLSchema">
+	xmlns:tns="http://www.example.org/UsuarioXMLSchema" elementFormDefault="qualified">
 
 	<element name="Usuario">
 		<complexType>
@@ -17,14 +16,15 @@
 					<element name="Salt" type="string" />
 					<element name="AlarmaHabilitada" type="boolean" />
 				</sequence>
-				<element name="DispositivosMoviles" type="tns:DispositivosType"
+				<element name="DispositivosMoviles" type="tns:DispositivoM"
 					maxOccurs="unbounded" minOccurs="0">
 				</element>
-				<element name="Sensores" type="tns:SensoresType" maxOccurs="unbounded"
+				<element name="Sectores" type="tns:Sector" maxOccurs="unbounded"
 					minOccurs="0">
 				</element>
-				<element name="Grupo" type="tns:Grupo" maxOccurs="unbounded"
-					minOccurs="0"></element>
+				<element name="Grupos" type="tns:Grupo" maxOccurs="unbounded"
+					minOccurs="0">
+				</element>
 			</choice>
 		</complexType>
 
@@ -32,36 +32,58 @@
 
 
 
+	<group name="NewGroupDefinition">
+		<sequence></sequence>
+	</group>
 
 
-	<complexType name="DispositivosType">
+	<complexType name="DispositivoM">
 		<sequence>
-			<element name="id" type="int"></element>
-			<element name="codigo" type="string"></element>
+			<element name="Numero" type="string"></element>
+			<element name="Token" type="string"></element>
 		</sequence>
 	</complexType>
 
-	<complexType name="SensoresType">
+	<complexType name="Sector">
 		<sequence>
-			<element name="id" type="int"></element>
-			<element name="codigo" type="string"></element>
-			<element name="descripcion" type="string"></element>
-			<element name="activado" type="boolean"></element>
-
+			<element name="Id" type="int"></element>
+			<element name="Nombre" type="string"></element>
+			<element name="Activado" type="boolean"></element>
 		</sequence>
 	</complexType>
 
 
 	<complexType name="Grupo">
-		<sequence >
-			<element name="dominios" type="string" maxOccurs="unbounded"
+		<sequence>
+			<element name="Id" type="int"></element>
+			<element name="Nombre" type="string"></element>
+			<element name="Peers" type="tns:Peer" maxOccurs="unbounded"
 				minOccurs="0">
 			</element>
-		<element name="nombre" type="string" maxOccurs="1" minOccurs="1"></element>
-
 		</sequence>
-
 	</complexType>
 
+	<complexType name="Peer">
+		<sequence>
+			<element name="Id" type="int" />
+			<element name="Direccion" type="string" />
+			<element name="Puerto" type="int" />
+			<element name="Estado" type="boolean" />
+			<element name="Mensajes" type="tns:Mensaje" maxOccurs="unbounded"
+			minOccurs="0">
+		</element>
+		</sequence>
+		
+	</complexType>
+
+
+ 	<complexType name="Mensaje">
+		<sequence>
+			<element name="Id" type="int"></element>
+			<element name="Tipo" type="string"></element>
+			<element name="Origen" type="string"></element>
+			<element name="Descripcion" type="string"></element>
+		</sequence>
+ 	</complexType>
 
 </schema>

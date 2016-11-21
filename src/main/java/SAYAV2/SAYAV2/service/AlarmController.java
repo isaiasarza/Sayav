@@ -32,7 +32,7 @@ public class AlarmController {
 		Usuario usuario;
 //		usuario = UsuarioController.getCurrentUser();
 		usuario = usuarioDao.cargar(file);
-		boolean status = usuario.getAlarmaHabilitada();
+		boolean status = usuario.isAlarmaHabilitada();
 		usuario.setAlarmaHabilitada(!status);	
 		System.out.println("Us " + usuario);
 		usuarioDao.guardar(usuario, file);

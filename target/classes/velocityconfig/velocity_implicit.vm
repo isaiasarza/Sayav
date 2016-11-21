@@ -51,3 +51,19 @@
 
 
 
+#* @vtlvariable name="dispositivo" type="SAYAV2.SAYAV2.model.DispositivoM" *#
+#* @vtlvariable name="dispositivoABorrar" type="SAYAV2.SAYAV2.model.DispositivoM" *#
+
+#* @vtlvariable name="sector" type="SAYAV2.SAYAV2.model.Sector" *#
+#* @vtlvariable name="sectorRenombrar" type="SAYAV2.SAYAV2.model.Sector" *#
+#* @vtlvariable name="listaDispositivos" type="java.util.ArrayList<SAYAV2.SAYAV2.model.DispositivoM>" *#
+#* @vtlvariable name="listaSectores" type="java.util.ArrayList<SAYAV2.SAYAV2.model.Sector>" *#
+#* @vtlvariable name="numeroSectores" type="java.lang.Integer" *#
+#* @vtlvariable name="existingSector" type="java.lang.Integer" *#
+
+#* @vtlvariable name="existingMember" type="java.lang.Integer" *#
+#* @vtlvariable name="addMemberSucceeded" type="java.lang.Integer" *#
+
+
+
+
