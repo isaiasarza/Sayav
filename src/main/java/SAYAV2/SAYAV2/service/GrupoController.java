@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import SAYAV2.SAYAV2.Utils.PathUtil;
+import SAYAV2.SAYAV2.Utils.TipoMensaje;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
 import SAYAV2.SAYAV2.model.Grupo;
@@ -102,14 +103,25 @@ public class GrupoController {
 		mensaje.setOrigen("192.168.1.37");
 		mensaje.setTipo("Prueba");
 		mensaje.setDescripcion("Esto es una prueba");
-		POSTGrupo.post(url,mensaje);
+		PostGrupo.post(url,mensaje);
 		return ViewUtil.render(request, model, PathUtil.Template.PRUEBA);
 	};
 	public static Route notificar = (Request request, Response response) -> {
 		Map<String, Object> model = new HashMap<>();
 		Mensaje mensaje = jsonTransformer.getGson().fromJson(request.body(), Mensaje.class);
-		System.out.println("Atrapo notificacion");
-		System.out.println(mensaje);
+		if(mensaje.getTipo().equals(TipoMensaje.BAJA_MIEMBRO)){
+			//TODO
+			return null;
+		}
+		if(mensaje.getTipo().equals(TipoMensaje.NUEVO_MIEMBRO)){
+			//TODO
+			return null;
+		}
+		if(mensaje.getTipo().equals(TipoMensaje.ALERTA)){
+			//TODO
+			return null;
+		}
+		
 		return ViewUtil.render(request, model, PathUtil.Template.PRUEBA);
 	};
 

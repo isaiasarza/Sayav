@@ -28,6 +28,8 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="Tipo" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="Origen" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="Descripcion" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="Datos" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -53,6 +55,8 @@ public class Mensaje {
     protected String origen;
     @XmlElement(name = "Descripcion", required = true)
     protected String descripcion;
+    @XmlElement(name = "Datos", required = true)
+    protected String datos;
 
     /**
      * Gets the value of the id property.
@@ -141,6 +145,15 @@ public class Mensaje {
     public void setDescripcion(String value) {
         this.descripcion = value;
     }
+
+    
+	public String getDatos() {
+		return datos;
+	}
+
+	public void setDatos(String datos) {
+		this.datos = datos;
+	}
 
 	@Override
 	public String toString() {

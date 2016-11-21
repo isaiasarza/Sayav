@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/UsuarioXMLSchema"
-	xmlns:tns="http://www.example.org/UsuarioXMLSchema" elementFormDefault="qualified">
-
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/Mensaje"
+	xmlns:tns="http://www.example.org/Mensaje" elementFormDefault="qualified">
 	<element name="Usuario">
 		<complexType>
 			<choice>
@@ -67,22 +66,20 @@
 			<element name="Puerto" type="int" />
 			<element name="Estado" type="boolean" />
 			<element name="Mensajes" type="tns:Mensaje" maxOccurs="unbounded"
-			minOccurs="0">
-		</element>
+				minOccurs="0">
+			</element>
 		</sequence>
-		
+
 	</complexType>
 
 
- 	<complexType name="Mensaje">
+	<complexType name="Mensaje">
 		<sequence>
 			<element name="Id" type="int"></element>
 			<element name="Tipo" type="string"></element>
 			<element name="Origen" type="string"></element>
 			<element name="Descripcion" type="string"></element>
 		</sequence>
- 	</complexType>
-
-
+	</complexType>
 
 </schema>

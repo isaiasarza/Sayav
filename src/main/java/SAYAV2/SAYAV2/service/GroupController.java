@@ -4,13 +4,18 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.bind.JAXBException;
+
 import com.sun.tools.xjc.model.Model;
 
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.RequestUtil;
+import SAYAV2.SAYAV2.Utils.TipoMensaje;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
 import SAYAV2.SAYAV2.model.Grupo;
+import SAYAV2.SAYAV2.model.Mensaje;
+import SAYAV2.SAYAV2.model.Peer;
 import SAYAV2.SAYAV2.model.Usuario;
 import spark.Request;
 import spark.Response;
@@ -126,26 +131,32 @@ public class GroupController {
 	 * @param memberDomain
 	 */
 	private static void notificarNuevoMiembro(Grupo grupo, String memberDomain, Usuario usuario) {
-		// TODO
-		notificarGrupos(grupo, memberDomain);
-		notificarMiembro(grupo, memberDomain, usuario.getSubdominio());
+		try {
+			notificarGrupos(grupo, memberDomain,TipoMensaje.NUEVO_MIEMBRO);
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
-	 * Se avisa al nuevo miembro que pertenece a un nuevo grupo, y se envian los
-	 * integrantes del grupo
-	 * 
+	 * Avisa a todos los miembros del grupo del nuevo miembro 
 	 * @param grupo
 	 * @param memberDomain
-	 * @param string
+	 * @param tipo
+	 * @throws JAXBException
 	 */
-	private static void notificarMiembro(Grupo grupo, String memberDomain, String currentUserDomain) {
-		// TODO Auto-generated method stub
-
-	}
-
-	private static void notificarGrupos(Grupo grupo, String memberDomain) {
-		// TODO Auto-generated method stub
-
+	private static void notificarGrupos(Grupo grupo, String memberDomain, String tipo) throws JAXBException {
+		
+		Mensaje mensaje = new Mensaje();
+		Usuario usuario = usuarioDao.cargar(file);
+		mensaje.setOrigen(usuario.getSubdominio());
+		mensaje.setTipo(tipo);
+		mensaje.setDescripcion("El miembro " + memberDomain + " se ha unido al grupo");
+		mensaje.setDatos(memberDomain);
+		
+		for(Peer p: grupo.getPeers()){
+			PostGrupo.post(p.getDireccion(), mensaje);
+		}
 	}
 }

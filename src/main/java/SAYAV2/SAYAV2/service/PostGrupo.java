@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import SAYAV2.SAYAV2.model.Mensaje;
 
-public class POSTGrupo {
+public class PostGrupo {
 	public static void post(String dominio, Mensaje notificacion){
 		try {
 //			1.URL
