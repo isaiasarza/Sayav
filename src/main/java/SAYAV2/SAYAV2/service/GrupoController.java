@@ -1,5 +1,6 @@
 package SAYAV2.SAYAV2.service;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +18,8 @@ import spark.Route;
 public class GrupoController {
 	
 	private static JsonTransformer jsonTransformer = new JsonTransformer();
+	private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
+	private static File file = new File("SAYAV");
 	
 	public static Route grupoVelocityEngine = (Request request, Response response) -> {
 
@@ -96,19 +99,21 @@ public class GrupoController {
 	}	
 	public static Route getNotificar = (Request request, Response response) -> {
 		Map<String, Object> model = new HashMap<>();
-
-		String url = "http://192.168.1.38:29100" + PathUtil.Web.GRUOP_NOTIFICATION;
+		Usuario usuario = usuarioDao.cargar(file);
+		String url = "http://isaiasarzauni.ddns.net:29100" + PathUtil.Web.GRUOP_NOTIFICATION;
 		System.out.println("Notificando");
 		Mensaje mensaje = new Mensaje();
-		mensaje.setOrigen("192.168.1.37");
+		mensaje.setOrigen(usuario.getSubdominio());
 		mensaje.setTipo("Prueba");
 		mensaje.setDescripcion("Esto es una prueba");
-		PostGrupo.post(url,mensaje);
+		
+		PostGrupo.post("http://sayav.hotpo.org:29080",mensaje);
 		return ViewUtil.render(request, model, PathUtil.Template.PRUEBA);
 	};
 	public static Route notificar = (Request request, Response response) -> {
 		Map<String, Object> model = new HashMap<>();
 		Mensaje mensaje = jsonTransformer.getGson().fromJson(request.body(), Mensaje.class);
+		System.out.println(mensaje);
 		if(mensaje.getTipo().equals(TipoMensaje.BAJA_MIEMBRO)){
 			//TODO
 			return null;
