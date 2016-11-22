@@ -11,7 +11,7 @@
    		<h2>$msg.get("NEW_GROUP_MEMBER_HEADING")</h2>
     
     	<label>$msg.get("MEMBER_LABEL_DOMAIN")</label><br>
-    	<input type="text" name="memberDomain" placeholder="$msg.get("MEMBER_LABEL_DOMAIN")" value="" required><br>
+    	<input type="text" name="memberDomain" placeholder="Ej: username.ddns.net:20339 (Por favor no olvide de ingresar el puerto)" value="" required><br>
    
     	<input type="submit" value="$msg.get("NEW_GROUP_MEMBER")">
 	</form>  

@@ -55,7 +55,7 @@ public class FirebaseCloudMessageController {
 	
 	public static void post(String title, String message){
 		List<String> registration_ids = getTokens();
-		Notification notification = new Notification(registration_ids, TITLE, MESSAGE);
+		Notification notification = new Notification(registration_ids, title, message);
 		if (!notification.getRegistration_ids().isEmpty()) {
 			PostGCM.post(apiKey, notification);
 		}

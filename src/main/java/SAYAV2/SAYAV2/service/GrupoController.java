@@ -139,11 +139,14 @@ public class GrupoController {
 			// Recorre la lista de peers de los grupos a fin de notificar a
 			// todos
 			Notification notificacion = new Notification();
-			List<String> registration_ids = usuario.getTokens();
-			notificacion.setRegistrationIds(registration_ids);
-			notificacion.createData("Peligro", "Alerta");
-			for (DispositivoM d : usuario.getDispositivosMoviles())
-				PostGCM.post("", notificacion);
+			String message = "El boton de panico ha sido activado en el domicilio " + usuario.getDireccion()
+			+ "\nEl dueño del domicilio es " + usuario.getNombre() + " " + usuario.getApellido();
+			FirebaseCloudMessageController.post("Peligro", message);
+//			List<String> registration_ids = usuario.getTokens();
+//			notificacion.setRegistrationIds(registration_ids);
+//			notificacion.createData(, "Alerta");
+//			for (DispositivoM d : usuario.getDispositivosMoviles())
+//				PostGCM.post("", notificacion);
 			return null;
 		}
 

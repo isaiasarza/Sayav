@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Usuario xmlns="http://www.example.org/UsuarioXMLSchema">
-    <Nombre>Lucas</Nombre>
-    <Apellido>lucas</Apellido>
-    <Telefono>2</Telefono>
-    <Email>lucasboba@gmail.com</Email>
-    <Direccion>nose123</Direccion>
-    <Subdominio>http://localhost:29080</Subdominio>
-    <Contraseña>$2a$10$KSnAXxpep3bIDo2oTYujzuctjPHThCU.Gpczp9K2WrOWwmaTfO31K</Contraseña>
-    <Salt>$2a$10$KSnAXxpep3bIDo2oTYujzu</Salt>
+    <Nombre>Daniel Isaías</Nombre>
+    <Apellido>Arza</Apellido>
+    <Telefono>2804600698</Telefono>
+    <Email>arza.isaias@gmail.com</Email>
+    <Direccion>Entre Rios 749</Direccion>
+    <Subdominio>isaiasarzauni.ddns.net</Subdominio>
+    <Contraseña>$2a$10$.Km9Oy4iQm5B4MSTmaK/d.NHYTBASlH22dQoJ4rBvDkI/9BgDR2Xy</Contraseña>
+    <Salt>$2a$10$.Km9Oy4iQm5B4MSTmaK/d.</Salt>
     <AlarmaHabilitada>true</AlarmaHabilitada>
+    <DispositivosMoviles>
+        <Numero>2804380689</Numero>
+        <Token>cVAo9-XkHr4:APA91bFCYORWipjPqCKF_8x-fPaiPpJ8CRuXVd8chgBfy_m3Fvp6GxG6-XEfeeaD_pnGefPzBrwkEy8TE8rlfzWgWs8TTP6x2oDcYayKl7Cb8EAqH0Tdz6d-IptL_sEY_gFmWb4CMAte</Token>
+    </DispositivosMoviles>
+    <DispositivosMoviles>
+        <Numero>2804823629</Numero>
+        <Token>f_InZ7fj_1s:APA91bGnGm_r_UrmmKKCA-cmx98notNFP6P3sn3uJNF68Hj2lHV5USdLae21Q3lg2bUKFxAPLfMHRZn4LJ5xBf8e5LeetZFMWOwhfAt_FNFXwqecXOzOYuO89N72_MX-r0kYal96VDRD</Token>
+    </DispositivosMoviles>
     <Sectores>
         <Id>0</Id>
         <Nombre>Sector N0</Nombre>
@@ -31,58 +39,6 @@
     </Sectores>
     <Grupos>
         <Id>0</Id>
-        <Nombre>Local</Nombre>
-        <Peers>
-            <Id>0</Id>
-            <Direccion>http://</Direccion>
-            <Puerto>0</Puerto>
-            <Estado>false</Estado>
-        </Peers>
-    </Grupos>
-    <Grupos>
-        <Id>0</Id>
         <Nombre>Familia</Nombre>
-        <Peers>
-            <Id>0</Id>
-            <Direccion>juanarza.dns.net</Direccion>
-            <Puerto>0</Puerto>
-            <Estado>false</Estado>
-        </Peers>
-        <Peers>
-            <Id>0</Id>
-            <Direccion>josearza.dns.net</Direccion>
-            <Puerto>0</Puerto>
-            <Estado>false</Estado>
-        </Peers>
-        <Peers>
-            <Id>0</Id>
-            <Direccion>jacqueline.dns.dk</Direccion>
-            <Puerto>0</Puerto>
-            <Estado>false</Estado>
-        </Peers>
-        <Peers>
-            <Id>0</Id>
-            <Direccion>teresa.dns.dk</Direccion>
-            <Puerto>0</Puerto>
-            <Estado>false</Estado>
-        </Peers>
-        <Peers>
-            <Id>0</Id>
-            <Direccion>joaquin.dns.net:8080</Direccion>
-            <Puerto>0</Puerto>
-            <Estado>false</Estado>
-        </Peers>
-        <Peers>
-            <Id>0</Id>
-            <Direccion>holamundo</Direccion>
-            <Puerto>0</Puerto>
-            <Estado>false</Estado>
-        </Peers>
-        <Peers>
-            <Id>0</Id>
-            <Direccion>jorgito</Direccion>
-            <Puerto>0</Puerto>
-            <Estado>false</Estado>
-        </Peers>
     </Grupos>
 </Usuario>

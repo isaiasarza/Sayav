@@ -1,5 +1,6 @@
 package SAYAV2.SAYAV2.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GrupoPeer {
@@ -9,6 +10,10 @@ public class GrupoPeer {
 	private List<String> listaPeers;
 	
 	
+	public GrupoPeer() {
+		super();
+		this.listaPeers = new ArrayList<String>();
+	}
 	public String getGrupo() {
 		return grupo;
 	}
@@ -20,6 +25,9 @@ public class GrupoPeer {
 	}
 	public void setPeer(String peer) {
 		this.peer = peer;
+	}
+	public void addPeer(String peer){
+		this.listaPeers.add(peer);
 	}
 	@Override
 	public String toString() {

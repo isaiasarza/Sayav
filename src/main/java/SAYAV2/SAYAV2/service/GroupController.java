@@ -6,13 +6,13 @@ import java.util.Map;
 
 import javax.xml.bind.JAXBException;
 
-
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.RequestUtil;
 import SAYAV2.SAYAV2.Utils.TipoMensaje;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
 import SAYAV2.SAYAV2.model.Grupo;
+import SAYAV2.SAYAV2.model.GrupoPeer;
 import SAYAV2.SAYAV2.model.Mensaje;
 import SAYAV2.SAYAV2.model.Peer;
 import SAYAV2.SAYAV2.model.Usuario;
@@ -24,6 +24,7 @@ public class GroupController {
 
 	private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
 	private static File file = new File("SAYAV");
+	private static JsonTransformer jsonTransformer = new JsonTransformer();
 
 	public static Route getNewGroup = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
@@ -96,14 +97,14 @@ public class GroupController {
 
 		// grupo.setNombre(memberDomain);
 		if (!grupo.addPeer(memberDomain)) {
-			
+
 			model.put("existingMember", true);
 			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
 		}
 
 		usuarioDao.guardar(usuario, file);
 		RequestUtil.removeSessionAttrUser(request);
-	
+
 		model.put("addMemberSucceeded", true);
 		return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
 
@@ -111,16 +112,15 @@ public class GroupController {
 
 	public static Route getViewMembers = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
-		 Map<String, Object> model = new HashMap<>();
-		 System.out.println("View Members");
-		 Usuario usuario = usuarioDao.cargar(file);
-		 String groupName = request.params("groupName");
-		 Grupo group = usuario.getSingleGrupo(groupName);
-		 model.put("groupName", groupName);
-		 model.put("group", group);
-		 model.put("user", usuario);
-		 return ViewUtil.render(request, model,
-		 PathUtil.Template.VIEW_GROUP_MEMBER);
+		Map<String, Object> model = new HashMap<>();
+		System.out.println("View Members");
+		Usuario usuario = usuarioDao.cargar(file);
+		String groupName = request.params("groupName");
+		Grupo group = usuario.getSingleGrupo(groupName);
+		model.put("groupName", groupName);
+		model.put("group", group);
+		model.put("user", usuario);
+		return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
 	};
 
 	/**
@@ -131,31 +131,61 @@ public class GroupController {
 	 */
 	private static void notificarNuevoMiembro(Grupo grupo, String memberDomain, Usuario usuario) {
 		try {
-			notificarGrupos(grupo, memberDomain,TipoMensaje.NUEVO_MIEMBRO);
+			notificarGrupos(grupo, memberDomain, TipoMensaje.NUEVO_MIEMBRO);
+			notificarMiembro(grupo,memberDomain);
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
+	private static void notificarMiembro(Grupo grupo, String memberDomain) throws JAXBException {
+		Usuario usuario = usuarioDao.cargar(file);
+		
+		GrupoPeer g = new GrupoPeer();
+		g.setGrupo(grupo.getNombre());
+		for(Peer p: grupo.getPeers()){
+			g.getListaPeers().add(p.getDireccion());
+		}
+		g.getListaPeers().add(usuario.getSubdominio());
+		Mensaje mensaje = new Mensaje();
+		mensaje.setOrigen(usuario.getSubdominio());
+		mensaje.setDescripcion("");
+		mensaje.setTipo(TipoMensaje.NUEVO_GRUPO);
+		mensaje.setDatos(jsonTransformer.render(g));
+		
+		PostGrupo.post("http://" + memberDomain + PathUtil.Web.GRUOP_NOTIFICATION, mensaje);
+		
+	}
+
 	/**
-	 * Avisa a todos los miembros del grupo del nuevo miembro 
+	 * Avisa a todos los miembros del grupo del nuevo miembro
+	 * 
 	 * @param grupo
 	 * @param memberDomain
 	 * @param tipo
 	 * @throws JAXBException
 	 */
 	private static void notificarGrupos(Grupo grupo, String memberDomain, String tipo) throws JAXBException {
-		
+
 		Mensaje mensaje = new Mensaje();
 		Usuario usuario = usuarioDao.cargar(file);
+		GrupoPeer datos = new GrupoPeer();
+		datos.setGrupo(grupo.getNombre());
+		datos.setPeer(memberDomain);
 		mensaje.setOrigen(usuario.getSubdominio());
 		mensaje.setTipo(tipo);
 		mensaje.setDescripcion("El miembro " + memberDomain + " se ha unido al grupo");
-		mensaje.setDatos(memberDomain);
-		
-		for(Peer p: grupo.getPeers()){
-			PostGrupo.post(p.getDireccion(), mensaje);
+		mensaje.setDatos(jsonTransformer.render(datos));
+
+		if (!grupo.getPeers().isEmpty()) {
+			System.out.println("Notificando Pees");
+			for (Peer p : grupo.getPeers()) {
+				System.out.println("Notificando Peer " + "http://" + p.getDireccion());
+				PostGrupo.post(p.getDireccion() + PathUtil.Web.GRUOP_NOTIFICATION, mensaje);
+			}
 		}
 	}
-}
+	
+	
+	}
