@@ -34,11 +34,11 @@ public class PostGrupo {
 	        
             //`5.1 Use Jackson object mapper to convert Contnet object into JSON
             ObjectMapper mapper = new ObjectMapper();
- 
+            System.out.println(conn.getOutputStream());
+
             // 5.2 Get connection output stream
             DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
             
-            System.out.println(conn.getOutputStream());
  
             // 5.3 Copy Content "JSON" into 
             mapper.writeValue(wr, notificacion);

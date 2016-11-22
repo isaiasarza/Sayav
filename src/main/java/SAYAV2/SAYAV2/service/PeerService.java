@@ -4,25 +4,31 @@ import static j2html.TagCreator.article;
 import static j2html.TagCreator.b;
 import static j2html.TagCreator.p;
 import static j2html.TagCreator.span;
-import static spark.Spark.init;
-import static spark.Spark.port;
-import static spark.Spark.staticFiles;
-import static spark.Spark.webSocket;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.xml.bind.JAXBException;
+
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
 
-import SAYAV2.SAYAV2.model.Mensaje;
+import SAYAV2.SAYAV2.dao.UsuarioDao;
+import SAYAV2.SAYAV2.model.Grupo;
+import SAYAV2.SAYAV2.model.Peer;
+import SAYAV2.SAYAV2.model.Usuario;
 
 
 public class PeerService {
 
-    // this map is shared between sessions and threads, so it needs to be thread-safe (http://stackoverflow.com/a/2688817)
+    
+	private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
+	private static File file = new File("SAYAV");
+	
+	// this map is shared between sessions and threads, so it needs to be thread-safe (http://stackoverflow.com/a/2688817)
     static Map<Session, String> usernameMap = new ConcurrentHashMap<>();
     static int nextUserNumber = 1; //Assign to username for next connecting user
 
@@ -44,7 +50,7 @@ public class PeerService {
     }
 
     //Builds a HTML element with a sender-name, a message, and a timestamp,
-    private static String createHtmlMessageFromSender(String sender, String message) {
+    public static String createHtmlMessageFromSender(String sender, String message) {
         return article().with(
                 b(sender + ":"),
                 p(message),
@@ -68,22 +74,19 @@ public class PeerService {
 		PeerService.nextUserNumber = nextUserNumber;
 	}
 
-	
-//	public static void main(String[] args) {
-//	       
-//    	port(8080);
-//    	staticFiles.location("/public"); //index.html is served at localhost:4567 (default port)
-//        staticFiles.expireTime(600);
-//        webSocket("/chat", ChatWebSocketHandler.class);
-//        init();
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//    }
-	
+    
+	public static Peer buscarPeer(String direccion) throws JAXBException{
+		
+		Usuario usuario = usuarioDao.cargar(file);
 
+		for (Grupo g : usuario.getGrupos())
+			for (Peer p : g.getPeers()) {
+		         if(p.getDireccion().equals(direccion))
+		        	 return p;
+			}
+		return null;
+	}
+	
+	
+	
 }

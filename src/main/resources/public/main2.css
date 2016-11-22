@@ -98,6 +98,22 @@ li a:hover {
 	left: 0px;
 }
 
+#panicButton {
+	max-height: 90px;
+	position: relative;
+	top: 0px;
+	left: 650px;
+}
+
+#alarm {
+	max-height: 90px;
+	position: relative;
+	top: 0px;
+	left: 430px;
+}
+
+
+
 #chooseLanguage {
 	top: 15px;
 	right: 35px;

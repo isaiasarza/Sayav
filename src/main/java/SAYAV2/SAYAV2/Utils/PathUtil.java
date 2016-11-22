@@ -73,7 +73,7 @@ public class PathUtil {
 		public static final String ONE_DISPOSITIVO = "/dispositivo:numero/";
 		public static final String CAMBIAR_ESTADO = "/sector/:nombre/";
 		public static final String GRUOP_NOTIFICATION = "/grupo/notificar/";
-
+		
 		public static String getPrueba() {
 			return PRUEBA;
 		}
@@ -237,7 +237,7 @@ public class PathUtil {
 		public static final String TABLADISPOSITIVOS = "/velocity/dispositivo/tablaDispositivos.vm";
 		public static final String TABLASECTORES = "/velocity/sensor/tablasectores.vm";
 		public static final String GRUPO = "/velocity/grupo/nuevoGrupo.vm/";
-
+		
 	}
 
 }

@@ -80,6 +80,8 @@
 			<element name="Tipo" type="string"></element>
 			<element name="Origen" type="string"></element>
 			<element name="Descripcion" type="string"></element>
+			<element name="Datos" type="string"></element>
+			
 		</sequence>
  	</complexType>
 

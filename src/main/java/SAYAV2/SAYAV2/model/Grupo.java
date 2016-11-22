@@ -164,6 +164,25 @@ public class Grupo {
 	public String toString() {
 		return "Grupo [id=" + id + ", nombre=" + nombre + ", peers=" + peers + "]";
 	}
+
+	public boolean removePeer(String peer) {
+		// TODO Auto-generated method stub
+	   Peer bajapeer = new Peer();
+	   bajapeer.setDireccion(peer);
+	   
+	   return this.peers.remove(bajapeer);
+	}
+
+	public void addAll(List<String> listaPeers) {
+		// TODO Auto-generated method stub
+		for(String peer : listaPeers){
+			
+			Peer p = new Peer();
+			p.setDireccion(peer);
+			this.peers.add(p);
+		}
+		
+	}
 	
 	
 }

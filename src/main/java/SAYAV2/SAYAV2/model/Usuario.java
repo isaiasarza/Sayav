@@ -416,6 +416,15 @@ public class Usuario {
 		}
 		return this.grupos.add(grupo);
 	}
+	
+	public boolean addGrupo(String grupo) {
+		Grupo nuevoGrupo = new Grupo(grupo);
+		if (this.grupos.contains(nuevoGrupo)) {
+			return false;
+		}
+		return this.grupos.add(nuevoGrupo);
+	}
+	
 
 	public Grupo getSingleGrupo(String nombre){
 		Grupo nuevo = new Grupo(nombre);
@@ -430,6 +439,16 @@ public class Usuario {
 	@Override
 	public String toString() {
 		return "Usuario [nombre=" + nombre + ", apellido=" + apellido + ", telefono=" + telefono + "]";
+	}
+
+	public List<String> getTokens() {
+		// TODO Auto-generated method stub
+		List<String> registration_ids = new ArrayList<String>();
+		for(DispositivoM d: this.dispositivosMoviles){
+			if(!d.token.isEmpty())
+				registration_ids.add(d.token);
+		}
+		return registration_ids;
 	}
 
 }

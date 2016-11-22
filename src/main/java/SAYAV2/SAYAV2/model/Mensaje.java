@@ -43,7 +43,9 @@ import javax.xml.bind.annotation.XmlType;
     "id",
     "tipo",
     "origen",
-    "descripcion"
+    "descripcion",
+    "datos"
+    
 })
 public class Mensaje {
 
