@@ -1,6 +1,9 @@
 package SAYAV2.SAYAV2.service;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,6 +69,24 @@ public class GroupController {
 
 	};
 
+	public static Route leaveGroup = (Request request, Response response) -> {
+		LoginController.ensureUserIsLoggedIn(request, response);
+		Map<String, Object> model = new HashMap<>();
+		Usuario usuario = usuarioDao.cargar(file);
+		String groupName = request.params("groupName");
+
+		notificarAbandonoGrupos(groupName);
+		
+		usuario.removeGrupo(groupName);
+		//TODO remover grupo
+		System.out.println("URL" + request.url());
+		System.out.println("URI" + request.uri());
+		usuarioDao.guardar(usuario, file);
+		model.put("user", usuario);
+		model.put("leaveGroupSucceeded", true);
+		return ViewUtil.render(request, model, PathUtil.Template.NEW_GROUP);
+
+	};
 	public static Route getNewGroupMember = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
 		Map<String, Object> model = new HashMap<>();
@@ -95,16 +116,14 @@ public class GroupController {
 		model.put("group", grupo);
 		model.put("user", usuario);
 
-		// grupo.setNombre(memberDomain);
 		if (!grupo.addPeer(memberDomain)) {
-
 			model.put("existingMember", true);
 			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
 		}
 
 		usuarioDao.guardar(usuario, file);
 		RequestUtil.removeSessionAttrUser(request);
-
+		model.put("user", usuario);
 		model.put("addMemberSucceeded", true);
 		return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
 
@@ -128,18 +147,25 @@ public class GroupController {
 	 * 
 	 * @param grupo
 	 * @param memberDomain
+	 * @throws IOException 
+	 * @throws MalformedURLException 
+	 * @throws ProtocolException 
 	 */
-	private static void notificarNuevoMiembro(Grupo grupo, String memberDomain, Usuario usuario) {
+	private static synchronized void notificarNuevoMiembro(Grupo grupo, String memberDomain, Usuario usuario) throws ProtocolException, MalformedURLException, IOException {
 		try {
 			notificarGrupos(grupo, memberDomain, TipoMensaje.NUEVO_MIEMBRO);
 			notificarMiembro(grupo,memberDomain);
 		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	private static void notificarMiembro(Grupo grupo, String memberDomain) throws JAXBException {
+	private static void notificarAbandonoGrupos(String groupName) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void notificarMiembro(Grupo grupo, String memberDomain) throws JAXBException, ProtocolException, MalformedURLException, IOException {
 		Usuario usuario = usuarioDao.cargar(file);
 		
 		GrupoPeer g = new GrupoPeer();
@@ -165,8 +191,11 @@ public class GroupController {
 	 * @param memberDomain
 	 * @param tipo
 	 * @throws JAXBException
+	 * @throws IOException 
+	 * @throws MalformedURLException 
+	 * @throws ProtocolException 
 	 */
-	private static void notificarGrupos(Grupo grupo, String memberDomain, String tipo) throws JAXBException {
+	private static void notificarGrupos(Grupo grupo, String memberDomain, String tipo) throws JAXBException, ProtocolException, MalformedURLException, IOException {
 
 		Mensaje mensaje = new Mensaje();
 		Usuario usuario = usuarioDao.cargar(file);
@@ -179,7 +208,7 @@ public class GroupController {
 		mensaje.setDatos(jsonTransformer.render(datos));
 
 		if (!grupo.getPeers().isEmpty()) {
-			System.out.println("Notificando Pees");
+			System.out.println("Notificando Peers");
 			for (Peer p : grupo.getPeers()) {
 				System.out.println("Notificando Peer " + "http://" + p.getDireccion());
 				PostGrupo.post(p.getDireccion() + PathUtil.Web.GRUOP_NOTIFICATION, mensaje);

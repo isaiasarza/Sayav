@@ -61,9 +61,8 @@
 #* @vtlvariable name="numeroSectores" type="java.lang.Integer" *#
 #* @vtlvariable name="existingSector" type="java.lang.Integer" *#
 
-#* @vtlvariable name="existingMember" type="java.lang.Integer" *#
-#* @vtlvariable name="addMemberSucceeded" type="java.lang.Integer" *#
-
-
+#* @vtlvariable name="existingMember" type="java.lang.String" *#
+#* @vtlvariable name="addMemberSucceeded" type="java.lang.String" *#
+#* @vtlvariable name="leaveGroupSucceeded" type="java.lang.String" *#
 
 

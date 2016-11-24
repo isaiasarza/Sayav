@@ -2,19 +2,15 @@ package SAYAV2.SAYAV2.service;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.TipoMensaje;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
-import SAYAV2.SAYAV2.model.DispositivoM;
 import SAYAV2.SAYAV2.model.Grupo;
 import SAYAV2.SAYAV2.model.GrupoPeer;
 import SAYAV2.SAYAV2.model.Mensaje;
-import SAYAV2.SAYAV2.model.Notification;
-import SAYAV2.SAYAV2.model.Peer;
 import SAYAV2.SAYAV2.model.Usuario;
 import spark.Request;
 import spark.Response;
@@ -138,26 +134,22 @@ public class GrupoController {
 		if (mensaje.getTipo().equals(TipoMensaje.ALERTA)) {
 			// Recorre la lista de peers de los grupos a fin de notificar a
 			// todos
-			Notification notificacion = new Notification();
 			String message = "El boton de panico ha sido activado en el domicilio " + usuario.getDireccion()
 			+ "\nEl dueño del domicilio es " + usuario.getNombre() + " " + usuario.getApellido();
 			FirebaseCloudMessageController.post("Peligro", message);
-//			List<String> registration_ids = usuario.getTokens();
-//			notificacion.setRegistrationIds(registration_ids);
-//			notificacion.createData(, "Alerta");
-//			for (DispositivoM d : usuario.getDispositivosMoviles())
-//				PostGCM.post("", notificacion);
-			return null;
+			//response.redirect(location);
 		}
 
 		if(mensaje.getTipo().equals(TipoMensaje.NUEVO_GRUPO)){
 			GrupoPeer data = jsonTransformer.getGson().fromJson(mensaje.getDatos(), GrupoPeer.class);
-			usuario.addGrupo(data.getGrupo());
-			Grupo g = usuario.getSingleGrupo(data.getGrupo());
-			g.addAll(data.getListaPeers());
-			usuarioDao.guardar(usuario, file);
+			
+			if(usuario.addGrupo(data.getGrupo())){
+				Grupo g = usuario.getSingleGrupo(data.getGrupo());
+				g.addAll(data.getListaPeers());
+				usuarioDao.guardar(usuario, file);
+			}
+			return null;
 		}
-		
 		return ViewUtil.render(request, model, PathUtil.Template.PRUEBA);
 	};
 

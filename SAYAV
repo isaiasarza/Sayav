@@ -37,8 +37,4 @@
         <Nombre>Sector N3</Nombre>
         <Activado>false</Activado>
     </Sectores>
-    <Grupos>
-        <Id>0</Id>
-        <Nombre>Familia</Nombre>
-    </Grupos>
 </Usuario>

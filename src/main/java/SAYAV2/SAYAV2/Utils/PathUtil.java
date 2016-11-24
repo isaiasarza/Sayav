@@ -73,6 +73,8 @@ public class PathUtil {
 		public static final String ONE_DISPOSITIVO = "/dispositivo:numero/";
 		public static final String CAMBIAR_ESTADO = "/sector/:nombre/";
 		public static final String GRUOP_NOTIFICATION = "/grupo/notificar/";
+		public static final String LEAVE = "/grupo/abandonar/";
+		public static final String LEAVE_GROUP = "/grupo/abandonar/:groupName/";
 		
 		public static String getPrueba() {
 			return PRUEBA;
@@ -208,6 +210,18 @@ public class PathUtil {
 
 		public static String getCambiarEstado() {
 			return CAMBIAR_ESTADO;
+		}
+
+		public static String getGruopNotification() {
+			return GRUOP_NOTIFICATION;
+		}
+
+		public static String getLeave() {
+			return LEAVE;
+		}
+
+		public static String getLeaveGroup() {
+			return LEAVE_GROUP;
 		}
 		
 		

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,8 +14,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import SAYAV2.SAYAV2.model.Mensaje;
 
 public class PostGrupo {
-	public static void post(String dominio, Mensaje notificacion){
-		try {
+	public static void post(String dominio, Mensaje notificacion) throws ProtocolException, MalformedURLException,IOException{
+		
 //			1.URL
 			URL url = new URL(dominio);
 			
@@ -67,12 +68,6 @@ public class PostGrupo {
  
             // 7. Print result
             System.out.println(response.toString());
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 	}
 }

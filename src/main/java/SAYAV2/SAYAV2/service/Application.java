@@ -3,6 +3,8 @@ package SAYAV2.SAYAV2.service;
 import static spark.Spark.after;
 import static spark.Spark.before;
 import static spark.Spark.get;
+import static spark.Spark.delete;
+
 import static spark.Spark.port;
 import static spark.Spark.post;
 import static spark.Spark.init;
@@ -22,7 +24,7 @@ public class Application {
 	
 	public static void main(String[] args) {
 	
-		port(29100);
+		port(29081);
 		staticFiles.location("/public");
 		staticFiles.expireTime(600L);
 
@@ -81,11 +83,11 @@ public class Application {
 
 		get(PathUtil.Web.VIEW_GROUP_MEMBER, GroupController.getViewMembers);
 		
+		get(PathUtil.Web.LEAVE_GROUP, GroupController.leaveGroup);
+		
 		//		REST Notificaciones Push
 		get(PathUtil.Web.NOTIFICATION_PUSH, (req, res) -> "Get Token");
 		post(PathUtil.Web.NOTIFICATION_PUSH, FirebaseCloudMessageController.pushNotification);
-
-
 		
 		
 		//		REST Nuevo Token Firebase Cloud Messaging
