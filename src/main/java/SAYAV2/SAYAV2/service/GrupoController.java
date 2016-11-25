@@ -148,7 +148,8 @@ public class GrupoController {
 				g.addAll(data.getListaPeers());
 				usuarioDao.guardar(usuario, file);
 			}
-			return null;
+			model.put("user", usuario);
+			return ViewUtil.render(request, model, PathUtil.Template.NEW_GROUP);
 		}
 		return ViewUtil.render(request, model, PathUtil.Template.PRUEBA);
 	};

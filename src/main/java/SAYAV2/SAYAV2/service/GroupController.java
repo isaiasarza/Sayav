@@ -160,8 +160,23 @@ public class GroupController {
 		}
 	}
 
-	private static void notificarAbandonoGrupos(String groupName) {
-		// TODO Auto-generated method stub
+	private static void notificarAbandonoGrupos(String groupName) throws JAXBException, ProtocolException, MalformedURLException, IOException {
+		Usuario usuario = usuarioDao.cargar(file);
+
+		Grupo grupo = usuario.getSingleGrupo(groupName);
+		GrupoPeer g = new GrupoPeer();
+		g.setGrupo(groupName);
+		g.setPeer(usuario.getSubdominio());
+		Mensaje mensaje = new Mensaje();
+		mensaje.setOrigen(usuario.getSubdominio());
+		mensaje.setDescripcion("El miembro " + usuario.getSubdominio() + " ha dejado el grupo");
+		mensaje.setTipo(TipoMensaje.BAJA_MIEMBRO);
+		mensaje.setDatos(jsonTransformer.render(g));
+		
+		for(Peer p: grupo.getPeers()){
+			PostGrupo.post("http://" + p.getDireccion() + PathUtil.Web.GRUOP_NOTIFICATION, mensaje);
+		}
+
 		
 	}
 

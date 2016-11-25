@@ -5,7 +5,7 @@
     <Telefono>2804600698</Telefono>
     <Email>arza.isaias@gmail.com</Email>
     <Direccion>Entre Rios 749</Direccion>
-    <Subdominio>isaiasarzauni.ddns.net</Subdominio>
+    <Subdominio>isaiasarzauni.ddns.net:29081</Subdominio>
     <Contraseña>$2a$10$.Km9Oy4iQm5B4MSTmaK/d.NHYTBASlH22dQoJ4rBvDkI/9BgDR2Xy</Contraseña>
     <Salt>$2a$10$.Km9Oy4iQm5B4MSTmaK/d.</Salt>
     <AlarmaHabilitada>true</AlarmaHabilitada>
@@ -24,7 +24,7 @@
     </Sectores>
     <Sectores>
         <Id>1</Id>
-        <Nombre>Sector N1</Nombre>
+        <Nombre>Cocina</Nombre>
         <Activado>false</Activado>
     </Sectores>
     <Sectores>
@@ -37,4 +37,34 @@
         <Nombre>Sector N3</Nombre>
         <Activado>false</Activado>
     </Sectores>
+    <Grupos>
+        <Id>0</Id>
+        <Nombre>Familia</Nombre>
+        <Peers>
+            <Id>0</Id>
+            <Direccion>http://sayav.hopto.org:29080</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
+        </Peers>
+    </Grupos>
+    <Grupos>
+        <Id>0</Id>
+        <Nombre>PutaPrueba</Nombre>
+        <Peers>
+            <Id>0</Id>
+            <Direccion>http://sayav.hopto.org:29080</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
+        </Peers>
+    </Grupos>
+    <Grupos>
+        <Id>0</Id>
+        <Nombre>Local</Nombre>
+        <Peers>
+            <Id>0</Id>
+            <Direccion>http://sayav.hopto.org:29080</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
+        </Peers>
+    </Grupos>
 </Usuario>
