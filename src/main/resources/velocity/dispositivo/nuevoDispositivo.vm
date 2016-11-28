@@ -17,13 +17,16 @@
 <table id="tabla">
   <thead>
     <tr>
-      <th colspan="3">Dispositivos moviles</th>
+      <th>Numeros</th>
+      <th>Tokens<th>
+      
     </tr>
   </thead>
   #foreach($dispositivo in $listaDispositivos) 
   	<tbody>
     	<tr>
       	 <td> $dispositivo.getNumero()</td>
+      	 <td> Token </td>
 		## <td><input type="button" value="Editar" onClick="modifica()"></td>     
     	##<td> <input type="button" value="Eliminar" onclick="deleteRow(this)"></td>
     		<form method="post" action="$WebPath.getEliminarDispositivo()">

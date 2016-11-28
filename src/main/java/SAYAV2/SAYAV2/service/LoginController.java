@@ -6,6 +6,7 @@ import java.util.Map;
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.RequestUtil;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
+import SAYAV2.SAYAV2.model.Sector;
 import SAYAV2.SAYAV2.model.Usuario;
 import spark.Request;
 import spark.Response;
@@ -20,6 +21,7 @@ public class LoginController {
 		Map<String, Object> model = new HashMap<>();
 		model.put("loggedOut", RequestUtil.removeSessionAttrLoggedOut(request));
 		model.put("loginRedirect", RequestUtil.removeSessionAttrLoginRedirect(request));
+		
 		return ViewUtil.render(request, model, PathUtil.Template.LOGIN);
 	};
 
@@ -31,6 +33,7 @@ public class LoginController {
 		System.out.println("Autentificando usuario");
 		String status;
 		Usuario usuario;
+		
 		status = UsuarioController.authenticate(RequestUtil.getQueryEmail(request), RequestUtil.getQueryPassword(request),
 				model);
 		model.put(status,true);

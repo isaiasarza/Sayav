@@ -1,6 +1,9 @@
 package SAYAV2.SAYAV2.service;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,13 +77,13 @@ public class AlarmController {
 
 	};
 
-	private static void notificarCentrales(String titulo, String message) throws JAXBException {
+	private static void notificarCentrales(String titulo, String message) throws JAXBException, ProtocolException, MalformedURLException, IOException {
 		Mensaje mensaje = new Mensaje();
 		mensaje.setDescripcion(titulo + message);
 		notificarCentrales(mensaje);
 	}
 
-	public static void notificarCentrales(Mensaje mensaje) throws JAXBException {
+	public static void notificarCentrales(Mensaje mensaje) throws JAXBException, ProtocolException, MalformedURLException, IOException {
 
 		Usuario usuario = usuarioDao.cargar(file);
 

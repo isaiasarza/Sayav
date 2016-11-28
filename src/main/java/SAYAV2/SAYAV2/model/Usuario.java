@@ -451,4 +451,9 @@ public class Usuario {
 		return registration_ids;
 	}
 
+	public boolean removeGrupo(String groupName) {
+		Grupo grupo = new Grupo(groupName);
+		return this.grupos.remove(grupo);
+	}
+
 }

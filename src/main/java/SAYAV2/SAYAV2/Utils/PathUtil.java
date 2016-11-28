@@ -52,6 +52,8 @@ public class PathUtil {
 		@Getter
 		public static final String VIEW_ALL_GROUPS = "/group/new/";
 		@Getter
+		public static final String VIEW_ALL_MESSAGES = "/messages/";
+		@Getter
 		public static final String NEW_GROUP_MEMBER = "/group/new/:groupName/";
 		public static final String VIEW_NEW_MEMBER = "/group/new/member/";
 
@@ -73,6 +75,8 @@ public class PathUtil {
 		public static final String ONE_DISPOSITIVO = "/dispositivo:numero/";
 		public static final String CAMBIAR_ESTADO = "/sector/:nombre/";
 		public static final String GRUOP_NOTIFICATION = "/grupo/notificar/";
+		public static final String LEAVE = "/grupo/abandonar/";
+		public static final String LEAVE_GROUP = "/grupo/abandonar/:groupName/";
 		
 		public static String getPrueba() {
 			return PRUEBA;
@@ -209,6 +213,18 @@ public class PathUtil {
 		public static String getCambiarEstado() {
 			return CAMBIAR_ESTADO;
 		}
+
+		public static String getGruopNotification() {
+			return GRUOP_NOTIFICATION;
+		}
+
+		public static String getLeave() {
+			return LEAVE;
+		}
+
+		public static String getLeaveGroup() {
+			return LEAVE_GROUP;
+		}
 		
 		
 
@@ -229,6 +245,7 @@ public class PathUtil {
 		public static final String NEW_GROUP = "/velocity/user_data/new_group.vm";
 		public static final String NOT_FOUND = "/velocity/notFound.vm";
 		public static final String VIEW_ALL_GROUPS = "/velocity/user_data/view_groups.vm";
+		public static final String VIEW_ALL_MESSAGES = "/velocity/user_data/view_messages.vm";
 		public static final String NEW_GROUP_MEMBER = "/velocity/user_data/new_member.vm";
 		public static final String VIEW_GROUP_MEMBER = "/velocity/user_data/view_members.vm";
 		public final static String DISPOSITIVO = "/velocity/dispositivo/nuevoDispositivo.vm";

@@ -1,14 +1,16 @@
 #parse("/velocity/layout.vm")
 #@mainLayout()
 
-
-	
+		
 	<form id="newGroupForm" onsubmit="return validateForm()" method="post" action="$WebPath.getNewGroup()">
   
   		#if($existingGroup)
         	<p class="bad notification">$msg.get("EXISTING_GROUP")</p>
     	#elseif($addGroupSucceeded)   
        		<p class="good notification">$msg.get("NEW_GROUP_SUCCEEDED")</p>
+    	#end
+    	#if($leaveGroupSucceeded)
+       		<p class="good notification">Se pudo abandonar el grupo</p> 	
     	#end
    		<h1>$msg.get("NEW_GROUP_HEADING")</h1>
     
@@ -23,7 +25,7 @@
     		<th  align="center"> Nombre</th>	
     		<th align="center">Ver Miembros</th>
     	## TODO
-    	##	<th align="center">Abandonar Grupo</th>
+    		<th align="center">Abandonar Grupo</th>
     		
   		</tr>
   		#foreach($g in $user.getGrupos())
@@ -35,11 +37,11 @@
         	    	<button id="viewMembers">Ver Miembros</button>
            		</form>  
            	</td> 
-	 	##	<td>
-   		##	<form method="get" action="$WebPath.getLeaveGroup()$g.getNombre()/">
-        ##	    <button id="newMember">$msg.get("NEW_GROUP_MEMBER")</button>
-        ##   	</form>  
-        ##   </td> 
+	 		<td>
+   			<form method="get" action="$WebPath.getLeave()$g.getNombre()/">
+        	   <button id="leave Group">Abandonar Grupo</button>
+           	</form>  
+           </td> 
            	
        	</tr>       
 		#end			

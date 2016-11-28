@@ -42,7 +42,6 @@
 <main>
 	#if($currentUser)
 	
-	
 	    
 	    <div class="row" >
   			<form method="post" action="$WebPath.getPanicButton()">
@@ -55,8 +54,8 @@
 	   		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>$msg.get("ALARM_ACTIVATE")
 	   		</div>
 		#end
-	
-	
+		
+		
 		<nav id ="menuFlotante" class="navbar navbar-inverse">
 	  	<div class="container-fluid">
     		<div class="collapse navbar-collapse" id="myNavbar">

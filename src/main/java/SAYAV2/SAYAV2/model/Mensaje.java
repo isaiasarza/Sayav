@@ -157,6 +157,14 @@ public class Mensaje {
 		this.datos = datos;
 	}
 
+	public Mensaje clone(){
+		Mensaje m = new Mensaje();
+		m.setDatos(this.datos);
+		m.setDescripcion(this.descripcion);
+		m.setId(this.id);
+		m.setOrigen(this.origen);
+		return m;
+	}
 	@Override
 	public String toString() {
 		return "Mensaje [id=" + id + ", tipo=" + tipo + ", origen=" + origen + ", descripcion=" + descripcion + "]";

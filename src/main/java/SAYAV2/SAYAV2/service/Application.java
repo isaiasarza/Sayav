@@ -1,18 +1,16 @@
 package SAYAV2.SAYAV2.service;
 
-import static spark.Spark.after;
-import static spark.Spark.before;
+
 import static spark.Spark.get;
+
 import static spark.Spark.port;
 import static spark.Spark.post;
-import static spark.Spark.init;
-import static spark.Spark.webSocket;
+
 
 import static spark.Spark.staticFiles;
 
-import SAYAV2.SAYAV2.Utils.Filters;
 import SAYAV2.SAYAV2.Utils.PathUtil;
-import SAYAV2.SAYAV2.Utils.ViewUtil;
+
 
 
 
@@ -20,9 +18,10 @@ import SAYAV2.SAYAV2.Utils.ViewUtil;
 public class Application {
 	
 	
+	
 	public static void main(String[] args) {
 	
-		port(29100);
+		port(29080);
 		staticFiles.location("/public");
 		staticFiles.expireTime(600L);
 
@@ -30,7 +29,6 @@ public class Application {
 //        before("*",                  Filters.addTrailingSlashes);
 //        before("*",                  Filters.handleLocaleChange);
         
-
 	
         
         //REST de registro de usuario
@@ -41,6 +39,11 @@ public class Application {
 		get(PathUtil.Web.LOGIN,LoginController.serveLoginPage);	
 		post(PathUtil.Web.LOGIN,LoginController.handleLoginPost); 
 		post(PathUtil.Web.LOGOUT,    LoginController.handleLogoutPost);
+		
+		
+			
+		
+		
 		
 //		POST habilitar/deshabilitar alarma
 		post(PathUtil.Web.ALARM, AlarmController.enableAlarmPost);
@@ -81,11 +84,11 @@ public class Application {
 
 		get(PathUtil.Web.VIEW_GROUP_MEMBER, GroupController.getViewMembers);
 		
+		get(PathUtil.Web.LEAVE_GROUP, GroupController.leaveGroup);
+		
 		//		REST Notificaciones Push
 		get(PathUtil.Web.NOTIFICATION_PUSH, (req, res) -> "Get Token");
 		post(PathUtil.Web.NOTIFICATION_PUSH, FirebaseCloudMessageController.pushNotification);
-
-
 		
 		
 		//		REST Nuevo Token Firebase Cloud Messaging
@@ -94,9 +97,14 @@ public class Application {
 
 		get(PathUtil.Web.GRUOP_NOTIFICATION, GrupoController.getNotificar);
 		post(PathUtil.Web.GRUOP_NOTIFICATION,  GrupoController.notificar);
+		
+		get(PathUtil.Web.VIEW_ALL_MESSAGES, MensajesPendientesController.getAllMenssages);
+		
 //		get("*",                     ViewUtil.notFound);
         //Set up after-filters (called after each get/post)
 //        after("*",                  Filters.addGzipHeader);
+		
+		 
 		
 	}
 }

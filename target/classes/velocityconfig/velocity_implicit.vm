@@ -4,6 +4,7 @@
 #* @vtlvariable name="currentUser" type="java.lang.String" *#
 #* @vtlvariable name="user" type="SAYAV2.SAYAV2.model.Usuario" *#
 #* @vtlvariable name="group" type="SAYAV2.SAYAV2.model.Grupo" *#
+#* @vtlvariable name="menssagesPendientes" type="SAYAV2.SAYAV2.model.MensajesPendientes" *#
 
 
 #* @vtlvariable name="loggedOut" type="java.lang.String" *#
@@ -25,6 +26,8 @@
 #* @vtlvariable name="status" type="java.lang.String" *#
 #* @vtlvariable name="enableAlarm" type="java.lang.String" *#
 #* @vtlvariable name="panicButton" type="java.lang.String" *#
+#* @vtlvariable name="mensaje" type="SAYAV2.SAYAV2.model.Mensaje" *#
+#* @vtlvariable name="tipoMensaje" type="java.lang.String" *#
 
 
 #* @vtlvariable name="name" type="java.lang.String" *#
@@ -33,6 +36,7 @@
 #* @vtlvariable name="address" type="java.lang.String" *#
 #* @vtlvariable name="phoneNumber" type="java.lang.String" *
 #* @vtlvariable name="subdom" type="SAYAV2.SAYAV2.model.Prueba" *#
+#* @vtlvariable name="mensaje" type="SAYAV2.SAYAV2.model.Mensaje" *#
 #* @vtlvariable name="psw1" type="java.lang.String" *#
 #* @vtlvariable name="ps2" type="java.lang.String" *#
 
@@ -60,10 +64,11 @@
 #* @vtlvariable name="listaSectores" type="java.util.ArrayList<SAYAV2.SAYAV2.model.Sector>" *#
 #* @vtlvariable name="numeroSectores" type="java.lang.Integer" *#
 #* @vtlvariable name="existingSector" type="java.lang.Integer" *#
-
-#* @vtlvariable name="existingMember" type="java.lang.Integer" *#
-#* @vtlvariable name="addMemberSucceeded" type="java.lang.Integer" *#
+#* @vtlvariable name="listaMensajes" type="java.util.ArrayList<SAYAV2.SAYAV2.model.Mensaje>" *#
 
 
+#* @vtlvariable name="existingMember" type="java.lang.String" *#
+#* @vtlvariable name="addMemberSucceeded" type="java.lang.String" *#
+#* @vtlvariable name="leaveGroupSucceeded" type="java.lang.String" *#
 
 

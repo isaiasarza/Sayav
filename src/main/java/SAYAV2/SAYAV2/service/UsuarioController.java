@@ -13,6 +13,7 @@ import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.RequestUtil;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
+import SAYAV2.SAYAV2.model.Sector;
 import SAYAV2.SAYAV2.model.Usuario;
 import spark.Request;
 import spark.Response;
@@ -101,6 +102,7 @@ public class UsuarioController {
 		LoginController.ensureUserIsLoggedIn(request, response);
 		System.out.println("View User Data");
         Map<String, Object> model = new HashMap<>();
+        
 		model.put("menuRedirect", RequestUtil.removeSessionAttrMenuRedirect(request));
         model.put("user",currentUser);
         return ViewUtil.render(request, model, PathUtil.Template.MENU);
@@ -120,6 +122,10 @@ public class UsuarioController {
     public static Route showUpdate = (Request request, Response response) -> {
     	System.out.println("ShowUpdate");  
     	Map<String, Object> model = new HashMap<>();
+
+    	Sector sector = new Sector();
+        
+		model.put("sector", sector);
     	model.put("user", currentUser);
 		System.out.println(PathUtil.Web.MENU);
         return ViewUtil.render(request, model, PathUtil.Template.UPDATE_USER);
@@ -162,6 +168,8 @@ public class UsuarioController {
     	
 //        return ViewUtil.render(request, model, PathUtil.Template.UPDATE_USER);
     	System.out.println("Update Succeeded");
+    	
+      
     	return ViewUtil.render(request, model, PathUtil.Template.UPDATE_USER);
 
     };
