@@ -247,7 +247,28 @@ public class GroupController {
 		return true;
 	}
 
-	public static boolean notificarMiembro(Grupo grupo, String memberDomain) throws JAXBException {
+	private static void notificarAbandono1Grupos(String groupName) throws JAXBException, ProtocolException, MalformedURLException, IOException {
+		Usuario usuario = usuarioDao.cargar(file);
+
+		Grupo grupo = usuario.getSingleGrupo(groupName);
+		GrupoPeer g = new GrupoPeer();
+		g.setGrupo(groupName);
+		g.setPeer(usuario.getSubdominio());
+		Mensaje mensaje = new Mensaje();
+		mensaje.setOrigen(usuario.getSubdominio());
+		mensaje.setDescripcion("El miembro " + usuario.getSubdominio() + " ha dejado el grupo");
+		mensaje.setTipo(TipoMensaje.BAJA_MIEMBRO);
+		mensaje.setDatos(jsonTransformer.render(g));
+		
+		for(Peer p: grupo.getPeers()){
+			PostGrupo.post("http://" + p.getDireccion() + PathUtil.Web.GRUOP_NOTIFICATION, mensaje);
+		}
+
+		
+	}
+
+public static boolean notificarMiembro(Grupo grupo, String memberDomain) throws JAXBException {
+	
 		Usuario usuario = usuarioDao.cargar(file);
 
 		GrupoPeer g = new GrupoPeer();
