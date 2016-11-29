@@ -5,8 +5,14 @@
 	<form id="newGroupMemberForm" onsubmit="return validateForm()" method="post" action="$WebPath.getNewGroup()$groupName/"> 
   		#if($existingMember)
         	<p class="bad notification">$msg.get("EXISTING_PEER")</p>
+        #elseif($memberIsUser)
+        	<p class="bad notification">No puede ingresarse a usted mismo como miembro</p>
+        #elseif($invalidDomain)
+        	<p class="bad notification">El dominio ingresado no corresponde a una url valida, por favor verifique su escritura</p>
+    	#elseif($conectionProblems)
+        	<p class="bad notification">El miembro requerido se encuentra con problemas de conectividad, por favor intente mas tarde</p>
     	#elseif($addMemberSucceeded)   
-       		<p class="good notification">$msg.get("NEW_PEER_SUCCEEDED")</p>
+       		<p class="good notification">$msg.get("NEW_PEER_SUCCEEDED")</p>      	
     	#end
    		<h2>$msg.get("NEW_GROUP_MEMBER_HEADING")</h2>
     
