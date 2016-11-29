@@ -298,7 +298,7 @@ public class GroupController {
 			
 			for(Peer p: grupo.getPeers()){
 				try {
-					PostGrupo.post(p.getDireccion(), mensaje);
+					PostGrupo.post(p.getDireccion() + PathUtil.Web.GRUOP_NOTIFICATION, mensaje);
 				}catch (IOException e) {
 					// TODO Auto-generated catch block
 					

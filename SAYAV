@@ -5,7 +5,7 @@
     <Telefono>2804600698</Telefono>
     <Email>arza.isaias@gmail.com</Email>
     <Direccion>Entre Rios 749</Direccion>
-    <Subdominio>http://isaiasarzauni.ddns.net:29100</Subdominio>
+    <Subdominio>http://192.168.0.204:29100</Subdominio>
     <Contraseña>$2a$10$C5RAABOTP8AQoXZlbtrFE.QtNUYbQodU7SiGaFPZQAfNZL1lvQjqm</Contraseña>
     <Salt>$2a$10$C5RAABOTP8AQoXZlbtrFE.</Salt>
     <AlarmaHabilitada>true</AlarmaHabilitada>
@@ -35,9 +35,31 @@
     <Grupos>
         <Id>0</Id>
         <Nombre>Universidad</Nombre>
+        <Peers>
+            <Id>0</Id>
+            <Direccion>http://192.168.0.217:29080</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
+        </Peers>
     </Grupos>
     <Grupos>
         <Id>0</Id>
         <Nombre>Familia</Nombre>
+        <Peers>
+            <Id>0</Id>
+            <Direccion>http://192.168.0.217:29080</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
+        </Peers>
+    </Grupos>
+    <Grupos>
+        <Id>0</Id>
+        <Nombre>Vecinos</Nombre>
+        <Peers>
+            <Id>0</Id>
+            <Direccion>http://192.168.0.217:29080</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
+        </Peers>
     </Grupos>
 </Usuario>

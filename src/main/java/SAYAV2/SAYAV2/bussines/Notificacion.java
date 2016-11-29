@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
+import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.TipoMensaje;
 import SAYAV2.SAYAV2.dao.MensajePendienteDao;
 import SAYAV2.SAYAV2.model.Grupo;
@@ -41,7 +42,7 @@ public class Notificacion {
 		Mensaje mensaje = new Mensaje();
 		mensaje.setTipo(TipoMensaje.CHECK_CONNECTIVITY);
 		try {
-			PostGrupo.post(peer.getDireccion(), mensaje);
+			PostGrupo.post(peer.getDireccion() +  PathUtil.Web.GRUOP_NOTIFICATION, mensaje);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
@@ -59,7 +60,7 @@ public class Notificacion {
 
 		for (Peer p : grupo.getPeers()) {
 			try {
-				PostGrupo.post("http://" + p.getDireccion(), mensaje);
+				PostGrupo.post(p.getDireccion() + PathUtil.Web.GRUOP_NOTIFICATION, mensaje);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -104,7 +105,7 @@ public class Notificacion {
 		mensaje.setOrigen(origen);
 		mensaje.setDatos(jsonTransformer.render(data));
 		try {
-			PostGrupo.post(peer.getDireccion(), mensaje);
+			PostGrupo.post(peer.getDireccion() + PathUtil.Web.GRUOP_NOTIFICATION, mensaje);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
