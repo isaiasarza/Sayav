@@ -15,17 +15,17 @@
     <Sectores>
         <Id>0</Id>
         <Nombre>Cocina</Nombre>
-        <Activado>false</Activado>
+        <Activado>true</Activado>
     </Sectores>
     <Sectores>
         <Id>1</Id>
         <Nombre>Habitación 1</Nombre>
-        <Activado>false</Activado>
+        <Activado>true</Activado>
     </Sectores>
     <Sectores>
         <Id>2</Id>
         <Nombre>Baño</Nombre>
-        <Activado>false</Activado>
+        <Activado>true</Activado>
     </Sectores>
     <Sectores>
         <Id>3</Id>
@@ -64,6 +64,12 @@
     </Grupos>
     <Grupos>
         <Id>0</Id>
-        <Nombre>algo</Nombre>
+        <Nombre>Local</Nombre>
+        <Peers>
+            <Id>0</Id>
+            <Direccion>http://192.168.0.217:29080</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
+        </Peers>
     </Grupos>
 </Usuario>

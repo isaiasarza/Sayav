@@ -72,9 +72,8 @@ public class AlarmController {
 		notificarCentrales("Peligro!", message);
 		model.put("panicButton", true);
 		model.put("user", usuario);
-
+		//response.redirect(request.url());
 		return ViewUtil.render(request, model, PathUtil.Template.MENU);
-
 	};
 
 	private static void notificarCentrales(String titulo, String message) throws JAXBException, ProtocolException, MalformedURLException, IOException {

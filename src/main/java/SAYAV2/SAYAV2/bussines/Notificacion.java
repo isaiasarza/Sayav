@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.JAXBException;
+import static j2html.TagCreator.*;
 
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.TipoMensaje;
@@ -113,5 +114,11 @@ public class Notificacion {
 		}
 		return true;
 	}
-
+	public static String createHtmlMessageFromSender(String sender, String message) {
+	    return article().with(
+	            b(sender + " says:"),
+	            p(message),
+	            span().withClass("timestamp").withText(new SimpleDateFormat("HH:mm:ss").format(new Date()))
+	    ).render();
+	}
 }
