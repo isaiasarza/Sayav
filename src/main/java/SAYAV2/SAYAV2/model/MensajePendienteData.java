@@ -4,6 +4,8 @@ public class MensajePendienteData {
 
 	private String peer;
 	private String fecha;
+	private String tipo;
+	
 	public MensajePendienteData() {
 		super();
 	}
@@ -19,10 +21,17 @@ public class MensajePendienteData {
 	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
-	@Override
-	public String toString() {
-		return "MensajePendienteData [peer=" + peer + ", fecha=" + fecha + "]";
+	
+	public String getTipo() {
+		return tipo;
+	}
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 	
+	@Override
+	public String toString() {
+		return "MensajePendienteData [peer=" + peer + ", fecha=" + fecha + ", tipo=" + tipo + "]";
+	}
 	
 }

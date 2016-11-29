@@ -79,6 +79,7 @@ public class Notificacion {
 				MensajePendienteData data = new MensajePendienteData();
 				data.setPeer(p.getDireccion());
 				data.setFecha(hourdateFormat.format(date));
+				data.setTipo(mensaje.getTipo());
 				Mensaje nuevo = new Mensaje();
 				nuevo.setTipo(mensaje.getTipo());
 				nuevo.setDescripcion(mensaje.getDescripcion());

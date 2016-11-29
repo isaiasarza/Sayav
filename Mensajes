@@ -6,7 +6,7 @@
         <Origen>192.168.1.39:29080</Origen>
         <Descripcion>Se disparo alarma en el domicilio nose123
 El dueño del domicilio es Lucas lucas Sector null</Descripcion>
-        <Datos>{"peer":"isaiasarzauni.ddns.net:29100","fecha":"11:44:26 27/11/2016"}</Datos>
+        <Datos>{"peer":"isaiasarzauni.ddns.net:29100","fecha":"11:44:26 27/11/2016", "tipo":"Alerta"}</Datos>
     </ns2:ListaMensajes>
     <ns2:ListaMensajes>
         <Id>0</Id>
@@ -14,7 +14,7 @@ El dueño del domicilio es Lucas lucas Sector null</Descripcion>
         <Origen>192.168.1.39:29080</Origen>
         <Descripcion>Se disparo alarma en el domicilio nose123
 El dueño del domicilio es Lucas lucas Sector null</Descripcion>
-        <Datos>{"peer":"isaiasarzauni.ddns.net:29100","fecha":"11:48:44 27/11/2016"}</Datos>
+        <Datos>{"peer":"isaiasarzauni.ddns.net:29100","fecha":"11:48:44 27/11/2016", "tipo":"Alerta"}</Datos>
     </ns2:ListaMensajes>
     <ns2:ListaMensajes>
         <Id>0</Id>
@@ -22,7 +22,7 @@ El dueño del domicilio es Lucas lucas Sector null</Descripcion>
         <Origen>192.168.1.39:29080</Origen>
         <Descripcion>Se disparo alarma en el domicilio nose123
 El dueño del domicilio es Lucas lucas Sector null</Descripcion>
-        <Datos>{"peer":"isaiasarzauni.ddns.net:29100","fecha":"11:48:46 27/11/2016"}</Datos>
+        <Datos>{"peer":"isaiasarzauni.ddns.net:29100","fecha":"11:48:46 27/11/2016", "tipo":"Alerta"}</Datos>
     </ns2:ListaMensajes>
     <ns2:ListaMensajes>
         <Id>0</Id>
@@ -30,38 +30,6 @@ El dueño del domicilio es Lucas lucas Sector null</Descripcion>
         <Origen>192.168.1.39:29080</Origen>
         <Descripcion>Se disparo alarma en el domicilio nose123
 El dueño del domicilio es Lucas lucas Sector null</Descripcion>
-        <Datos>{"peer":"isaiasarzauni.ddns.net:29100","fecha":"17:35:50 27/11/2016"}</Datos>
-    </ns2:ListaMensajes>
-    <ns2:ListaMensajes>
-        <Id>0</Id>
-        <Tipo>Alerta</Tipo>
-        <Origen>192.168.1.39:29080</Origen>
-        <Descripcion>Se disparo alarma en el domicilio nose123
-El dueño del domicilio es Lucas lucas Sector null</Descripcion>
-        <Datos>{"peer":"http://isaiasarzauni.ddns.net:29100","fecha":"18:58:24 27/11/2016"}</Datos>
-    </ns2:ListaMensajes>
-    <ns2:ListaMensajes>
-        <Id>0</Id>
-        <Tipo>Alerta</Tipo>
-        <Origen>192.168.1.39:29080</Origen>
-        <Descripcion>Se disparo alarma en el domicilio nose123
-El dueño del domicilio es Lucas lucas Sector null</Descripcion>
-        <Datos>{"peer":"isaiasarzauni.ddns.net:29100","fecha":"18:58:24 27/11/2016"}</Datos>
-    </ns2:ListaMensajes>
-    <ns2:ListaMensajes>
-        <Id>0</Id>
-        <Tipo>Alerta</Tipo>
-        <Origen>192.168.1.39:29080</Origen>
-        <Descripcion>Se disparo alarma en el domicilio nose123
-El dueño del domicilio es Lucas lucas Sector null</Descripcion>
-        <Datos>{"peer":"localhost:29080","fecha":"18:58:24 27/11/2016"}</Datos>
-    </ns2:ListaMensajes>
-    <ns2:ListaMensajes>
-        <Id>0</Id>
-        <Tipo>Alerta</Tipo>
-        <Origen>192.168.1.39:29080</Origen>
-        <Descripcion>Se disparo alarma en el domicilio nose123
-El dueño del domicilio es Lucas lucas Sector null</Descripcion>
-        <Datos>{"peer":"127.0.0.1:29080","fecha":"21:39:18 27/11/2016"}</Datos>
+        <Datos>{"peer":"isaiasarzauni.ddns.net:29100","fecha":"17:35:50 27/11/2016", "tipo":"Nuevo Grupo"}</Datos>
     </ns2:ListaMensajes>
 </MensajesPendientes>
