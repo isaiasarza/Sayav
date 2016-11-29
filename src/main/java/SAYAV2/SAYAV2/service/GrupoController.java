@@ -183,6 +183,19 @@ public class GrupoController {
 			model.put("user", usuario);
 			return ViewUtil.render(request, model, PathUtil.Template.NEW_GROUP);
 		}
+		
+		if(mensaje.getTipo().equals(TipoMensaje.CHECK_CONNECTIVITY)){
+//			Mensaje respuesta = new Mensaje();
+//			respuesta.setOrigen(usuario.getSubdominio());
+//			if(usuario.getAlarmaHabilitada()){
+//				respuesta.setTipo(TipoMensaje.CONECTADO);
+//			}else{
+//				respuesta.setTipo(TipoMensaje.DESCONECTADO);
+//			}
+//			PostGrupo.post(mensaje.getOrigen(), respuesta);
+			response.redirect(request.url());
+		}
+
 		return ViewUtil.render(request, model, PathUtil.Template.PRUEBA);
 	};
 

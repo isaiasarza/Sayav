@@ -30,6 +30,11 @@
 #* @vtlvariable name="tipoMensaje" type="java.lang.String" *#
 
 
+
+
+
+
+
 #* @vtlvariable name="name" type="java.lang.String" *#
 #* @vtlvariable name="lastname" type="java.lang.String" *#
 #* @vtlvariable name="email" type="java.lang.String" *#
@@ -70,5 +75,7 @@
 #* @vtlvariable name="existingMember" type="java.lang.String" *#
 #* @vtlvariable name="addMemberSucceeded" type="java.lang.String" *#
 #* @vtlvariable name="leaveGroupSucceeded" type="java.lang.String" *#
-
+#* @vtlvariable name="invalidDomain" type="java.lang.String" *#
+#* @vtlvariable name="memberIsUser" type="java.lang.String" *#
+#* @vtlvariable name="conectionProblems" type="java.lang.String" *#
 

@@ -39,6 +39,13 @@ public class GrupoPeer {
 	public void setListaPeers(List<String> listaPeers) {
 		this.listaPeers = listaPeers;
 	}
+	public void setListaPeersByPeer(List<Peer> peers) {
+		// TODO Auto-generated method stub
+		for(Peer p: peers){
+			this.listaPeers.add(p.getDireccion());
+		}
+		
+	}
 	
 	
 	
