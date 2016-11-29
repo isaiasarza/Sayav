@@ -2,16 +2,18 @@
 #@mainLayout()
 
 
-	##<h1>$msg.get("LIST_GROUP_HEADING")</h1>
+	<h1>$msg.get("LIST_MESSAGE_HEADING")</h1>
 	
 	<table style="width:100%">
   		<tr>
-    		<th>Mensaje</th>
+    		<th>Destino</th>
+    		<th>Fecha</th>
     		<th><button id="reenviarTodo">Reenviar Todo</button></th>		
   		</tr>
   		#foreach($mensaje in $listaMensajes)
   		<tr>
-   		 	<td> $mensaje.getDatos()</td>
+   		 	<td> $!mensaje.getPeer()</td>
+   		 	<td> $!mensaje.getFecha()</td>
             	<td><button id="reenviar">Reenviar</button></td>
   		</tr>
     	#end

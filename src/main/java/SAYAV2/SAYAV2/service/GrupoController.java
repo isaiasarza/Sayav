@@ -114,6 +114,7 @@ public class GrupoController {
 		model.put("message", mensaje);
 		return ViewUtil.render(request, model, PathUtil.Template.PRUEBA);
 	};
+	
 	public static Route notificar = (Request request, Response response) -> {
 		Map<String, Object> model = new HashMap<>();
 		Usuario usuario = usuarioDao.cargar(file);

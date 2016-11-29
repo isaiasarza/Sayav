@@ -225,6 +225,10 @@ public class PathUtil {
 		public static String getLeaveGroup() {
 			return LEAVE_GROUP;
 		}
+
+		public static String getViewAllMessages() {
+			return VIEW_ALL_MESSAGES;
+		}
 		
 		
 

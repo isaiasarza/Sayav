@@ -26,7 +26,7 @@
 #* @vtlvariable name="status" type="java.lang.String" *#
 #* @vtlvariable name="enableAlarm" type="java.lang.String" *#
 #* @vtlvariable name="panicButton" type="java.lang.String" *#
-#* @vtlvariable name="mensaje" type="SAYAV2.SAYAV2.model.Mensaje" *#
+#* @vtlvariable name="mensaje" type="SAYAV2.SAYAV2.model.MensajeDato" *#
 #* @vtlvariable name="tipoMensaje" type="java.lang.String" *#
 
 
@@ -69,7 +69,7 @@
 #* @vtlvariable name="listaSectores" type="java.util.ArrayList<SAYAV2.SAYAV2.model.Sector>" *#
 #* @vtlvariable name="numeroSectores" type="java.lang.Integer" *#
 #* @vtlvariable name="existingSector" type="java.lang.Integer" *#
-#* @vtlvariable name="listaMensajes" type="java.util.ArrayList<SAYAV2.SAYAV2.model.Mensaje>" *#
+#* @vtlvariable name="listaMensajes" type="java.util.ArrayList<SAYAV2.SAYAV2.model.MensajeDato>" *#
 
 
 #* @vtlvariable name="existingMember" type="java.lang.String" *#

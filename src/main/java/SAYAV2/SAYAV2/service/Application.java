@@ -21,7 +21,7 @@ public class Application {
 	
 	public static void main(String[] args) {
 	
-		port(29100);
+		port(29080);
 
 		staticFiles.location("/public");
 		staticFiles.expireTime(600L);
@@ -40,11 +40,6 @@ public class Application {
 		get(PathUtil.Web.LOGIN,LoginController.serveLoginPage);	
 		post(PathUtil.Web.LOGIN,LoginController.handleLoginPost); 
 		post(PathUtil.Web.LOGOUT,    LoginController.handleLogoutPost);
-		
-		
-			
-		
-		
 		
 //		POST habilitar/deshabilitar alarma
 		post(PathUtil.Web.ALARM, AlarmController.enableAlarmPost);

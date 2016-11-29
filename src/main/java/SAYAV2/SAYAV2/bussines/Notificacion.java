@@ -2,8 +2,6 @@ package SAYAV2.SAYAV2.bussines;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
