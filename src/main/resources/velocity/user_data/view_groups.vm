@@ -5,6 +5,7 @@
 	#if($existingGroupRename)
        	<p class="bad notification">Existen grupos que han sido creados por miembros de sus grupos que debieron ser renombrados (Rename)
        	por tener igual nombre a alguno de sus grupos</p>
+       	<p class="bad notification">CONSEJO: Pongase en contacto con el miembro que creo el crupo para evitar inconsistencia</p>
     #end
 
 	<h1>$msg.get("LIST_GROUP_HEADING")</h1>
