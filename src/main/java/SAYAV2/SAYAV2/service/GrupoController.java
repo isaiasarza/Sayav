@@ -180,6 +180,7 @@ public class GrupoController {
 			if (usuario.addGrupo(new Grupo(data.getGrupo()))) {
 				Grupo g = usuario.getSingleGrupo(data.getGrupo());
 				g.addAll(data.getListaPeers());
+				g.addPeer(mensaje.getOrigen());
 				usuarioDao.guardar(usuario, file);
 			}
 			else{

@@ -183,6 +183,12 @@ public class Grupo {
 		}
 		
 	}
+
+	public boolean add(String origen) {
+		Peer peer = new Peer();
+		peer.setDireccion(origen);
+		return this.peers.add(peer);		
+	}
 	
 	
 }
