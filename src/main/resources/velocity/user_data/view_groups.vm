@@ -2,6 +2,11 @@
 #@mainLayout()
 
 
+	#if($existingGroupRename)
+       	<p class="bad notification">Existen grupos que han sido creados por miembros de sus grupos que debieron ser renombrados (Rename)
+       	por tener igual nombre a alguno de sus grupos</p>
+    #end
+
 	<h1>$msg.get("LIST_GROUP_HEADING")</h1>
 	
 	<table style="width:100%">

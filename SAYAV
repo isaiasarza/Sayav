@@ -33,7 +33,10 @@
         <Id>0</Id>
         <Nombre>Familia</Nombre>
         <Peers>
+            <Id>0</Id>
             <Direccion>http://192.168.1.35:29100</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
         </Peers>
     </Grupos>
 </Usuario>

@@ -79,4 +79,4 @@
 #* @vtlvariable name="invalidDomain" type="java.lang.String" *#
 #* @vtlvariable name="memberIsUser" type="java.lang.String" *#
 #* @vtlvariable name="conectionProblems" type="java.lang.String" *#
-
+#* @vtlvariable name="existingGroupRename" type="java.lang.String" *#

@@ -176,10 +176,20 @@ public class GrupoController {
 		if (mensaje.getTipo().equals(TipoMensaje.NUEVO_GRUPO)) {
 			GrupoPeer data = jsonTransformer.getGson().fromJson(mensaje.getDatos(), GrupoPeer.class);
 
-			if (usuario.addGrupo(data.getGrupo())) {
+			
+			if (usuario.addGrupo(new Grupo(data.getGrupo()))) {
 				Grupo g = usuario.getSingleGrupo(data.getGrupo());
 				g.addAll(data.getListaPeers());
 				usuarioDao.guardar(usuario, file);
+			}
+			else{
+				usuario.addGrupo(data.getGrupo()+"_Rename");
+				Grupo g = usuario.getSingleGrupo(data.getGrupo());
+				g.addAll(data.getListaPeers());
+				usuarioDao.guardar(usuario, file);
+				model.put("user", usuario);
+				model.put("existingGroupRename", true);
+				
 			}
 
 			model.put("user", usuario);

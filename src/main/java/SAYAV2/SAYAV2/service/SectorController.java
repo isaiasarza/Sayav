@@ -59,7 +59,6 @@ public class SectorController {
 		Usuario usuario;
 		int numeroSectores= RequestUtil.getQueryNumeroSectores(request);
 		
-		
 		usuario = usuarioDao.cargar(file);
 		//Cada vez que renuevo el numero de sectores, limpio la lista existente
 		usuario.getSectores().clear();
