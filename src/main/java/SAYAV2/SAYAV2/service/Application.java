@@ -21,7 +21,7 @@ public class Application {
 	
 	public static void main(String[] args) {
 	
-		port(29080);
+		port(29100);
 
 		staticFiles.location("/public");
 		staticFiles.expireTime(600L);

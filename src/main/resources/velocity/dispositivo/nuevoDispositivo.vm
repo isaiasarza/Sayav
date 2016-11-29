@@ -30,7 +30,7 @@
 		## <td><input type="button" value="Editar" onClick="modifica()"></td>     
     	##<td> <input type="button" value="Eliminar" onclick="deleteRow(this)"></td>
     		<form method="post" action="$WebPath.getEliminarDispositivo()">
-    	 		<input type="hidden" name="dispositivoABorrar" value="$dispositivo.getNumero()">
+    	 		<input type="hidden" name="dispositivoABorrar" value="$!dispositivo.getNumero()">
             	<td><button id="delete">$msg.get("DISPOSITIVO_ELIMINAR")</button></td>
          	</form>
         </tr>

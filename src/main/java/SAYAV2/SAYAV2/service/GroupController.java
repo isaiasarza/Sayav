@@ -298,7 +298,7 @@ public class GroupController {
 			
 			for(Peer p: grupo.getPeers()){
 				try {
-					PostGrupo.post("http://"+p.getDireccion(), mensaje);
+					PostGrupo.post(p.getDireccion(), mensaje);
 				}catch (IOException e) {
 					// TODO Auto-generated catch block
 					
@@ -328,7 +328,7 @@ public class GroupController {
 		mensaje.setDatos(jsonTransformer.render(g));
 		
 		for(Peer p: grupo.getPeers()){
-			PostGrupo.post("http://" + p.getDireccion() + PathUtil.Web.GRUOP_NOTIFICATION, mensaje);
+			PostGrupo.post(p.getDireccion() + PathUtil.Web.GRUOP_NOTIFICATION, mensaje);
 		}
 
 		
@@ -351,7 +351,7 @@ public static boolean notificarMiembro(Grupo grupo, String memberDomain) throws 
 		mensaje.setDatos(jsonTransformer.render(g));
 
 		try {
-			PostGrupo.post("http://" + memberDomain + PathUtil.Web.GRUOP_NOTIFICATION, mensaje);
+			PostGrupo.post(memberDomain + PathUtil.Web.GRUOP_NOTIFICATION, mensaje);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

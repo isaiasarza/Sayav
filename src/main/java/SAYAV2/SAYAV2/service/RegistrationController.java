@@ -88,6 +88,10 @@ public class RegistrationController {
 
 		System.out.println("Inicializando Usuario");
 		Usuario usuario = new Usuario();
+		String subdominio = RequestUtil.getQuerySubdom(request);
+		if(!subdominio.contains("http://")){
+			subdominio = "http://" + subdominio;
+		}
 		usuario.setNombre(RequestUtil.getQueryName(request));
 		usuario.setApellido(RequestUtil.getQueryLastName(request));
 		usuario.setContraseña(RequestUtil.getQueryPassword(request));
