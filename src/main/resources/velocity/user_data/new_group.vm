@@ -12,7 +12,7 @@
     	#if($leaveGroupSucceeded)
        		<p class="good notification">Se pudo abandonar el grupo</p> 	
     	#elseif($leaveGroupFailed)
-    	       <p class="bad notification"> No se pudo abandonar el Grupo</p>
+    	       <p class="bad notification"> No se pudo abandonar el Grupo, verifique si alguno de sus miembros tienen problemas de conexión</p>
     	#end
     	
    		<h1>$msg.get("NEW_GROUP_HEADING")</h1>

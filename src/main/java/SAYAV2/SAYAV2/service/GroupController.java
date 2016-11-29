@@ -103,22 +103,24 @@ public class GroupController {
 		Grupo grupo = usuario.getSingleGrupo(groupName);
 		
 		
-		if(!grupo.getPeers().isEmpty())
-		if(Notificacion.verConectividad(grupo.getPeers())){
-			model.put("leaveGroupFailed", true);			
-			return ViewUtil.render(request, model, PathUtil.Template.NEW_GROUP);
-		}
+		if(!grupo.getPeers().isEmpty()){
+			if(Notificacion.verConectividad(grupo.getPeers())){
+				model.put("leaveGroupFailed", true);			
+				return ViewUtil.render(request, model, PathUtil.Template.NEW_GROUP);
+			}
 
-		if(notificarAbandonoGrupos(groupName)){
-			usuario.removeGrupo(groupName);
-			usuarioDao.guardar(usuario, file);
-			
-			model.put("leaveGroupSucceeded", true);
-		}else{
-			
-			model.put("leaveGroupFailed", true);			
-		}
+			if(notificarAbandonoGrupos(groupName)){
+				usuario.removeGrupo(groupName);
+				usuarioDao.guardar(usuario, file);
+				
+				model.put("leaveGroupSucceeded", true);
+			}else{
+				
+				model.put("leaveGroupFailed", true);			
+			}
 
+		}
+	
 		model.put("user", usuario);
 		return ViewUtil.render(request, model, PathUtil.Template.NEW_GROUP);
 

@@ -143,14 +143,19 @@ public class GrupoController {
 			usuarioDao.guardar(usuario, file);
 		}
 		
-		if (mensaje.getTipo().equals(TipoMensaje.ALERTA)) {
+		if (mensaje.getTipo().equals(TipoMensaje.ALERTA) || mensaje.getTipo().equals(TipoMensaje.OK)) {
 			
 			if (usuario.getAlarmaHabilitada()) {
 				// Recorre la lista de peers de los grupos a fin de notificar a
 				// todos
-				String message = "El boton de panico ha sido activado en el domicilio " + usuario.getDireccion()
-						+ "\nEl dueño del domicilio es " + usuario.getNombre() + " " + usuario.getApellido();
-				FirebaseCloudMessageController.post("Peligro", message);
+				String titulo;
+				if(mensaje.getTipo().equals(TipoMensaje.ALERTA)){
+					titulo = "Peligro!";
+				}else{
+					titulo = "Calmaos!";
+				}
+				
+				FirebaseCloudMessageController.post(titulo, mensaje.getDescripcion());
 			}else{
 				Date date = new Date();
 				DateFormat hourdateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy"); 
