@@ -28,7 +28,6 @@ public class Notificacion {
 	private static JsonTransformer jsonTransformer = new JsonTransformer();
 
 	public static boolean verConectividad(List<Peer> peers) {
-	
 
 		for (Peer p : peers) {
 			if (!verConectividad(p)) {

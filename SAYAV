@@ -5,9 +5,9 @@
     <Telefono>2312124124</Telefono>
     <Email>lucasboba@gmail.com</Email>
     <Direccion>nose123</Direccion>
-    <Subdominio>192.168.43.201:29080</Subdominio>
-    <Contraseña>$2a$10$NoBj12xCCEGCRTSR8FYGxu03TY.zVtPUngpobDmwGLnpRoXQQC2pK</Contraseña>
-    <Salt>$2a$10$NoBj12xCCEGCRTSR8FYGxu</Salt>
+    <Subdominio>192.168.0.103:29080</Subdominio>
+    <Contraseña>$2a$10$w/Fj2d3GIwaqlfPXx6i3J.9GtMvZfGuEOQG.PEMrC/BN/gFVi0aha</Contraseña>
+    <Salt>$2a$10$w/Fj2d3GIwaqlfPXx6i3J.</Salt>
     <AlarmaHabilitada>true</AlarmaHabilitada>
     <Sectores>
         <Id>0</Id>
@@ -32,9 +32,8 @@
     <Grupos>
         <Id>0</Id>
         <Nombre>Familia</Nombre>
-    </Grupos>
-    <Grupos>
-        <Id>0</Id>
-        <Nombre>algo</Nombre>
+        <Peers>
+            <Direccion>http://192.168.1.35:29100</Direccion>
+        </Peers>
     </Grupos>
 </Usuario>

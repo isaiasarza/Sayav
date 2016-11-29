@@ -67,6 +67,7 @@ public class GrupoController {
 		UsuarioDao.getInstance().guardar(usuario, UsuarioController.getFile());
 
 		model.put("grupo", grupo);
+		model.put("user", usuario);
 		model.put("listaGrupos", usuario.getGrupos());
 
 		return ViewUtil.render(request, model, PathUtil.Template.GRUPO);
