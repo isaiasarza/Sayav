@@ -26,12 +26,10 @@ import spark.Route;
 
 public class SectorController {
 
-	private static Sector sec;
 	private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
 	private static File file = new File("SAYAV");
 
 	public SectorController() {
-		// TODO Auto-generated constructor stub
 		super();
 	}
 
@@ -67,7 +65,7 @@ public class SectorController {
 		// Voy creando el numero de sectores definidos por el usuario
 		for (int i = 1; i <= numeroSectores; i++) {
 			Sector sector = new Sector();
-			sector.setId(i);
+//			sector.setId(String.valueOf(i));
 			sector.setNombre("n" + i);
 			sector.setActivado(false);
 			usuario.getSectores().add(sector);
@@ -83,12 +81,13 @@ public class SectorController {
 
 	};
 
+	@SuppressWarnings("unused")
 	private static Sector initSector(Request request) {
 
-		Sector Sector = new Sector();
-		Sector.setNombre(SAYAV2.SAYAV2.Utils.RequestUtil.getQueryNombre(request));
+		Sector sector = new Sector();
+		sector.setNombre(SAYAV2.SAYAV2.Utils.RequestUtil.getQueryNombre(request));
 
-		return Sector;
+		return sector;
 	}
 
 	public String renderContent(String htmlFile) {

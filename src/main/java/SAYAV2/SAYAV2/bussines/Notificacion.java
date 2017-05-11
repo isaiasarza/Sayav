@@ -29,6 +29,7 @@ public class Notificacion {
 	private static File file = new File("Mensajes");
 	private static JsonTransformer jsonTransformer = new JsonTransformer();
 
+	@Deprecated
 	public static boolean verConectividad(List<Peer> peers) {
 
 		for (Peer p : peers) {

@@ -10,6 +10,8 @@ package SAYAV2.SAYAV2.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -26,7 +28,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="Id" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *         &lt;element name="Id" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="Direccion" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="Puerto" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
  *         &lt;element name="Estado" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
@@ -50,7 +52,7 @@ import javax.xml.bind.annotation.XmlType;
 public class Peer {
 
     @XmlElement(name = "Id")
-    protected int id;
+    protected String id;
     @XmlElement(name = "Direccion", required = true)
     protected String direccion;
     @XmlElement(name = "Puerto")
@@ -65,11 +67,13 @@ public class Peer {
 
     public Peer() {
 		super();
+		this.id = UUID.randomUUID().toString();
 		this.mensajes = new ArrayList<Mensaje>();
 	}
 
 	public Peer(String direccion) {
 		super();
+		this.id = UUID.randomUUID().toString();
 		this.direccion = direccion;
 		this.mensajes = new ArrayList<Mensaje>();
 	}
@@ -78,7 +82,7 @@ public class Peer {
      * Gets the value of the id property.
      * 
      */
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -86,7 +90,7 @@ public class Peer {
      * Sets the value of the id property.
      * 
      */
-    public void setId(int value) {
+    public void setId(String value) {
         this.id = value;
     }
 

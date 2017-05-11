@@ -33,7 +33,6 @@ public class RegistrationController {
 		model.put("lastname", "");
 		model.put("email", "");
 		model.put("address", "");
-		model.put("phoneNumber", "");
 		model.put("subdom", "");
 		model.put("psw1", "");
 		model.put("psw2", "");
@@ -63,7 +62,7 @@ public class RegistrationController {
 		}
 		model.put("user", usuario);
 		model.put("authentificationSucceeded", true);
-		return ViewUtil.render(request, model, PathUtil.Template.MENU);
+		return ViewUtil.render(request, model, PathUtil.Template.LOGIN);
 	};
 
 	public static boolean isContraseñaValida(Request request) {
@@ -97,7 +96,6 @@ public class RegistrationController {
 		usuario.setContraseña(RequestUtil.getQueryPassword(request));
 		usuario.setDireccion(RequestUtil.getQueryAddress(request));
 		usuario.setEmail(RequestUtil.getQueryEmail(request));
-		usuario.setTelefono(RequestUtil.getQueryPhoneNumber(request));
 		usuario.setSubdominio(RequestUtil.getQuerySubdom(request));
 		usuario.getSectores().addAll(initSectores());
 		return usuario;
@@ -109,13 +107,12 @@ public class RegistrationController {
 			List<Sector> sectores = new ArrayList<Sector>();
 			for (int j = 0; j < i; j++) {
 				Sector s = new Sector();
-				s.setId(j);
+//				s.setId(String.valueOf(j));
 				s.setNombre("Sector N" + j);
 				sectores.add(s);
 			}
 			return sectores;
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

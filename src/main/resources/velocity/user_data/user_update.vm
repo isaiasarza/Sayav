@@ -23,10 +23,7 @@
     
     <label>$msg.get("REGISTRATION_LABEL_ADDRESS")</label><br>
     <input type="text" name="address" placeholder="$msg.get("REGISTRATION_LABEL_ADDRESS")" value="$!user.getDireccion()" ><br>
-    
-    <label>$msg.get("REGISTRATION_LABEL_PHONE_NUMBER")</label><br>
-    <input type="text" name="phoneNumber" placeholder="$msg.get("REGISTRATION_LABEL_PHONE_NUMBER")" value="$!user.getTelefono()" ><br>
-    
+  
     <label>$msg.get("REGISTRATION_LABEL_SUBDOM")</label><br>
     <input type="text" name="subdom" placeholder="$msg.get("REGISTRATION_LABEL_SUBDOM")" value="$!user.getSubdominio()" ><br>
        

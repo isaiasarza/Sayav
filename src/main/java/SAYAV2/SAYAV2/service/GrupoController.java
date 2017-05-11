@@ -22,6 +22,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+@Deprecated
 public class GrupoController {
 
 	private static JsonTransformer jsonTransformer = new JsonTransformer();
@@ -81,12 +82,12 @@ public class GrupoController {
 		usuario = UsuarioController.getCurrentUser();
 
 		Grupo grupo = new Grupo();
-		grupo.setId(usuario.getGrupos().size() + 1);
+//		grupo.setId(usuario.getGrupos().size() + 1);
 		grupo.setNombre(SAYAV2.SAYAV2.Utils.RequestUtil.getQueryNombreGrupo(request));
 		return grupo;
 	}
 
-	public static Grupo buscarGrupo(int id) {
+	public static Grupo buscarGrupo(String id) {
 
 		Usuario usuario;
 
@@ -116,105 +117,88 @@ public class GrupoController {
 		return ViewUtil.render(request, model, PathUtil.Template.PRUEBA);
 	};
 	
-	public static Route notificar = (Request request, Response response) -> {
-		Map<String, Object> model = new HashMap<>();
-		Usuario usuario = usuarioDao.cargar(file);
-		Mensaje mensaje = jsonTransformer.getGson().fromJson(request.body(), Mensaje.class);
-		System.out.println(mensaje);
-		if (mensaje.getTipo().equals(TipoMensaje.BAJA_MIEMBRO)) {
-			// Recorre la lista de peers de los grupos en busca de un peer que
-			// contenga la direccion de origen
-			// que trae el mensaje, lo que indica a que grupo pertenece ese
-			// nuevo peer a cargar (la direccion viene en Datos)
-			GrupoPeer data = jsonTransformer.getGson().fromJson(mensaje.getDatos(), GrupoPeer.class);
-			Grupo g = usuario.getSingleGrupo(data.getGrupo());
-			g.removePeer(data.getPeer());
-
-			usuarioDao.guardar(usuario, file);
-		}
-		if (mensaje.getTipo().equals(TipoMensaje.NUEVO_MIEMBRO)) {
-			// Recorre la lista de peers de los grupos en busca de un peer que
-			// contenga la direccion de origen
-			// que trae le mensaje, lo que indica a que grupo pertenece ese
-			// nuevo peer a cargar (la direccion viene en Datos)
-			GrupoPeer data = jsonTransformer.getGson().fromJson(mensaje.getDatos(), GrupoPeer.class);
-			Grupo g = usuario.getSingleGrupo(data.getGrupo());
-			g.addPeer(data.getPeer());
-			usuarioDao.guardar(usuario, file);
-		}
-		
-		if (mensaje.getTipo().equals(TipoMensaje.ALERTA) || mensaje.getTipo().equals(TipoMensaje.OK)) {
-			
-			if (usuario.getAlarmaHabilitada()) {
-				// Recorre la lista de peers de los grupos a fin de notificar a
-				// todos
-				String titulo;
-				if(mensaje.getTipo().equals(TipoMensaje.ALERTA)){
-					titulo = "Peligro!";
-				}else{
-					titulo = "Calmaos!";
-				}
-				
-				FirebaseCloudMessageController.post(titulo, mensaje.getDescripcion());
-			}else{
-				Date date = new Date();
-				DateFormat hourdateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy"); 
-
-				MensajePendienteData data = new MensajePendienteData();
-				data.setPeer(mensaje.getOrigen());
-				data.setFecha(hourdateFormat.format(date));
-				
-				MensajesPendientes mens;
-				
-				if(( mens = mDao.cargar(mensajesRecibidos)) == null){
-					mens = new MensajesPendientes();
-				}
-				
-				Mensaje nuevo = mensaje.clone();
-				nuevo.setDatos(jsonTransformer.render(data));
-
-				mens.addMensaje(nuevo);
-				mDao.guardar(mens, mensajesRecibidos);
-			}
-		}
-
-		if (mensaje.getTipo().equals(TipoMensaje.NUEVO_GRUPO)) {
-			GrupoPeer data = jsonTransformer.getGson().fromJson(mensaje.getDatos(), GrupoPeer.class);
-
-			
-			if (usuario.addGrupo(new Grupo(data.getGrupo()))) {
-				Grupo g = usuario.getSingleGrupo(data.getGrupo());
-				g.addAll(data.getListaPeers());
-				g.addPeer(mensaje.getOrigen());
-				usuarioDao.guardar(usuario, file);
-			}
-			else{
-				usuario.addGrupo(data.getGrupo()+"_Rename");
-				Grupo g = usuario.getSingleGrupo(data.getGrupo());
-				g.addAll(data.getListaPeers());
-				usuarioDao.guardar(usuario, file);
-				model.put("user", usuario);
-				model.put("existingGroupRename", true);
-				
-			}
-
-			model.put("user", usuario);
-			return ViewUtil.render(request, model, PathUtil.Template.NEW_GROUP);
-		}
-		
-		if(mensaje.getTipo().equals(TipoMensaje.CHECK_CONNECTIVITY)){
-//			Mensaje respuesta = new Mensaje();
-//			respuesta.setOrigen(usuario.getSubdominio());
-//			if(usuario.getAlarmaHabilitada()){
-//				respuesta.setTipo(TipoMensaje.CONECTADO);
+//	public static Route notificar = (Request request, Response response) -> {
+//		Map<String, Object> model = new HashMap<>();
+//		Usuario usuario = usuarioDao.cargar(file);
+//		Mensaje mensaje = jsonTransformer.getGson().fromJson(request.body(), Mensaje.class);
+//		System.out.println(mensaje);
+//		if (mensaje.getTipo().equals(TipoMensaje.BAJA_MIEMBRO)) {
+//			// Recorre la lista de peers de los grupos en busca de un peer que
+//			// contenga la direccion de origen
+//			// que trae el mensaje, lo que indica a que grupo pertenece ese
+//			// nuevo peer a cargar (la direccion viene en Datos)
+//			GrupoPeer data = jsonTransformer.getGson().fromJson(mensaje.getDatos(), GrupoPeer.class);
+//			Grupo g = usuario.getSingleGrupo(data.getGrupo());
+//			g.removePeer(data.getPeer());
+//
+//			usuarioDao.guardar(usuario, file);
+//		}
+//		if (mensaje.getTipo().equals(TipoMensaje.NUEVO_MIEMBRO)) {
+//			// Recorre la lista de peers de los grupos en busca de un peer que
+//			// contenga la direccion de origen
+//			// que trae le mensaje, lo que indica a que grupo pertenece ese
+//			// nuevo peer a cargar (la direccion viene en Datos)
+//			GrupoPeer data = jsonTransformer.getGson().fromJson(mensaje.getDatos(), GrupoPeer.class);
+//			Grupo g = usuario.getSingleGrupo(data.getGrupo());
+//			g.addPeer(data.getPeer());
+//			usuarioDao.guardar(usuario, file);
+//		}
+//		
+//		if (mensaje.getTipo().equals(TipoMensaje.ALERTA) || mensaje.getTipo().equals(TipoMensaje.OK)) {	
+//			if (usuario.getAlarmaHabilitada()) {
+//				// Recorre la lista de peers de los grupos a fin de notificar a
+//				// todos
+////				String titulo;
+////				if(mensaje.getTipo().equals(TipoMensaje.ALERTA)){
+////					titulo = "Peligro!";
+////				}else{
+////					titulo = "Calmaos!";
+////				}
+////				
+////				FirebaseCloudMessageController.post(titulo, mensaje.getDescripcion());
 //			}else{
-//				respuesta.setTipo(TipoMensaje.DESCONECTADO);
+////				Manejo de mensajes pendientes o algo por el estilo
 //			}
-//			PostGrupo.post(mensaje.getOrigen(), respuesta);
-			response.redirect(request.url());
-		}
-
-		return ViewUtil.render(request, model, PathUtil.Template.PRUEBA);
-	};
+//
+//		if (mensaje.getTipo().equals(TipoMensaje.NUEVO_GRUPO)) {
+////	
+//		}
+////			GrupoPeer data = jsonTransformer.getGson().fromJson(mensaje.getDatos(), GrupoPeer.class);
+////
+////			
+////			if (usuario.addGrupo(new Grupo(data.getGrupo()))) {
+////				Grupo g = usuario.getSingleGrupo(data.getGrupo());
+////				g.addAll(data.getListaPeers());
+////				g.addPeer(mensaje.getOrigen());
+////				usuarioDao.guardar(usuario, file);
+////			}
+////			else{
+////				usuario.addGrupo(data.getGrupo()+"_Rename");
+////				Grupo g = usuario.getSingleGrupo(data.getGrupo());
+////				g.addAll(data.getListaPeers());
+////				usuarioDao.guardar(usuario, file);
+////				model.put("user", usuario);
+////				model.put("existingGroupRename", true);
+////				
+////			}
+//
+//			model.put("user", usuario);
+//			return ViewUtil.render(request, model, PathUtil.Template.NEW_GROUP);
+//		}
+//		
+//		if(mensaje.getTipo().equals(TipoMensaje.CHECK_CONNECTIVITY)){
+////			Mensaje respuesta = new Mensaje();
+////			respuesta.setOrigen(usuario.getSubdominio());
+////			if(usuario.getAlarmaHabilitada()){
+////				respuesta.setTipo(TipoMensaje.CONECTADO);
+////			}else{
+////				respuesta.setTipo(TipoMensaje.DESCONECTADO);
+////			}
+////			PostGrupo.post(mensaje.getOrigen(), respuesta);
+//			response.redirect(request.url());
+//		}
+//
+//		return ViewUtil.render(request, model, PathUtil.Template.PRUEBA);
+//	};
 
 }

@@ -43,7 +43,7 @@
 
 	<complexType name="Sector">
 		<sequence>
-			<element name="Id" type="int"></element>
+			<element name="Id" type="string"></element>
 			<element name="Nombre" type="string"></element>
 			<element name="Activado" type="boolean"></element>
 		</sequence>
@@ -52,7 +52,7 @@
 
 	<complexType name="Grupo">
 		<sequence>
-			<element name="Id" type="int"></element>
+			<element name="Id" type="string"></element>
 			<element name="Nombre" type="string"></element>
 			<element name="Peers" type="tns:Peer" maxOccurs="unbounded"
 				minOccurs="0">
@@ -62,7 +62,7 @@
 
 	<complexType name="Peer">
 		<sequence>
-			<element name="Id" type="int" />
+			<element name="Id" type="string" />
 			<element name="Direccion" type="string" />
 			<element name="Puerto" type="int" />
 			<element name="Estado" type="boolean" />

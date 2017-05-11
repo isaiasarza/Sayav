@@ -139,8 +139,7 @@ public class UsuarioController {
     	completarFormulario(model,request);
     	model.put("user", currentUser);
         return ViewUtil.render(request, model, PathUtil.Template.UPDATE_USER);
-//    	response.redirect(PathUtil.Web.UPDATE_U);
-//    	return null;
+
     };
     public static Route updateUser = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
@@ -201,7 +200,6 @@ public class UsuarioController {
         String domicilio = RequestUtil.getQueryAddress(request);
         String email = RequestUtil.getQueryEmail(request);
         String subdominio = RequestUtil.getQuerySubdom(request);
-        String numeroTelefono = RequestUtil.getQueryPhoneNumber(request);
         String contraseña = RequestUtil.getQueryPassword(request);
         String contraseñaRepetida = RequestUtil.getQueryRepeatPassword(request);
         if(!nombre.isEmpty())
@@ -214,8 +212,6 @@ public class UsuarioController {
         	usuario.setEmail(email);
         if(!subdominio.isEmpty())
         	usuario.setSubdominio(subdominio);
-        if(!numeroTelefono.isEmpty())
-        	usuario.setTelefono(numeroTelefono);
         if(!contraseña.isEmpty()){
         	if(contraseñaRepetida.isEmpty() || contraseñaRepetida == null || contraseñaRepetida == "")
         		return null;

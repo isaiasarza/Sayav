@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="Id" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *         &lt;element name="Id" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="Nombre" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="Activado" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
  *       &lt;/sequence&gt;
@@ -44,7 +44,7 @@ import javax.xml.bind.annotation.XmlType;
 public class Sector {
 
     @XmlElement(name = "Id")
-    protected int id;
+    protected String id;
     @XmlElement(name = "Nombre", required = true)
     protected String nombre;
     @XmlElement(name = "Activado")
@@ -54,7 +54,7 @@ public class Sector {
      * Gets the value of the id property.
      * 
      */
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -62,7 +62,7 @@ public class Sector {
      * Sets the value of the id property.
      * 
      */
-    public void setId(int value) {
+    public void setId(String value) {
         this.id = value;
     }
 
@@ -109,7 +109,7 @@ public class Sector {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		result = prime * result + Integer.parseInt(id);
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		return result;
 	}

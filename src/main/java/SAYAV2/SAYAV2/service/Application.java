@@ -10,6 +10,7 @@ import static spark.Spark.post;
 import static spark.Spark.staticFiles;
 
 import SAYAV2.SAYAV2.Utils.PathUtil;
+import SAYAV2.SAYAV2.Utils.ViewUtil;
 
 
 
@@ -82,21 +83,21 @@ public class Application {
 		
 		get(PathUtil.Web.LEAVE_GROUP, GroupController.leaveGroup);
 		
-		//		REST Notificaciones Push
-		get(PathUtil.Web.NOTIFICATION_PUSH, (req, res) -> "Get Token");
-		post(PathUtil.Web.NOTIFICATION_PUSH, FirebaseCloudMessageController.pushNotification);
-		
-		
-		//		REST Nuevo Token Firebase Cloud Messaging
-		get(PathUtil.Web.NOTIFICATION_TOKEN, (req, res) -> "Get Token");
-		post(PathUtil.Web.NOTIFICATION_TOKEN, FirebaseCloudMessageController.postNewToken);
+//		//		REST Notificaciones Push
+//		get(PathUtil.Web.NOTIFICATION_PUSH, (req, res) -> "Get Token");
+//		post(PathUtil.Web.NOTIFICATION_PUSH, FirebaseCloudMessageController.pushNotification);
+//		
+//		
+//		//		REST Nuevo Token Firebase Cloud Messaging
+//		get(PathUtil.Web.NOTIFICATION_TOKEN, (req, res) -> "Get Token");
+//		post(PathUtil.Web.NOTIFICATION_TOKEN, FirebaseCloudMessageController.postNewToken);
 
-		get(PathUtil.Web.GRUOP_NOTIFICATION, GrupoController.getNotificar);
-		post(PathUtil.Web.GRUOP_NOTIFICATION,  GrupoController.notificar);
+//		get(PathUtil.Web.GRUOP_NOTIFICATION, GrupoController.getNotificar);
+//		post(PathUtil.Web.GRUOP_NOTIFICATION,  GrupoController.notificar);
+//		
+//		get(PathUtil.Web.VIEW_ALL_MESSAGES, MensajesPendientesController.getAllMenssages);
 		
-		get(PathUtil.Web.VIEW_ALL_MESSAGES, MensajesPendientesController.getAllMenssages);
-		
-//		get("*",                     ViewUtil.notFound);
+		get("*",                     LoginController.serveLoginPage);
         //Set up after-filters (called after each get/post)
 //        after("*",                  Filters.addGzipHeader);
 		

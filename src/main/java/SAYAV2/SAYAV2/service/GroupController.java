@@ -285,6 +285,7 @@ public class GroupController {
 
 	}
 
+	@Deprecated
 	private static boolean notificarAbandonoGrupos(String groupName) {
 		try {
 			Usuario usuario = usuarioDao.cargar(file);
