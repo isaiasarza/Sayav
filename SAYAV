@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Usuario xmlns="http://www.example.org/UsuarioXMLSchema">
+    <Nombre>lucas</Nombre>
+    <Apellido>Bobadilla</Apellido>
+    <Email>lucasboba@gmail.com</Email>
+    <Direccion>Covimar 3 casa 14</Direccion>
+    <Subdominio>lucasbobadilla.ddns.net</Subdominio>
+    <Contraseña>$2a$10$qHeOUdu.Iw1o8QuWkUkOcuHdrGIqZBhYowlb3pwXcQHJCIsQai/jS</Contraseña>
+    <Salt>$2a$10$qHeOUdu.Iw1o8QuWkUkOcu</Salt>
+    <AlarmaHabilitada>false</AlarmaHabilitada>
+    <Sectores>
+        <Nombre>cancha de tenis</Nombre>
+        <Activado>false</Activado>
+    </Sectores>
+    <Sectores>
+        <Nombre>Sector N1</Nombre>
+        <Activado>false</Activado>
+    </Sectores>
+    <Sectores>
+        <Nombre>Sector N2</Nombre>
+        <Activado>false</Activado>
+    </Sectores>
+    <Sectores>
+        <Nombre>Sector N3</Nombre>
+        <Activado>false</Activado>
+    </Sectores>
+</Usuario>

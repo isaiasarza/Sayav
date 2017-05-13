@@ -12,17 +12,13 @@ import static spark.Spark.staticFiles;
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
 
-
-
-
-
 public class Application {
 	
 	
 	
 	public static void main(String[] args) {
 	
-		port(29100);
+		port(8080);
 
 		staticFiles.location("/public");
 		staticFiles.expireTime(600L);
@@ -79,9 +75,9 @@ public class Application {
 		get(PathUtil.Web.NEW_GROUP_MEMBER,GroupController.getNewGroupMember);
 		post(PathUtil.Web.NEW_GROUP_MEMBER,GroupController.postNewGroupMember);
 
-		get(PathUtil.Web.VIEW_GROUP_MEMBER, GroupController.getViewMembers);
+//		get(PathUtil.Web.VIEW_GROUP_MEMBER, GroupController.getViewMembers);
 		
-		get(PathUtil.Web.LEAVE_GROUP, GroupController.leaveGroup);
+//		get(PathUtil.Web.LEAVE_GROUP, GroupController.leaveGroup);
 		
 //		//		REST Notificaciones Push
 //		get(PathUtil.Web.NOTIFICATION_PUSH, (req, res) -> "Get Token");

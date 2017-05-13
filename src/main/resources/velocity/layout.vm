@@ -63,7 +63,7 @@
         			<li><a href=$WebPath.getUpdateU();">Datos</a> </li>
         		##	<li><a href='/dispositivo/';">Movil</a> </li>
         			<li><a href='/sector/';">Sectores</a> </li>
-        		##	<li><a href=$WebPath.getNewGroup()>Grupo</a> </li>
+        			<li><a href=$WebPath.getNewGroup()>Grupo</a> </li>
         		##	<li><a href=$WebPath.getViewAllMessages()>Mensajes</a> </li>
         		
       			</ul>
@@ -80,8 +80,6 @@
                     			<button id="alarm" >$msg.get("DISABLE_ALARM")</button>
                  			</form>
                 		#end
-	
-		
 	
             
 	#end
