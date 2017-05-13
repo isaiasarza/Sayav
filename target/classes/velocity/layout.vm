@@ -62,7 +62,7 @@
       			<ul class="nav navbar-nav">
         			<li><a href=$WebPath.getUpdateU();">Datos</a> </li>
         		##	<li><a href='/dispositivo/';">Movil</a> </li>
-        		##	<li><a href='/sector/';">Sectores</a> </li>
+        			<li><a href='/sector/';">Sectores</a> </li>
         		##	<li><a href=$WebPath.getNewGroup()>Grupo</a> </li>
         		##	<li><a href=$WebPath.getViewAllMessages()>Mensajes</a> </li>
         		
@@ -71,15 +71,15 @@
   		</div>
 		</nav>
 		
-				##		#if($!user.getAlarmaHabilitada())
-                ##			<form method="post" action="$WebPath.getAlarm()">
-                ##    			<button id="alarm">$msg.get("ENABLE_ALARM")</button>
-             	##			</form>
-                ##		#else
-               	##			<form method="post" action="$WebPath.getAlarm()">
-                ##    			<button id="alarm" >$msg.get("DISABLE_ALARM")</button>
-                ## 			</form>
-                ##		#end
+						#if($!user.getAlarmaHabilitada())
+                			<form method="post" action="$WebPath.getAlarm()">
+                    			<button id="alarm">$msg.get("ENABLE_ALARM")</button>
+             				</form>
+                		#else
+               				<form method="post" action="$WebPath.getAlarm()">
+                    			<button id="alarm" >$msg.get("DISABLE_ALARM")</button>
+                 			</form>
+                		#end
 	
 		
 	

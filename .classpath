@@ -28,10 +28,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Naza/Documents/Isa/workspaceDesarrollo/jaxb-ri/lib/jaxb-api.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Naza/Documents/Isa/workspaceDesarrollo/jaxb-ri/lib/jaxb-core.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Naza/Documents/Isa/workspaceDesarrollo/jaxb-ri/lib/jaxb-impl.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Naza/Documents/Isa/workspaceDesarrollo/jaxb-ri/lib/jaxb-jxc.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Naza/Documents/Isa/workspaceDesarrollo/jaxb-ri/lib/jaxb-xjc.jar"/>
+	<classpathentry kind="lib" path="/home/luna/Documentos/Bobadilla/Documentos/Facultad/MateriasLicenciatura/3ro/Desarrollo Software/2016/SAYAV/librerias/jaxb-ri-2.2.11.zip"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

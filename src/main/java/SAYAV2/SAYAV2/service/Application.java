@@ -45,13 +45,13 @@ public class Application {
 //		POST habilitar/deshabilitar alarma
 		post(PathUtil.Web.ALARM, AlarmController.enableAlarmPost);
 //		POST Botón de pánico
-		post(PathUtil.Web.PANIC_BUTTON, AlarmController.panicButton);
-		
-		//REST de dispositivos moviles
-		get(PathUtil.Web.DISPOSITIVO,DispositivoController.dispositivoVelocityEngine);
-		post(PathUtil.Web.DISPOSITIVO,DispositivoController.nuevoDispositivo);
-		post(PathUtil.Web.ELIMINAR_DISPOSITIVO,DispositivoController.eliminarDispositivo);
-		
+//		post(PathUtil.Web.PANIC_BUTTON, AlarmController.panicButton);
+//		
+//		//REST de dispositivos moviles
+//		get(PathUtil.Web.DISPOSITIVO,DispositivoController.dispositivoVelocityEngine);
+//		post(PathUtil.Web.DISPOSITIVO,DispositivoController.nuevoDispositivo);
+//		post(PathUtil.Web.ELIMINAR_DISPOSITIVO,DispositivoController.eliminarDispositivo);
+//		
 		//REST de sectores
 		get(PathUtil.Web.SECTOR,SectorController.sectorVelocityEngine);
 		post(PathUtil.Web.SECTOR,SectorController.numeroSectores); 

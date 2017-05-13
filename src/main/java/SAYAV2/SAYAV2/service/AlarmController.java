@@ -42,6 +42,11 @@ public class AlarmController {
 		usuario = usuarioDao.cargar(file);
 		boolean status = usuario.isAlarmaHabilitada();
 		usuario.setAlarmaHabilitada(!status);
+		
+		//Cambio estado de sectores de acuerdo a la alarma (A/D)
+		SectorController sec = new SectorController();
+		sec.cambiarEstadoOk(usuario.getSectores());
+		
 		System.out.println("Us " + usuario);
 		usuarioDao.guardar(usuario, file);
 		UsuarioController.setCurrentUser(usuario);

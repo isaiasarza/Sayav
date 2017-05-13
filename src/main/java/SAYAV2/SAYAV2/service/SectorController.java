@@ -65,7 +65,7 @@ public class SectorController {
 		// Voy creando el numero de sectores definidos por el usuario
 		for (int i = 1; i <= numeroSectores; i++) {
 			Sector sector = new Sector();
-//			sector.setId(String.valueOf(i));
+			// sector.setId(String.valueOf(i));
 			sector.setNombre("n" + i);
 			sector.setActivado(false);
 			usuario.getSectores().add(sector);
@@ -138,6 +138,7 @@ public class SectorController {
 		return ViewUtil.render(request, model, PathUtil.Template.SECTOR);
 
 	};
+	
 	public static Route cambiarEstado = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
 
@@ -147,36 +148,41 @@ public class SectorController {
 		System.out.println("Cambiar Estado Sector " + nombreSector);
 
 		Usuario usuario = usuarioDao.cargar(file);
-		usuario.getSector(nombreSector).cambiarEstado();
-		usuarioDao.guardar(usuario, file);
-		RequestUtil.removeSessionSectores(request);
+		Sector sector = usuario.getSector(nombreSector);
 
-		Sector sector = new Sector();
-		String titulo, message;
-		// Notifica Dispositivos Moviles
-		if (sector.isActivado()) {
-			titulo = "Peligro!";
-			message = "Se disparo alarma en el domicilio " + usuario.getDireccion() + "\nEl dueño del domicilio es "
-					+ usuario.getNombre() + " " + usuario.getApellido() + " " + "Sector " + sector.getNombre();
-		} else {
-			titulo = "Calmaos!";
-			message = "El domicio del camarada " + usuario.getNombre() + usuario.getApellido() + " fue intervenido";
+		if (usuario.getAlarmaHabilitada()) {
+			sector.cambiarEstado();
+			usuarioDao.guardar(usuario, file);
+			RequestUtil.removeSessionSectores(request);
+
+			String titulo, message;
+			// Notifica Dispositivos Moviles
+			if (sector.isActivado()) {
+				titulo = "Peligro!";
+				message = "Se disparo alarma en el domicilio " + usuario.getDireccion() + "\nEl dueño del domicilio es "
+						+ usuario.getNombre() + " " + usuario.getApellido() + " " + "Sector " + sector.getNombre();
+			} else {
+				titulo = "Calmaos!";
+				message = "El domicio del camarada " + usuario.getNombre() + usuario.getApellido() + " fue intervenido";
+			}
+
+			FirebaseCloudMessageController.post(titulo, message);
+
+			Mensaje mensaje = new Mensaje();
+			mensaje.setOrigen(usuario.getSubdominio());
+			mensaje.setDescripcion(message);
+			mensaje.setTipo(TipoMensaje.ALERTA);
+
+			// Notifica Miembros
+			Notificacion.notificarGrupo(usuario.getGrupos(), mensaje);
 		}
-
-		FirebaseCloudMessageController.post(titulo, message);
-
-		Mensaje mensaje = new Mensaje();
-		mensaje.setOrigen(usuario.getSubdominio());
-		mensaje.setDescripcion(message);
-		mensaje.setTipo(TipoMensaje.ALERTA);
-
-		// Notifica Miembros
-		Notificacion.notificarGrupo(usuario.getGrupos(), mensaje);
 
 		model.put("sector", sector);
 		model.put("user", usuario);
 		model.put("listaSectores", usuario.getSectores());
+
 		return ViewUtil.render(request, model, PathUtil.Template.SECTOR);
+
 	};
 
 	private static void buscarSector(String nombreActual, String nombreNuevo, List<Sector> sectores) {
@@ -187,6 +193,12 @@ public class SectorController {
 				return;
 			}
 		}
+	}
+
+	public void cambiarEstadoOk(List<Sector> listaSectores) {
+
+		for (Sector sector : listaSectores)
+			sector.setActivado(false);
 	}
 
 }
