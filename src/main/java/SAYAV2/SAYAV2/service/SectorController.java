@@ -195,9 +195,9 @@ public class SectorController {
 		}
 	}
 
-	public void cambiarEstadoOk(List<Sector> listaSectores) {
+	public void estadoOk(List<Sector> sectores) {
 
-		for (Sector sector : listaSectores)
+		for (Sector sector : sectores)
 			sector.setActivado(false);
 	}
 

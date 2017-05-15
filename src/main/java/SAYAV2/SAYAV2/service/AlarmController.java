@@ -45,7 +45,7 @@ public class AlarmController {
 		
 		//Cambio estado de sectores de acuerdo a la alarma (A/D)
 		SectorController sec = new SectorController();
-		sec.cambiarEstadoOk(usuario.getSectores());
+		sec.estadoOk(usuario.getSectores());
 		
 		System.out.println("Us " + usuario);
 		usuarioDao.guardar(usuario, file);
