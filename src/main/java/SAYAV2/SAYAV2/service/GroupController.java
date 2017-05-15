@@ -16,7 +16,7 @@ import SAYAV2.SAYAV2.Utils.RequestUtil;
 import SAYAV2.SAYAV2.Utils.TipoMensaje;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
 import SAYAV2.SAYAV2.bussines.Notificacion;
-import SAYAV2.SAYAV2.dao.MensajePendienteDao;
+import SAYAV2.SAYAV2.bussines.ControllerMQTT;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
 import SAYAV2.SAYAV2.model.Grupo;
 import SAYAV2.SAYAV2.model.GrupoPeer;
@@ -31,8 +31,8 @@ public class GroupController {
 
 	private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
 	private static File file = new File("SAYAV");
-	private static MensajePendienteDao mensajeDao = MensajePendienteDao.getInstance();
-	private static File filemensajes = new File("Mensajes");
+	private static ControllerMQTT not = ControllerMQTT.getInstance();
+
 	private static JsonTransformer jsonTransformer = new JsonTransformer();
 
 	public static Route getNewGroup = (Request request, Response response) -> {
@@ -189,55 +189,13 @@ public class GroupController {
 			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
 		}
 
-		if(!Notificacion.verConectividad(grupo.getPeers()) || !Notificacion.verConectividad(peer)){
-			model.put("conectionProblems", true);
-			model.put("user", usuario);
-
-			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
-		}
+		//TODO Notificar a los miembros que hay un nuevo miembro
 		
-		Mensaje m = new Mensaje();
-		m.setOrigen(usuario.getSubdominio());
-		m.setDatos(memberDomain);
-		m.setTipo(TipoMensaje.NUEVO_MIEMBRO);
+		notificarMiembros(peer,grupo);
 		
+		//TODO Notificar al nuevo miembro, que es parte de un grupo
 		
-		
-		Notificacion.notificarUnGrupo(grupo, m);
-		
-		if(!Notificacion.enviarGrupo(peer, grupo, usuario.getSubdominio())){
-			model.put("conectionProblems", true);
-			model.put("user", usuario);
-
-			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
-		}
-		
-		grupo.addPeer(memberDomain);
-		model.put("addMemberSucceeded", true);
-		
-//		if(notificarNuevoMiembro(grupo, memberDomain, usuario)){
-//			System.out.println();
-//			if (!grupo.addPeer(memberDomain)) {
-//				System.out.println("Miembro existente");
-//				model.put("existingMember", true);
-//				//return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
-//			}else{
-//				System.out.println("Miembro agregado");
-//				model.put("addMemberSucceeded", true);
-//			}
-//		}else{
-//			System.out.println("Fallo, problemas con conexiones");
-//			model.put("addMemberFailed", true);
-//		}
-//		if (notificarMiembro(grupo, memberDomain)) {
-//
-//		}
-//		;
-//		notificarGrupos(grupo, memberDomain, TipoMensaje.NUEVO_MIEMBRO);
-
-		
-
-	
+		notificarNuevoGrupo(peer,grupo);
 
 		usuarioDao.guardar(usuario, file);
 		RequestUtil.removeSessionAttrUser(request);
@@ -273,6 +231,7 @@ public class GroupController {
 	 * @throws ProtocolException
 	 * @throws JAXBException
 	 */
+	@Deprecated
 	public static synchronized boolean notificarNuevoMiembro(Grupo grupo, String memberDomain, Usuario usuario)
 			throws ProtocolException, MalformedURLException, IOException, JAXBException {
 
@@ -284,6 +243,21 @@ public class GroupController {
 		return false;
 
 	}
+
+	private static void notificarNuevoGrupo(Peer peer, Grupo grupo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void notificarMiembros(Peer peer, Grupo g) {
+		int qos = 1;
+		String topic = g.getId() + "/" + TipoMensaje.NUEVO_MIEMBRO;
+		
+		//TODO Serializar los datos del nuevo miembro, y enviarlo como un String
+		not.send(topic, "blabla", qos);
+		
+	}	
+
 
 	@Deprecated
 	private static boolean notificarAbandonoGrupos(String groupName) {
@@ -336,7 +310,7 @@ public class GroupController {
 
 		
 	}
-
+@Deprecated
 public static boolean notificarMiembro(Grupo grupo, String memberDomain) throws JAXBException {
 	
 		Usuario usuario = usuarioDao.cargar(file);
@@ -364,6 +338,8 @@ public static boolean notificarMiembro(Grupo grupo, String memberDomain) throws 
 
 	}
 
+
+
 	/**
 	 * Avisa a todos los miembros del grupo del nuevo miembro
 	 * 
@@ -376,6 +352,7 @@ public static boolean notificarMiembro(Grupo grupo, String memberDomain) throws 
 	 * @throws MalformedURLException
 	 * @throws ProtocolException
 	 */
+	@Deprecated
 	public static boolean notificarGrupos(Grupo grupo, String memberDomain, String tipo) throws JAXBException {
 
 		Mensaje mensaje = new Mensaje();

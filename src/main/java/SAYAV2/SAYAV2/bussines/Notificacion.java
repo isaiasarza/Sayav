@@ -22,6 +22,7 @@ import SAYAV2.SAYAV2.model.Peer;
 import SAYAV2.SAYAV2.service.JsonTransformer;
 import SAYAV2.SAYAV2.service.PostGrupo;
 
+@Deprecated
 public class Notificacion {
 
 	// private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
@@ -39,7 +40,7 @@ public class Notificacion {
 		}
 		return true;
 	}
-
+	@Deprecated
 	public static boolean verConectividad(Peer peer) {
 		Mensaje mensaje = new Mensaje();
 		mensaje.setTipo(TipoMensaje.CHECK_CONNECTIVITY);
@@ -52,12 +53,14 @@ public class Notificacion {
 		return true;
 	}
 
+	@Deprecated
 	public static void notificarGrupo(List<Grupo> grupos, Mensaje mensaje) {
 
 		for (Grupo g : grupos)
 			notificarUnGrupo(g, mensaje);
 	}
 
+	@Deprecated
 	public static void notificarUnGrupo(Grupo grupo, Mensaje mensaje) {
 
 		for (Peer p : grupo.getPeers()) {

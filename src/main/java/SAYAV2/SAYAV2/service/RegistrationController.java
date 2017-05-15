@@ -15,6 +15,7 @@ import java.util.Map;
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.RequestUtil;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
+import SAYAV2.SAYAV2.bussines.ControllerMQTT;
 import SAYAV2.SAYAV2.model.Sector;
 import SAYAV2.SAYAV2.model.Usuario;
 import spark.Request;
@@ -23,6 +24,8 @@ import spark.Route;
 
 public class RegistrationController {
 	private static File config = new File("config");
+	private static ControllerMQTT controllerMqtt = ControllerMQTT.getInstance();
+
 
 	/**
 	 * Muestra el formulario de registro
@@ -62,6 +65,9 @@ public class RegistrationController {
 		}
 		model.put("user", usuario);
 		model.put("authentificationSucceeded", true);
+		//Inicializa Receive
+		controllerMqtt.initReceive();
+		
 		return ViewUtil.render(request, model, PathUtil.Template.LOGIN);
 	};
 
