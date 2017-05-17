@@ -410,8 +410,12 @@ public class Usuario {
 		return null;
 	}
 
+	
 	public boolean addGrupo(Grupo grupo) {
 		if (this.grupos.contains(grupo)) {
+			return false;
+		}
+		if(getSingleGrupoByName(grupo.getNombre()) != null){
 			return false;
 		}
 		return this.grupos.add(grupo);
@@ -422,12 +426,25 @@ public class Usuario {
 		if (this.grupos.contains(nuevoGrupo)) {
 			return false;
 		}
+		if(getSingleGrupoByName(grupo) != null){
+			return false;
+		}
 		return this.grupos.add(nuevoGrupo);
 	}
 	
 
-	public Grupo getSingleGrupo(String nombre){
+	public Grupo getSingleGrupoByName(String nombre){
+		for(Grupo g: this.grupos){
+			if(g.getNombre().equals(nombre)){
+				return g;
+			}
+		}
+		return null;
+	}
+	
+	public Grupo getSingleGrupoById(String id){
 		Grupo nuevo = new Grupo(nombre);
+		nuevo.setId(id);
 		for(Grupo g: this.grupos){
 			if(g.equals(nuevo)){
 				return g;

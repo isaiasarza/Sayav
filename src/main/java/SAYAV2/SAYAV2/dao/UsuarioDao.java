@@ -10,7 +10,7 @@ public class UsuarioDao extends GenericDao<Usuario>{
 	private static UsuarioDao usuarioDao;
 	
 
-	public UsuarioDao() {
+	private UsuarioDao() {
 		super();
 		this.e = new Usuario();
 	}

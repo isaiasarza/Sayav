@@ -35,11 +35,11 @@
   		<tr>
    		 	<td>$g.getNombre()</td>
    			
-		##	<td>
-   		##		<form method="get" action="$WebPath.getViewMembers()$g.getNombre()/">
-        ##	    	<button id="viewMembers">Ver Miembros</button>
-        ##   		</form>  
-        ##   	</td> 
+			<td>
+   				<form method="get" action="$WebPath.getViewMembers()$g.getNombre()/">
+        	    	<button id="viewMembers">Ver Miembros</button>
+           		</form>  
+           	</td> 
 	 	##	<td>
    		##	<form method="get" action="$WebPath.getLeave()$g.getNombre()/">
         ##	   <button id="leave Group">Abandonar Grupo</button>

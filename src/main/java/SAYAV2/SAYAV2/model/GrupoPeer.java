@@ -5,7 +5,8 @@ import java.util.List;
 
 public class GrupoPeer {
 	
-	private String grupo;
+	private String grupoId;
+	private String grupoNombre;
 	private String peer;
 	private List<String> listaPeers;
 	
@@ -14,12 +15,27 @@ public class GrupoPeer {
 		super();
 		this.listaPeers = new ArrayList<String>();
 	}
-	public String getGrupo() {
-		return grupo;
+	
+	
+	public String getGrupoId() {
+		return grupoId;
 	}
-	public void setGrupo(String grupo) {
-		this.grupo = grupo;
+
+
+	public void setGrupoId(String grupoId) {
+		this.grupoId = grupoId;
 	}
+
+
+	public String getGrupoNombre() {
+		return grupoNombre;
+	}
+
+
+	public void setGrupoNombre(String grupoNombre) {
+		this.grupoNombre = grupoNombre;
+	}
+
 	public String getPeer() {
 		return peer;
 	}
@@ -29,10 +45,7 @@ public class GrupoPeer {
 	public void addPeer(String peer){
 		this.listaPeers.add(peer);
 	}
-	@Override
-	public String toString() {
-		return "GrupoPeer [grupo=" + grupo + ", peer=" + peer + "]";
-	}
+	
 	public List<String> getListaPeers() {
 		return listaPeers;
 	}
@@ -40,11 +53,17 @@ public class GrupoPeer {
 		this.listaPeers = listaPeers;
 	}
 	public void setListaPeersByPeer(List<Peer> peers) {
-		// TODO Auto-generated method stub
 		for(Peer p: peers){
 			this.listaPeers.add(p.getDireccion());
 		}
 		
+	}
+
+
+	@Override
+	public String toString() {
+		return "GrupoPeer [grupoId=" + grupoId + ", grupoNombre=" + grupoNombre + ", peer=" + peer + ", listaPeers="
+				+ listaPeers + "]";
 	}
 	
 	

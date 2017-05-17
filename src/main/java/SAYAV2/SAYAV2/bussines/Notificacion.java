@@ -103,7 +103,7 @@ public class Notificacion {
 	public static boolean enviarGrupo(Peer peer, Grupo grupo, String origen){
 		Mensaje mensaje = new Mensaje();
 		GrupoPeer data = new GrupoPeer();
-		data.setGrupo(grupo.getNombre());
+		data.setGrupoNombre(grupo.getNombre());
 		data.setListaPeersByPeer(grupo.getPeers());
 		mensaje.setDescripcion("Nuevo grupo");
 		mensaje.setTipo(TipoMensaje.NUEVO_GRUPO);
