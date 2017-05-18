@@ -189,7 +189,7 @@ public class GroupController {
 		
 //		Notificar al nuevo miembro, que es parte de un grupo
 		
-		not.notificarNuevoGrupo(peer,grupo);
+		not.notificarNuevoGrupo(peer,grupo,usuario);
 		
 //TODO: 	Check que todo esta bien
 		

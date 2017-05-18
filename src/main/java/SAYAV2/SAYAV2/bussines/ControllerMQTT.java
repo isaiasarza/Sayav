@@ -146,7 +146,7 @@ public class ControllerMQTT implements MqttCallback {
 		}
 	}
 
-	public String notificarNuevoGrupo(Peer peer, Grupo grupo) {
+	public String notificarNuevoGrupo(Peer peer, Grupo grupo, Usuario usuario) {
 		System.out.println("Enviando el grupo al miembro");
 
 		int qos = 2;
@@ -155,9 +155,9 @@ public class ControllerMQTT implements MqttCallback {
 		g.setGrupoId(grupo.getId());
 		g.setGrupoNombre(grupo.getNombre());
 		g.setListaPeersByPeer(grupo.getPeers());
-		g.addPeer(peer.getDireccion());
+		g.addPeer(usuario.getSubdominio());
 		String msg = jsonTransformer.render(g);
-
+		System.out.println(msg);
 		send(topic, msg, qos);
 		return msg;
 	}
@@ -213,11 +213,7 @@ public class ControllerMQTT implements MqttCallback {
 
 	@Override
 	public void deliveryComplete(IMqttDeliveryToken arg0) {
-		try {
-			System.out.println("Delivery Completed\n" + arg0.getMessage().toString());
-		} catch (MqttException e) {
-			e.printStackTrace();
-		}
+		System.out.println("Delivery Completed\n" + arg0);
 	}
 
 	@Override
