@@ -1,6 +1,8 @@
 package SAYAV2.SAYAV2.bussines;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
@@ -82,6 +84,23 @@ public class ControllerMQTT implements MqttCallback {
 		String nuevoGrupo = usuario.getSubdominio() + "/" + TipoMensaje.NUEVO_GRUPO;
 		receive(nuevoGrupo, qos);
 
+		if (!usuario.getGrupos().isEmpty()) {
+			suscribeAllGroups(usuario.getGrupos());
+		}
+
+	}
+
+	public void suscribeAllGroups(List<Grupo> grupos) {
+		int n = grupos.size(), i = 0;
+		String[] grupoTopic = new String[n];
+		int[] qoss = new int[n];
+
+		for (Grupo g : grupos) {
+			grupoTopic[i] = (g.getId() + "/" + TipoMensaje.NUEVO_MIEMBRO);
+			qoss[i] = 2;
+			i++;
+		}
+		this.receive(grupoTopic, qoss);
 	}
 
 	public void send(String topic, String msg, int qos) {
@@ -96,7 +115,6 @@ public class ControllerMQTT implements MqttCallback {
 			client.publish(topic, message);
 			// client.disconnect();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (MqttSecurityException e) {
 			e.printStackTrace();
@@ -114,12 +132,19 @@ public class ControllerMQTT implements MqttCallback {
 			client.subscribe(topic, qos);
 			// client.disconnect();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (MqttException e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	public void receive(String[] topic, int[] qos) {
+		try {
+			client.subscribe(topic, qos);
+		} catch (MqttException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public String notificarNuevoGrupo(Peer peer, Grupo grupo) {
@@ -134,7 +159,7 @@ public class ControllerMQTT implements MqttCallback {
 		g.addPeer(peer.getDireccion());
 		String msg = jsonTransformer.render(g);
 
-//		send(topic, msg, qos);
+		send(topic, msg, qos);
 		return msg;
 	}
 
@@ -147,36 +172,33 @@ public class ControllerMQTT implements MqttCallback {
 		g.setPeer(peer.getDireccion());
 		String topic = grupo.getId() + "/" + TipoMensaje.NUEVO_MIEMBRO;
 		String msg = jsonTransformer.render(g);
-//		send(topic, msg, qos);
+		send(topic, msg, qos);
 		return msg;
 	}
 
-	public boolean arriboNuevoGrupo(String msg, Usuario usuario) {
-		// Deserealizar mensaje
+	public String arriboNuevoGrupo(String msg, Usuario usuario) {
 		GrupoPeer g = jsonTransformer.getGson().fromJson(msg.toString(), GrupoPeer.class);
 		System.out.println(g);
 		Grupo nuevo = new Grupo();
 		nuevo.setId(g.getGrupoId());
 		nuevo.setNombre(g.getGrupoNombre());
 		nuevo.addAll(g.getListaPeers());
-		// TODO: Agregar grupo a la lista de grupos
 		if (usuario.addGrupo(nuevo)) {
-			return true;
+			return nuevo.getId();
 		}
 		// TODO: Grupo existente
-		return false;
-
+		return null;
 	}
 
 	public boolean arriboNuevoMiembro(String msg, Usuario usuario) {
 		System.out.println(msg);
 		GrupoPeer g = jsonTransformer.getGson().fromJson(msg.toString(), GrupoPeer.class);
-		Grupo aux =usuario.getSingleGrupoById(g.getGrupoId());
+		Grupo aux = usuario.getSingleGrupoById(g.getGrupoId());
 
-		if((aux) == null){
+		if ((aux) == null) {
 			return false;
 		}
-		
+
 		if (!aux.addPeer(g.getPeer())) {
 			// TODO: Solucionar posible problema
 			return false;
@@ -187,13 +209,11 @@ public class ControllerMQTT implements MqttCallback {
 
 	@Override
 	public void connectionLost(Throwable arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deliveryComplete(IMqttDeliveryToken arg0) {
-		// TODO Auto-generated method stub
 		try {
 			System.out.println("Delivery Completed\n" + arg0.getMessage().toString());
 		} catch (MqttException e) {
@@ -203,16 +223,24 @@ public class ControllerMQTT implements MqttCallback {
 
 	@Override
 	public void messageArrived(String topic, MqttMessage msg) throws Exception {
+		System.out.println("Message Arrived...");
 		Usuario usuario = usuarioDao.cargar(file);
 		if (topic.equals(usuario.getSubdominio() + "/" + TipoMensaje.NUEVO_GRUPO)) {
-			if(arriboNuevoGrupo(msg.toString(), usuario)){
+			String id = arriboNuevoGrupo(msg.toString(), usuario);
+			if (id != null) {
 				usuarioDao.guardar(usuario, file);
+				String nuevo = id + "/" + TipoMensaje.NUEVO_MIEMBRO;
+				this.receive(nuevo, 2);
 			}
 
 		}
-		if (topic.equals(usuario.getSubdominio() + "/" + TipoMensaje.NUEVO_MIEMBRO)) {
-			if(arriboNuevoMiembro(msg.toString(), usuario)){
-				usuarioDao.guardar(usuario, file);
+
+		for (Grupo g : usuario.getGrupos()) {
+			if (topic.equals(g.getId() + "/" + TipoMensaje.NUEVO_MIEMBRO)) {
+				System.out.println("Nuevo Miembro");
+				if (arriboNuevoMiembro(msg.toString(), usuario)) {
+					usuarioDao.guardar(usuario, file);
+				}
 			}
 		}
 	}
