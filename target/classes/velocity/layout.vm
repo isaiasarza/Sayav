@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>$msg.get("COMMON_TITLE")</title>
-    <link rel="stylesheet" href="/main2.css">
+    <link rel="stylesheet" href="/main3.css">
     <link rel="icon" href="/favicon.png">
     <meta charset="ISO-8859-1" name="viewport" content="width=device-width, initial-scale=1">
     
@@ -60,9 +60,9 @@
 	  	<div class="container-fluid">
     		<div class="collapse navbar-collapse" id="myNavbar">
       			<ul class="nav navbar-nav">
-        			<li><a href=$WebPath.getUpdateU();">Datos</a> </li>
-        		##	<li><a href='/dispositivo/';">Movil</a> </li>
-        			<li><a href='/sector/';">Sectores</a> </li>
+        			<li><a href=$WebPath.getUpdateU()>Datos</a> </li>
+        		##	<li><a href=$WebPath.getDispositivos()>Movil</a> </li>
+        			<li><a href=$WebPath.getSector()>Sectores</a> </li>
         			<li><a href=$WebPath.getNewGroup()>Grupo</a> </li>
         		##	<li><a href=$WebPath.getViewAllMessages()>Mensajes</a> </li>
         		

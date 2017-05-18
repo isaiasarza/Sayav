@@ -4,6 +4,7 @@
 		
 	<form id="newGroupForm" onsubmit="return validateForm()" method="post" action="$WebPath.getNewGroup()">
   
+  		
   		#if($existingGroup)
         	<p class="bad notification">$msg.get("EXISTING_GROUP")</p>
     	#elseif($addGroupSucceeded)   
@@ -36,8 +37,8 @@
    		 	<td>$g.getNombre()</td>
    			
 			<td>
-   				<form method="get" action="$WebPath.getViewMembers()$g.getNombre()/">
-        	    	<button id="viewMembers">Ver Miembros</button>
+   				<form id = "viewMembers" method="get" action="$WebPath.getViewMembers()$g.getNombre()/">
+        	    	<button>Ver Miembros</button>
            		</form>  
            	</td> 
 	 		<td>

@@ -428,6 +428,13 @@ table {
 	border-radius: 2px;
 }
 
+table .button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    
+}
+
 thead tr:first-child {
 	background: #ff8000;
 	color: #fff;
@@ -655,6 +662,13 @@ td:last-child {
 	border-radius: 3px;
 	margin: 2px 0 20px 0;
 }
+#menuForm input[type="button"] {
+	border: 1px solid #ddd;
+	padding: 8px 12px;
+	width: 50%;
+	border-radius: 3px;
+	margin: 2px 0 20px 0;
+}
 
 #menuForm input[type="submit"] {
 	color: white;
@@ -757,6 +771,14 @@ form input[type="submit"] {
 	cursor: pointer;
 }
 
+form input[type="button"] {
+	color: white;
+	background: #274555;
+	border: 0;
+	cursor: pointer;
+}
+
+
 .notification {
 	padding: 10px;
 	background: #333;
@@ -799,6 +821,16 @@ form input[type="submit"] {
 	color: black;
 }
 
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
 
 #menu2 {
 	padding: 15px;

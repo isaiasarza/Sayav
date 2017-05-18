@@ -1,0 +1,208 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: Tahoma, Arial, sans-serif;
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    padding: 0 0 40px;
+    color: #333;
+    background: #f9f9f9;
+}
+
+h1, h2, h3, h4 {
+    font-family: monospace;
+    font-weight: 300;
+    color: #444;
+}
+
+small {
+    color: #555;
+}
+
+header {
+    background: #274555;
+    border-bottom: 5px solid #ff7761;
+    box-shadow: 0 1px 0 0 rgba(0,0,0,.6);
+}
+
+nav {
+    padding: 15px;
+    margin: 0 auto;
+    max-width: 800px;
+    position: relative;
+}
+
+nav #menu {
+    margin-top: 20px;
+    float: right;
+}
+
+nav ul, nav li {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+    color: #ff7761;
+}
+
+footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 40px;
+    line-height: 40px;
+    width: 100%;
+    text-align: center;
+    background: #fff;
+    border-top: 1px solid #f9a11b;
+    font-size: 14px;
+}
+
+nav ul, nav li {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+/* Login Form */
+
+form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+form label {
+    display: block;
+    width: 100%
+}
+
+form input {
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    width: 100%;
+    border-radius: 3px;
+    margin: 2px 0 20px 0;
+}
+
+form input[type="submit"] {
+    color: white;
+    background: #274555;
+    border: 0;
+    cursor: pointer;
+}
+
+nav {
+	padding: 15px;
+	margin: 0 auto;
+	max-width: 800px;
+	position: relative;
+}
+
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #274555;
+}
+
+li {
+	float: left;
+}
+
+li a {
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+
+li a:hover {
+	background-color: transparent;
+}
+
+nav ul, nav li {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+table {
+	color: #333;
+	font-family: sans-serif;
+	font-size: .9em;
+	font-weight: 400;
+	text-align: left;
+	line-height: 40px;
+	border-collapse: separate;
+	border-spacing: 0;
+	border: 2px solid #ffa500;
+	width: 600px;
+	margin: 25px auto;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .16);
+	border-radius: 2px;
+}
+
+table .button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    widht:100%;
+    
+}
+
+thead tr:first-child {
+	background: #ff8000;
+	color: #fff;
+	border: none;
+}
+
+th {
+	font-weight: bold;
+	 height: 50px;
+}
+
+
+
+th:first-child, td:first-child {
+	padding: 0 15px 0 20px;
+}
+
+thead tr:last-child th {
+	border-bottom: 3px solid #ddd;
+}
+
+tbody tr:hover {
+	background-color: rgba(237, 28, 64, .1);
+}
+
+tbody tr:last-child td {
+	border: none;
+}
+
+tbody td {
+	border-bottom: 1px solid #ddd;
+}
+
+td:last-child {
+	text-align: right;
+	padding-right: 20px;
+}
+
+#viewMembers .button{
+	background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    widht:100%;
+}
+

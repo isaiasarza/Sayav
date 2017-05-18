@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Usuario xmlns="http://www.example.org/UsuarioXMLSchema">
-    <Nombre>lucas</Nombre>
-    <Apellido>Bobadilla</Apellido>
-    <Email>lucasboba@gmail.com</Email>
-    <Direccion>Covimar 3 casa 14</Direccion>
-    <Subdominio>lucasbobadilla.ddns.net</Subdominio>
-    <Contraseña>$2a$10$qHeOUdu.Iw1o8QuWkUkOcuHdrGIqZBhYowlb3pwXcQHJCIsQai/jS</Contraseña>
-    <Salt>$2a$10$qHeOUdu.Iw1o8QuWkUkOcu</Salt>
-    <AlarmaHabilitada>false</AlarmaHabilitada>
+<Usuario xmlns="http://www.example.org/NewXMLSchema">
+    <Nombre>Daniel Isaías </Nombre>
+    <Apellido>Arza</Apellido>
+    <Email>arza.isaias@gmail.com</Email>
+    <Direccion>Entre Rios 749</Direccion>
+    <Subdominio>isaiasarza.ddns.net</Subdominio>
+    <Contraseña>$2a$10$/e8FG0Wc0DkD8bKXI6zojeH06zw6M4pb1My6tnecAkOSQzzxut0FG</Contraseña>
+    <Salt>$2a$10$/e8FG0Wc0DkD8bKXI6zoje</Salt>
+    <AlarmaHabilitada>true</AlarmaHabilitada>
     <Sectores>
-        <Nombre>cancha de tenis</Nombre>
+        <Nombre>Cocina</Nombre>
         <Activado>false</Activado>
     </Sectores>
     <Sectores>
@@ -24,4 +24,12 @@
         <Nombre>Sector N3</Nombre>
         <Activado>false</Activado>
     </Sectores>
+    <Grupos>
+        <Id>71e8e243-7b26-4a67-9742-084c3c3d6215</Id>
+        <Nombre>Familia</Nombre>
+    </Grupos>
+    <Grupos>
+        <Id>3364513c-1c21-4213-97d7-5f7681a292f9</Id>
+        <Nombre>Universidad</Nombre>
+    </Grupos>
 </Usuario>
