@@ -30,7 +30,7 @@ public class GroupController {
 	public static Route getNewGroup = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
 		Map<String, Object> model = new HashMap<>();
-		System.out.println("Nuevo Grupo");
+		//System.out.println("Nuevo Grupo");
 		Usuario usuario = usuarioDao.cargar(file);
 		System.out.println(usuario);
 
@@ -57,12 +57,17 @@ public class GroupController {
 
 		Usuario usuario = usuarioDao.cargar(file);
 		String nombre = RequestUtil.getNewGroupName(request);
-
-		if (usuario.addGrupo(new Grupo(nombre))) {
+        
+		Grupo nuevoGrupo = new Grupo(nombre);
+		 
+		if (usuario.addGrupo(nuevoGrupo)) {
 			model.put("addGroupSucceeded", true);
 			model.put("user", usuario);
 
 			usuarioDao.guardar(usuario, file);
+			String nuevoMiembro = nuevoGrupo.getId()+ "/" + TipoMensaje.NUEVO_MIEMBRO;
+            not.receive(nuevoMiembro,2);
+			
 
 		} else {
 			model.put("user", usuario);

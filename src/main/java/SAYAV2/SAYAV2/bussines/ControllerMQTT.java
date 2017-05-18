@@ -82,7 +82,6 @@ public class ControllerMQTT implements MqttCallback {
 
 		String nuevoGrupo = usuario.getSubdominio() + "/" + TipoMensaje.NUEVO_GRUPO;
 		receive(nuevoGrupo, qos);
-
 		if (!usuario.getGrupos().isEmpty()) {
 			suscribeAllGroups(usuario.getGrupos());
 		}
@@ -177,12 +176,14 @@ public class ControllerMQTT implements MqttCallback {
 
 	public String arriboNuevoGrupo(String msg, Usuario usuario) {
 		GrupoPeer g = jsonTransformer.getGson().fromJson(msg.toString(), GrupoPeer.class);
-		System.out.println(g);
+		System.out.println(msg);
+		System.out.println(g.toString());
 		Grupo nuevo = new Grupo();
 		nuevo.setId(g.getGrupoId());
 		nuevo.setNombre(g.getGrupoNombre());
 		nuevo.addAll(g.getListaPeers());
 		if (usuario.addGrupo(nuevo)) {
+			System.out.println(usuario.getGrupos().toString());
 			return nuevo.getId();
 		}
 		// TODO: Grupo existente
@@ -225,7 +226,7 @@ public class ControllerMQTT implements MqttCallback {
 			if (id != null) {
 				usuarioDao.guardar(usuario, file);
 				String nuevo = id + "/" + TipoMensaje.NUEVO_MIEMBRO;
-				this.receive(nuevo, 2);
+				this.receive(nuevo, 1);
 			}
 
 		}
