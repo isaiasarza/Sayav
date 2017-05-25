@@ -28,8 +28,8 @@
   		<tr>
     		<th  align="center"> Nombre</th>	
     		<th align="center">Ver Miembros</th>
-    	## TODO
-    		<th align="center">Abandonar Grupo</th>
+    	# TODO
+    	#	<th align="center">Abandonar Grupo</th>
     		
   		</tr>
   		#foreach($g in $user.getGrupos())
@@ -41,11 +41,11 @@
         	    	<button>Ver Miembros</button>
            		</form>  
            	</td> 
-	 		<td>
-   			<form method="get" action="$WebPath.getLeave()$g.getNombre()/">
-        	   <button id="leave Group">Abandonar Grupo</button>
-           	</form>  
-           </td> 
+	 	#	<td>
+   		#	<form method="get" action="$WebPath.getLeave()$g.getNombre()/">
+        #	   <button id="leave Group">Abandonar Grupo</button>
+        #  	</form>  
+        #   </td> 
            	
        	</tr>       
 		#end			

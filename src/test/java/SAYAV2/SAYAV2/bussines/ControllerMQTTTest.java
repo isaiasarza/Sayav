@@ -31,8 +31,8 @@ public class ControllerMQTTTest {
 
 	@Test
 	public void testNotificarNuevoGrupo() {
-	//	String msg = controller.notificarNuevoGrupo(p, g);
-	//	System.out.println(msg);
+//		String msg = controller.notificarNuevoGrupo(p, g);
+//		System.out.println(msg);
 	}
 
 	@Test
@@ -43,9 +43,9 @@ public class ControllerMQTTTest {
 	
 	@Test
 	public void testArriboNuevoGrupo(){
-		g.setNombre("Familia");
-		p.setDireccion("facundopaez.ddns.net");
-//		String msg = controller.notificarNuevoGrupo(p, g);
+//		g.setNombre("Familia");
+//		p.setDireccion("facundopaez.ddns.net");
+////		String msg = controller.notificarNuevoGrupo(p, g);
 //		assertTrue(controller.arriboNuevoMiembro(msg, usuario));
 //		assertFalse(controller.arriboNuevoMiembro(msg, usuario));
 //		System.out.println(usuario);

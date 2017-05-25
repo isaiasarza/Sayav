@@ -183,7 +183,7 @@ public class ControllerMQTT implements MqttCallback {
 		nuevo.setNombre(g.getGrupoNombre());
 		nuevo.addAll(g.getListaPeers());
 		if (usuario.addGrupo(nuevo)) {
-			System.out.println(usuario.getGrupos().toString());
+			System.out.println("Agrego al grupo con id: " + nuevo.getId());
 			return nuevo.getId();
 		}
 		// TODO: Grupo existente
@@ -226,7 +226,10 @@ public class ControllerMQTT implements MqttCallback {
 			if (id != null) {
 				usuarioDao.guardar(usuario, file);
 				String nuevo = id + "/" + TipoMensaje.NUEVO_MIEMBRO;
+				System.out.println(nuevo);
 				this.receive(nuevo, 1);
+			}else{
+				System.out.println("id null");
 			}
 
 		}

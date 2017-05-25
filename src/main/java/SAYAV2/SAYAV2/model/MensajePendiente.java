@@ -1,12 +1,12 @@
 package SAYAV2.SAYAV2.model;
 
-public class MensajePendienteData {
+public class MensajePendiente {
 
 	private String peer;
 	private String fecha;
 	private String tipo;
 	
-	public MensajePendienteData() {
+	public MensajePendiente() {
 		super();
 	}
 	public String getPeer() {

@@ -15,7 +15,7 @@ import SAYAV2.SAYAV2.dao.UsuarioDao;
 import SAYAV2.SAYAV2.model.Grupo;
 import SAYAV2.SAYAV2.model.GrupoPeer;
 import SAYAV2.SAYAV2.model.Mensaje;
-import SAYAV2.SAYAV2.model.MensajePendienteData;
+import SAYAV2.SAYAV2.model.MensajePendiente;
 import SAYAV2.SAYAV2.model.MensajesPendientes;
 import SAYAV2.SAYAV2.model.Usuario;
 import spark.Request;

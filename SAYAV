@@ -4,7 +4,7 @@
     <Apellido>Arza</Apellido>
     <Email>arza.isaias@gmail.com</Email>
     <Direccion>Entre Rios 749</Direccion>
-    <Subdominio>isaiasarza.ddns.net</Subdominio>
+    <Subdominio>http://isaiasarza.ddns.net</Subdominio>
     <Contraseña>$2a$10$/e8FG0Wc0DkD8bKXI6zojeH06zw6M4pb1My6tnecAkOSQzzxut0FG</Contraseña>
     <Salt>$2a$10$/e8FG0Wc0DkD8bKXI6zoje</Salt>
     <AlarmaHabilitada>true</AlarmaHabilitada>
@@ -25,11 +25,139 @@
         <Activado>false</Activado>
     </Sectores>
     <Grupos>
-        <Id>71e8e243-7b26-4a67-9742-084c3c3d6215</Id>
-        <Nombre>Familia</Nombre>
-    </Grupos>
-    <Grupos>
         <Id>3364513c-1c21-4213-97d7-5f7681a292f9</Id>
         <Nombre>Universidad</Nombre>
+        <Peers>
+            <Id>eb6084b0-8a49-41a7-8833-c577ad930d40</Id>
+            <Direccion>http://lucas.ddns.net</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
+        </Peers>
+        <Peers>
+            <Id>f73eb8c7-489a-43d6-aa8a-41536e3fb135</Id>
+            <Direccion>http://rodrigo.net</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
+        </Peers>
+        <Peers>
+            <Id>6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f</Id>
+            <Direccion>http://nestorkirchner.ddns.net</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
+        </Peers>
+    </Grupos>
+    <Grupos>
+        <Id>4affdf7d-dde1-4735-bb6c-096c54903816</Id>
+        <Nombre>CURCO&amp;GUILLE</Nombre>
+        <Peers>
+            <Id>c913c037-8b6a-475c-857e-08f1358b3bf3</Id>
+            <Direccion>http://lucas.ddns.net</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
+        </Peers>
+        <Peers>
+            <Id>c5d0b5e0-7107-4eec-99ee-f59543a37e3b</Id>
+            <Direccion>http://choli.ddns.net</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
+        </Peers>
+        <Peers>
+            <Id>f325c14d-bf9d-4604-8844-cbbfe294b94f</Id>
+            <Direccion>http://PEPE.NET</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
+        </Peers>
+        <Peers>
+            <Id>df49fefe-c9b5-4a0c-a333-6a5d1b769d81</Id>
+            <Direccion>http://choli.net</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
+        </Peers>
+        <Peers>
+            <Id>7803a99c-2112-4031-b19a-595faa84f1c1</Id>
+            <Direccion>http://alo.ddns.net</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
+        </Peers>
+    </Grupos>
+    <Grupos>
+        <Id>10dad88c-c66d-444b-b3f1-8bb3b2b822b1</Id>
+        <Nombre>Albert</Nombre>
+        <Peers>
+            <Id>8ab35daa-4f2b-4ca1-8488-c794c894ff01</Id>
+            <Direccion>http://lucas.ddns.net</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
+        </Peers>
+    </Grupos>
+    <Grupos>
+        <Id>5b5c4aff-165a-49ac-a33c-de923b5c7790</Id>
+        <Nombre>hichabolas</Nombre>
+        <Peers>
+            <Id>4d85df28-9b7c-4b54-8717-941a14cbf200</Id>
+            <Direccion>http://lucas.ddns.net</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
+        </Peers>
+    </Grupos>
+    <Grupos>
+        <Id>932d1976-f5b5-4b1a-a096-d2b560d75068</Id>
+        <Nombre>algo</Nombre>
+        <Peers>
+            <Id>cbb4a549-4e90-44ce-9b69-e673993f7a7f</Id>
+            <Direccion>http://lucas.ddns.net</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
+        </Peers>
+        <Peers>
+            <Id>d2bdf13b-ff0f-4255-a6f1-14fdcf9090dc</Id>
+            <Direccion>http://rodrigo.ddns.net</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
+        </Peers>
+        <Peers>
+            <Id>1b2e45c4-14fc-4fb8-b235-3c614cf5133f</Id>
+            <Direccion>http://romina.ddns.net</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
+        </Peers>
+        <Peers>
+            <Id>9b547a2a-4f3e-4469-9daa-78bd763a70fa</Id>
+            <Direccion>http://nestorkirchner.ddns.net</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
+        </Peers>
+    </Grupos>
+    <Grupos>
+        <Id>ae54d14a-0f76-4954-b500-6a3510f8732d</Id>
+        <Nombre>mandrake</Nombre>
+        <Peers>
+            <Id>4facf619-7ce8-4788-9d27-47dfcacd76c5</Id>
+            <Direccion>http://lucas.ddns.net</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
+        </Peers>
+        <Peers>
+            <Id>d2de20d6-3c13-4811-a0a1-a426757f56d1</Id>
+            <Direccion>http://emabalcazar.ddns.net</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
+        </Peers>
+    </Grupos>
+    <Grupos>
+        <Id>931acfb5-6404-41b5-a675-00784dfc1c11</Id>
+        <Nombre>funka</Nombre>
+        <Peers>
+            <Id>4ac1ea15-9a24-4b0e-a344-db31e4d5e256</Id>
+            <Direccion>http://lucas.ddns.net</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
+        </Peers>
+        <Peers>
+            <Id>589c0502-0784-47d6-9110-be3f274b8579</Id>
+            <Direccion>http://rodrigo.ddns.net</Direccion>
+            <Puerto>0</Puerto>
+            <Estado>false</Estado>
+        </Peers>
     </Grupos>
 </Usuario>
