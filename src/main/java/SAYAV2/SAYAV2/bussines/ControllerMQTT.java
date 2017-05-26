@@ -13,7 +13,7 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttSecurityException;
 
-import SAYAV2.SAYAV2.Utils.TipoMensaje;
+import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
 import SAYAV2.SAYAV2.dao.ConfiguratorDao;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
 import SAYAV2.SAYAV2.model.Configurator;
@@ -80,7 +80,7 @@ public class ControllerMQTT implements MqttCallback {
 
 		Usuario usuario = usuarioDao.cargar(file);
 
-		String nuevoGrupo = usuario.getSubdominio() + "/" + TipoMensaje.NUEVO_GRUPO;
+		String nuevoGrupo = usuario.getSubdominio() + "/" + TipoMensajeUtils.NUEVO_GRUPO;
 		receive(nuevoGrupo, qos);
 		if (!usuario.getGrupos().isEmpty()) {
 			suscribeAllGroups(usuario.getGrupos());
@@ -94,7 +94,7 @@ public class ControllerMQTT implements MqttCallback {
 		int[] qoss = new int[n];
 
 		for (Grupo g : grupos) {
-			grupoTopic[i] = (g.getId() + "/" + TipoMensaje.NUEVO_MIEMBRO);
+			grupoTopic[i] = (g.getId() + "/" + TipoMensajeUtils.NUEVO_MIEMBRO);
 			qoss[i] = 2;
 			i++;
 		}
@@ -145,11 +145,21 @@ public class ControllerMQTT implements MqttCallback {
 		}
 	}
 
+	public void handshakeRequest(String topicDestino, String topicOrigen) {
+		String messageRequest = topicOrigen + "/" + TipoMensajeUtils.HANDSHAKE_RESPONSE;
+		send(topicDestino + "/" + TipoMensajeUtils.HANDSHAKE_REQUEST, messageRequest, 2);
+	}
+
+	public void handshakeResponse(String topicDestino, String topicOrigen) {
+
+		send(topicDestino + "/" + TipoMensajeUtils.HANDSHAKE_RESPONSE, topicOrigen, 2);
+	}
+
 	public String notificarNuevoGrupo(Peer peer, Grupo grupo, Usuario usuario) {
 		System.out.println("Enviando el grupo al miembro");
 
 		int qos = 2;
-		String topic = peer.getDireccion() + "/" + TipoMensaje.NUEVO_GRUPO;
+		String topic = peer.getDireccion() + "/" + TipoMensajeUtils.NUEVO_GRUPO;
 		GrupoPeer g = new GrupoPeer();
 		g.setGrupoId(grupo.getId());
 		g.setGrupoNombre(grupo.getNombre());
@@ -168,7 +178,7 @@ public class ControllerMQTT implements MqttCallback {
 		g.setGrupoId(grupo.getId());
 		g.setGrupoNombre(grupo.getNombre());
 		g.setPeer(peer.getDireccion());
-		String topic = grupo.getId() + "/" + TipoMensaje.NUEVO_MIEMBRO;
+		String topic = grupo.getId() + "/" + TipoMensajeUtils.NUEVO_MIEMBRO;
 		String msg = jsonTransformer.render(g);
 		send(topic, msg, qos);
 		return msg;
@@ -221,21 +231,30 @@ public class ControllerMQTT implements MqttCallback {
 	public void messageArrived(String topic, MqttMessage msg) throws Exception {
 		System.out.println("Message Arrived...");
 		Usuario usuario = usuarioDao.cargar(file);
-		if (topic.equals(usuario.getSubdominio() + "/" + TipoMensaje.NUEVO_GRUPO)) {
+
+		if (topic.equals(usuario.getSubdominio() + "/" + TipoMensajeUtils.HANDSHAKE_REQUEST)) {
+			this.handshakeRequest(msg.toString(), usuario.getSubdominio());
+		}
+
+		if (topic.equals(usuario.getSubdominio() + "/" + TipoMensajeUtils.HANDSHAKE_RESPONSE)) {
+			if(msg.toString().equals(TipoMensajeUtils.NUEVO_MIEMBRO)){
+			}
+		}
+		if (topic.equals(usuario.getSubdominio() + "/" + TipoMensajeUtils.NUEVO_GRUPO)) {
 			String id = arriboNuevoGrupo(msg.toString(), usuario);
 			if (id != null) {
 				usuarioDao.guardar(usuario, file);
-				String nuevo = id + "/" + TipoMensaje.NUEVO_MIEMBRO;
+				String nuevo = id + "/" + TipoMensajeUtils.NUEVO_MIEMBRO;
 				System.out.println(nuevo);
 				this.receive(nuevo, 1);
-			}else{
+			} else {
 				System.out.println("id null");
 			}
 
 		}
 
 		for (Grupo g : usuario.getGrupos()) {
-			if (topic.equals(g.getId() + "/" + TipoMensaje.NUEVO_MIEMBRO)) {
+			if (topic.equals(g.getId() + "/" + TipoMensajeUtils.NUEVO_MIEMBRO)) {
 				System.out.println("Nuevo Miembro");
 				if (arriboNuevoMiembro(msg.toString(), usuario)) {
 					usuarioDao.guardar(usuario, file);

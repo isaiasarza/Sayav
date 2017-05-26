@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/MensajesPendientes" xmlns:tns="http://www.example.org/MensajesPendientes" elementFormDefault="qualified" xmlns:Q1="http://www.example.org/Mensaje" xmlns:Q2="http://www.example.org/UsuarioXMLSchema">
-    <import schemaLocation="UsuarioXMLSchema.xsd" namespace="http://www.example.org/UsuarioXMLSchema"></import>
-    <complexType name="NewComplexType">
-    	<sequence>
-    		<element name="ListaMensajes" type="Q2:Mensaje" maxOccurs="unbounded"
-					minOccurs="0"></element>
-    	</sequence>
-    </complexType>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/MensajesPendientes"
+	xmlns:tns="http://www.example.org/MensajesPendientes"
+	elementFormDefault="qualified" xmlns:pref="http://www.example.org/Mensaje">
+
+
+
+	<import schemaLocation="Mensaje.xsd" namespace="http://www.example.org/Mensaje"></import>
+
+
+	<element name="MensajesPendientes">
+		<complexType>
+			<choice>
+
+				<element ref="pref:Mensaje" maxOccurs="unbounded" minOccurs="0"></element>
+
+
+			</choice>
+		</complexType>
+
+	</element>
+
 </schema>

@@ -1,10 +1,12 @@
 package SAYAV2.SAYAV2.Utils;
 
-public class TipoMensaje {
+public class TipoMensajeUtils {
 
 	public static final Object OK = "Ok";
 	public static final String HANDSHAKE_REQUEST = null;
 	public static final String HANDSHAKE_RESPONSE = null;
+	public static final String SOLICITUD_BAJA_MIEMBRO = "Solicitud Baja Miembro";
+	public static final String VOTO = "Voto";
 	public static String NUEVO_MIEMBRO = "Nuevo Miembro";
 	public static String ALERTA = "Alerta";
 	public static String BAJA_MIEMBRO = "Baja Miembro";

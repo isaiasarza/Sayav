@@ -10,7 +10,7 @@ import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
 import SAYAV2.SAYAV2.dao.MensajePendienteDao;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
-import SAYAV2.SAYAV2.model.Mensaje;
+import SAYAV2.SAYAV2.mensajeria.Mensaje;
 import SAYAV2.SAYAV2.model.MensajeDato;
 import SAYAV2.SAYAV2.model.MensajesPendientes;
 import SAYAV2.SAYAV2.model.Usuario;
@@ -34,10 +34,10 @@ public class MensajesPendientesController {
 		MensajesPendientes mp = mensajeDao.cargar(fileMensajes);
         List<MensajeDato> listaMensajes = new ArrayList<MensajeDato>();
 		
-		for (Mensaje m : mp.getListaMensajes()) {
+		for (Mensaje m : mp.getMensaje()) {
 			
-			MensajeDato mensajeDato = jsonTransformer.getGson().fromJson(m.getDatos(), MensajeDato.class);
-            listaMensajes.add(mensajeDato);		
+//			MensajeDato mensajeDato = jsonTransformer.getGson().fromJson(m.getDatos(), MensajeDato.class);
+//            listaMensajes.add(mensajeDato);		
 		}
 
 		model.put("user", usuario);

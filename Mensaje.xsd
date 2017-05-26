@@ -1,85 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/Mensaje"
 	xmlns:tns="http://www.example.org/Mensaje" elementFormDefault="qualified">
-	<element name="Usuario">
+	<element name="Mensaje">
 		<complexType>
 			<choice>
 				<sequence>
-					<element name="Nombre" type="string" />
-					<element name="Apellido" type="string" />
-					<element name="Telefono" type="string" />
-					<element name="Email" type="string" minOccurs="0" />
-					<element name="Direccion" type="string" />
-					<element name="Subdominio" type="string" />
-					<element name="Contraseña" type="string" />
-					<element name="Salt" type="string" />
-					<element name="AlarmaHabilitada" type="boolean" />
+					<element name="Id" type="string" />
+					<element name="origen" type="string" />
+					<element name="destino" type="string" />
+					<element name="fecha" type="string" />
+					<element name="datos" type="string" />
+					<element name="descripcion" type="string" />
+					
+					
 				</sequence>
-				<element name="DispositivosMoviles" type="tns:DispositivoM"
+				<element name="TipoMensaje" type="tns:TipoMensaje"
 					maxOccurs="unbounded" minOccurs="0">
 				</element>
-				<element name="Sectores" type="tns:Sector" maxOccurs="unbounded"
-					minOccurs="0">
-				</element>
-				<element name="Grupos" type="tns:Grupo" maxOccurs="unbounded"
-					minOccurs="0">
-				</element>
+				
 			</choice>
 		</complexType>
-
 	</element>
 
-
-
-
-
-	<complexType name="DispositivoM">
+	<complexType name="TipoMensaje">
 		<sequence>
-			<element name="Numero" type="string"></element>
-			<element name="Token" type="string"></element>
+			<element name="tipo" type="string"></element>
+			<element name="quantum" type="long"></element>
 		</sequence>
 	</complexType>
-
-	<complexType name="Sector">
-		<sequence>
-			<element name="Id" type="int"></element>
-			<element name="Nombre" type="string"></element>
-			<element name="Activado" type="boolean"></element>
-		</sequence>
-	</complexType>
-
-
-	<complexType name="Grupo">
-		<sequence>
-			<element name="Id" type="int"></element>
-			<element name="Nombre" type="string"></element>
-			<element name="Peers" type="tns:Peer" maxOccurs="unbounded"
-				minOccurs="0">
-			</element>
-		</sequence>
-	</complexType>
-
-	<complexType name="Peer">
-		<sequence>
-			<element name="Id" type="int" />
-			<element name="Direccion" type="string" />
-			<element name="Puerto" type="int" />
-			<element name="Estado" type="boolean" />
-			<element name="Mensajes" type="tns:Mensaje" maxOccurs="unbounded"
-				minOccurs="0">
-			</element>
-		</sequence>
-
-	</complexType>
-
-
-	<complexType name="Mensaje">
-		<sequence>
-			<element name="Id" type="int"></element>
-			<element name="Tipo" type="string"></element>
-			<element name="Origen" type="string"></element>
-			<element name="Descripcion" type="string"></element>
-		</sequence>
-	</complexType>
-
 </schema>

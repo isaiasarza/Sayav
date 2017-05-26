@@ -66,24 +66,12 @@
 			<element name="Direccion" type="string" />
 			<element name="Puerto" type="int" />
 			<element name="Estado" type="boolean" />
-			<element name="Mensajes" type="tns:Mensaje" maxOccurs="unbounded"
-			minOccurs="0">
-		</element>
+		
 		</sequence>
 		
 	</complexType>
 
 
- 	<complexType name="Mensaje">
-		<sequence>
-			<element name="Id" type="int"></element>
-			<element name="Tipo" type="string"></element>
-			<element name="Origen" type="string"></element>
-			<element name="Descripcion" type="string"></element>
-			<element name="Datos" type="string"></element>
-			
-		</sequence>
- 	</complexType>
 
 
 

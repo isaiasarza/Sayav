@@ -12,12 +12,11 @@ import java.util.Map;
 
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.RequestUtil;
-import SAYAV2.SAYAV2.Utils.TipoMensaje;
+import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
-import SAYAV2.SAYAV2.bussines.Notificacion;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
+import SAYAV2.SAYAV2.mensajeria.Mensaje;
 import SAYAV2.SAYAV2.model.DispositivoM;
-import SAYAV2.SAYAV2.model.Mensaje;
 import SAYAV2.SAYAV2.model.Sector;
 import SAYAV2.SAYAV2.model.Usuario;
 import spark.Request;
@@ -169,12 +168,12 @@ public class SectorController {
 			FirebaseCloudMessageController.post(titulo, message);
 
 			Mensaje mensaje = new Mensaje();
-			mensaje.setOrigen(usuario.getSubdominio());
-			mensaje.setDescripcion(message);
-			mensaje.setTipo(TipoMensaje.ALERTA);
+//			mensaje.setOrigen(usuario.getSubdominio());
+//			mensaje.setDescripcion(message);
+//			mensaje.setTipo(TipoMensaje.ALERTA);
 
 			// Notifica Miembros
-			Notificacion.notificarGrupo(usuario.getGrupos(), mensaje);
+//			Notificacion.notificarGrupo(usuario.getGrupos(), mensaje);
 		}
 
 		model.put("sector", sector);

@@ -13,8 +13,8 @@ import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
 import SAYAV2.SAYAV2.bussines.Alarma;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
+import SAYAV2.SAYAV2.mensajeria.Mensaje;
 import SAYAV2.SAYAV2.model.Grupo;
-import SAYAV2.SAYAV2.model.Mensaje;
 import SAYAV2.SAYAV2.model.Peer;
 import SAYAV2.SAYAV2.model.Usuario;
 
@@ -83,7 +83,7 @@ public class AlarmController {
 
 	private static void notificarCentrales(String titulo, String message) throws JAXBException, ProtocolException, MalformedURLException, IOException {
 		Mensaje mensaje = new Mensaje();
-		mensaje.setDescripcion(titulo + message);
+//		mensaje.setDescripcion(titulo + message);
 		notificarCentrales(mensaje);
 	}
 

@@ -17,6 +17,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import SAYAV2.SAYAV2.mensajeria.Mensaje;
+
 
 /**
  * <p>Java class for Peer complex type.

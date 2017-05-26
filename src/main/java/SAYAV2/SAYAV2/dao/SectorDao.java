@@ -2,13 +2,9 @@ package SAYAV2.SAYAV2.dao;
 
 import java.io.File;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 
 import SAYAV2.SAYAV2.model.Sector;
-import SAYAV2.SAYAV2.model.Usuario;
 
 public class SectorDao extends GenericDao<Sector>{
 	
