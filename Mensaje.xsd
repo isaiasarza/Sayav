@@ -8,16 +8,17 @@
 					<element name="Id" type="string" />
 					<element name="origen" type="string" />
 					<element name="destino" type="string" />
-					<element name="fecha" type="string" />
+					<element name="fecha" type="date" />
+					<element name="estado" type="string" />
 					<element name="datos" type="string" />
 					<element name="descripcion" type="string" />
-					
-					
+
+
 				</sequence>
 				<element name="TipoMensaje" type="tns:TipoMensaje"
 					maxOccurs="unbounded" minOccurs="0">
 				</element>
-				
+
 			</choice>
 		</complexType>
 	</element>

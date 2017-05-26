@@ -9,6 +9,7 @@
 package SAYAV2.SAYAV2.mensajeria;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -34,7 +35,8 @@ import javax.xml.bind.annotation.XmlType;
  *           &lt;element name="Id" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *           &lt;element name="origen" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *           &lt;element name="destino" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
- *           &lt;element name="fecha" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *           &lt;element name="fecha" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
+ *           &lt;element name="estado" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *           &lt;element name="datos" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *           &lt;element name="descripcion" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;/sequence&gt;
@@ -53,6 +55,7 @@ import javax.xml.bind.annotation.XmlType;
     "origen",
     "destino",
     "fecha",
+    "estado",
     "datos",
     "descripcion",
     "tipoMensaje"
@@ -64,7 +67,8 @@ public class Mensaje {
     protected String id;
     protected String origen;
     protected String destino;
-    protected String fecha;
+    protected Date fecha;
+    protected String estado;
     protected String datos;
     protected String descripcion;
     @XmlElement(name = "TipoMensaje")
@@ -158,7 +162,7 @@ public class Mensaje {
      *     {@link String }
      *     
      */
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
@@ -170,7 +174,7 @@ public class Mensaje {
      *     {@link String }
      *     
      */
-    public void setFecha(String value) {
+    public void setFecha(Date value) {
         this.fecha = value;
     }
 
@@ -221,8 +225,22 @@ public class Mensaje {
     public void setDescripcion(String value) {
         this.descripcion = value;
     }
+    
+    
 
-    /**
+    public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public void setTipoMensaje(List<TipoMensaje> tipoMensaje) {
+		this.tipoMensaje = tipoMensaje;
+	}
+
+	/**
      * Gets the value of the tipoMensaje property.
      * 
      * <p>
