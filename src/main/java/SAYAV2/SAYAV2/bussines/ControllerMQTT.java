@@ -83,9 +83,16 @@ public class ControllerMQTT implements MqttCallback {
 		int qos = 1;
 
 		Usuario usuario = usuarioDao.cargar(file);
+		
+		String handshakeRequest= usuario.getSubdominio() + "/" + TipoMensajeUtils.HANDSHAKE_REQUEST;
+		receive(handshakeRequest,qos);
+		
+		String handshakeResponse = usuario.getSubdominio() + "/" + TipoMensajeUtils.HANDSHAKE_RESPONSE;
+		receive(handshakeResponse,qos);
 
 		String nuevoGrupo = usuario.getSubdominio() + "/" + TipoMensajeUtils.NUEVO_GRUPO;
 		receive(nuevoGrupo, qos);
+		
 		if (!usuario.getGrupos().isEmpty()) {
 			suscribeAllGroups(usuario.getGrupos());
 		}
