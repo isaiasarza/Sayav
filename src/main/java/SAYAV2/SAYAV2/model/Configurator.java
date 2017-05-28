@@ -44,7 +44,7 @@ import javax.xml.bind.annotation.XmlType;
     "port",
     "sectores"
 })
-@XmlRootElement(name = "Configurator")
+@XmlRootElement(name = "Configurator" , namespace = "http://www.example.org/Mensaje")
 public class Configurator {
 
     @XmlElement(name = "Broker")
@@ -139,4 +139,10 @@ public class Configurator {
         this.sectores = value;
     }
 
+	@Override
+	public String toString() {
+		return "Configurator [broker=" + broker + ", port=" + port + ", sectores=" + sectores + "]";
+	}
+
+    
 }

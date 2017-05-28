@@ -1,15 +1,29 @@
 package SAYAV2.SAYAV2.bussines;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
+import static org.junit.Assert.assertNotEquals;
+
+
+import java.util.Date;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
+import SAYAV2.SAYAV2.mensajeria.Mensaje;
+import SAYAV2.SAYAV2.mensajeria.MensajeriaImpl;
+
 public class MensajeriaImplTest {
+	
+	MensajeriaImpl mensajeria;
+	Mensaje mensaje;
+	
 
 	@Before
 	public void setUp() throws Exception {
+		mensajeria = MensajeriaImpl.getInstance();
+		mensaje = mensajeria.getMensajes().getMensaje().get(7);
 	}
 
 	@After
@@ -33,16 +47,24 @@ public class MensajeriaImplTest {
 
 	@Test
 	public void testReenviarMensajePendiente() {
-		fail("Not yet implemented");
+		Date fechaInicial = (Date) mensaje.getFecha().clone();
+		Date fechaReenvio;
+		mensajeria.reenviarMensaje(mensaje);
+		fechaReenvio = mensaje.getFecha();
+		
+		assertNotEquals(fechaInicial.getTime(),fechaReenvio.getTime());
 	}
 
 	@Test
 	public void testEnviarSolicitud() {
-		fail("Not yet implemented");
-	}
+//		System.out.println(mensaje);
+//		String msg = mensajeria.enviarSolicitud(mensaje);
+//		System.out.println(msg);	
+		}
 
 	@Test
 	public void testEnviarConfirmacion() {
+		
 		fail("Not yet implemented");
 	}
 

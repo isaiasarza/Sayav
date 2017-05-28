@@ -89,4 +89,14 @@ public class MensajesPendientes {
         return this.mensaje;
     }
 
+
+	public Mensaje getMensaje(String id) {
+		for(Mensaje m: this.mensaje){
+			if(m.getId().equals(id)){
+				return m;
+			}
+		}
+		return null;
+	}
+
 }

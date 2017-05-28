@@ -37,8 +37,8 @@ public class ControllerMQTTTest {
 
 	@Test
 	public void testNotificarMiembros() {
-		String msg = controller.notificarMiembros(p, g);
-		System.out.println(msg);
+//		String msg = controller.notificarMiembros(p, g);
+//		System.out.println(msg);
 	}
 	
 	@Test

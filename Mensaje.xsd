@@ -12,13 +12,9 @@
 					<element name="estado" type="string" />
 					<element name="datos" type="string" />
 					<element name="descripcion" type="string" />
-
-
+					<element name="tipoHandshake" type="string" />
+					<element name="TipoMensaje" type="tns:TipoMensaje" />
 				</sequence>
-				<element name="TipoMensaje" type="tns:TipoMensaje"
-					maxOccurs="unbounded" minOccurs="0">
-				</element>
-
 			</choice>
 		</complexType>
 	</element>

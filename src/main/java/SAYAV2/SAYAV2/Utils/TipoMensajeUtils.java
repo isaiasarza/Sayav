@@ -3,8 +3,8 @@ package SAYAV2.SAYAV2.Utils;
 public class TipoMensajeUtils {
 
 	public static final Object OK = "Ok";
-	public static final String HANDSHAKE_REQUEST = null;
-	public static final String HANDSHAKE_RESPONSE = null;
+	public static final String HANDSHAKE_REQUEST = "Handshake Request";
+	public static final String HANDSHAKE_RESPONSE = "Handshake Response";
 	public static final String SOLICITUD_BAJA_MIEMBRO = "Solicitud Baja Miembro";
 	public static final String VOTO = "Voto";
 	public static String NUEVO_MIEMBRO = "Nuevo Miembro";

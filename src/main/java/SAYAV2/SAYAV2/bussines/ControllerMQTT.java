@@ -16,21 +16,23 @@ import org.eclipse.paho.client.mqttv3.MqttSecurityException;
 import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
 import SAYAV2.SAYAV2.dao.ConfiguratorDao;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
+import SAYAV2.SAYAV2.mensajeria.Mensaje;
+import SAYAV2.SAYAV2.mensajeria.MensajeriaImpl;
 import SAYAV2.SAYAV2.model.Configurator;
 import SAYAV2.SAYAV2.model.Grupo;
-import SAYAV2.SAYAV2.model.GrupoPeer;
-import SAYAV2.SAYAV2.model.Peer;
 import SAYAV2.SAYAV2.model.Usuario;
 import SAYAV2.SAYAV2.service.JsonTransformer;
 
 public class ControllerMQTT implements MqttCallback {
 
+	
 	private static ControllerMQTT controllerMqtt;
 	private static JsonTransformer jsonTransformer = new JsonTransformer();
 	private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
 	private static ConfiguratorDao configDao = ConfiguratorDao.getInstance();
 	private static File file = new File("SAYAV");
 	private static File configFile = new File("configurator");
+	private static MensajeriaImpl mensajeria;
 	private MqttAsyncClient client;
 	private MqttConnectOptions options;
 
@@ -49,8 +51,10 @@ public class ControllerMQTT implements MqttCallback {
 	}
 
 	public static ControllerMQTT getInstance() {
-		if (controllerMqtt == null)
+		if (controllerMqtt == null){
 			controllerMqtt = new ControllerMQTT();
+			mensajeria = MensajeriaImpl.getInstance();
+		}
 		return controllerMqtt;
 	}
 
@@ -145,77 +149,7 @@ public class ControllerMQTT implements MqttCallback {
 		}
 	}
 
-	public void handshakeRequest(String topicDestino, String topicOrigen) {
-		String messageRequest = topicOrigen + "/" + TipoMensajeUtils.HANDSHAKE_RESPONSE;
-		send(topicDestino + "/" + TipoMensajeUtils.HANDSHAKE_REQUEST, messageRequest, 2);
-	}
-
-	public void handshakeResponse(String topicDestino, String topicOrigen) {
-
-		send(topicDestino + "/" + TipoMensajeUtils.HANDSHAKE_RESPONSE, topicOrigen, 2);
-	}
-
-	public String notificarNuevoGrupo(Peer peer, Grupo grupo, Usuario usuario) {
-		System.out.println("Enviando el grupo al miembro");
-
-		int qos = 2;
-		String topic = peer.getDireccion() + "/" + TipoMensajeUtils.NUEVO_GRUPO;
-		GrupoPeer g = new GrupoPeer();
-		g.setGrupoId(grupo.getId());
-		g.setGrupoNombre(grupo.getNombre());
-		g.setListaPeersByPeer(grupo.getPeers());
-		g.addPeer(usuario.getSubdominio());
-		String msg = jsonTransformer.render(g);
-		System.out.println(msg);
-		send(topic, msg, qos);
-		return msg;
-	}
-
-	public String notificarMiembros(Peer peer, Grupo grupo) {
-		System.out.println("Enviando el miembro al grupo " + peer.getDireccion());
-		int qos = 1;
-		GrupoPeer g = new GrupoPeer();
-		g.setGrupoId(grupo.getId());
-		g.setGrupoNombre(grupo.getNombre());
-		g.setPeer(peer.getDireccion());
-		String topic = grupo.getId() + "/" + TipoMensajeUtils.NUEVO_MIEMBRO;
-		String msg = jsonTransformer.render(g);
-		send(topic, msg, qos);
-		return msg;
-	}
-
-	public String arriboNuevoGrupo(String msg, Usuario usuario) {
-		GrupoPeer g = jsonTransformer.getGson().fromJson(msg.toString(), GrupoPeer.class);
-		System.out.println(msg);
-		System.out.println(g.toString());
-		Grupo nuevo = new Grupo();
-		nuevo.setId(g.getGrupoId());
-		nuevo.setNombre(g.getGrupoNombre());
-		nuevo.addAll(g.getListaPeers());
-		if (usuario.addGrupo(nuevo)) {
-			System.out.println("Agrego al grupo con id: " + nuevo.getId());
-			return nuevo.getId();
-		}
-		// TODO: Grupo existente
-		return null;
-	}
-
-	public boolean arriboNuevoMiembro(String msg, Usuario usuario) {
-		System.out.println(msg);
-		GrupoPeer g = jsonTransformer.getGson().fromJson(msg.toString(), GrupoPeer.class);
-		Grupo aux = usuario.getSingleGrupoById(g.getGrupoId());
-
-		if ((aux) == null) {
-			return false;
-		}
-
-		if (!aux.addPeer(g.getPeer())) {
-			// TODO: Solucionar posible problema
-			return false;
-		}
-
-		return true;
-	}
+	
 
 	@Override
 	public void connectionLost(Throwable arg0) {
@@ -230,37 +164,17 @@ public class ControllerMQTT implements MqttCallback {
 	@Override
 	public void messageArrived(String topic, MqttMessage msg) throws Exception {
 		System.out.println("Message Arrived...");
-		Usuario usuario = usuarioDao.cargar(file);
-
-		if (topic.equals(usuario.getSubdominio() + "/" + TipoMensajeUtils.HANDSHAKE_REQUEST)) {
-			this.handshakeRequest(msg.toString(), usuario.getSubdominio());
+		Mensaje mensaje;
+		String tipo;
+		
+		mensaje = jsonTransformer.getGson().fromJson(msg.toString(), Mensaje.class);
+		
+		tipo = mensaje.getTipoHandshake();
+		
+		if(tipo.equals(TipoMensajeUtils.HANDSHAKE_REQUEST)){
+			mensajeria.recibirSolicitud(mensaje);
 		}
 
-		if (topic.equals(usuario.getSubdominio() + "/" + TipoMensajeUtils.HANDSHAKE_RESPONSE)) {
-			if(msg.toString().equals(TipoMensajeUtils.NUEVO_MIEMBRO)){
-			}
-		}
-		if (topic.equals(usuario.getSubdominio() + "/" + TipoMensajeUtils.NUEVO_GRUPO)) {
-			String id = arriboNuevoGrupo(msg.toString(), usuario);
-			if (id != null) {
-				usuarioDao.guardar(usuario, file);
-				String nuevo = id + "/" + TipoMensajeUtils.NUEVO_MIEMBRO;
-				System.out.println(nuevo);
-				this.receive(nuevo, 1);
-			} else {
-				System.out.println("id null");
-			}
-
-		}
-
-		for (Grupo g : usuario.getGrupos()) {
-			if (topic.equals(g.getId() + "/" + TipoMensajeUtils.NUEVO_MIEMBRO)) {
-				System.out.println("Nuevo Miembro");
-				if (arriboNuevoMiembro(msg.toString(), usuario)) {
-					usuarioDao.guardar(usuario, file);
-				}
-			}
-		}
 	}
 
 }

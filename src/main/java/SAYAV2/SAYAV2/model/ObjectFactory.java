@@ -63,5 +63,13 @@ public class ObjectFactory {
     public TipoMensaje createTipoMensaje() {
         return new TipoMensaje();
     }
+    
+    /**
+     * Create an instance of {@link Configurator }
+     * 
+     */
+    public Configurator createConfigurator(){
+    	return new Configurator();
+    }
 
 }

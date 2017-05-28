@@ -4,16 +4,20 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.bind.JAXBException;
+
 import org.apache.commons.validator.routines.UrlValidator;
 
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.RequestUtil;
-import SAYAV2.SAYAV2.Utils.TipoMensaje;
+import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
 import SAYAV2.SAYAV2.bussines.ControllerMQTT;
+import SAYAV2.SAYAV2.dao.MensajePendienteDao;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
+import SAYAV2.SAYAV2.mensajeria.Mensaje;
 import SAYAV2.SAYAV2.model.Grupo;
-import SAYAV2.SAYAV2.model.Mensaje;
+import SAYAV2.SAYAV2.model.MensajesPendientes;
 import SAYAV2.SAYAV2.model.Peer;
 import SAYAV2.SAYAV2.model.Usuario;
 import spark.Request;
@@ -24,8 +28,10 @@ public class GroupController {
 
 	private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
 	private static File file = new File("SAYAV");
+	private static File fileMensajes = new File("Mensajes");
+	private static MensajePendienteDao mensajePendienteDao = MensajePendienteDao.getInstance();
 	private static ControllerMQTT not = ControllerMQTT.getInstance();
-
+	
 
 	public static Route getNewGroup = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
@@ -35,7 +41,7 @@ public class GroupController {
 		System.out.println(usuario);
 
 		Mensaje mensaje = new Mensaje();
-		mensaje.setTipo(TipoMensaje.ALERTA);
+//		mensaje.setTipo(TipoMensaje.ALERTA);
 		model.put("mensaje", mensaje);
 
 		model.put("user", usuario);
@@ -65,7 +71,9 @@ public class GroupController {
 			model.put("user", usuario);
 
 			usuarioDao.guardar(usuario, file);
-			String nuevoMiembro = nuevoGrupo.getId()+ "/" + TipoMensaje.NUEVO_MIEMBRO;
+			String nuevoMiembro = nuevoGrupo.getId()+ "/" + TipoMensajeUtils.NUEVO_MIEMBRO;
+			System.out.println(nuevoMiembro);
+
             not.receive(nuevoMiembro,2);
 			
 
@@ -148,8 +156,6 @@ public class GroupController {
 
 		memberDomain = RequestUtil.getQueryMemberDomain(request);
 		
-		
-		
 		if(!memberDomain.contains("http://")){
 			memberDomain = "http://" + memberDomain;
 		}
@@ -186,15 +192,22 @@ public class GroupController {
 			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
 		}
 
+//		Handshake con nuevo miembro
+		
+//		not.handshakeRequest(peer.getDireccion(), usuario.getDireccion());
+		
+//		Guardar como pendiente
+		
+		guardar(peer.getDireccion());
 //		Notificar a los miembros que hay un nuevo miembro
 		
 		if(!grupo.getPeers().isEmpty()){
-			not.notificarMiembros(peer,grupo);
+//			not.notificarMiembros(peer,grupo);
 		}
 		
 //		Notificar al nuevo miembro, que es parte de un grupo
 		
-		not.notificarNuevoGrupo(peer,grupo,usuario);
+//		not.notificarNuevoGrupo(peer,grupo,usuario);
 		
 //TODO: 	Check que todo esta bien
 		
@@ -224,6 +237,19 @@ public class GroupController {
 
 		return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
 	};
+
+	private static void guardar(String direccion) {
+		Mensaje m = new Mensaje();
+//		m.setDatos(direccion);
+//		m.setTipo(TipoMensaje.NUEVO_MIEMBRO);
+		try {
+			MensajesPendientes mensajesPendientes = mensajePendienteDao.cargar(fileMensajes);
+//			mensajesPendientes.addMensaje(m);
+			mensajePendienteDao.guardar(mensajesPendientes, fileMensajes);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+	}
 
 	
 	
