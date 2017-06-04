@@ -12,10 +12,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.bind.JAXBException;
+
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.RequestUtil;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
 import SAYAV2.SAYAV2.bussines.ControllerMQTT;
+import SAYAV2.SAYAV2.dao.ConfiguratorDao;
+import SAYAV2.SAYAV2.model.Configurator;
 import SAYAV2.SAYAV2.model.Sector;
 import SAYAV2.SAYAV2.model.Usuario;
 import spark.Request;
@@ -23,7 +27,8 @@ import spark.Response;
 import spark.Route;
 
 public class RegistrationController {
-	private static File config = new File("config");
+	private static File config = new File("configurator");
+	private static ConfiguratorDao configDao = ConfiguratorDao.getInstance();
 	private static ControllerMQTT controllerMqtt = ControllerMQTT.getInstance();
 
 
@@ -108,22 +113,27 @@ public class RegistrationController {
 	}
 
 	public static List<Sector> initSectores() {
-		try {
-			int i = config();
-			List<Sector> sectores = new ArrayList<Sector>();
-			for (int j = 0; j < i; j++) {
-				Sector s = new Sector();
-//				s.setId(String.valueOf(j));
-				s.setNombre("Sector N" + j);
-				sectores.add(s);
+		
+			Configurator configurator;
+			try {
+				configurator = configDao.cargar(config);
+				int cant = configurator.getSectores();
+				List<Sector> sectores = new ArrayList<Sector>();
+				for (int i = 0; i < cant; i++) {
+					Sector s = new Sector();
+					s.setNombre("Sector N" + i);
+					sectores.add(s);
+				}
+				return sectores;
+			} catch (JAXBException e) {
+				e.printStackTrace();
 			}
-			return sectores;
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+			
+		
 		return null;
 	}
 
+	@Deprecated
 	public static int config() throws FileNotFoundException {
 		InputStream inputStream = new FileInputStream(config);
 		config.setReadable(true);

@@ -4,7 +4,9 @@
 <h2>Sectores</h2>
 
 #if($existingSector)
-	<p class="bad notification">Ya existe sector con ese nombre, por favor cambielo</p>
+	<div class="dangerAlert">	
+	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Ya existe sector con ese nombre, por favor cambielo
+  	</div>
 #end
 
 <table>
@@ -12,7 +14,6 @@
   <thead>
     <tr>
       <th>Estado</th>
-      <th>Id</th>
       <th>Nombre</th>
     </tr>
   </thead>
@@ -38,12 +39,13 @@
          	</form>
         </td>
       	#end 
-      	<td> $!sector.getId()</td>
+      	
     	<td>
-    	 	<form method="post" action="$WebPath.getRenombrarSector()">
+    	 	<form id="tabla" method="post" action="$WebPath.getRenombrarSector()">
     	 		<input type="text" name="nuevoNombreSector" value="$!sector.getNombre()" required>
     	 		<input type="hidden" name="nombreActualSector" value="$!sector.getNombre()">	
-            	<button id="update">$msg.get("SECTOR_UPDATE")</button>            	              
+l				<input type="submit" value=$msg.get("SECTOR_UPDATE") >
+            	   	              
          	</form>
         </td>
 	</tr>

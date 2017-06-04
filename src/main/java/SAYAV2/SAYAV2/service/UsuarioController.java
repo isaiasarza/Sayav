@@ -24,8 +24,7 @@ public class UsuarioController {
 
 	private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
 	private static Usuario currentUser;
-	private static String fileName = "SAYAV";
-	private static File file = new File(fileName);
+	private static File file = new File("SAYAV");
 	
 	public UsuarioController() {
 		super();
@@ -37,7 +36,6 @@ public class UsuarioController {
 	 */
 	public static String registrarUsuario(Usuario usuario) {
 		usuarioDao = UsuarioDao.getInstance();
-//		Usuario u = new Usuario();
 		System.out.println("Registrando: " + usuario);
 		file.setWritable(true);
 		file.setReadable(true);

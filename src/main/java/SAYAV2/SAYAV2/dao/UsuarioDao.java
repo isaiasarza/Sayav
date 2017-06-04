@@ -4,6 +4,8 @@ import java.io.File;
 
 import javax.xml.bind.JAXBException;
 
+import SAYAV2.SAYAV2.model.Grupo;
+import SAYAV2.SAYAV2.model.Peer;
 import SAYAV2.SAYAV2.model.Usuario;
 
 public class UsuarioDao extends GenericDao<Usuario>{
@@ -32,6 +34,15 @@ public class UsuarioDao extends GenericDao<Usuario>{
 		
 		usuarioDao.guardar(usuario, file);
 		
+	}
+	
+	public Peer getPeer(String dirección, Grupo grupo){
+		for(Peer p: grupo.getPeers()){
+			if(p.getDireccion().equals(dirección)){
+				return p;
+			}
+		}
+		return null;
 	}
 	
 	

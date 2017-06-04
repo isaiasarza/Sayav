@@ -1,4 +1,4 @@
-package SAYAV2.SAYAV2.bussines;
+package SAYAV2.SAYAV2.notificacion;
 
 import java.util.List;
 
