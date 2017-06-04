@@ -5,6 +5,8 @@ import javax.xml.bind.annotation.XmlRegistry;
 
 import SAYAV2.SAYAV2.mensajeria.Mensaje;
 import SAYAV2.SAYAV2.mensajeria.TipoMensaje;
+import SAYAV2.SAYAV2.notificacion.Votacion;
+import SAYAV2.SAYAV2.notificacion.Votaciones;
 
 
 /**
@@ -30,6 +32,22 @@ public class ObjectFactory {
      * 
      */
     public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link Votaciones }
+     * 
+     */
+    public Votaciones createVotaciones() {
+        return new Votaciones();
+    }
+
+    /**
+     * Create an instance of {@link Votacion }
+     * 
+     */
+    public Votacion createVotacion() {
+        return new Votacion();
     }
 
     /**

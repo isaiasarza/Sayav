@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.example.org/Votaciones"
+	xmlns:tns="http://www.example.org/Votaciones"
+	elementFormDefault="qualified" xmlns:pref="http://www.example.org/UsuarioXMLSchema">
+
+
+	<import schemaLocation="UsuarioXMLSchema.xsd" namespace="http://www.example.org/UsuarioXMLSchema"></import>
+	
+	
+	<element name="Votaciones">
+		<complexType>
+			<choice>
+				<element name="Votaciones" type="tns:Votacion"
+					maxOccurs="unbounded" minOccurs="0">
+				</element>
+			</choice>
+		</complexType>
+	</element>
+	
+	<complexType name="Votacion">
+		<sequence>
+			<element name="Id" type="string" />
+			<element name="Miembro" type="pref:Peer" />
+			<element name="Grupo" type="pref:Grupo" />
+			<element name="VotantesAFavor" type="int" />
+			<element name="VotantesEnContra" type="int" />
+			<element name="Finalizo" type="boolean" />
+		</sequence>
+	</complexType>
+</schema>
