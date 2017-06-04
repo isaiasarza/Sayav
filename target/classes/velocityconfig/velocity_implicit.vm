@@ -26,7 +26,7 @@
 #* @vtlvariable name="status" type="java.lang.String" *#
 #* @vtlvariable name="enableAlarm" type="java.lang.String" *#
 #* @vtlvariable name="panicButton" type="java.lang.String" *#
-#* @vtlvariable name="mensaje" type="SAYAV2.SAYAV2.model.MensajeDato" *#
+#* @vtlvariable name="mensaje" type="SAYAV2.SAYAV2.mensajeria.Mensaje" *#
 #* @vtlvariable name="tipoMensaje" type="java.lang.String" *#
 
 

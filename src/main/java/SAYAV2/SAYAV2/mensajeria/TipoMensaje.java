@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence&gt;
  *         &lt;element name="tipo" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="quantum" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *         &lt;element name="timetolive" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -39,14 +40,15 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TipoMensaje", propOrder = {
     "tipo",
-    "quantum"
+    "quantum",
+    "timetolive"
 })
 public class TipoMensaje {
 
     @XmlElement(required = true)
     protected String tipo;
     protected long quantum;
-    
+    protected long timetolive;    
     
     /**
      * 
@@ -58,6 +60,16 @@ public class TipoMensaje {
 		this.tipo = tipo;
 		this.quantum = quantum;
 	}
+
+	public TipoMensaje(String tipo, long quantum, long timetolive) {
+		super();
+		this.tipo = tipo;
+		this.quantum = quantum;
+		this.timetolive = timetolive;
+	}
+
+
+
 
 	public TipoMensaje() {
 		super();
@@ -103,4 +115,15 @@ public class TipoMensaje {
         this.quantum = value;
     }
 
+	public long getTimetolive() {
+		return timetolive;
+	}
+
+	public void setTimetolive(long timetolive) {
+		this.timetolive = timetolive;
+	}
+
+    
+    
+    
 }

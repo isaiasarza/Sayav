@@ -188,7 +188,6 @@ public class ControllerMQTT implements MqttCallback {
 		}
 		
 		if(topic.equals("prueba/notificacion")){
-			NotificacionesImpl.mostrar("notificacion");
 			
 		}
 

@@ -1,15 +1,15 @@
 package SAYAV2.SAYAV2.bussines;
 
-import static org.junit.Assert.fail;
-import static org.junit.Assert.assertNotEquals;
-
+import static org.junit.Assert.*;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import SAYAV2.SAYAV2.Utils.EstadoUtils;
 import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
 import SAYAV2.SAYAV2.mensajeria.Mensaje;
 import SAYAV2.SAYAV2.mensajeria.MensajeriaImpl;
@@ -23,7 +23,11 @@ public class MensajeriaImplTest {
 	@Before
 	public void setUp() throws Exception {
 		mensajeria = MensajeriaImpl.getInstance();
-		mensaje = mensajeria.getMensajes().getMensaje().get(7);
+		mensaje = new Mensaje();
+		mensaje.setDescripcion("Prueba2");
+		mensaje.setEstado(EstadoUtils.PENDIENTE);
+		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
+		mensaje.setTipoMensaje(mensajeria.getTipos().getTipo(TipoMensajeUtils.NUEVO_MIEMBRO));
 	}
 
 	@After
@@ -47,12 +51,32 @@ public class MensajeriaImplTest {
 
 	@Test
 	public void testReenviarMensajePendiente() {
-		Date fechaInicial = (Date) mensaje.getFecha().clone();
-		Date fechaReenvio;
-		mensajeria.reenviarMensaje(mensaje);
-		fechaReenvio = mensaje.getFecha();
 		
-		assertNotEquals(fechaInicial.getTime(),fechaReenvio.getTime());
+		
+		Date fechaInicial = (Date) mensaje.getFechaCreacion().clone();
+		Date fechaReenvio;
+		mensajeria.guardarMensaje(mensaje);
+
+		
+		
+		fechaInicial.setTime(fechaInicial.getTime() + TimeUnit.MINUTES.toMillis(mensaje.getTipoMensaje().getQuantum()));
+		
+		assertTrue(mensajeria.reenviarMensaje(mensaje, fechaInicial));
+		fechaReenvio = mensaje.getFechaReenvio();
+		
+//		assertNotEquals(fechaInicial.getTime(),fechaReenvio.getTime());
+//		
+//		mensaje.setEstado(EstadoUtils.CONFIRMADO);
+//		
+//		assertFalse(mensajeria.reenviarMensaje(mensaje, fechaInicial));
+//		
+//		fechaInicial.setTime(fechaInicial.getTime() - TimeUnit.MINUTES.toMillis(mensaje.getTipoMensaje().getQuantum()/2));
+//		
+//		assertFalse(mensajeria.reenviarMensaje(mensaje, fechaInicial));
+//		
+//		fechaInicial.setTime(mensaje.getFechaCreacion().getTime() + TimeUnit.MINUTES.toMillis(mensaje.getTipoMensaje().getTimetolive()));
+//		
+//		assertFalse(mensajeria.reenviarMensaje(mensaje, fechaInicial));
 	}
 
 	@Test
@@ -74,7 +98,7 @@ public class MensajeriaImplTest {
 		msg.setOrigen("lucas.ddns.net");
 		msg.setDestino("isaiasarza.ddns.net");
 		msg.setDescripcion("Blablablabla");
-		msg.setFecha(new Date());
+		msg.setFechaCreacion(new Date());
 		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 		mensajeria.recibirSolicitud(msg);
 	}

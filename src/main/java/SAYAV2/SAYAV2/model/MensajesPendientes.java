@@ -57,6 +57,9 @@ public class MensajesPendientes {
 
 
     public boolean addMensaje(Mensaje mensaje){
+    	if(this.mensaje.contains(mensaje)){
+    		return false;
+    	}
     	return this.mensaje.add(mensaje);
     }
 

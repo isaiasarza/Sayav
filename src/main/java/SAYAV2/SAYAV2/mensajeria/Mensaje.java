@@ -49,15 +49,16 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "id", "origen", "destino", "fecha", "estado", "datos", "descripcion","tipoHandshake", "tipoMensaje" })
+@XmlType(name = "", propOrder = { "id", "origen", "destino", "fechaCreacion","fechaReenvio", "estado", "datos", "descripcion","tipoHandshake", "tipoMensaje" })
 @XmlRootElement(name = "Mensaje")
-public class Mensaje {
+public class Mensaje  implements Cloneable{
 
 	@XmlElement(name = "Id")
 	protected String id;
 	protected String origen;
 	protected String destino;
-	protected Date fecha;
+	protected Date fechaCreacion;
+	protected Date fechaReenvio;
 	protected String estado;
 	protected String datos;
 	protected String descripcion;
@@ -69,6 +70,41 @@ public class Mensaje {
 		super();
 		this.id = UUID.randomUUID().toString();
 		this.tipoMensaje = new TipoMensaje();
+		this.fechaCreacion = new Date();
+		this.fechaReenvio = new Date();	
+	}
+	
+	
+	
+	public Mensaje(String id, String origen, String destino, Date fechaCreacion, Date fechaReenvio, String estado,
+			String datos, String descripcion, String tipoHandshake, TipoMensaje tipoMensaje) {
+		super();
+		this.id = id;
+		this.origen = origen;
+		this.destino = destino;
+		this.fechaCreacion = fechaCreacion;
+		this.fechaReenvio = fechaReenvio;
+		this.estado = estado;
+		this.datos = datos;
+		this.descripcion = descripcion;
+		this.tipoHandshake = tipoHandshake;
+		this.tipoMensaje = tipoMensaje;
+	}
+
+	
+	public Object clone(){
+		
+		Object obj = null;
+		
+		try {
+			obj = super.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return obj;
+		
 	}
 
 	/**
@@ -134,26 +170,6 @@ public class Mensaje {
 		this.destino = value;
 	}
 
-	/**
-	 * Gets the value of the fecha property.
-	 * 
-	 * @return possible object is {@link String }
-	 * 
-	 */
-	public Date getFecha() {
-		return fecha;
-	}
-
-	/**
-	 * Sets the value of the fecha property.
-	 * 
-	 * @param value
-	 *            allowed object is {@link String }
-	 * 
-	 */
-	public void setFecha(Date value) {
-		this.fecha = value;
-	}
 
 	/**
 	 * Gets the value of the datos property.
@@ -221,16 +237,61 @@ public class Mensaje {
 		this.tipoMensaje = tipoMensaje;
 	}
 
-	@Override
-	public String toString() {
-		return "Mensaje [id=" + id + ", origen=" + origen + ", destino=" + destino + ", fecha=" + fecha + ", estado="
-				+ estado + ", datos=" + datos + ", descripcion=" + descripcion + ", tipoMensaje=" + tipoMensaje
-				+ ", getId()=" + getId() + ", getOrigen()=" + getOrigen() + ", getDestino()=" + getDestino()
-				+ ", getFecha()=" + getFecha() + ", getDatos()=" + getDatos() + ", getDescripcion()=" + getDescripcion()
-				+ ", getEstado()=" + getEstado() + ", getTipoMensaje()=" + getTipoMensaje() + ", getClass()="
-				+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+
+
+	public Date getFechaCreacion() {
+		return fechaCreacion;
 	}
 
 
+
+	public void setFechaCreacion(Date fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
+	}
+
+
+
+	public Date getFechaReenvio() {
+		return fechaReenvio;
+	}
+
+
+
+	public void setFechaReenvio(Date fechaReenvio) {
+		this.fechaReenvio = fechaReenvio;
+	}
+
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((fechaReenvio == null) ? 0 : fechaReenvio.hashCode());
+		return result;
+	}
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Mensaje other = (Mensaje) obj;
+		if (fechaReenvio == null) {
+			if (other.fechaReenvio != null)
+				return false;
+		} else if (!fechaReenvio.equals(other.fechaReenvio))
+			return false;
+		return true;
+	}
+
+
+	
+	
 
 }

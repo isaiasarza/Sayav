@@ -52,7 +52,7 @@ public class GruposImpl implements Grupos, Notificaciones {
 		mensaje.setDestino(miembro.getDireccion());
 		mensaje.setEstado(EstadoUtils.PENDIENTE);
 		mensaje.setTipoMensaje(mensajeria.getTipos().getTipo(TipoMensajeUtils.NUEVO_MIEMBRO));
-		mensaje.setFecha(new Date());
+		mensaje.setFechaCreacion(new Date());
 		mensaje.setDescripcion("Usted es parte de un nuevo grupo");
 		mensaje.setDatos(json.render(datos));
 		mensajeria.propagarMensaje(mensaje, grupo);
@@ -66,7 +66,7 @@ public class GruposImpl implements Grupos, Notificaciones {
 		mensaje.setDestino(miembro.getDireccion());
 		mensaje.setEstado(EstadoUtils.PENDIENTE);
 		mensaje.setTipoMensaje(mensajeria.getTipos().getTipo(TipoMensajeUtils.NUEVO_GRUPO));
-		mensaje.setFecha(new Date());
+		mensaje.setFechaCreacion(new Date());
 		mensaje.setDescripcion("Usted es parte de un nuevo grupo");
 		mensaje.setDatos(json.render(datos));
 		mensajeria.enviarSolicitud(mensaje);
@@ -140,36 +140,102 @@ public class GruposImpl implements Grupos, Notificaciones {
 
 	}
 
-	public Votaciones getVotaciones() {
-		return votaciones;
-	}
-
-	public void setVotaciones(Votaciones votaciones) {
-		this.votaciones = votaciones;
+	@Override
+	public void notificarGrupo(Grupo grupo, String msg) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
-	public void notificarGrupo(Grupo grupo, Mensaje msg) {
+	public void notificarMovil(DispositivoM movil, String msg) {
 		// TODO Auto-generated method stub
-		this.mensajeria.propagarMensaje(msg, grupo);
-	}
-
-	@Override
-	public void notificarMovil(DispositivoM movil, Mensaje msg) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void notificarGrupos(List<Grupo> grupos, Mensaje msg) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void notificarMoviles(List<DispositivoM> moviles, Mensaje msg) {
 		// TODO Auto-generated method stub
-
+		
 	}
+
+	public void recibirAlerta(Mensaje msg) throws JAXBException {
+		
+		Usuario usuario = usuarioDao.cargar(file);
+		
+		notificarMoviles(usuario.getDispositivosMoviles(), msg);
+		
+	}
+
+	public void recibirNuevoMiembro(Mensaje msg) throws JAXBException {
+
+		
+		
+		Usuario usuario = usuarioDao.cargar(file);
+		
+        DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
+		
+        //Agrega el nuevo miembro al grupo
+        usuario.getSingleGrupoById(datos.getGrupo().getId()).add(datos.getMiembro());
+		
+	}
+
+	public void recibirNuevoGrupo(Mensaje msg) throws JAXBException {
+	
+		Usuario usuario = usuarioDao.cargar(file);
+		
+		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
+		
+		usuario.getGrupos().add(datos.getGrupo());
+		
+	}
+
+	public void recibirBajaMiembro(Mensaje msg) throws JAXBException {
+
+		Usuario usuario = usuarioDao.cargar(file);
+		
+		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
+		
+        usuario.getSingleGrupoById(datos.getGrupo().getId()).removePeer(datos.getMiembro());
+
+		
+	}
+
+	public void recibirSolicitudBaja(Mensaje msg) throws JAXBException {
+		
+		Usuario usuario = usuarioDao.cargar(usuarioFile);
+		
+		notificarMoviles(usuario.getDispositivosMoviles(), msg);
+		
+	}
+
+	public void recibirVoto(Mensaje msg) throws JAXBException {
+		
+		Usuario usuario = usuarioDao.cargar(usuarioFile);
+
+		DatoVoto datos = json.getGson().fromJson(msg.getDatos(), DatoVoto.class);
+
+		
+		Votacion votacion = votacionesDao.cargar(votacionesFile).getVotacion(datos.getGrupo(), datos.getMiembro());
+		
+		if(datos.isVoto()){
+			votacion.setVotantesAFavor(votacion.getVotantesAFavor()+1);
+		}
+		else{
+			votacion.setVotantesEnContra(votacion.getVotantesEnContra()+1);
+		}
+		
+		procesarBajaMiembro(votacion);
+		
+	}
+
+	
+	
+	
 
 }

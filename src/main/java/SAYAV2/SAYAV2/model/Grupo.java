@@ -196,6 +196,17 @@ public class Grupo {
 	public String toString() {
 		return "Grupo [id=" + id + ", nombre=" + nombre + ", peers=" + peers + "]";
 	}
+
+	public void add(Peer miembro) {
+	
+		this.peers.add(miembro);
+	}
+
+	public void removePeer(Peer miembro) {
+
+		this.peers.remove(miembro);
+
+	}
 	
 	
 	

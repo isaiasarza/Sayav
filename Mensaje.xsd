@@ -8,7 +8,8 @@
 					<element name="Id" type="string" />
 					<element name="origen" type="string" />
 					<element name="destino" type="string" />
-					<element name="fecha" type="date" />
+					<element name="fechaCreacion" type="date" />
+					<element name="fechaReenvio" type="date" />
 					<element name="estado" type="string" />
 					<element name="datos" type="string" />
 					<element name="descripcion" type="string" />
@@ -23,6 +24,8 @@
 		<sequence>
 			<element name="tipo" type="string"></element>
 			<element name="quantum" type="long"></element>
+			<element name="timetolive" type="long"></element>
+			
 		</sequence>
 	</complexType>
 </schema>

@@ -3,21 +3,22 @@ package Datos;
 import SAYAV2.SAYAV2.model.Grupo;
 import SAYAV2.SAYAV2.model.Peer;
 
-public class DatoGrupo {
+public class DatoVoto {
 	
 	private Peer miembro;
 	private Grupo grupo;
+	private boolean voto;
 	
-
-	public DatoGrupo() {
+	
+	public DatoVoto() {
 		super();
 	}
 	
-	
-	public DatoGrupo(Peer miembro, Grupo grupo) {
+	public DatoVoto(Peer miembro, Grupo grupo, boolean voto) {
 		super();
 		this.miembro = miembro;
 		this.grupo = grupo;
+		this.voto = voto;
 	}
 
 
@@ -27,14 +28,17 @@ public class DatoGrupo {
 	}
 
 
+
 	public void setMiembro(Peer miembro) {
 		this.miembro = miembro;
 	}
 
 
+
 	public Grupo getGrupo() {
 		return grupo;
 	}
+
 
 
 	public void setGrupo(Grupo grupo) {
@@ -43,10 +47,18 @@ public class DatoGrupo {
 
 
 
-	@Override
-	public String toString() {
-		return "DatoGrupo [miembro=" + miembro + ", grupo=" + grupo + "]";
+	public boolean isVoto() {
+		return voto;
 	}
+
+
+
+	public void setVoto(boolean voto) {
+		this.voto = voto;
+	}
+	
+	
+	
 	
 	
 
