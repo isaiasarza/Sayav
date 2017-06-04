@@ -2,17 +2,34 @@
 #@mainLayout()
 	<h1>Grupo "$!group.getNombre()"</h1>
 	
+	#if($conectionProblems)
+    		<div  class="dangerAlert">	
+	 	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>El miembro requerido se encuentra con problemas de conectividad, por favor intente mas tarde
+	  		</div>
+	#end
+	#if($solicitar)
+		<div  class="infoAlert">	
+ 	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Procesando Solicitud
+  		</div>
+	#end
+	
 	<form id="newGroupMemberForm" onsubmit="return validateForm()" method="post" action="$WebPath.getNewGroup()$groupName/"> 
   		#if($existingMember)
-        	<p class="bad notification">$msg.get("EXISTING_PEER")</p>
+  			<div  class="dangerAlert">	
+	 	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>$msg.get("EXISTING_PEER")
+        	</div>
         #elseif($memberIsUser)
-        	<p class="bad notification">No puede ingresarse a usted mismo como miembro</p>
+        	<div  class="dangerAlert">	
+	 	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>No puede ingresarse a usted mismo como miembro
+        	</div>
         #elseif($invalidDomain)
-        	<p class="bad notification">El dominio ingresado no corresponde a una url valida, por favor verifique su escritura</p>
-    	#elseif($conectionProblems)
-        	<p class="bad notification">El miembro requerido se encuentra con problemas de conectividad, por favor intente mas tarde</p>
+        	<div  class="dangerAlert">	
+	 	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>El dominio ingresado no corresponde a una url valida, por favor verifique su escritura
+	  		</div>
     	#elseif($addMemberSucceeded)   
-       		<p class="good notification">$msg.get("NEW_PEER_SUCCEEDED")</p>      	
+       		<div  class="infoAlert">	
+	 	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Procesando Miembro
+	  		</div>
     	#end
    		<h2>$msg.get("NEW_GROUP_MEMBER_HEADING")</h2>
     
@@ -36,15 +53,28 @@
 	}
 	</script>  
  	#if($!group.getPeers().isEmpty())
-   		<p class="notification">$!group.getNombre() no contiene miembros</p>
+ 		<div class="infoAlert">	
+	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>No hay miembros
+	  	</div>
    	#else	 
 	<table >
   		<tr>
-    		<th  align="center">Miembros</th>	    		
+    		<th align="center">Miembro</th>	
+    		<th align="center">Solicitar Baja</th>	    			    		
   		</tr>
   		
+  		
+  		 		
   		#foreach($peer in $group.getPeers())
-			<tr><td>$!peer.getDireccion()</td></tr>
+			<tr>
+				<td>$!peer.getDireccion()</td>
+				<td  align="center">
+					<form id="tabla" action="$WebPath.getSolicitarBaja()$!group.getNombre()/$!peer.getDireccion()/" method="post">
+					<input type="submit" value="Solicitar" >
+					</form>
+				</td>
+					
+			</tr>  
  		#end   		      
 							
 	</table>

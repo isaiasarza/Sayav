@@ -10,11 +10,17 @@
 <form id="registrationForm" onsubmit="return validateForm()" method="post" action = "/registration/">
 
  	#if($registrationFailed)
-        <p class="bad notification">$msg.get("REGISTRATION_AUTH_FAILED")</p>
+ 		<div class="dangerAlert">	
+	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>$msg.get("REGISTRATION_AUTH_FAILED")
+	  	</div>
     #elseif($existingUser)
-        <p class="notification">$msg.get("REGISTRATION_EXISTING_USER")</p>    
+    	<div class="infoAlert">	
+	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>$msg.get("REGISTRATION_EXISTING_USER")
+	  	</div>
     #elseif($registrationSucceeded)
-        <p class="good notification">$msg.get("REGISTRATION_AUTH_SUCCEEDED")</p>
+    	<div class="successAlert">	
+	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>$msg.get("REGISTRATION_AUTH_SUCCEEDED")
+	  	</div>
     #end
     
     <h1>$msg.get("REGISTRATION_HEADING")</h1>

@@ -57,10 +57,10 @@ public class MensajeriaImplTest {
 
 	@Test
 	public void testEnviarSolicitud() {
-//		System.out.println(mensaje);
-//		String msg = mensajeria.enviarSolicitud(mensaje);
-//		System.out.println(msg);	
-		}
+		System.out.println(mensaje);
+		String msg = mensajeria.enviarSolicitud(mensaje);
+		System.out.println(msg);	
+	}
 
 	@Test
 	public void testEnviarConfirmacion() {
@@ -69,8 +69,14 @@ public class MensajeriaImplTest {
 	}
 
 	@Test
-	public void testRecibirSolicitudConfirmación() {
-		fail("Not yet implemented");
+	public void testRecibirSolicitud() {
+		Mensaje msg = new Mensaje();
+		msg.setOrigen("lucas.ddns.net");
+		msg.setDestino("isaiasarza.ddns.net");
+		msg.setDescripcion("Blablablabla");
+		msg.setFecha(new Date());
+		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
+		mensajeria.recibirSolicitud(msg);
 	}
 
 	@Test

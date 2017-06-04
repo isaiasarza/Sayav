@@ -14,12 +14,11 @@
    		<a><img id="logo" src="/img/alarm.png" alt="Sayav"></a>
    		<a><img id="logo1" src="/img/logo1.png" alt="Sayav"></a>
    			
-   		<ul id="chooseLanguage">
-    
+   		## <ul id="chooseLanguage">
     		<form>
-               		<input type="hidden" name="localeLanguage" value="sp"></input>
+           		<input type="hidden" name="localeLanguage" value="sp"></input>
     		</form>
-        </ul> 
+        ## </ul> 
     
     	<ul id="menu">        
         	#if($currentUser)            
@@ -27,19 +26,24 @@
                 	<form method="post" action="$WebPath.getLogout()">
                  	   <button id="logout">$msg.get("COMMON_NAV_LOGOUT")</button>
                     </form>
-               </li>             	    
-            
+               </li>             	                
             
             #else
                <li><a href="$WebPath.getLogin()">$msg.get("COMMON_NAV_LOGIN")</a></li>
             #end
     	</ul>
     </nav>
+
 </header>
 
 
 	
 <main>
+	#if($mostrarNotificacion)
+		<div class="infoAlert">	
+  	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Prueba
+ 		</div>
+	#end
 	#if($currentUser)
 	
 	    
@@ -50,7 +54,7 @@
   	##	</div>
   		
    	##	#if($!panicButton)
-	  ## 		<div class="alert">	
+	  ## 		<div class="problemAlert">	
 	  ## 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Se activo el boton de panico
 	  ## 		</div>
 	##	#end
@@ -71,15 +75,20 @@
   		</div>
 		</nav>
 		
-						#if($!user.getAlarmaHabilitada())
-                			<form method="post" action="$WebPath.getAlarm()">
-                    			<button id="alarm">$msg.get("ENABLE_ALARM")</button>
-             				</form>
-                		#else
-               				<form method="post" action="$WebPath.getAlarm()">
-                    			<button id="alarm" >$msg.get("DISABLE_ALARM")</button>
-                 			</form>
-                		#end
+					<label class="switch">
+  						<input type="checkbox">
+  						<div align="right" class="slider"></div>
+					</label>
+		
+					##	#if($!user.getAlarmaHabilitada())
+                	##		<form method="post" action="$WebPath.getAlarm()">
+                    ##			<button id="alarm">$msg.get("ENABLE_ALARM")</button>
+             		##		</form>
+                	##	#else
+               		##		<form method="post" action="$WebPath.getAlarm()">
+                    ##			<button id="alarm" >$msg.get("DISABLE_ALARM")</button>
+                 	##		</form>
+                	##	#end
 	
             
 	#end

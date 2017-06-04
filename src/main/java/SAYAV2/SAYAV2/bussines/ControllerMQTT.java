@@ -21,11 +21,11 @@ import SAYAV2.SAYAV2.mensajeria.MensajeriaImpl;
 import SAYAV2.SAYAV2.model.Configurator;
 import SAYAV2.SAYAV2.model.Grupo;
 import SAYAV2.SAYAV2.model.Usuario;
+import SAYAV2.SAYAV2.notificacion.NotificacionesImpl;
 import SAYAV2.SAYAV2.service.JsonTransformer;
 
 public class ControllerMQTT implements MqttCallback {
 
-	
 	private static ControllerMQTT controllerMqtt;
 	private static JsonTransformer jsonTransformer = new JsonTransformer();
 	private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
@@ -51,7 +51,7 @@ public class ControllerMQTT implements MqttCallback {
 	}
 
 	public static ControllerMQTT getInstance() {
-		if (controllerMqtt == null){
+		if (controllerMqtt == null) {
 			controllerMqtt = new ControllerMQTT();
 			mensajeria = MensajeriaImpl.getInstance();
 		}
@@ -83,32 +83,39 @@ public class ControllerMQTT implements MqttCallback {
 		int qos = 1;
 
 		Usuario usuario = usuarioDao.cargar(file);
-		
-		String handshakeRequest= usuario.getSubdominio() + "/" + TipoMensajeUtils.HANDSHAKE_REQUEST;
-		receive(handshakeRequest,qos);
-		
+
+		String handshakeRequest = usuario.getSubdominio() + "/" + TipoMensajeUtils.HANDSHAKE_REQUEST;
+		receive(handshakeRequest, qos);
+
 		String handshakeResponse = usuario.getSubdominio() + "/" + TipoMensajeUtils.HANDSHAKE_RESPONSE;
-		receive(handshakeResponse,qos);
+		receive(handshakeResponse, qos);
 
 		String nuevoGrupo = usuario.getSubdominio() + "/" + TipoMensajeUtils.NUEVO_GRUPO;
 		receive(nuevoGrupo, qos);
 		
-		if (!usuario.getGrupos().isEmpty()) {
-			suscribeAllGroups(usuario.getGrupos());
-		}
+		String nuevoMiembro = usuario.getSubdominio() + "/" + TipoMensajeUtils.NUEVO_MIEMBRO;
+		receive(nuevoMiembro,qos);
+
 
 	}
 
 	public void suscribeAllGroups(List<Grupo> grupos) {
+
 		int n = grupos.size(), i = 0;
 		String[] grupoTopic = new String[n];
 		int[] qoss = new int[n];
-
-		for (Grupo g : grupos) {
-			grupoTopic[i] = (g.getId() + "/" + TipoMensajeUtils.NUEVO_MIEMBRO);
-			qoss[i] = 2;
-			i++;
+		Usuario usuario;
+		try {
+			usuario = usuarioDao.cargar(file);
+			for (Grupo g : grupos) {
+				grupoTopic[i] = (g.getId() + usuario.getSubdominio() + "/" + TipoMensajeUtils.NUEVO_MIEMBRO);
+				qoss[i] = 2;
+				i++;
+			}
+		} catch (JAXBException e) {
+			e.printStackTrace();
 		}
+
 		this.receive(grupoTopic, qoss);
 	}
 
@@ -156,8 +163,6 @@ public class ControllerMQTT implements MqttCallback {
 		}
 	}
 
-	
-
 	@Override
 	public void connectionLost(Throwable arg0) {
 
@@ -173,13 +178,18 @@ public class ControllerMQTT implements MqttCallback {
 		System.out.println("Message Arrived...");
 		Mensaje mensaje;
 		String tipo;
-		
+
 		mensaje = jsonTransformer.getGson().fromJson(msg.toString(), Mensaje.class);
-		
+
 		tipo = mensaje.getTipoHandshake();
-		
-		if(tipo.equals(TipoMensajeUtils.HANDSHAKE_REQUEST)){
+
+		if (tipo.equals(TipoMensajeUtils.HANDSHAKE_REQUEST)) {
 			mensajeria.recibirSolicitud(mensaje);
+		}
+		
+		if(topic.equals("prueba/notificacion")){
+			NotificacionesImpl.mostrar("notificacion");
+			
 		}
 
 	}

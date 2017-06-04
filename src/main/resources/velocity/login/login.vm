@@ -5,15 +5,25 @@
 <form id="loginForm" method="post" action="$WebPath.getLogin()">
 
 	#if($authenticationFailed)
-        <p class="bad notification">$msg.get("LOGIN_AUTH_FAILED")</p>
+		<div class="dangerAlert">	
+	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>$msg.get("LOGIN_AUTH_FAILED")
+	  	</div>
     #elseif($wrongPassword)
-        <p class="bad notification">$msg.get("LOGIN_AUTH_FAILED")</p>
+    	<div class="dangerAlert">	
+	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>$msg.get("LOGIN_AUTH_FAILED")
+	  	</div>
     #elseif($wrongEmail)
-        <p class="bad notification">$msg.get("LOGIN_AUTH_FAILED")</p>
-    #elseif($authenticationSucceeded)   
-        <p class="good notification">$msg.get("LOGIN_AUTH_SUCCEEDED")</p>
+    	<div class="dangerAlert">	
+	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>$msg.get("LOGIN_AUTH_FAILED")
+	  	</div>
+    #elseif($authenticationSucceeded)
+   		<div class="successAlert">	
+	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>$msg.get("LOGIN_AUTH_SUCCEEDED")
+	  	</div>
     #elseif($loggedOut)
-        <p class="notification">$msg.get("LOGIN_LOGGED_OUT")</p>
+    	<div class="infoAlert">	
+	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>$msg.get("LOGIN_LOGGED_OUT")
+	  	</div>
     #end
  
     <h1>$msg.get("LOGIN_HEADING")</h1>

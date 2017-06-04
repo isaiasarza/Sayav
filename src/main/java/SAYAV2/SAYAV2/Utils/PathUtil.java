@@ -77,7 +77,19 @@ public class PathUtil {
 		public static final String GRUOP_NOTIFICATION = "/grupo/notificar/";
 		public static final String LEAVE = "/grupo/abandonar/";
 		public static final String LEAVE_GROUP = "/grupo/abandonar/:groupName/";
+		public static final String SHOW_NOTIFICATION = "/layout/mostrar/";
+		public static final String SOLICITAR = "/grupo/solicitar/:groupName/:miembro/";
+
+		public static final String SOLICITAR_BAJA = "/grupo/solicitar/";
 		
+		public static String getShowNotification() {
+			return SHOW_NOTIFICATION;
+		}
+
+		public static String getSolicitarBaja() {
+			return SOLICITAR_BAJA;
+		}
+
 		public static String getPrueba() {
 			return PRUEBA;
 		}
@@ -258,6 +270,7 @@ public class PathUtil {
 		public static final String TABLADISPOSITIVOS = "/velocity/dispositivo/tablaDispositivos.vm";
 		public static final String TABLASECTORES = "/velocity/sensor/tablasectores.vm";
 		public static final String GRUPO = "/velocity/grupo/nuevoGrupo.vm/";
+		public static final String LAYOUT = "/velocity/layout.vm";
 		
 	}
 

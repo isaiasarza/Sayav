@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.bind.JAXBException;
-
 import org.apache.commons.validator.routines.UrlValidator;
 
 import SAYAV2.SAYAV2.Utils.PathUtil;
@@ -13,13 +11,12 @@ import SAYAV2.SAYAV2.Utils.RequestUtil;
 import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
 import SAYAV2.SAYAV2.bussines.ControllerMQTT;
-import SAYAV2.SAYAV2.dao.MensajePendienteDao;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
 import SAYAV2.SAYAV2.mensajeria.Mensaje;
 import SAYAV2.SAYAV2.model.Grupo;
-import SAYAV2.SAYAV2.model.MensajesPendientes;
 import SAYAV2.SAYAV2.model.Peer;
 import SAYAV2.SAYAV2.model.Usuario;
+import SAYAV2.SAYAV2.notificacion.GruposImpl;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -28,10 +25,8 @@ public class GroupController {
 
 	private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
 	private static File file = new File("SAYAV");
-	private static File fileMensajes = new File("Mensajes");
-	private static MensajePendienteDao mensajePendienteDao = MensajePendienteDao.getInstance();
 	private static ControllerMQTT not = ControllerMQTT.getInstance();
-	
+	private static GruposImpl grupos = new GruposImpl();
 
 	public static Route getNewGroup = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
@@ -192,31 +187,10 @@ public class GroupController {
 			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
 		}
 
-//		Handshake con nuevo miembro
+		grupos.añadirMiembro(grupo, peer);
 		
-//		not.handshakeRequest(peer.getDireccion(), usuario.getDireccion());
-		
-//		Guardar como pendiente
-		
-		guardar(peer.getDireccion());
-//		Notificar a los miembros que hay un nuevo miembro
-		
-		if(!grupo.getPeers().isEmpty()){
-//			not.notificarMiembros(peer,grupo);
-		}
-		
-//		Notificar al nuevo miembro, que es parte de un grupo
-		
-//		not.notificarNuevoGrupo(peer,grupo,usuario);
-		
-//TODO: 	Check que todo esta bien
-		
-//		Agregar al miembro al grupo
-		
-		grupo.addPeer(peer.getDireccion());
-
-		usuarioDao.guardar(usuario, file);
 		RequestUtil.removeSessionAttrUser(request);
+		model.put("addMemberSucceeded", true);
 		model.put("user", usuario);
 		model.put("group", grupo);
 		return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
@@ -238,18 +212,27 @@ public class GroupController {
 		return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
 	};
 
-	private static void guardar(String direccion) {
-		Mensaje m = new Mensaje();
-//		m.setDatos(direccion);
-//		m.setTipo(TipoMensaje.NUEVO_MIEMBRO);
-		try {
-			MensajesPendientes mensajesPendientes = mensajePendienteDao.cargar(fileMensajes);
-//			mensajesPendientes.addMensaje(m);
-			mensajePendienteDao.guardar(mensajesPendientes, fileMensajes);
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
-	}
+	public static Route solicitarBaja = (Request request, Response response) -> {
+		LoginController.ensureUserIsLoggedIn(request, response);
+		Map<String, Object> model = new HashMap<>();
+
+		String memberDomain, groupName;
+		Usuario usuario = usuarioDao.cargar(file);
+		groupName = request.params("groupName");
+		Grupo grupo = usuario.getSingleGrupoByName(groupName);
+
+		memberDomain = request.params("miembro");
+		Peer miembro = usuarioDao.getPeer(memberDomain, grupo);
+		grupos.solicitarBajaMiembro(grupo, miembro);
+		
+
+		model.put("user", usuario);
+		model.put("groupName",grupo.getNombre());
+		model.put("group", grupo);
+		model.put("solicitar",true);
+		return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
+	};
+	
 
 	
 	

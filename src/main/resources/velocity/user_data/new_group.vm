@@ -6,15 +6,23 @@
   
   		
   		#if($existingGroup)
-        	<p class="bad notification">$msg.get("EXISTING_GROUP")</p>
+  			<div class="dangerAlert">	
+	 			<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>$msg.get("EXISTING_GROUP")
+	  		</div>
     	#elseif($addGroupSucceeded)   
-       		<p class="good notification">$msg.get("NEW_GROUP_SUCCEEDED")</p>
-    	#end
+       		<div class="successAlert">	
+	 			<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>$msg.get("NEW_GROUP_SUCCEEDED")
+	  		</div>
+       	#end
     	#if($leaveGroupSucceeded)
-       		<p class="good notification">Se pudo abandonar el grupo</p> 	
+    		<div class="infoAlert">	
+	 			<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Procesando Abandono de Grupo
+	  		</div>
     	#elseif($leaveGroupFailed)
-    	       <p class="bad notification"> No se pudo abandonar el Grupo, verifique si alguno de sus miembros tienen problemas de conexión</p>
-    	#end
+       		<div class="dangerAlert">	
+	 			<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>No tiene conexion
+			</div>
+		#end
     	
    		<h1>$msg.get("NEW_GROUP_HEADING")</h1>
     
@@ -28,29 +36,27 @@
   		<tr>
     		<th  align="center"> Nombre</th>	
     		<th align="center">Ver Miembros</th>
-    	# TODO
-    	#	<th align="center">Abandonar Grupo</th>
-    		
+    	## TODO
+    	## <th align="center">Abandonar Grupo</th>	
   		</tr>
+  		
   		#foreach($g in $user.getGrupos())
   		<tr>
-   		 	<td>$g.getNombre()</td>
-   			
+   		 	<td>$g.getNombre()</td>   			
 			<td>
-   				<form id = "viewMembers" method="get" action="$WebPath.getViewMembers()$g.getNombre()/">
-        	    	<button>Ver Miembros</button>
-           		</form>  
-           	</td> 
-	 	#	<td>
-   		#	<form method="get" action="$WebPath.getLeave()$g.getNombre()/">
-        #	   <button id="leave Group">Abandonar Grupo</button>
-        #  	</form>  
-        #   </td> 
-           	
+   				<form id = "tabla" method="get" action="$WebPath.getViewMembers()$g.getNombre()/">
+					<input type="submit" value="Ver" >
+           		</form>
+   	     	</td> 
+	 	## <td>
+   		## <form method="get" action="$WebPath.getLeave()$g.getNombre()/">
+        ## <button id="leave Group">Abandonar Grupo</button>
+        ## </form>  
+        ## </td>     	
        	</tr>       
-		#end			
-  		
+		#end			 		
 	</table>
+	
 	<script>
 	function validateForm() {
 		var y = "false";
