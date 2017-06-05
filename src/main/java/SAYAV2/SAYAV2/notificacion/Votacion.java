@@ -29,7 +29,7 @@ import SAYAV2.SAYAV2.model.Peer;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="Miembro" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;        
+ *         &lt;element name="Id" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;        
  *         &lt;element name="Miembro" type="{http://www.example.org/UsuarioXMLSchema}Peer"/&gt;
  *         &lt;element name="Grupo" type="{http://www.example.org/UsuarioXMLSchema}Grupo"/&gt;
  *         &lt;element name="VotantesAFavor" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
@@ -185,5 +185,28 @@ public class Votacion {
 	public void setId(String id) {
 		this.id = id;
 	}
+	
+	public String getPorcentajeAFavor(){
+		
+		double porcentaje = this.votantesAFavor * 100 / this.grupo.getPeers().size();
+		
+		return porcentaje + "%";
+	}
+	
+	public String getPorcentajeEnContra(){
+		
+		double porcentaje = this.votantesEnContra * 100 / this.grupo.getPeers().size();
+		
+		return porcentaje + "%";
+	}
+	
+	public String getPorcentajeVotantes(){
+		
+		double porcentaje = (this.votantesEnContra + this.votantesAFavor) * 100 / this.grupo.getPeers().size();
+		
+		return porcentaje + "%";
+	}
+
+
 
 }

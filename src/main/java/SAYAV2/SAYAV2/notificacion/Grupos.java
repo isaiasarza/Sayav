@@ -35,13 +35,13 @@ public interface Grupos {
 	 * @param grupo
 	 * @param miembro
 	 */
-	void aceptarBajaMiembro(Grupo grupo, Peer miembro);
+	void aceptarBajaMiembro(Votacion votacion);
 	/**
 	 * 
 	 * @param grupo
 	 * @param miembro
 	 */
-	void rechazarBajaMiembro(Grupo grupo, Peer miembro);
+	void rechazarBajaMiembro(Votacion votacion);
 	/**
 	 * 
 	 * @param grupo

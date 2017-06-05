@@ -80,3 +80,8 @@
 #* @vtlvariable name="memberIsUser" type="java.lang.String" *#
 #* @vtlvariable name="conectionProblems" type="java.lang.String" *#
 #* @vtlvariable name="existingGroupRename" type="java.lang.String" *#
+
+#* @vtlvariable name="votaciones" type="SAYAV2.SAYAV2.notificacion.Votaciones" *#
+#* @vtlvariable name="solicitudes" type="SAYAV2.SAYAV2.notificacion.Votaciones" *#
+
+

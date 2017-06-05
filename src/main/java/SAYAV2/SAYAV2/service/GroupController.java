@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.bind.JAXBException;
+
 import org.apache.commons.validator.routines.UrlValidator;
 
 import SAYAV2.SAYAV2.Utils.PathUtil;
@@ -12,11 +14,14 @@ import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
 import SAYAV2.SAYAV2.bussines.ControllerMQTT;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
+import SAYAV2.SAYAV2.dao.VotacionesDao;
 import SAYAV2.SAYAV2.mensajeria.Mensaje;
 import SAYAV2.SAYAV2.model.Grupo;
 import SAYAV2.SAYAV2.model.Peer;
 import SAYAV2.SAYAV2.model.Usuario;
 import SAYAV2.SAYAV2.notificacion.GruposImpl;
+import SAYAV2.SAYAV2.notificacion.Votacion;
+import SAYAV2.SAYAV2.notificacion.Votaciones;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -27,6 +32,9 @@ public class GroupController {
 	private static File file = new File("SAYAV");
 	private static ControllerMQTT not = ControllerMQTT.getInstance();
 	private static GruposImpl grupos = new GruposImpl();
+	private static File votacionesPendientesFile = new File("votaciones_pendientes");
+	private static	File votacionesFile = new File("votaciones");
+	private static VotacionesDao votacionesDao = VotacionesDao.getInstance();
 
 	public static Route getNewGroup = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
@@ -187,6 +195,9 @@ public class GroupController {
 			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
 		}
 
+		if(!grupos.isInit()){
+			grupos.init();
+		}
 		grupos.añadirMiembro(grupo, peer);
 		
 		RequestUtil.removeSessionAttrUser(request);
@@ -215,6 +226,10 @@ public class GroupController {
 	public static Route solicitarBaja = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
 		Map<String, Object> model = new HashMap<>();
+		
+		if(!grupos.isInit()){
+			grupos.init();
+		}
 
 		String memberDomain, groupName;
 		Usuario usuario = usuarioDao.cargar(file);
@@ -223,18 +238,83 @@ public class GroupController {
 
 		memberDomain = request.params("miembro");
 		Peer miembro = usuarioDao.getPeer(memberDomain, grupo);
-		grupos.solicitarBajaMiembro(grupo, miembro);
+		
+		if(!votacionesDao.exist(grupo,miembro,votacionesFile)){
+			grupos.solicitarBajaMiembro(grupo, miembro);
+			model.put("solicitar",true);
+		}else{
+			model.put("solicitudExistente",true);
+		}
 		
 
 		model.put("user", usuario);
 		model.put("groupName",grupo.getNombre());
 		model.put("group", grupo);
-		model.put("solicitar",true);
 		return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
 	};
 	
 
+	public static Route getVotaciones = (Request request, Response response) -> {
+		LoginController.ensureUserIsLoggedIn(request, response);
+		Map<String, Object> model = new HashMap<>();
+		System.out.println("Ver Votaciones");
+		Usuario usuario = usuarioDao.cargar(file);
+		Votaciones votacionesPendientes;
+		Votaciones votaciones;
+		
+		
+		votacionesPendientes = set(votacionesPendientesFile);
+		votaciones = set(votacionesFile);
+		
+		model.put("user", usuario);
+		model.put("currentUser", true);
+		model.put("solicitudes",votaciones);
+		model.put("votaciones", votacionesPendientes);
+
+		return ViewUtil.render(request, model, PathUtil.Template.VER_VOTACIONES);
+	};
+
+	private static Votaciones set(File file) throws JAXBException{
+		if(file.exists()){
+			return votacionesDao.cargar(file);
+		}
+		return new Votaciones();
+	}
 	
+	public static Route votarBaja = (Request request, Response response) -> {
+		LoginController.ensureUserIsLoggedIn(request, response);
+		Map<String, Object> model = new HashMap<>();
+		System.out.println("Ver Votaciones");
+		Usuario usuario = usuarioDao.cargar(file);
+		Votaciones votacionesPendientes;
+		Votaciones votaciones;
+		
+		String voto = request.params("voto");
+		
+		String votacionId = request.params("id");
+		
+		Votacion votacion = votacionesDao.getVotacion(votacionId, votacionesPendientesFile);
+		
+		if(!grupos.isInit()){
+			grupos.init();
+		}
+		
+		if(voto.equals("aceptar")){
+			grupos.aceptarBajaMiembro(votacion);
+		}else{
+			grupos.rechazarBajaMiembro(votacion);
+		}
+		
+		votacionesPendientes = set(votacionesPendientesFile);
+		votaciones = set(votacionesFile);
+		
+		model.put("user", usuario);
+		model.put("currentUser", true);
+		model.put("solicitudes",votaciones);
+		model.put("votaciones", votacionesPendientes);
+
+		return ViewUtil.render(request, model, PathUtil.Template.VER_VOTACIONES);
+	};
 	
 
 }

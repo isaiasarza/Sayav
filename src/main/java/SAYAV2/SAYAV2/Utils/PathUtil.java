@@ -81,7 +81,9 @@ public class PathUtil {
 		public static final String SOLICITAR = "/grupo/solicitar/:groupName/:miembro/";
 
 		public static final String SOLICITAR_BAJA = "/grupo/solicitar/";
-		
+		public static final String VER_VOTACIONES = "/grupo/votaciones/";
+		public static final String VOTO = "/grupo/votaciones/:voto/:id/";
+
 		public static String getShowNotification() {
 			return SHOW_NOTIFICATION;
 		}
@@ -97,6 +99,11 @@ public class PathUtil {
 		public static String getIndex() {
 			return INDEX;
 		}
+		
+
+		public static String getVoto() {
+			return VOTO;
+		}
 
 		public static String getLogin() {
 			return LOGIN;
@@ -105,6 +112,15 @@ public class PathUtil {
 		public static String getLogout() {
 			return LOGOUT;
 		}
+		
+		public static String getSolicitar() {
+			return SOLICITAR;
+		}
+
+		public static String getVerVotaciones() {
+			return VER_VOTACIONES;
+		}
+
 
 		public static String getRegistration() {
 			return REGISTRATION;
@@ -241,8 +257,6 @@ public class PathUtil {
 		public static String getViewAllMessages() {
 			return VIEW_ALL_MESSAGES;
 		}
-		
-		
 
 	}
 
@@ -271,7 +285,8 @@ public class PathUtil {
 		public static final String TABLASECTORES = "/velocity/sensor/tablasectores.vm";
 		public static final String GRUPO = "/velocity/grupo/nuevoGrupo.vm/";
 		public static final String LAYOUT = "/velocity/layout.vm";
-		
+		public static final String VER_VOTACIONES = "/velocity/votacion/votacion.vm";
+
 	}
 
 }

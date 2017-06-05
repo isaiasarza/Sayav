@@ -38,7 +38,7 @@ public class MensajeriaImpl implements Mensajeria{
 	private MensajeriaImpl() {
 		super();
 		tiposFile = new File("tipos_mensajes");
-		mensajesFile = new File("Mensajes_test");
+		mensajesFile = new File("Mensajes");
 		this.tipoMensajeDao = TipoMensajeDao.getInstance();
 		this.mensajesDao = MensajePendienteDao.getInstance();
 		this.file = new File("SAYAV");
@@ -212,11 +212,12 @@ public class MensajeriaImpl implements Mensajeria{
 	 */
 	@Override
 	public String enviarSolicitud(Mensaje msg) {
-		String topic = msg.getDestino() + "/" + msg.getTipoMensaje().getTipo();
-		String m = json.render(msg);
 		msg.setEstado(EstadoUtils.PENDIENTE);
 		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 		guardarMensaje(msg);
+		String m = json.render(msg);
+
+		String topic = msg.getDestino() + "/" + msg.getTipoHandshake();
 		conn.send(topic, m, 2);
 		return m;
 	}

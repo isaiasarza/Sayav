@@ -9,7 +9,11 @@
 	#end
 	#if($solicitar)
 		<div  class="infoAlert">	
- 	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Procesando Solicitud
+ 	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Procesando Solicitud.
+  		</div>
+  	#elseif($solicitudExistente)
+  		<div  class="infoAlert">	
+ 	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Ya se genero la solicitud, espere que finalize la votación.
   		</div>
 	#end
 	

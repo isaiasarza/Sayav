@@ -107,6 +107,15 @@ public class Application {
 			post(PathUtil.Web.NEW_GROUP_MEMBER, GroupController.postNewGroupMember);
 
 			get(PathUtil.Web.VIEW_GROUP_MEMBER, GroupController.getViewMembers);
+			
+			get(PathUtil.Web.VER_VOTACIONES, GroupController.getVotaciones);
+			
+			post(PathUtil.Web.SOLICITAR, GroupController.solicitarBaja);
+			
+			post(PathUtil.Web.VOTO,GroupController.votarBaja);
+			
+			
+			
 
 			// get(PathUtil.Web.LEAVE_GROUP, GroupController.leaveGroup);
 
