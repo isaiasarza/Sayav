@@ -291,6 +291,15 @@ public class Mensaje  implements Cloneable{
 	}
 
 
+
+	@Override
+	public String toString() {
+		return "Mensaje [id=" + id + ", origen=" + origen + ", destino=" + destino + ", fechaCreacion=" + fechaCreacion
+				+ ", fechaReenvio=" + fechaReenvio + ", estado=" + estado + ", datos=" + datos + ", descripcion="
+				+ descripcion + ", tipoHandshake=" + tipoHandshake + ", tipoMensaje=" + tipoMensaje + "]";
+	}
+
+
 	
 	
 

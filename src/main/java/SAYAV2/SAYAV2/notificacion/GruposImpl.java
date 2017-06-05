@@ -7,6 +7,7 @@ import java.util.List;
 import javax.xml.bind.JAXBException;
 
 import Datos.DatoGrupo;
+import Datos.DatoVoto;
 import SAYAV2.SAYAV2.Utils.EstadoUtils;
 import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
 import SAYAV2.SAYAV2.dao.TipoMensajeDao;
@@ -21,7 +22,7 @@ import SAYAV2.SAYAV2.model.Usuario;
 import SAYAV2.SAYAV2.service.JsonTransformer;
 
 public class GruposImpl implements Grupos, Notificaciones {
-
+	private static GruposImpl grupos;
 	private MensajeriaImpl mensajeria;
 	private UsuarioDao usuarioDao;
 	private File usuarioFile;
@@ -41,7 +42,15 @@ public class GruposImpl implements Grupos, Notificaciones {
 		this.votaciones = new Votaciones();
 		this.votacionesFile = new File("votaciones");
 		this.votacionesDao = VotacionesDao.getInstance();
+		this.votacionesDao.setFile(votacionesFile);
 		this.tiposMensajeDao = TipoMensajeDao.getInstance();
+	}
+	
+	public static GruposImpl getInstance(){
+		if(grupos == null){
+			grupos = new GruposImpl();
+		}
+		return grupos;
 	}
 
 	private void notificarNuevoMiembro(Grupo grupo, Peer miembro, String origen) {
@@ -87,7 +96,6 @@ public class GruposImpl implements Grupos, Notificaciones {
 
 	@Override
 	public void verMiembros(Grupo grupo) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -110,10 +118,9 @@ public class GruposImpl implements Grupos, Notificaciones {
 			notificarMoviles(usuario.getDispositivosMoviles(), msg);
 
 		} catch (JAXBException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
@@ -135,107 +142,110 @@ public class GruposImpl implements Grupos, Notificaciones {
 	}
 
 	@Override
-	public void procesarBajaMiembro(Grupo grupo, Peer miembro) {
-		// TODO Auto-generated method stub
+	public void procesarBajaMiembro(Votacion votacion) {
+		double minVotantes = votacion.getGrupo().getPeers().size();
+		minVotantes /= 2;
+		minVotantes = Math.ceil(minVotantes);
+		if (votacion.getVotantesAFavor() + votacion.getVotantesEnContra() >= minVotantes) {
+			votacion.setFinalizo(true);
+			Usuario usuario;
+			try {
+				usuario = usuarioDao.cargar(usuarioFile);
 
+				if (votacion.getVotantesAFavor() >= minVotantes) {
+					Mensaje mensaje = new Mensaje();
+					mensaje.setDescripcion("Se voto dar de baja al miembro");
+					mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.BAJA_MIEMBRO));
+					mensaje.setOrigen(usuario.getSubdominio());
+					mensaje.setEstado(EstadoUtils.PENDIENTE);
+					usuarioDao.eliminarMiembro(usuario.getSingleGrupoById(votacion.getGrupo().getId()), votacion.getMiembro());
+					notificarGrupo(votacion.getGrupo(), mensaje);
+				}
+				votacionesDao.eliminarVotacion(votacion);
+			} catch (JAXBException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
-	public void notificarGrupo(Grupo grupo, String msg) {
-		// TODO Auto-generated method stub
-		
+	public void notificarGrupo(Grupo grupo, Mensaje msg) {
+		mensajeria.propagarMensaje(msg, grupo);
 	}
 
 	@Override
-	public void notificarMovil(DispositivoM movil, String msg) {
+	public void notificarMovil(DispositivoM movil, Mensaje msg) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void notificarGrupos(List<Grupo> grupos, Mensaje msg) {
-		// TODO Auto-generated method stub
-		
+		for(Grupo g: grupos){
+			notificarGrupo(g,msg);
+		}
 	}
 
 	@Override
 	public void notificarMoviles(List<DispositivoM> moviles, Mensaje msg) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void recibirAlerta(Mensaje msg) throws JAXBException {
-		
-		Usuario usuario = usuarioDao.cargar(file);
-		
+
+		Usuario usuario = usuarioDao.cargar(usuarioFile);
+
 		notificarMoviles(usuario.getDispositivosMoviles(), msg);
-		
+
 	}
 
 	public void recibirNuevoMiembro(Mensaje msg) throws JAXBException {
 
-		
-		
-		Usuario usuario = usuarioDao.cargar(file);
-		
-        DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
-		
-        //Agrega el nuevo miembro al grupo
-        usuario.getSingleGrupoById(datos.getGrupo().getId()).add(datos.getMiembro());
-		
+		Usuario usuario = usuarioDao.cargar(usuarioFile);
+
+		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
+
+		// Cambie esto porque no se estaba guardando, entonces lo hago adentro del dao y que se guarde ahi
+		usuarioDao.agregarMiembro(usuario.getSingleGrupoById(datos.getGrupo().getId()), datos.getMiembro());
 	}
 
 	public void recibirNuevoGrupo(Mensaje msg) throws JAXBException {
-	
-		Usuario usuario = usuarioDao.cargar(file);
-		
-		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
-		
-		usuario.getGrupos().add(datos.getGrupo());
-		
+
+		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);	
+		usuarioDao.agregarGrupo(datos.getGrupo());
 	}
 
 	public void recibirBajaMiembro(Mensaje msg) throws JAXBException {
 
-		Usuario usuario = usuarioDao.cargar(file);
-		
+		Usuario usuario = usuarioDao.cargar(usuarioFile);
 		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
-		
-        usuario.getSingleGrupoById(datos.getGrupo().getId()).removePeer(datos.getMiembro());
+		usuarioDao.eliminarMiembro(usuario.getSingleGrupoById(datos.getGrupo().getId()), datos.getMiembro());
 
-		
 	}
 
 	public void recibirSolicitudBaja(Mensaje msg) throws JAXBException {
-		
+
 		Usuario usuario = usuarioDao.cargar(usuarioFile);
-		
+
 		notificarMoviles(usuario.getDispositivosMoviles(), msg);
-		
+
 	}
 
 	public void recibirVoto(Mensaje msg) throws JAXBException {
-		
-		Usuario usuario = usuarioDao.cargar(usuarioFile);
+
 
 		DatoVoto datos = json.getGson().fromJson(msg.getDatos(), DatoVoto.class);
-
-		
 		Votacion votacion = votacionesDao.cargar(votacionesFile).getVotacion(datos.getGrupo(), datos.getMiembro());
-		
-		if(datos.isVoto()){
-			votacion.setVotantesAFavor(votacion.getVotantesAFavor()+1);
-		}
-		else{
-			votacion.setVotantesEnContra(votacion.getVotantesEnContra()+1);
-		}
-		
-		procesarBajaMiembro(votacion);
-		
-	}
 
-	
-	
-	
+		if (datos.isVoto()) {
+			votacion.setVotantesAFavor(votacion.getVotantesAFavor() + 1);
+		} else {
+			votacion.setVotantesEnContra(votacion.getVotantesEnContra() + 1);
+		}
+
+		procesarBajaMiembro(votacion);
+
+	}
 
 }

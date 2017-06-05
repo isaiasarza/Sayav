@@ -47,5 +47,5 @@ public interface Grupos {
 	 * @param grupo
 	 * @param miembro
 	 */
-	void procesarBajaMiembro(Grupo grupo, Peer miembro);
+	void procesarBajaMiembro(Votacion votacion);
 }

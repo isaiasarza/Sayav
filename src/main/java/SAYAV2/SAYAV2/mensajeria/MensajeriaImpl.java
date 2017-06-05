@@ -16,14 +16,14 @@ import SAYAV2.SAYAV2.model.Grupo;
 import SAYAV2.SAYAV2.model.MensajesPendientes;
 import SAYAV2.SAYAV2.model.Peer;
 import SAYAV2.SAYAV2.model.TiposMensajes;
-import SAYAV2.SAYAV2.model.Usuario;
 import SAYAV2.SAYAV2.notificacion.GruposImpl;
 import SAYAV2.SAYAV2.service.JsonTransformer;
 
 public class MensajeriaImpl implements Mensajeria{
 	
 	private static MensajeriaImpl mensImpl;
-	
+	private UsuarioDao usuarioDao;
+	private File file;
 	private MensajesPendientes mensajes;
 	private TipoMensajeDao tipoMensajeDao;
 	private MensajePendienteDao mensajesDao;
@@ -32,17 +32,20 @@ public class MensajeriaImpl implements Mensajeria{
 	private TiposMensajes tipos;
 	private static ControllerMQTT conn;
 	private JsonTransformer json;
-	private GruposImpl gruposImpl = new GruposImpl();
+	private GruposImpl gruposImpl;
 	
 	
 	private MensajeriaImpl() {
 		super();
 		tiposFile = new File("tipos_mensajes");
-		mensajesFile = new File("Mensajes");
+		mensajesFile = new File("Mensajes_test");
 		this.tipoMensajeDao = TipoMensajeDao.getInstance();
 		this.mensajesDao = MensajePendienteDao.getInstance();
+		this.file = new File("SAYAV");
+		this.usuarioDao = UsuarioDao.getInstance();
+		this.usuarioDao.setFile(file);
 		this.json = new JsonTransformer();
-				
+
 		try {
 			if(mensajesFile.exists()){
 				setMensajes(this.mensajesDao.cargar(mensajesFile));
@@ -56,6 +59,20 @@ public class MensajeriaImpl implements Mensajeria{
 		
 	}
 	
+	public void init(){
+		this.gruposImpl = new GruposImpl();
+	}
+	
+	public GruposImpl getGruposImpl() {
+		return gruposImpl;
+	}
+
+	public void setGruposImpl(GruposImpl gruposImpl) {
+		this.gruposImpl = gruposImpl;
+	}
+	
+	
+
 	public static MensajeriaImpl getInstance(){
 		if(mensImpl == null){
 			mensImpl = new MensajeriaImpl();
@@ -111,13 +128,18 @@ public class MensajeriaImpl implements Mensajeria{
 		
 		for(Peer miembro : g.getPeers()){
 			
-			Mensaje mensaje = (Mensaje) msg.clone();
+			Mensaje mensaje = new Mensaje();
+			mensaje.setDescripcion(msg.getDescripcion());
+			mensaje.setDatos(msg.getDatos());
+			mensaje.setOrigen(msg.getOrigen());
 			mensaje.setDestino(miembro.getDireccion());
-			
-			if(msg.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST))
+			mensaje.setTipoMensaje(msg.getTipoMensaje());
+			if(msg.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST)){
 				enviarSolicitud(mensaje);
-			else
+			}
+			else{
 				enviarConfirmacion(mensaje);
+			}
 		}
 	}
 
@@ -159,16 +181,16 @@ public class MensajeriaImpl implements Mensajeria{
 
 		if (FechaUtils.diffDays(msg.getFechaCreacion(), fechaActual) == msg.getTipoMensaje().getTimetolive()) {
 			eliminarMensaje(msg);
-			System.out.println("Elimino mensaje por timetolive");
+			//System.out.println("Elimino mensaje por timetolive");
             return false;
 		}
 		if (msg.getEstado().equals(EstadoUtils.CONFIRMADO)) {
 			eliminarMensaje(msg);
-			System.out.println("Elimino mensaje confirmado");
+			//System.out.println("Elimino mensaje confirmado");
 			return false;
 		}
 		if (FechaUtils.diffDays(msg.getFechaReenvio(), fechaActual) != msg.getTipoMensaje().getQuantum()) {
-			System.out.println("No hace falta enviar mensaje");
+			//System.out.println("No hace falta enviar mensaje");
 			return false;
 		}
 		msg.getFechaReenvio().setTime(fechaActual.getTime());
@@ -180,7 +202,7 @@ public class MensajeriaImpl implements Mensajeria{
 		}
 		enviarConfirmacion(msg);
 
-		System.out.println("Envio mensaje");
+		//System.out.println("Envio mensaje");
 		return true;
 	}
 	/**
@@ -249,6 +271,12 @@ public class MensajeriaImpl implements Mensajeria{
 	 */
 	@Override
 	public void eliminarMensaje(Mensaje msg) {
+		try {
+			mensajesDao.eliminarMensaje(msg);
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// TODO Auto-generated method stub
 		
 	}

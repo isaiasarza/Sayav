@@ -21,7 +21,6 @@ import SAYAV2.SAYAV2.mensajeria.MensajeriaImpl;
 import SAYAV2.SAYAV2.model.Configurator;
 import SAYAV2.SAYAV2.model.Grupo;
 import SAYAV2.SAYAV2.model.Usuario;
-import SAYAV2.SAYAV2.notificacion.NotificacionesImpl;
 import SAYAV2.SAYAV2.service.JsonTransformer;
 
 public class ControllerMQTT implements MqttCallback {

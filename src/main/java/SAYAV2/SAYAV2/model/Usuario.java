@@ -53,7 +53,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = { "nombre", "apellido", "telefono", "email", "direccion", "subdominio", "contraseña",
 		"salt", "alarmaHabilitada", "dispositivosMoviles", "sectores", "grupos" })
-@XmlRootElement(name = "Usuario")
+@XmlRootElement(name = "Usuario", namespace = "http://www.example.org/Mensaje")
 public class Usuario {
 
 	@XmlElement(name = "Nombre")

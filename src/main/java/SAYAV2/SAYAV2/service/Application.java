@@ -35,7 +35,7 @@ public class Application {
 	}
 
 	public static void main(String[] args) {
-
+		MessageChecker messageChecker = new MessageChecker();
 	
 		
 		try {
@@ -50,6 +50,8 @@ public class Application {
 				System.out.println("Init Receive");
 				controllerMqtt.initReceive();
 			}
+			
+			messageChecker.start();
 
 			staticFiles.location("/public");
 			staticFiles.expireTime(600L);
@@ -57,6 +59,8 @@ public class Application {
 			// Set up before-filters (called before each get/post)
 			// before("*", Filters.addTrailingSlashes);
 			// before("*", Filters.handleLocaleChange);
+			
+			post(PathUtil.Web.SHOW_NOTIFICATION,IndexController.mostrarNotificacion);
 
 			// REST de registro de usuario
 			get(PathUtil.Web.REGISTRATION, RegistrationController.servicioPaginaRegistrar);

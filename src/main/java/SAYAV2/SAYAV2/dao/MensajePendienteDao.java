@@ -1,5 +1,10 @@
 package SAYAV2.SAYAV2.dao;
 
+import java.util.Iterator;
+
+import javax.xml.bind.JAXBException;
+
+import SAYAV2.SAYAV2.mensajeria.Mensaje;
 import SAYAV2.SAYAV2.model.MensajesPendientes;
 
 public class MensajePendienteDao extends GenericDao<MensajesPendientes> {
@@ -19,6 +24,20 @@ public class MensajePendienteDao extends GenericDao<MensajesPendientes> {
 			mensajePendienteDao = new MensajePendienteDao();
 		}
 		return mensajePendienteDao;
+	}
+
+
+
+	public boolean eliminarMensaje(Mensaje msg) throws JAXBException {
+		MensajesPendientes mensajes = this.cargar(file);
+		Iterator<Mensaje> iterator = mensajes.getMensaje().iterator();
+		while(iterator.hasNext()){
+			if(iterator.next().equals(msg)){
+				iterator.remove();
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	

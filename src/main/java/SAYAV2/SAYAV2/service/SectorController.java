@@ -14,11 +14,12 @@ import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.RequestUtil;
 import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
+import SAYAV2.SAYAV2.dao.TipoMensajeDao;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
 import SAYAV2.SAYAV2.mensajeria.Mensaje;
-import SAYAV2.SAYAV2.model.DispositivoM;
 import SAYAV2.SAYAV2.model.Sector;
 import SAYAV2.SAYAV2.model.Usuario;
+import SAYAV2.SAYAV2.notificacion.GruposImpl;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -27,9 +28,13 @@ public class SectorController {
 
 	private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
 	private static File file = new File("SAYAV");
+	private static GruposImpl grupos = GruposImpl.getInstance();
+	private static TipoMensajeDao tiposDao = TipoMensajeDao.getInstance();
+	private static File tiposFile = new File("tipos_mensajes");
 
 	public SectorController() {
 		super();
+		
 	}
 
 	public static Route sectorVelocityEngine = (Request request, Response response) -> {
@@ -153,6 +158,7 @@ public class SectorController {
 			sector.cambiarEstado();
 			usuarioDao.guardar(usuario, file);
 			RequestUtil.removeSessionSectores(request);
+			tiposDao.setFile(tiposFile);
 
 			String titulo, message;
 			// Notifica Dispositivos Moviles
@@ -165,13 +171,17 @@ public class SectorController {
 				message = "El domicio del camarada " + usuario.getNombre() + usuario.getApellido() + " fue intervenido";
 			}
 
-			FirebaseCloudMessageController.post(titulo, message);
+			//FirebaseCloudMessageController.post(titulo, message);
 
 			Mensaje mensaje = new Mensaje();
-//			mensaje.setOrigen(usuario.getSubdominio());
-//			mensaje.setDescripcion(message);
-//			mensaje.setTipo(TipoMensaje.ALERTA);
-
+			mensaje.setOrigen(usuario.getSubdominio());
+			mensaje.setDescripcion(message);
+			mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
+			tiposDao.setTipo(mensaje,TipoMensajeUtils.ALERTA);
+			
+			grupos.notificarGrupos(usuario.getGrupos(), mensaje);
+			grupos.notificarMoviles(usuario.getDispositivosMoviles(), mensaje);
+			
 			// Notifica Miembros
 //			Notificacion.notificarGrupo(usuario.getGrupos(), mensaje);
 		}

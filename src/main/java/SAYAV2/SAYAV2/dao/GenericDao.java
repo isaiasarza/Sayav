@@ -8,16 +8,23 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 public class GenericDao<E> {
-	
+
 	protected E e;
-	
+	protected File file;
+
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
+	}
 
 	public void guardar(Object entidad, File file) {
-		//StringWriter writer = new StringWriter();
+		// StringWriter writer = new StringWriter();
 		JAXBContext context;
 		try {
 
-			
 			context = JAXBContext.newInstance(e.getClass());
 			Marshaller m;
 			m = context.createMarshaller();
@@ -31,24 +38,23 @@ public class GenericDao<E> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public E cargar( File file) throws JAXBException{
-			E entidad;
-			JAXBContext context = JAXBContext.newInstance(e.getClass());
-			Unmarshaller um = context.createUnmarshaller();
+	public E cargar(File file) throws JAXBException {
+		E entidad;
+		JAXBContext context = JAXBContext.newInstance(e.getClass());
+		Unmarshaller um = context.createUnmarshaller();
 
-			// Reading XML from the file and unmarshalling.
-			
-			entidad =  (E) um.unmarshal(file);
+		// Reading XML from the file and unmarshalling.
 
-			// personData.clear();
-			// personData.addAll(wrapper.getPersons());
+		entidad = (E) um.unmarshal(file);
 
-			// Save the file path to the registry.
-			// setPersonFilePath(file);
-
-	
 		return entidad;
 	}
 	
-	
+	private E actualizar(Object entidad, File file){
+
+		//TODO
+
+		return null;
+	}
+
 }

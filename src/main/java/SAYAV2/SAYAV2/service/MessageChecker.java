@@ -1,33 +1,17 @@
 package SAYAV2.SAYAV2.service;
 
-import java.io.File;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Random;
 
-import javax.xml.bind.JAXBException;
-
-
-import SAYAV2.SAYAV2.Utils.EstadoUtils;
-import SAYAV2.SAYAV2.Utils.FechaUtils;
-import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
-import SAYAV2.SAYAV2.dao.MensajePendienteDao;
-import SAYAV2.SAYAV2.dao.TipoMensajeDao;
 import SAYAV2.SAYAV2.mensajeria.Mensaje;
-import SAYAV2.SAYAV2.mensajeria.Mensajeria;
 import SAYAV2.SAYAV2.mensajeria.MensajeriaImpl;
-import SAYAV2.SAYAV2.model.MensajeDato;
-import SAYAV2.SAYAV2.model.MensajesPendientes;
 
 public class MessageChecker implements Runnable {
 
 	private Thread thread;
 	private Random rand = new Random();
 	private MensajeriaImpl mensajeria = MensajeriaImpl.getInstance();
-	private TipoMensajeDao tipoMensajeDao;
-	private static MensajePendienteDao mensajesDao = MensajePendienteDao.getInstance();
-	private static File tiposFile;
-	private static File mensajesFile = new File("Mensajes");
 	private boolean check;
 
 	public void start() {
@@ -59,6 +43,7 @@ public class MessageChecker implements Runnable {
 	/**
 	 * Duerme al hilo por un determinado tiempo
 	 */
+	@SuppressWarnings("unused")
 	private void waitQuantum(long quantum) {
 		try {
 			Thread.sleep(quantum);

@@ -17,6 +17,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import SAYAV2.SAYAV2.model.Grupo;
+import SAYAV2.SAYAV2.model.Peer;
+
 
 /**
  * <p>Java class for anonymous complex type.
@@ -88,5 +91,16 @@ public class Votaciones {
     	}
     	return this.votaciones.add(votacion);
     }
+
+
+
+	public Votacion getVotacion(Grupo grupo, Peer miembro) {
+		for(Votacion votacion: this.votaciones){
+			if(votacion.getMiembro().equals(miembro) && votacion.grupo.equals(grupo)){
+				return votacion;
+			}
+		}
+		return null;
+	}
 
 }

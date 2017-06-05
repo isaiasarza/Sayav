@@ -102,4 +102,11 @@ public class MensajesPendientes {
 		return null;
 	}
 
+
+	@Override
+	public String toString() {
+		return "MensajesPendientes [mensaje=" + mensaje + "]";
+	}
+
+	
 }
