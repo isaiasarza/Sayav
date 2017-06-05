@@ -91,28 +91,58 @@ public class MensajeriaImpl implements Mensajeria{
 	 * @throws JAXBException 
 	 */
 	@Override
-	public void procesarMensaje(Mensaje msg) throws JAXBException{
+	public void procesarMensaje(Mensaje msg) {
 		
 		
 		if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.ALERTA)){
-			gruposImpl.recibirAlerta(msg);
+			try {
+				gruposImpl.recibirAlerta(msg);
+			} catch (JAXBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_MIEMBRO)){
-			gruposImpl.recibirNuevoMiembro(msg);
+			try {
+				gruposImpl.recibirNuevoMiembro(msg);
+			} catch (JAXBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_GRUPO)){
-			gruposImpl.recibirNuevoGrupo(msg);
+			try {
+				gruposImpl.recibirNuevoGrupo(msg);
+			} catch (JAXBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.BAJA_MIEMBRO)){
-			gruposImpl.recibirBajaMiembro(msg);
+			try {
+				gruposImpl.recibirBajaMiembro(msg);
+			} catch (JAXBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.SOLICITUD_BAJA_MIEMBRO)){
-			gruposImpl.recibirSolicitudBaja(msg);
+			try {
+				gruposImpl.recibirSolicitudBaja(msg);
+			} catch (JAXBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.VOTO)){
-			gruposImpl.recibirVoto(msg);
+			try {
+				gruposImpl.recibirVoto(msg);
+			} catch (JAXBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 	}
@@ -245,7 +275,7 @@ public class MensajeriaImpl implements Mensajeria{
 	 * @throws JAXBException 
 	 */
 	@Override
-	public void recibirSolicitud(Mensaje msg) throws JAXBException {
+	public void recibirSolicitud(Mensaje msg) {
 		procesarMensaje(msg);	
 		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
 		msg.setOrigen(msg.getDestino());

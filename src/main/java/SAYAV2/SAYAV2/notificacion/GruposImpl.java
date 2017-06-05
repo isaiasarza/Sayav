@@ -60,9 +60,9 @@ public class GruposImpl implements Grupos, Notificaciones {
 		this.tiposMensajeDao = TipoMensajeDao.getInstance();
 		this.tiposMensajeDao.setFile(tiposFile);
 	}
-	
-	public static GruposImpl getInstance(){
-		if(grupos == null){
+
+	public static GruposImpl getInstance() {
+		if (grupos == null) {
 			grupos = new GruposImpl();
 		}
 		return grupos;
@@ -125,10 +125,13 @@ public class GruposImpl implements Grupos, Notificaciones {
 	public void solicitarBajaMiembro(Grupo grupo, Peer miembro) {
 		System.out.println("Solicitando Baja de " + miembro);
 		Usuario usuario;
+		Peer solicitante = new Peer();
 		try {
 			usuario = usuarioDao.cargar(usuarioFile);
 			Votacion votacion = new Votacion(miembro, grupo);
 			this.votaciones = this.votacionesDao.agregarVotacion(votacion, votaciones, votacionesFile);
+			solicitante.setDireccion(usuario.getSubdominio());
+			votacion.setSolicitante(solicitante);
 			Mensaje msg = new Mensaje();
 			grupo.removePeer(miembro);
 			msg.setDatos(json.render(votacion));
@@ -148,20 +151,77 @@ public class GruposImpl implements Grupos, Notificaciones {
 	}
 
 	@Override
-	public void abandonarGrupo(Grupo grupo, Peer miembro) {
-		// TODO Auto-generated method stub
+	public void abandonarGrupo(Grupo grupo) throws JAXBException {
 
+		Usuario usuario = usuarioDao.cargar(usuarioFile);
+
+		// Creo un peer para mandarlo como datos
+		Peer miembro = new Peer();
+		miembro.setDireccion(usuario.getSubdominio());
+		DatoGrupo datos = new DatoGrupo(miembro, grupo);
+
+		// Creo el mensaje con los datos correspondientes a un abandonar grupo
+		Mensaje mensaje = new Mensaje();
+		mensaje.setOrigen(usuario.getSubdominio());
+		mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.BAJA_MIEMBRO));
+		mensaje.setDescripcion("Abandono el grupo el miembro");
+		mensaje.setDatos(json.render(datos));
+
+		// Propago el mensaje para informar a todos los miembros sobre la baja
+		// de este miembro
+		mensajeria.propagarMensaje(mensaje, grupo);
+		// Elimino el grupo de mi lista de grupos
+		usuarioDao.eliminarGrupo(grupo);
 	}
 
 	@Override
-	public void aceptarBajaMiembro(Votacion votacion) {
+	public void aceptarBajaMiembro(Votacion votacion) throws JAXBException {
 		// TODO Auto-generated method stub
 
+		// Voto positivo
+		votacion.setVotantesAFavor(votacion.getVotantesAFavor() + 1);
+
+		Usuario usuario = usuarioDao.cargar(usuarioFile);
+
+		// Creo un peer para mandarlo como datos
+		Peer miembro = new Peer();
+		miembro.setDireccion(usuario.getSubdominio());
+		DatoVoto datos = new DatoVoto(miembro, votacion.getGrupo(), true);
+
+		// Creo el mensaje con los datos correspondientes a un voto a favor
+		Mensaje mensaje = new Mensaje();
+		mensaje.setOrigen(usuario.getSubdominio());
+		mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.VOTO));
+		mensaje.setDescripcion("Voto el miembro");
+		mensaje.setDatos(json.render(datos));
+
+		// Envio mi voto
+		mensajeria.enviarConfirmacion(mensaje);
 	}
 
 	@Override
-	public void rechazarBajaMiembro(Votacion votacion) {
+	public void rechazarBajaMiembro(Votacion votacion) throws JAXBException {
 		// TODO Auto-generated method stub
+
+		//Voto negativo
+		votacion.setVotantesEnContra(votacion.getVotantesEnContra() + 1);
+
+		Usuario usuario = usuarioDao.cargar(usuarioFile);
+
+		// Creo un peer para mandarlo como datos
+		Peer miembro = new Peer();
+		miembro.setDireccion(usuario.getSubdominio());
+		DatoVoto datos = new DatoVoto(miembro, votacion.getGrupo(), false);
+
+		// Creo el mensaje con los datos correspondientes a un voto a favor
+		Mensaje mensaje = new Mensaje();
+		mensaje.setOrigen(usuario.getSubdominio());
+		mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.VOTO));
+		mensaje.setDescripcion("Voto el miembro");
+		mensaje.setDatos(json.render(datos));
+
+		// Envio mi voto
+		mensajeria.enviarConfirmacion(mensaje);
 
 	}
 
@@ -182,7 +242,8 @@ public class GruposImpl implements Grupos, Notificaciones {
 					mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.BAJA_MIEMBRO));
 					mensaje.setOrigen(usuario.getSubdominio());
 					mensaje.setEstado(EstadoUtils.PENDIENTE);
-					usuarioDao.eliminarMiembro(usuario.getSingleGrupoById(votacion.getGrupo().getId()), votacion.getMiembro());
+					usuarioDao.eliminarMiembro(usuario.getSingleGrupoById(votacion.getGrupo().getId()),
+							votacion.getMiembro());
 					notificarGrupo(votacion.getGrupo(), mensaje);
 				}
 				this.votaciones = votacionesDao.eliminarVotacion(votacion,votacionesFile);
@@ -205,8 +266,8 @@ public class GruposImpl implements Grupos, Notificaciones {
 
 	@Override
 	public void notificarGrupos(List<Grupo> grupos, Mensaje msg) {
-		for(Grupo g: grupos){
-			notificarGrupo(g,msg);
+		for (Grupo g : grupos) {
+			notificarGrupo(g, msg);
 		}
 	}
 
@@ -230,13 +291,14 @@ public class GruposImpl implements Grupos, Notificaciones {
 
 		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
 
-		// Cambie esto porque no se estaba guardando, entonces lo hago adentro del dao y que se guarde ahi
+		// Cambie esto porque no se estaba guardando, entonces lo hago adentro
+		// del dao y que se guarde ahi
 		usuarioDao.agregarMiembro(usuario.getSingleGrupoById(datos.getGrupo().getId()), datos.getMiembro());
 	}
 
 	public void recibirNuevoGrupo(Mensaje msg) throws JAXBException {
 
-		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);	
+		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
 		usuarioDao.agregarGrupo(datos.getGrupo());
 	}
 
@@ -260,7 +322,6 @@ public class GruposImpl implements Grupos, Notificaciones {
 	}
 
 	public void recibirVoto(Mensaje msg) throws JAXBException {
-
 
 		DatoVoto datos = json.getGson().fromJson(msg.getDatos(), DatoVoto.class);
 		Votacion votacion = votacionesDao.cargar(votacionesFile).getVotacion(datos.getGrupo(), datos.getMiembro());

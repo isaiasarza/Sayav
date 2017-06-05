@@ -57,6 +57,26 @@ public class UsuarioDao extends GenericDao<Usuario> {
 		return false;
 	}
 	
+	
+	public boolean eliminarGrupo(Grupo grupo) throws JAXBException{
+		
+		//Primero limpio la lista de miembros correspondiente a ese grupo
+		grupo.getPeers().clear();
+	    //Elimino el grupo
+		Usuario usuario = this.cargar(file);
+		Iterator<Grupo> iterator = usuario.getGrupos().iterator();	
+		while(iterator.hasNext()){
+			if( iterator.next().equals(grupo)){
+				iterator.remove();
+				this.guardar(usuario, file);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
+	
 	public boolean agregarMiembro(Grupo grupo, Peer miembro){
 		return false;
 	}

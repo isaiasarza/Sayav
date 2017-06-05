@@ -35,6 +35,8 @@ import SAYAV2.SAYAV2.model.Peer;
  *         &lt;element name="VotantesAFavor" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
  *         &lt;element name="VotantesEnContra" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
  *         &lt;element name="Finalizo" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *         &lt;element name="Solicitante" type="{http://www.example.org/UsuarioXMLSchema}Peer"/&gt;
+ *       
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -50,7 +52,8 @@ import SAYAV2.SAYAV2.model.Peer;
     "grupo",
     "votantesAFavor",
     "votantesEnContra",
-    "finalizo"
+    "finalizo",
+    "solicitante"
 })
 public class Votacion {
 	private String id;
@@ -64,7 +67,10 @@ public class Votacion {
     protected int votantesEnContra;
     @XmlElement(name = "Finalizo", namespace = "http://www.example.org/Votaciones")
     protected boolean finalizo;
-
+    @XmlElement(name = "Solicitante", namespace = "http://www.example.org/Votaciones", required = true)
+    protected Peer solicitante;
+    
+    
     
     public Votacion() {
 		super();
@@ -80,6 +86,7 @@ public class Votacion {
 		this.votantesAFavor = 0;
 		this.votantesEnContra = 0;
 		this.finalizo = false;
+		this.solicitante = new Peer();
 	}
 
 	/**
@@ -209,4 +216,15 @@ public class Votacion {
 
 
 
+	public Peer getSolicitante() {
+		return solicitante;
+	}
+
+	public void setSolicitante(Peer solicitante) {
+		this.solicitante = solicitante;
+	}
+
+	
+	
+	
 }

@@ -175,7 +175,7 @@ public class ControllerMQTT implements MqttCallback {
 	}
 
 	@Override
-	public void messageArrived(String topic, MqttMessage msg) throws Exception {
+	public void messageArrived(String topic, MqttMessage msg) throws JAXBException {
 		System.out.println("Message Arrived...");
 		Mensaje mensaje;
 		String tipo;

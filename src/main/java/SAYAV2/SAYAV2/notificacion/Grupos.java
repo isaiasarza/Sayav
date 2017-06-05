@@ -1,5 +1,7 @@
 package SAYAV2.SAYAV2.notificacion;
 
+import javax.xml.bind.JAXBException;
+
 import SAYAV2.SAYAV2.model.Grupo;
 import SAYAV2.SAYAV2.model.Peer;
 
@@ -27,25 +29,24 @@ public interface Grupos {
 	/**
 	 * 
 	 * @param grupo
-	 * @param miembro
+	 * @throws JAXBException 
 	 */
-	void abandonarGrupo(Grupo grupo, Peer miembro);
+	void abandonarGrupo(Grupo grupo) throws JAXBException;
 	/**
 	 * 
-	 * @param grupo
-	 * @param miembro
+	 * @param votacion
+	 * @throws JAXBException 
 	 */
-	void aceptarBajaMiembro(Votacion votacion);
+	void aceptarBajaMiembro(Votacion votacion) throws JAXBException;
 	/**
 	 * 
-	 * @param grupo
-	 * @param miembro
+	 * @param votacion
+	 * @throws JAXBException 
 	 */
-	void rechazarBajaMiembro(Votacion votacion);
+	void rechazarBajaMiembro(Votacion votacion) throws JAXBException;
 	/**
 	 * 
-	 * @param grupo
-	 * @param miembro
+	 * @param votacion
 	 */
 	void procesarBajaMiembro(Votacion votacion);
 }

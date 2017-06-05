@@ -125,11 +125,7 @@ public class MensajeriaImplTest {
 	@Test
 	public void testRecibirSolicitud() {
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
-		try {
-			mensajeria.recibirSolicitud(mensaje);
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
+		mensajeria.recibirSolicitud(mensaje);
 	}
 
 	@Test
