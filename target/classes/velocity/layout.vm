@@ -69,26 +69,21 @@
         			<li><a href=$WebPath.getSector()>Sectores</a> </li>
         			<li><a href=$WebPath.getNewGroup()>Grupo</a> </li>
         		##	<li><a href=$WebPath.getViewAllMessages()>Mensajes</a> </li>
-        		
+        			<li><a href=$WebPath.getVerVotaciones()>Votaciones</a> </li>
       			</ul>
 			</div>
   		</div>
 		</nav>
 		
-					<label class="switch">
-  						<input type="checkbox">
-  						<div align="right" class="slider"></div>
-					</label>
-		
-					##	#if($!user.getAlarmaHabilitada())
-                	##		<form method="post" action="$WebPath.getAlarm()">
-                    ##			<button id="alarm">$msg.get("ENABLE_ALARM")</button>
-             		##		</form>
-                	##	#else
-               		##		<form method="post" action="$WebPath.getAlarm()">
-                    ##			<button id="alarm" >$msg.get("DISABLE_ALARM")</button>
-                 	##		</form>
-                	##	#end
+						#if($!user.getAlarmaHabilitada())
+                			<form method="post" action="$WebPath.getAlarm()">
+                    			<button id="alarm">$msg.get("ENABLE_ALARM")</button>
+             				</form>
+                		#else
+               				<form method="post" action="$WebPath.getAlarm()">
+                    			<button id="alarm" >$msg.get("DISABLE_ALARM")</button>
+                 			</form>
+                		#end
 	
             
 	#end

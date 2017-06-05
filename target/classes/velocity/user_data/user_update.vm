@@ -25,7 +25,7 @@
     <input type="text" name="address" placeholder="$msg.get("REGISTRATION_LABEL_ADDRESS")" value="$!user.getDireccion()" ><br>
   
     <label>$msg.get("REGISTRATION_LABEL_SUBDOM")</label><br>
-    <input type="text" name="subdom" placeholder="$msg.get("REGISTRATION_LABEL_SUBDOM")" value="$!user.getSubdominio()" ><br>
+    <input type="text" name="subdom" placeholder="$msg.get("REGISTRATION_LABEL_SUBDOM")" value="$!user.getSubdominio()" disabled><br>
        
     <label>$msg.get("REGISTRATION_LABEL_PASSWORD")</label><br>
     <input type="password" name="psw1" placeholder="$msg.get("REGISTRATION_LABEL_PASSWORD")" value="" ><br>

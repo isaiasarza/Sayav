@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
+import org.eclipse.paho.client.mqttv3.IMqttAsyncClient;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttAsyncClient;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -32,7 +33,7 @@ public class ControllerMQTT implements MqttCallback {
 	private static File file = new File("SAYAV");
 	private static File configFile = new File("configurator");
 	private static MensajeriaImpl mensajeria;
-	private MqttAsyncClient client;
+	private IMqttAsyncClient client;
 	private MqttConnectOptions options;
 
 	private ControllerMQTT() {
@@ -59,6 +60,7 @@ public class ControllerMQTT implements MqttCallback {
 
 	public void start() {
 		try {
+			mensajeria.init();
 			System.out.println("Connecting...");
 			client.connect(options);
 			client.setCallback(this);
@@ -186,8 +188,8 @@ public class ControllerMQTT implements MqttCallback {
 			mensajeria.recibirSolicitud(mensaje);
 		}
 		
-		if(topic.equals("prueba/notificacion")){
-			
+		if(topic.equals(TipoMensajeUtils.HANDSHAKE_RESPONSE)){
+			mensajeria.recibirConfirmación(mensaje);		
 		}
 
 	}

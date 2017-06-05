@@ -159,24 +159,26 @@ public class GroupController {
 
 		memberDomain = RequestUtil.getQueryMemberDomain(request);
 		
-		if(!memberDomain.contains("http://")){
-			memberDomain = "http://" + memberDomain;
+		if(memberDomain.contains("http://") || memberDomain.contains("/")){
+			model.put("invalidDomain", true);
+			model.put("user", usuario);
+			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
 		}
 		
-		String[] schemes = {"http","https"};
+		//String[] schemes = {"http","https"};
 
-		UrlValidator urlValidator = new UrlValidator(schemes);
+		//UrlValidator urlValidator = new UrlValidator(schemes);
 		
 		model.put("groupName", groupName);
 		model.put("group", grupo);
 		model.put("user", usuario);
 		
-		if(!urlValidator.isValid(memberDomain)){
-			model.put("invalidDomain", true);
-			model.put("user", usuario);
-
-			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
-		}
+		//if(urlValidator.isValid(memberDomain)){
+		//	model.put("invalidDomain", true);
+		//	model.put("user", usuario);
+		//
+		//	return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
+		//}
 		if(memberDomain.equals(usuario.getSubdominio()) || memberDomain.equals("localhost:")){
 			System.out.println("El miembro es el mismo usuario");
 			model.put("memberIsUser", true);
