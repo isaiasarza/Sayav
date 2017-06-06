@@ -46,10 +46,11 @@ public class UsuarioDao extends GenericDao<Usuario> {
 
 	public Peer eliminarMiembro(Grupo grupo,Peer miembro) throws JAXBException{
 		Usuario usuario = this.cargar(file);
-		Iterator<Peer> iterator = grupo.getPeers().iterator();	
+		Grupo g = usuario.getSingleGrupoById(grupo.getId());
+		Iterator<Peer> iterator = g.getPeers().iterator();	
 		while(iterator.hasNext()){
 			Peer eliminado = iterator.next();
-			if(eliminado.getDireccion().equals(miembro.getDireccion())){
+			if(eliminado.getDireccion().equals(miembro.getDireccion())){	
 				Peer removed = new Peer(eliminado.getDireccion());
 				iterator.remove();
 				this.guardar(usuario, file);

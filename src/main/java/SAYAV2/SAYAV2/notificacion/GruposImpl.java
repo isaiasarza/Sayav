@@ -243,20 +243,22 @@ public class GruposImpl implements Grupos, Notificaciones {
 		Usuario usuario = usuarioDao.cargar(usuarioFile);
 		Peer eliminado;
 		Mensaje mensaje = new Mensaje();
+		Grupo g = usuario.getSingleGrupoById(grupo.getId());
+		DatoGrupo datos = new DatoGrupo(miembro, g);
+		mensaje.setDatos(json.render(datos));
 		mensaje.setDescripcion("Se voto dar de baja al miembro");
 		mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.BAJA_MIEMBRO));
 		mensaje.setOrigen(usuario.getSubdominio());
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 		mensaje.setEstado(EstadoUtils.PENDIENTE);
-		Grupo g = usuario.getSingleGrupoById(grupo.getId());
 		eliminado = notificarBajaMiembro(g, mensaje, miembro);
 		notificarBajaGrupo(mensaje, eliminado);
-
 	}
 
 	private void notificarBajaGrupo(Mensaje mensaje, Peer eliminado) throws JAXBException {
 		mensaje.setDestino(eliminado.getDireccion());
-		mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.BAJA_MIEMBRO));
+		mensaje.setDescripcion("Usted ha sido dado de baja");
+		mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.BAJA_GRUPO));
 		mensajeria.enviarSolicitud(mensaje);
 	}
 
@@ -339,7 +341,7 @@ public class GruposImpl implements Grupos, Notificaciones {
 		} else {
 			votacion.setVotantesEnContra(votacion.getVotantesEnContra() + 1);
 		}
-
+		votacionesDao.guardar(votaciones,votacionesFile);
 		procesarBajaMiembro(votacion);
 
 	}

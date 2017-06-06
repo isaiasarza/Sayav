@@ -40,6 +40,7 @@ public class MensajeriaImpl implements Mensajeria {
 		mensajesFile = new File("Mensajes");
 		this.tipoMensajeDao = TipoMensajeDao.getInstance();
 		this.mensajesDao = MensajePendienteDao.getInstance();
+		this.mensajesDao.setFile(mensajesFile);
 		this.file = new File("SAYAV");
 		this.usuarioDao = UsuarioDao.getInstance();
 		this.usuarioDao.setFile(file);
