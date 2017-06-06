@@ -305,7 +305,6 @@ public class GroupController {
 			grupos.rechazarBajaMiembro(votacion);
 		}
 		
-		
 		votacionesDao.eliminarVotacion(votacion, votacionesPendientesFile);
 		votacionesPendientes = set(votacionesPendientesFile);
 		votaciones = set(votacionesFile);
@@ -314,8 +313,8 @@ public class GroupController {
 		model.put("currentUser", true);
 		model.put("solicitudes",votaciones);
 		model.put("votaciones", votacionesPendientes);
-		model.put("votacionExitosa", true);
-
+        model.put("votacionExitosa", true);
+		
 		return ViewUtil.render(request, model, PathUtil.Template.VER_VOTACIONES);
 	};
 	

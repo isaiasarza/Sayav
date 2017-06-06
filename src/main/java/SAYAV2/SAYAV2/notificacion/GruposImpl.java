@@ -132,6 +132,7 @@ public class GruposImpl implements Grupos, Notificaciones {
 			this.votaciones = this.votacionesDao.agregarVotacion(votacion, votaciones, votacionesFile);
 			solicitante.setDireccion(usuario.getSubdominio());
 			votacion.setSolicitante(solicitante);
+			votacion.setVotantesAFavor(1);
 			Mensaje msg = new Mensaje();
 			grupo.removePeer(miembro);
 			msg.setDatos(json.render(votacion));
@@ -181,9 +182,7 @@ public class GruposImpl implements Grupos, Notificaciones {
 		Usuario usuario = usuarioDao.cargar(usuarioFile);
 
 		// Creo un peer para mandarlo como datos
-		Peer miembro = new Peer();
-		miembro.setDireccion(votacion.getMiembro().getDireccion());
-		DatoVoto datos = new DatoVoto(miembro, votacion.getGrupo(), true);
+		DatoVoto datos = new DatoVoto(votacion.getId(), true);
 
 		// Creo el mensaje con los datos correspondientes a un voto a favor
 		Mensaje mensaje = new Mensaje();
@@ -193,6 +192,7 @@ public class GruposImpl implements Grupos, Notificaciones {
 		mensaje.setDestino(votacion.getSolicitante().getDireccion());
 		mensaje.setDatos(json.render(datos));
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
+        mensaje.setDestino(votacion.getSolicitante().getDireccion());
 		// Envio mi voto
 		mensajeria.enviarConfirmacion(mensaje);
 	}
@@ -205,9 +205,7 @@ public class GruposImpl implements Grupos, Notificaciones {
 		Usuario usuario = usuarioDao.cargar(usuarioFile);
 
 		// Creo un peer para mandarlo como datos
-		Peer miembro = new Peer();
-		miembro.setDireccion(votacion.getMiembro().getDireccion());
-		DatoVoto datos = new DatoVoto(miembro, votacion.getGrupo(), false);
+		DatoVoto datos = new DatoVoto(votacion.getId(), true);
 
 		// Creo el mensaje con los datos correspondientes a un voto a favor
 		Mensaje mensaje = new Mensaje();
@@ -217,6 +215,8 @@ public class GruposImpl implements Grupos, Notificaciones {
 		mensaje.setDestino(votacion.getSolicitante().getDireccion());
 		mensaje.setDatos(json.render(datos));
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
+		mensaje.setDestino(votacion.getSolicitante().getDireccion());
+		
 		// Envio mi voto
 		mensajeria.enviarConfirmacion(mensaje);
 
@@ -330,7 +330,7 @@ public class GruposImpl implements Grupos, Notificaciones {
 	public void recibirVoto(Mensaje msg) throws JAXBException {
 
 		DatoVoto datos = json.getGson().fromJson(msg.getDatos(), DatoVoto.class);
-		Votacion votacion = votacionesDao.cargar(votacionesFile).getVotacion(datos.getGrupo(), datos.getMiembro());
+		Votacion votacion = votacionesDao.getVotacion(datos.getIdVotacion(), votacionesFile);
 
 		if (datos.isVoto()) {
 			votacion.setVotantesAFavor(votacion.getVotantesAFavor() + 1);

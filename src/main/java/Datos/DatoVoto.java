@@ -1,12 +1,8 @@
 package Datos;
 
-import SAYAV2.SAYAV2.model.Grupo;
-import SAYAV2.SAYAV2.model.Peer;
-
 public class DatoVoto {
 	
-	private Peer miembro;
-	private Grupo grupo;
+	private String idVotacion;
 	private boolean voto;
 	
 	
@@ -14,38 +10,20 @@ public class DatoVoto {
 		super();
 	}
 	
-	public DatoVoto(Peer miembro, Grupo grupo, boolean voto) {
+	public DatoVoto(String idVotacion, boolean voto) {
 		super();
-		this.miembro = miembro;
-		this.grupo = grupo;
+		this.idVotacion = idVotacion;
 		this.voto = voto;
 	}
 
 
-
-	public Peer getMiembro() {
-		return miembro;
+	public String getIdVotacion() {
+		return idVotacion;
 	}
 
-
-
-	public void setMiembro(Peer miembro) {
-		this.miembro = miembro;
+	public void setIdVotacion(String idVotacion) {
+		this.idVotacion = idVotacion;
 	}
-
-
-
-	public Grupo getGrupo() {
-		return grupo;
-	}
-
-
-
-	public void setGrupo(Grupo grupo) {
-		this.grupo = grupo;
-	}
-
-
 
 	public boolean isVoto() {
 		return voto;

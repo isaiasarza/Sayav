@@ -29,6 +29,7 @@ public class Application {
 		configDao = ConfiguratorDao.getInstance();
 		c = new File("configurator");
 		config = configDao.cargar(c);
+		controllerMqtt = ControllerMQTT.getInstance();
 	}
 	
 	public static int getPort(){
@@ -61,7 +62,7 @@ public class Application {
 			// before("*", Filters.addTrailingSlashes);
 			// before("*", Filters.handleLocaleChange);
 			
-			post(PathUtil.Web.SHOW_NOTIFICATION,IndexController.mostrarNotificacion);
+			// post(PathUtil.Web.SHOW_NOTIFICATION,IndexController.mostrarNotificacion);
 
 			// REST de registro de usuario
 			get(PathUtil.Web.REGISTRATION, RegistrationController.servicioPaginaRegistrar);

@@ -26,6 +26,7 @@
 			<element name="VotantesAFavor" type="int" />
 			<element name="VotantesEnContra" type="int" />
 			<element name="Finalizo" type="boolean" />
+			<element name="Solicitante" type="pref:Peer" />
 		</sequence>
 	</complexType>
 </schema>
