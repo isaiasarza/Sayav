@@ -44,17 +44,19 @@ public class UsuarioDao extends GenericDao<Usuario> {
 		return null;
 	}
 
-	public boolean eliminarMiembro(Grupo grupo,Peer miembro) throws JAXBException{
+	public Peer eliminarMiembro(Grupo grupo,Peer miembro) throws JAXBException{
 		Usuario usuario = this.cargar(file);
 		Iterator<Peer> iterator = grupo.getPeers().iterator();	
 		while(iterator.hasNext()){
-			if( iterator.next().equals(miembro)){
+			Peer eliminado = iterator.next();
+			if(eliminado.getDireccion().equals(miembro.getDireccion())){
+				Peer removed = new Peer(eliminado.getDireccion());
 				iterator.remove();
 				this.guardar(usuario, file);
-				return true;
+				return removed;
 			}
 		}
-		return false;
+		return null;
 	}
 	
 	
@@ -66,7 +68,7 @@ public class UsuarioDao extends GenericDao<Usuario> {
 		Usuario usuario = this.cargar(file);
 		Iterator<Grupo> iterator = usuario.getGrupos().iterator();	
 		while(iterator.hasNext()){
-			if( iterator.next().equals(grupo)){
+			if( iterator.next().getId().equals(grupo.getId())){
 				iterator.remove();
 				this.guardar(usuario, file);
 				return true;
@@ -105,6 +107,11 @@ public class UsuarioDao extends GenericDao<Usuario> {
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
+		return null;
+	}
+
+	public Grupo getGrupo(String id) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

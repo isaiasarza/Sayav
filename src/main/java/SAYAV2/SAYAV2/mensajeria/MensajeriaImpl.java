@@ -19,8 +19,8 @@ import SAYAV2.SAYAV2.model.TiposMensajes;
 import SAYAV2.SAYAV2.notificacion.GruposImpl;
 import SAYAV2.SAYAV2.service.JsonTransformer;
 
-public class MensajeriaImpl implements Mensajeria{
-	
+public class MensajeriaImpl implements Mensajeria {
+
 	private static MensajeriaImpl mensImpl;
 	private UsuarioDao usuarioDao;
 	private File file;
@@ -33,8 +33,7 @@ public class MensajeriaImpl implements Mensajeria{
 	private static ControllerMQTT conn;
 	private JsonTransformer json;
 	private GruposImpl gruposImpl;
-	
-	
+
 	private MensajeriaImpl() {
 		super();
 		tiposFile = new File("tipos_mensajes");
@@ -47,22 +46,22 @@ public class MensajeriaImpl implements Mensajeria{
 		this.json = new JsonTransformer();
 
 		try {
-			if(mensajesFile.exists()){
+			if (mensajesFile.exists()) {
 				setMensajes(this.mensajesDao.cargar(mensajesFile));
-			}else{
+			} else {
 				this.mensajes = new MensajesPendientes();
 			}
 			setTipos(this.tipoMensajeDao.cargar(tiposFile));
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
-	public void init(){
+
+	public void init() {
 		this.gruposImpl = new GruposImpl();
 	}
-	
+
 	public GruposImpl getGruposImpl() {
 		return gruposImpl;
 	}
@@ -70,117 +69,96 @@ public class MensajeriaImpl implements Mensajeria{
 	public void setGruposImpl(GruposImpl gruposImpl) {
 		this.gruposImpl = gruposImpl;
 	}
-	
-	
 
-	public static MensajeriaImpl getInstance(){
-		if(mensImpl == null){
+	public static MensajeriaImpl getInstance() {
+		if (mensImpl == null) {
 			mensImpl = new MensajeriaImpl();
 			conn = ControllerMQTT.getInstance();
 			conn.start();
 		}
-		
+
 		return mensImpl;
-	}
-	/**
-	 * @author  
-	 * @param Mensaje msg
-	 * @return Mensaje nuevo mensaje formado en la acción
-	 * Este metodo toma un mensaje recibido,
-	 * según el tipo de mensaje correspondiente toma la acción debida.
-	 * @throws JAXBException 
-	 */
-	@Override
-	public void procesarMensaje(Mensaje msg) {
-		
-		
-		if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.ALERTA)){
-			try {
-				gruposImpl.recibirAlerta(msg);
-			} catch (JAXBException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_MIEMBRO)){
-			try {
-				gruposImpl.recibirNuevoMiembro(msg);
-			} catch (JAXBException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_GRUPO)){
-			try {
-				gruposImpl.recibirNuevoGrupo(msg);
-			} catch (JAXBException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.BAJA_MIEMBRO)){
-			try {
-				gruposImpl.recibirBajaMiembro(msg);
-			} catch (JAXBException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.SOLICITUD_BAJA_MIEMBRO)){
-			try {
-				gruposImpl.recibirSolicitudBaja(msg);
-			} catch (JAXBException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.VOTO)){
-			try {
-				gruposImpl.recibirVoto(msg);
-			} catch (JAXBException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
 	}
 
 	/**
-	 * @author 
-	 * @param Mensaje msg
-	 * @param Grupo g
-	 * Este metodo propaga un mensaje al grupo recibido por parametro.
+	 * @author
+	 * @param Mensaje
+	 *            msg
+	 * @return Mensaje nuevo mensaje formado en la acción Este metodo toma un
+	 *         mensaje recibido, según el tipo de mensaje correspondiente toma
+	 *         la acción debida.
+	 * @throws JAXBException
+	 */
+	@Override
+	public void procesarMensaje(Mensaje msg) {
+		try {
+			if (msg.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST)) {
+				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.ALERTA)) {
+					gruposImpl.recibirAlerta(msg);
+					return;
+				}
+				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_MIEMBRO)) {
+					gruposImpl.recibirNuevoMiembro(msg);
+					return;
+				}
+				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_GRUPO)) {
+					gruposImpl.recibirNuevoGrupo(msg);
+					return;
+				}
+				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.BAJA_MIEMBRO)) {
+					gruposImpl.recibirBajaMiembro(msg);
+					return;
+				}
+				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.SOLICITUD_BAJA_MIEMBRO)) {
+					gruposImpl.recibirSolicitudBaja(msg);
+					return;
+				}
+			}
+			if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.VOTO)) {
+				gruposImpl.recibirVoto(msg);
+				return;
+			}			
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * @author
+	 * @param Mensaje
+	 *            msg
+	 * @param Grupo
+	 *            g Este metodo propaga un mensaje al grupo recibido por
+	 *            parametro.
 	 */
 	@Override
 	public void propagarMensaje(Mensaje msg, Grupo g) {
-		
-		for(Peer miembro : g.getPeers()){
-			
+
+		for (Peer miembro : g.getPeers()) {
+
 			Mensaje mensaje = new Mensaje();
 			mensaje.setDescripcion(msg.getDescripcion());
 			mensaje.setDatos(msg.getDatos());
 			mensaje.setOrigen(msg.getOrigen());
 			mensaje.setDestino(miembro.getDireccion());
 			mensaje.setTipoMensaje(msg.getTipoMensaje());
-			if(msg.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST)){
+			if (msg.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST)) {
 				enviarSolicitud(mensaje);
-			}
-			else{
+			} else {
 				enviarConfirmacion(mensaje);
 			}
 		}
 	}
 
 	/**
-	 * @author 
-	 * @param Mensaje mensaje a guardar
-	 * Guarda el mensaje.
+	 * @author
+	 * @param Mensaje
+	 *            mensaje a guardar Guarda el mensaje.
 	 */
 	@Override
-	public void guardarMensaje(Mensaje msg) {
-		if(this.mensajes.addMensaje(msg)){
+	public synchronized void guardarMensaje(Mensaje msg) {
+		if (this.mensajes.addMensaje(msg)) {
 			this.mensajesDao.guardar(this.mensajes, mensajesFile);
 			try {
 				this.mensajes = mensajesDao.cargar(mensajesFile);
@@ -189,56 +167,52 @@ public class MensajeriaImpl implements Mensajeria{
 			}
 		}
 	}
-	
+
 	/**
 	 * 
 	 */
 	@Override
-	public void actualizarMensaje(Mensaje msg){
+	public synchronized void actualizarMensaje(Mensaje msg) {
 		Mensaje viejo = this.mensajes.getMensaje(msg.getId());
 		viejo.setFechaReenvio(msg.getFechaReenvio());
 		mensajesDao.guardar(this.mensajes, mensajesFile);
 	}
 
 	/**
-	 * @author 
+	 * @author
 	 * @param Mensaje
-	 * Reenvia el mensaje indicado.
+	 *            Reenvia el mensaje indicado.
 	 */
 	@Override
-	public boolean reenviarMensaje(Mensaje msg, Date fechaActual) {		
-		
+	public boolean reenviarMensaje(Mensaje msg, Date fechaActual) {
 
 		if (FechaUtils.diffDays(msg.getFechaCreacion(), fechaActual) == msg.getTipoMensaje().getTimetolive()) {
 			eliminarMensaje(msg);
-			//System.out.println("Elimino mensaje por timetolive");
-            return false;
+			return false;
 		}
 		if (msg.getEstado().equals(EstadoUtils.CONFIRMADO)) {
 			eliminarMensaje(msg);
-			//System.out.println("Elimino mensaje confirmado");
 			return false;
 		}
-		if (FechaUtils.diffDays(msg.getFechaReenvio(), fechaActual) != msg.getTipoMensaje().getQuantum()) {
-			//System.out.println("No hace falta enviar mensaje");
+		if (FechaUtils.diffDays(msg.getFechaReenvio(), fechaActual) < msg.getTipoMensaje().getQuantum()) {
 			return false;
 		}
 		msg.getFechaReenvio().setTime(fechaActual.getTime());
 		actualizarMensaje(msg);
-		
-		if(msg.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST)){
+
+		if (msg.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST)) {
 			enviarSolicitud(msg);
 			return true;
 		}
 		enviarConfirmacion(msg);
-
-		//System.out.println("Envio mensaje");
 		return true;
 	}
+
 	/**
-	 * @author 
-	 * @param Mensaje mensaje a enviar
-	 * Envia una solicitud hacia otro destino junto con un mensaje.
+	 * @author
+	 * @param Mensaje
+	 *            mensaje a enviar Envia una solicitud hacia otro destino junto
+	 *            con un mensaje.
 	 */
 	@Override
 	public String enviarSolicitud(Mensaje msg) {
@@ -253,65 +227,64 @@ public class MensajeriaImpl implements Mensajeria{
 	}
 
 	/**
-	 * @author 
-	 * @param Mensaje 
-	 * Se envia un mensaje de confirmación a otro destino
+	 * @author
+	 * @param Mensaje
+	 *            Se envia un mensaje de confirmación a otro destino
 	 */
 	@Override
 	public void enviarConfirmacion(Mensaje msg) {
-		
-		String topic = msg.getDestino() + "/" + msg.getTipoMensaje().getTipo();
-		String m = json.render(msg);
 		msg.setEstado(EstadoUtils.PENDIENTE);
-		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
+		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
+		String topic = msg.getDestino() + "/" + msg.getTipoHandshake();
+		String m = json.render(msg);
 		guardarMensaje(msg);
 		conn.send(topic, m, 2);
-		
+
 	}
 
 	/**
 	 * 
 	 * Se recibe una solicitud de confimacion desde otro origen
-	 * @throws JAXBException 
+	 * 
+	 * @throws JAXBException
 	 */
 	@Override
 	public void recibirSolicitud(Mensaje msg) {
-		procesarMensaje(msg);	
+		procesarMensaje(msg);
 		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
 		msg.setOrigen(msg.getDestino());
 		msg.setDestino(msg.getOrigen());
-		enviarConfirmacion(msg);		
+		enviarConfirmacion(msg);
 	}
 
 	/**
 	 * Se recibe una confirmación desde otro origen
-	 * @throws JAXBException 
+	 * 
+	 * @throws JAXBException
 	 */
 	@Override
-	public  void recibirConfirmación(Mensaje msg) throws JAXBException {
-		procesarMensaje(msg);	
+	public void recibirConfirmación(Mensaje msg) throws JAXBException {
+		procesarMensaje(msg);
 		msg.setEstado(EstadoUtils.CONFIRMADO);
 		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
 		msg.setOrigen(msg.getDestino());
 		msg.setDestino(msg.getOrigen());
 		guardarMensaje(msg);
-		
+
 	}
+
 	/**
 	 * Se elimina un mensaje
 	 */
 	@Override
-	public void eliminarMensaje(Mensaje msg) {
+	public synchronized void eliminarMensaje(Mensaje msg) {
 		try {
 			mensajesDao.eliminarMensaje(msg);
 		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 	public MensajesPendientes getMensajes() {
 		return mensajes;
@@ -333,7 +306,5 @@ public class MensajeriaImpl implements Mensajeria{
 	public void setTipos(TiposMensajes tipos) {
 		this.tipos = tipos;
 	}
-	
-	
 
 }

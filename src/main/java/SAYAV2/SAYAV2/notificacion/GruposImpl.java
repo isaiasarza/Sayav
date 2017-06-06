@@ -3,7 +3,6 @@ package SAYAV2.SAYAV2.notificacion;
 import java.io.File;
 import java.util.Date;
 import java.util.List;
-import java.util.spi.TimeZoneNameProvider;
 
 import javax.xml.bind.JAXBException;
 
@@ -67,8 +66,8 @@ public class GruposImpl implements Grupos, Notificaciones {
 		}
 		return grupos;
 	}
-	
-	public void init(){
+
+	public void init() {
 		this.init = true;
 		this.mensajeria.init();
 	}
@@ -129,17 +128,18 @@ public class GruposImpl implements Grupos, Notificaciones {
 		try {
 			usuario = usuarioDao.cargar(usuarioFile);
 			Votacion votacion = new Votacion(miembro, grupo);
+			votacion.setVotantesAFavor(1);
 			this.votaciones = this.votacionesDao.agregarVotacion(votacion, votaciones, votacionesFile);
 			solicitante.setDireccion(usuario.getSubdominio());
 			votacion.setSolicitante(solicitante);
 			Mensaje msg = new Mensaje();
 			grupo.removePeer(miembro);
 			msg.setDatos(json.render(votacion));
-			msg.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.VOTO));
+			msg.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.SOLICITUD_BAJA_MIEMBRO));
 			msg.setDescripcion("Se ha solicitado la baja de un miembro");
 			msg.setEstado(EstadoUtils.PENDIENTE);
 			msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
-			msg.setOrigen(usuario.getSubdominio());	
+			msg.setOrigen(usuario.getSubdominio());
 			notificarGrupo(grupo, msg);
 			grupo.add(miembro);
 			notificarMoviles(usuario.getDispositivosMoviles(), msg);
@@ -157,7 +157,6 @@ public class GruposImpl implements Grupos, Notificaciones {
 
 		// Creo un peer para mandarlo como datos
 		Peer miembro = new Peer();
-		miembro.setDireccion(usuario.getSubdominio());
 		DatoGrupo datos = new DatoGrupo(miembro, grupo);
 
 		// Creo el mensaje con los datos correspondientes a un abandonar grupo
@@ -176,8 +175,6 @@ public class GruposImpl implements Grupos, Notificaciones {
 
 	@Override
 	public void aceptarBajaMiembro(Votacion votacion) throws JAXBException {
-		// TODO Auto-generated method stub
-
 		// Voto positivo
 		votacion.setVotantesAFavor(votacion.getVotantesAFavor() + 1);
 
@@ -185,7 +182,7 @@ public class GruposImpl implements Grupos, Notificaciones {
 
 		// Creo un peer para mandarlo como datos
 		Peer miembro = new Peer();
-		miembro.setDireccion(usuario.getSubdominio());
+		miembro.setDireccion(votacion.getMiembro().getDireccion());
 		DatoVoto datos = new DatoVoto(miembro, votacion.getGrupo(), true);
 
 		// Creo el mensaje con los datos correspondientes a un voto a favor
@@ -193,24 +190,23 @@ public class GruposImpl implements Grupos, Notificaciones {
 		mensaje.setOrigen(usuario.getSubdominio());
 		mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.VOTO));
 		mensaje.setDescripcion("Voto el miembro");
+		mensaje.setDestino(votacion.getSolicitante().getDireccion());
 		mensaje.setDatos(json.render(datos));
-
+		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
 		// Envio mi voto
 		mensajeria.enviarConfirmacion(mensaje);
 	}
 
 	@Override
 	public void rechazarBajaMiembro(Votacion votacion) throws JAXBException {
-		// TODO Auto-generated method stub
-
-		//Voto negativo
+		// Voto negativo
 		votacion.setVotantesEnContra(votacion.getVotantesEnContra() + 1);
 
 		Usuario usuario = usuarioDao.cargar(usuarioFile);
 
 		// Creo un peer para mandarlo como datos
 		Peer miembro = new Peer();
-		miembro.setDireccion(usuario.getSubdominio());
+		miembro.setDireccion(votacion.getMiembro().getDireccion());
 		DatoVoto datos = new DatoVoto(miembro, votacion.getGrupo(), false);
 
 		// Creo el mensaje con los datos correspondientes a un voto a favor
@@ -218,8 +214,9 @@ public class GruposImpl implements Grupos, Notificaciones {
 		mensaje.setOrigen(usuario.getSubdominio());
 		mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.VOTO));
 		mensaje.setDescripcion("Voto el miembro");
+		mensaje.setDestino(votacion.getSolicitante().getDireccion());
 		mensaje.setDatos(json.render(datos));
-
+		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
 		// Envio mi voto
 		mensajeria.enviarConfirmacion(mensaje);
 
@@ -235,22 +232,36 @@ public class GruposImpl implements Grupos, Notificaciones {
 			Usuario usuario;
 			try {
 				usuario = usuarioDao.cargar(usuarioFile);
-
 				if (votacion.getVotantesAFavor() >= minVotantes) {
+					Peer eliminado;
 					Mensaje mensaje = new Mensaje();
 					mensaje.setDescripcion("Se voto dar de baja al miembro");
 					mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.BAJA_MIEMBRO));
 					mensaje.setOrigen(usuario.getSubdominio());
+					mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 					mensaje.setEstado(EstadoUtils.PENDIENTE);
-					usuarioDao.eliminarMiembro(usuario.getSingleGrupoById(votacion.getGrupo().getId()),
-							votacion.getMiembro());
-					notificarGrupo(votacion.getGrupo(), mensaje);
+					Grupo g = usuario.getSingleGrupoById(votacion.getGrupo().getId());
+					eliminado = notificarBajaMiembro(g, mensaje, votacion.getMiembro());
+					notificarBajaGrupo(mensaje, eliminado);
 				}
-				this.votaciones = votacionesDao.eliminarVotacion(votacion,votacionesFile);
+				// this.votaciones =
+				// votacionesDao.eliminarVotacion(votacion,votacionesFile);
 			} catch (JAXBException e) {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private void notificarBajaGrupo(Mensaje mensaje, Peer eliminado) throws JAXBException {
+		mensaje.setDestino(eliminado.getDireccion());
+		mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.BAJA_MIEMBRO));
+		mensajeria.enviarSolicitud(mensaje);
+	}
+
+	private Peer notificarBajaMiembro(Grupo g, Mensaje mensaje, Peer miembro) throws JAXBException {
+		Peer eliminado = usuarioDao.eliminarMiembro(g, miembro);
+		notificarGrupo(g, mensaje);
+		return eliminado;
 	}
 
 	@Override
@@ -286,13 +297,8 @@ public class GruposImpl implements Grupos, Notificaciones {
 	}
 
 	public void recibirNuevoMiembro(Mensaje msg) throws JAXBException {
-
 		Usuario usuario = usuarioDao.cargar(usuarioFile);
-
 		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
-
-		// Cambie esto porque no se estaba guardando, entonces lo hago adentro
-		// del dao y que se guarde ahi
 		usuarioDao.agregarMiembro(usuario.getSingleGrupoById(datos.getGrupo().getId()), datos.getMiembro());
 	}
 
@@ -304,18 +310,18 @@ public class GruposImpl implements Grupos, Notificaciones {
 
 	public void recibirBajaMiembro(Mensaje msg) throws JAXBException {
 
-		Usuario usuario = usuarioDao.cargar(usuarioFile);
 		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
-		usuarioDao.eliminarMiembro(usuario.getSingleGrupoById(datos.getGrupo().getId()), datos.getMiembro());
+		Grupo g = usuarioDao.getGrupo(datos.getGrupo().getId());
+		usuarioDao.eliminarMiembro(g, datos.getMiembro());
 
 	}
 
 	public void recibirSolicitudBaja(Mensaje msg) throws JAXBException {
 
 		Usuario usuario = usuarioDao.cargar(usuarioFile);
-		
-		Votacion votacion = json.getGson().fromJson(msg.getDatos(), Votacion.class);		
-		votacionesPendientes = votacionesDao.agregarVotacion(votacion,votacionesPendientes,votacionesPendientesFile);	
+
+		Votacion votacion = json.getGson().fromJson(msg.getDatos(), Votacion.class);
+		votacionesPendientes = votacionesDao.agregarVotacion(votacion, votacionesPendientes, votacionesPendientesFile);
 
 		notificarMoviles(usuario.getDispositivosMoviles(), msg);
 

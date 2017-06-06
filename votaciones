@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns3:Votaciones xmlns:ns2="http://www.example.org/Mensaje" xmlns:ns3="http://www.example.org/Votaciones">
+    <ns3:Votaciones>
+        <id>9522d6e9-574b-4868-bcfa-d69832aa0835</id>
+        <ns3:Miembro>
+            <ns2:Id>f73eb8c7-489a-43d6-aa8a-41536e3fb135</ns2:Id>
+            <ns2:Direccion>rodrigo.net</ns2:Direccion>
+            <ns2:Puerto>0</ns2:Puerto>
+            <ns2:Estado>false</ns2:Estado>
+        </ns3:Miembro>
+        <ns3:Grupo>
+            <ns2:Id>3364513c-1c21-4213-97d7-5f7681a292f9</ns2:Id>
+            <ns2:Nombre>Universidad</ns2:Nombre>
+            <ns2:Peers>
+                <ns2:Id>f73eb8c7-489a-43d6-aa8a-41536e3fb135</ns2:Id>
+                <ns2:Direccion>rodrigo.net</ns2:Direccion>
+                <ns2:Puerto>0</ns2:Puerto>
+                <ns2:Estado>false</ns2:Estado>
+            </ns2:Peers>
+            <ns2:Peers>
+                <ns2:Id>6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f</ns2:Id>
+                <ns2:Direccion>http://nestorkirchner.ddns.net</ns2:Direccion>
+                <ns2:Puerto>0</ns2:Puerto>
+                <ns2:Estado>false</ns2:Estado>
+            </ns2:Peers>
+        </ns3:Grupo>
+        <ns3:VotantesAFavor>0</ns3:VotantesAFavor>
+        <ns3:VotantesEnContra>0</ns3:VotantesEnContra>
+        <ns3:Finalizo>false</ns3:Finalizo>
+    </ns3:Votaciones>
+</ns3:Votaciones>

@@ -27,7 +27,7 @@
     </ns2:tipos>
     <ns2:tipos>
         <tipo>Voto</tipo>
-        <quantum>3600</quantum>
-        <timetolive>240</timetolive>
+        <quantum>240</quantum>
+        <timetolive>3600</timetolive>
     </ns2:tipos>
 </ns2:TiposMensajes>

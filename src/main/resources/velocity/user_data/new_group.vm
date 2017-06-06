@@ -48,11 +48,7 @@
 					<input type="submit" value="Ver" >
            		</form>
    	     	</td> 
-	 	## <td>
-   		## <form method="get" action="$WebPath.getLeave()$g.getNombre()/">
-        ## <button id="leave Group">Abandonar Grupo</button>
-        ## </form>  
-        ## </td>     	
+	      	
        	</tr>       
 		#end			 		
 	</table>

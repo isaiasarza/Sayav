@@ -6,8 +6,6 @@ import java.util.Map;
 
 import javax.xml.bind.JAXBException;
 
-import org.apache.commons.validator.routines.UrlValidator;
-
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.RequestUtil;
 import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
@@ -307,6 +305,8 @@ public class GroupController {
 			grupos.rechazarBajaMiembro(votacion);
 		}
 		
+		
+		votacionesDao.eliminarVotacion(votacion, votacionesPendientesFile);
 		votacionesPendientes = set(votacionesPendientesFile);
 		votaciones = set(votacionesFile);
 		
@@ -314,6 +314,7 @@ public class GroupController {
 		model.put("currentUser", true);
 		model.put("solicitudes",votaciones);
 		model.put("votaciones", votacionesPendientes);
+		model.put("votacionExitosa", true);
 
 		return ViewUtil.render(request, model, PathUtil.Template.VER_VOTACIONES);
 	};

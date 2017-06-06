@@ -60,6 +60,7 @@ public class ControllerMQTT implements MqttCallback {
 
 	public void start() {
 		try {
+			
 			mensajeria.init();
 			System.out.println("Connecting...");
 			client.connect(options);
@@ -188,7 +189,7 @@ public class ControllerMQTT implements MqttCallback {
 			mensajeria.recibirSolicitud(mensaje);
 		}
 		
-		if(topic.equals(TipoMensajeUtils.HANDSHAKE_RESPONSE)){
+		if(tipo.equals(TipoMensajeUtils.HANDSHAKE_RESPONSE)){
 			mensajeria.recibirConfirmación(mensaje);		
 		}
 

@@ -22,9 +22,10 @@ public class Application {
 	static ConfiguratorDao configDao;
 	static File c;
 	static File sayav = new File("SAYAV");
-	static ControllerMQTT controllerMqtt = ControllerMQTT.getInstance();
+	static ControllerMQTT controllerMqtt;
 	
 	public static void config() throws JAXBException{
+		controllerMqtt = ControllerMQTT.getInstance();
 		configDao = ConfiguratorDao.getInstance();
 		c = new File("configurator");
 		config = configDao.cargar(c);
