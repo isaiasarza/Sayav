@@ -143,9 +143,13 @@ public class Mensaje  implements Cloneable{
 	 * 
 	 * @param value
 	 *            allowed object is {@link String }
+	 * @throws Exception 
 	 * 
 	 */
-	public void setOrigen(String value) {
+	public void setOrigen(String value) throws Exception {
+		if(value.equals(destino)){
+			throw new Exception();
+		}
 		this.origen = value;
 	}
 
@@ -164,9 +168,13 @@ public class Mensaje  implements Cloneable{
 	 * 
 	 * @param value
 	 *            allowed object is {@link String }
+	 * @throws Exception 
 	 * 
 	 */
-	public void setDestino(String value) {
+	public void setDestino(String value) throws Exception {
+		if(value.equals(this.origen)){
+			throw new Exception ();
+		}
 		this.destino = value;
 	}
 

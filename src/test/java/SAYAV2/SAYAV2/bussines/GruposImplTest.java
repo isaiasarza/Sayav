@@ -38,7 +38,11 @@ public class GruposImplTest {
 
 	@Test
 	public void testAñadirMiembro() {
-		grupos.añadirMiembro(grupo, miembro);
+		try {
+			grupos.añadirMiembro(grupo, miembro);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test

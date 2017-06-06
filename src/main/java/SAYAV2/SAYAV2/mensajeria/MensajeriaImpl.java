@@ -88,10 +88,11 @@ public class MensajeriaImpl implements Mensajeria {
 	 * @return Mensaje nuevo mensaje formado en la acción Este metodo toma un
 	 *         mensaje recibido, según el tipo de mensaje correspondiente toma
 	 *         la acción debida.
+	 * @throws Exception 
 	 * @throws JAXBException
 	 */
 	@Override
-	public void procesarMensaje(Mensaje msg) {
+	public void procesarMensaje(Mensaje msg) throws Exception {
 		try {
 			if (msg.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST)) {
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.ALERTA)) {
@@ -118,7 +119,11 @@ public class MensajeriaImpl implements Mensajeria {
 			if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.VOTO)) {
 				gruposImpl.recibirVoto(msg);
 				return;
-			}			
+			}	
+			if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_GRUPO)){
+				gruposImpl.confirmarAñadirMiembro(msg);
+				return;
+			}
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
@@ -132,9 +137,10 @@ public class MensajeriaImpl implements Mensajeria {
 	 * @param Grupo
 	 *            g Este metodo propaga un mensaje al grupo recibido por
 	 *            parametro.
+	 * @throws Exception 
 	 */
 	@Override
-	public void propagarMensaje(Mensaje msg, Grupo g) {
+	public void propagarMensaje(Mensaje msg, Grupo g) throws Exception {
 
 		for (Peer miembro : g.getPeers()) {
 
@@ -176,6 +182,7 @@ public class MensajeriaImpl implements Mensajeria {
 	public synchronized void actualizarMensaje(Mensaje msg) {
 		Mensaje viejo = this.mensajes.getMensaje(msg.getId());
 		viejo.setFechaReenvio(msg.getFechaReenvio());
+		viejo.setEstado(msg.getEstado());
 		mensajesDao.guardar(this.mensajes, mensajesFile);
 	}
 
@@ -246,31 +253,34 @@ public class MensajeriaImpl implements Mensajeria {
 	/**
 	 * 
 	 * Se recibe una solicitud de confimacion desde otro origen
+	 * @throws Exception 
 	 * 
 	 * @throws JAXBException
 	 */
 	@Override
-	public void recibirSolicitud(Mensaje msg) {
+	public void recibirSolicitud(Mensaje msg) throws Exception {
 		procesarMensaje(msg);
-		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
-		msg.setOrigen(msg.getDestino());
-		msg.setDestino(msg.getOrigen());
-		enviarConfirmacion(msg);
+		Mensaje nuevo =  (Mensaje) msg.clone();
+		nuevo.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
+		nuevo.setOrigen("");
+		nuevo.setDestino("");
+		nuevo.setOrigen(msg.getDestino());
+		nuevo.setDestino(msg.getOrigen());
+		enviarConfirmacion(nuevo);
 	}
 
 	/**
 	 * Se recibe una confirmación desde otro origen
-	 * 
-	 * @throws JAXBException
+	 * @throws JAXBException,Exception 
 	 */
 	@Override
-	public void recibirConfirmación(Mensaje msg) throws JAXBException {
+	public void recibirConfirmación(Mensaje msg) throws JAXBException,Exception {
 		procesarMensaje(msg);
 		msg.setEstado(EstadoUtils.CONFIRMADO);
 		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
 		msg.setOrigen(msg.getDestino());
 		msg.setDestino(msg.getOrigen());
-		guardarMensaje(msg);
+		actualizarMensaje(msg);
 
 	}
 

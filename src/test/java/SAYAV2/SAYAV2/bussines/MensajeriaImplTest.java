@@ -66,8 +66,14 @@ public class MensajeriaImplTest {
 	public void testPropagarMensaje() {
 		try {
 			Grupo grupo = usuarioDao.getGrupo(0);
-			mensaje.setOrigen(usuarioDao.getSubdominio());
-			mensajeria.propagarMensaje(mensaje, grupo);
+			try {
+				mensaje.setOrigen(usuarioDao.getSubdominio());
+				mensajeria.propagarMensaje(mensaje, grupo);
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
@@ -79,6 +85,7 @@ public class MensajeriaImplTest {
 		fail("Not yet implemented");
 	}
 
+	@SuppressWarnings("unused")
 	@Test
 	public void testReenviarMensajePendiente() {
 		
@@ -125,7 +132,12 @@ public class MensajeriaImplTest {
 	@Test
 	public void testRecibirSolicitud() {
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
-		mensajeria.recibirSolicitud(mensaje);
+		try {
+			mensajeria.recibirSolicitud(mensaje);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test

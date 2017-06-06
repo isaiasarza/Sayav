@@ -7,8 +7,8 @@ import SAYAV2.SAYAV2.model.DispositivoM;
 import SAYAV2.SAYAV2.model.Grupo;
 
 public interface Notificaciones {
-	void notificarGrupo(Grupo grupo, Mensaje msg);
+	void notificarGrupo(Grupo grupo, Mensaje msg) throws Exception;
 	void notificarMovil(DispositivoM movil, Mensaje msg);
-	void notificarGrupos(List<Grupo> grupos, Mensaje msg);
+	void notificarGrupos(List<Grupo> grupos, Mensaje msg) throws Exception;
 	void notificarMoviles(List<DispositivoM> moviles, Mensaje msg);
 }

@@ -46,6 +46,7 @@ public class UsuarioDao extends GenericDao<Usuario> {
 
 	public Peer eliminarMiembro(Grupo grupo,Peer miembro) throws JAXBException{
 		Usuario usuario = this.cargar(file);
+		System.out.println(grupo.getId());
 		Grupo g = usuario.getSingleGrupoById(grupo.getId());
 		Iterator<Peer> iterator = g.getPeers().iterator();	
 		while(iterator.hasNext()){
@@ -77,10 +78,14 @@ public class UsuarioDao extends GenericDao<Usuario> {
 		}
 		return false;
 	}
-	
-	
-	
-	public boolean agregarMiembro(Grupo grupo, Peer miembro){
+		
+	public boolean agregarMiembro(Grupo grupo, Peer miembro) throws JAXBException{
+		Usuario usuario = this.cargar(file);
+		Grupo g = usuario.getSingleGrupoById(grupo.getId());
+		if(g.addPeer(miembro.getDireccion())){
+			this.guardar(usuario, file);
+			return true;
+		}
 		return false;
 	}
 
@@ -112,7 +117,6 @@ public class UsuarioDao extends GenericDao<Usuario> {
 	}
 
 	public Grupo getGrupo(String id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

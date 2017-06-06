@@ -34,6 +34,11 @@ public class DatoVoto {
 	public void setVoto(boolean voto) {
 		this.voto = voto;
 	}
+
+	@Override
+	public String toString() {
+		return "DatoVoto [idVotacion=" + idVotacion + ", voto=" + voto + "]";
+	}
 	
 	
 	

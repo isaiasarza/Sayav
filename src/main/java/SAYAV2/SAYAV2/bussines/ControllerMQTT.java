@@ -60,7 +60,7 @@ public class ControllerMQTT implements MqttCallback {
 
 	public void start() {
 		try {
-			
+
 			mensajeria.init();
 			System.out.println("Connecting...");
 			client.connect(options);
@@ -94,10 +94,9 @@ public class ControllerMQTT implements MqttCallback {
 
 		String nuevoGrupo = usuario.getSubdominio() + "/" + TipoMensajeUtils.NUEVO_GRUPO;
 		receive(nuevoGrupo, qos);
-		
-		String nuevoMiembro = usuario.getSubdominio() + "/" + TipoMensajeUtils.NUEVO_MIEMBRO;
-		receive(nuevoMiembro,qos);
 
+		String nuevoMiembro = usuario.getSubdominio() + "/" + TipoMensajeUtils.NUEVO_MIEMBRO;
+		receive(nuevoMiembro, qos);
 
 	}
 
@@ -184,13 +183,15 @@ public class ControllerMQTT implements MqttCallback {
 		mensaje = jsonTransformer.getGson().fromJson(msg.toString(), Mensaje.class);
 
 		tipo = mensaje.getTipoHandshake();
-
-		if (tipo.equals(TipoMensajeUtils.HANDSHAKE_REQUEST)) {
-			mensajeria.recibirSolicitud(mensaje);
-		}
-		
-		if(tipo.equals(TipoMensajeUtils.HANDSHAKE_RESPONSE)){
-			mensajeria.recibirConfirmación(mensaje);		
+		try {
+			if (tipo.equals(TipoMensajeUtils.HANDSHAKE_REQUEST)) {
+				mensajeria.recibirSolicitud(mensaje);
+			}
+			if (tipo.equals(TipoMensajeUtils.HANDSHAKE_RESPONSE)) {
+				mensajeria.recibirConfirmación(mensaje);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}

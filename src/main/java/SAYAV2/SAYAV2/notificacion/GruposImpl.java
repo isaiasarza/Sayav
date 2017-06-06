@@ -72,7 +72,7 @@ public class GruposImpl implements Grupos, Notificaciones {
 		this.mensajeria.init();
 	}
 
-	private void notificarNuevoMiembro(Grupo grupo, Peer miembro, String origen) {
+	private void notificarNuevoMiembro(Grupo grupo, Peer miembro, String origen) throws Exception {
 		DatoGrupo datos = new DatoGrupo(miembro, grupo);
 
 		Mensaje mensaje = new Mensaje();
@@ -86,7 +86,7 @@ public class GruposImpl implements Grupos, Notificaciones {
 		mensajeria.propagarMensaje(mensaje, grupo);
 	}
 
-	private void notificarNuevoGrupo(Grupo grupo, Peer miembro, String origen) {
+	private void notificarNuevoGrupo(Grupo grupo, Peer miembro, String origen) throws Exception {
 		Mensaje mensaje = new Mensaje();
 		grupo.add(origen);
 		DatoGrupo datos = new DatoGrupo(miembro, grupo);
@@ -103,7 +103,7 @@ public class GruposImpl implements Grupos, Notificaciones {
 	}
 
 	@Override
-	public void añadirMiembro(Grupo grupo, Peer miembro) {
+	public void añadirMiembro(Grupo grupo, Peer miembro) throws Exception {
 		Usuario usuario;
 		try {
 			usuario = usuarioDao.cargar(usuarioFile);
@@ -121,7 +121,7 @@ public class GruposImpl implements Grupos, Notificaciones {
 	}
 
 	@Override
-	public void solicitarBajaMiembro(Grupo grupo, Peer miembro) {
+	public void solicitarBajaMiembro(Grupo grupo, Peer miembro) throws Exception {
 		System.out.println("Solicitando Baja de " + miembro);
 		Usuario usuario;
 		Peer solicitante = new Peer();
@@ -152,7 +152,7 @@ public class GruposImpl implements Grupos, Notificaciones {
 	}
 
 	@Override
-	public void abandonarGrupo(Grupo grupo) throws JAXBException {
+	public void abandonarGrupo(Grupo grupo) throws Exception {
 
 		Usuario usuario = usuarioDao.cargar(usuarioFile);
 
@@ -175,7 +175,7 @@ public class GruposImpl implements Grupos, Notificaciones {
 	}
 
 	@Override
-	public void aceptarBajaMiembro(Votacion votacion) throws JAXBException {
+	public void aceptarBajaMiembro(Votacion votacion) throws Exception {
 		// Voto positivo
 		votacion.setVotantesAFavor(votacion.getVotantesAFavor() + 1);
 
@@ -185,6 +185,7 @@ public class GruposImpl implements Grupos, Notificaciones {
 		DatoVoto datos = new DatoVoto(votacion.getId(), true);
 
 		// Creo el mensaje con los datos correspondientes a un voto a favor
+		System.out.println(datos);
 		Mensaje mensaje = new Mensaje();
 		mensaje.setOrigen(usuario.getSubdominio());
 		mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.VOTO));
@@ -198,7 +199,7 @@ public class GruposImpl implements Grupos, Notificaciones {
 	}
 
 	@Override
-	public void rechazarBajaMiembro(Votacion votacion) throws JAXBException {
+	public void rechazarBajaMiembro(Votacion votacion) throws Exception {
 		// Voto negativo
 		votacion.setVotantesEnContra(votacion.getVotantesEnContra() + 1);
 
@@ -223,7 +224,7 @@ public class GruposImpl implements Grupos, Notificaciones {
 	}
 
 	@Override
-	public void procesarBajaMiembro(Votacion votacion) {
+	public void procesarBajaMiembro(Votacion votacion) throws Exception {
 		double minVotantes = votacion.getGrupo().getPeers().size();
 		minVotantes /= 2;
 		minVotantes = Math.ceil(minVotantes);
@@ -239,7 +240,7 @@ public class GruposImpl implements Grupos, Notificaciones {
 		}
 	}
 
-	private void bajaMiembro(Grupo grupo, Peer miembro) throws JAXBException {
+	private void bajaMiembro(Grupo grupo, Peer miembro) throws Exception {
 		Usuario usuario = usuarioDao.cargar(usuarioFile);
 		Peer eliminado;
 		Mensaje mensaje = new Mensaje();
@@ -255,21 +256,22 @@ public class GruposImpl implements Grupos, Notificaciones {
 		notificarBajaGrupo(mensaje, eliminado);
 	}
 
-	private void notificarBajaGrupo(Mensaje mensaje, Peer eliminado) throws JAXBException {
+	private void notificarBajaGrupo(Mensaje mensaje, Peer eliminado) throws Exception {
 		mensaje.setDestino(eliminado.getDireccion());
 		mensaje.setDescripcion("Usted ha sido dado de baja");
 		mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.BAJA_GRUPO));
 		mensajeria.enviarSolicitud(mensaje);
 	}
 
-	private Peer notificarBajaMiembro(Grupo g, Mensaje mensaje, Peer miembro) throws JAXBException {
+	private Peer notificarBajaMiembro(Grupo g, Mensaje mensaje, Peer miembro) throws Exception {
 		Peer eliminado = usuarioDao.eliminarMiembro(g, miembro);
+		g.removePeer(miembro);
 		notificarGrupo(g, mensaje);
 		return eliminado;
 	}
 
 	@Override
-	public void notificarGrupo(Grupo grupo, Mensaje msg) {
+	public void notificarGrupo(Grupo grupo, Mensaje msg) throws Exception {
 		mensajeria.propagarMensaje(msg, grupo);
 	}
 
@@ -280,7 +282,7 @@ public class GruposImpl implements Grupos, Notificaciones {
 	}
 
 	@Override
-	public void notificarGrupos(List<Grupo> grupos, Mensaje msg) {
+	public void notificarGrupos(List<Grupo> grupos, Mensaje msg) throws Exception {
 		for (Grupo g : grupos) {
 			notificarGrupo(g, msg);
 		}
@@ -315,8 +317,9 @@ public class GruposImpl implements Grupos, Notificaciones {
 	public void recibirBajaMiembro(Mensaje msg) throws JAXBException {
 
 		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
-		Grupo g = usuarioDao.getGrupo(datos.getGrupo().getId());
-		usuarioDao.eliminarMiembro(g, datos.getMiembro());
+		System.out.println(datos);
+		datos.getGrupo().removePeer(datos.getMiembro());
+		usuarioDao.eliminarMiembro(datos.getGrupo(), datos.getMiembro());
 
 	}
 
@@ -331,7 +334,7 @@ public class GruposImpl implements Grupos, Notificaciones {
 
 	}
 
-	public void recibirVoto(Mensaje msg) throws JAXBException {
+	public void recibirVoto(Mensaje msg) throws Exception {
 
 		DatoVoto datos = json.getGson().fromJson(msg.getDatos(), DatoVoto.class);
 		Votacion votacion = votacionesDao.getVotacion(datos.getIdVotacion(), votacionesFile);
@@ -352,6 +355,11 @@ public class GruposImpl implements Grupos, Notificaciones {
 
 	public void setInit(boolean init) {
 		this.init = init;
+	}
+
+	public void confirmarAñadirMiembro(Mensaje msg) throws JAXBException {
+		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
+		this.usuarioDao.agregarMiembro(datos.getGrupo()	, datos.getMiembro());
 	}
 
 }

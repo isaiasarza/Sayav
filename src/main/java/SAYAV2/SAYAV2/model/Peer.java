@@ -206,6 +206,13 @@ public class Peer {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "Peer [id=" + id + ", direccion=" + direccion + ", puerto=" + puerto + ", estado=" + estado
+				+ ", mensajes=" + mensajes + "]";
+	}
+
+
 	
     
     
