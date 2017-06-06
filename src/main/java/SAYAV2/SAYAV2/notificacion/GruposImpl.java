@@ -229,27 +229,29 @@ public class GruposImpl implements Grupos, Notificaciones {
 		minVotantes = Math.ceil(minVotantes);
 		if (votacion.getVotantesAFavor() + votacion.getVotantesEnContra() >= minVotantes) {
 			votacion.setFinalizo(true);
-			Usuario usuario;
 			try {
-				usuario = usuarioDao.cargar(usuarioFile);
 				if (votacion.getVotantesAFavor() >= minVotantes) {
-					Peer eliminado;
-					Mensaje mensaje = new Mensaje();
-					mensaje.setDescripcion("Se voto dar de baja al miembro");
-					mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.BAJA_MIEMBRO));
-					mensaje.setOrigen(usuario.getSubdominio());
-					mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
-					mensaje.setEstado(EstadoUtils.PENDIENTE);
-					Grupo g = usuario.getSingleGrupoById(votacion.getGrupo().getId());
-					eliminado = notificarBajaMiembro(g, mensaje, votacion.getMiembro());
-					notificarBajaGrupo(mensaje, eliminado);
+					bajaMiembro(votacion.getGrupo(),votacion.getMiembro());
 				}
-				// this.votaciones =
-				// votacionesDao.eliminarVotacion(votacion,votacionesFile);
 			} catch (JAXBException e) {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private void bajaMiembro(Grupo grupo, Peer miembro) throws JAXBException {
+		Usuario usuario = usuarioDao.cargar(usuarioFile);
+		Peer eliminado;
+		Mensaje mensaje = new Mensaje();
+		mensaje.setDescripcion("Se voto dar de baja al miembro");
+		mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.BAJA_MIEMBRO));
+		mensaje.setOrigen(usuario.getSubdominio());
+		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
+		mensaje.setEstado(EstadoUtils.PENDIENTE);
+		Grupo g = usuario.getSingleGrupoById(grupo.getId());
+		eliminado = notificarBajaMiembro(g, mensaje, miembro);
+		notificarBajaGrupo(mensaje, eliminado);
+
 	}
 
 	private void notificarBajaGrupo(Mensaje mensaje, Peer eliminado) throws JAXBException {
