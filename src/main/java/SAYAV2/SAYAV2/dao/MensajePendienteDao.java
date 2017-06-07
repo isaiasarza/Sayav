@@ -1,5 +1,6 @@
 package SAYAV2.SAYAV2.dao;
 
+import java.io.File;
 import java.util.Iterator;
 
 import javax.xml.bind.JAXBException;
@@ -31,7 +32,7 @@ public class MensajePendienteDao extends GenericDao<MensajesPendientes> {
 
 
 
-	public boolean eliminarMensaje(Mensaje msg) throws JAXBException {
+	public synchronized boolean  eliminarMensaje(Mensaje msg) throws JAXBException {
 		MensajesPendientes mensajes = this.cargar(file);
 		Iterator<Mensaje> iterator = mensajes.getMensaje().iterator();
 		while(iterator.hasNext()){
@@ -77,5 +78,14 @@ public class MensajePendienteDao extends GenericDao<MensajesPendientes> {
 		return false;
 	}
 	
+	@Override
+	public synchronized MensajesPendientes cargar(File file) throws JAXBException {
+		return super.cargar(file);
+	}
+	
+	@Override
+	public synchronized void guardar(Object entidad, File file) {
+		super.guardar(entidad, file);
+	}
 	
 }

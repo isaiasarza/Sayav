@@ -23,8 +23,13 @@ public class NotificacionesDao extends GenericDao<Notificaciones> {
 
 
 
-	public void agregarNotificacion(Notificacion notificacion) throws JAXBException {
-		Notificaciones notificaciones = notificacionesDao.cargar(file);
+	public synchronized void agregarNotificacion(Notificacion notificacion) {
+		Notificaciones notificaciones;
+		try {
+			notificaciones = notificacionesDao.cargar(file);		
+		} catch (JAXBException e) {
+			notificaciones = new Notificaciones();
+		}
 		notificaciones.getNotificacion().add(notificacion);
 		notificacionesDao.guardar(notificaciones, file);
 	}

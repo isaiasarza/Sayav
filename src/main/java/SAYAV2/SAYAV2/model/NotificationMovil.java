@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Notification implements Serializable{
+public class NotificationMovil implements Serializable{
 	
 	
 	/**
@@ -24,14 +24,14 @@ public class Notification implements Serializable{
 	 * @param title : The title of the notification	
 	 * @param message : The message of the notification
 	 */
-	public Notification(List<String> registration_ids,String title, String message) {
+	public NotificationMovil(List<String> registration_ids,String title, String message) {
 		super();
 		this.data = new HashMap<String,String>();
 		this.registration_ids = registration_ids;
 		this.createData(title, message);
 	}
 
-	public Notification() {
+	public NotificationMovil() {
 		super();
 		this.registration_ids = new ArrayList<String>();
 		this.data = new HashMap<String,String>();

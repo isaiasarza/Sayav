@@ -106,7 +106,7 @@ public class ControllerMQTT implements MqttCallback {
 		try {
 			usuario = usuarioDao.cargar(file);
 			for (Grupo g : grupos) {
-				grupoTopic[i] = (g.getId() + usuario.getSubdominio() + "/" + TipoMensajeUtils.NUEVO_MIEMBRO);
+				grupoTopic[i] = (g.getId() + usuario.getNombreDeUsuario() + "/" + TipoMensajeUtils.NUEVO_MIEMBRO);
 				qoss[i] = 2;
 				i++;
 			}

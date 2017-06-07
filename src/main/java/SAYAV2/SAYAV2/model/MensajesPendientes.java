@@ -85,7 +85,7 @@ public class MensajesPendientes {
      * 
      * 
      */
-    public List<Mensaje> getMensaje() {
+    public synchronized List<Mensaje>  getMensaje() {
         if (mensaje == null) {
             mensaje = new ArrayList<Mensaje>();
         }

@@ -129,11 +129,15 @@ public class RegistrationController {
 				configurator = configDao.cargar(config);
 				int cant = configurator.getSectores();
 				List<Sector> sectores = new ArrayList<Sector>();
-				for (int i = 0; i < cant; i++) {
-					Sector s = new Sector();
+				Sector s;
+				for (int i = 1; i < cant; i++) {
+					s = new Sector();
 					s.setNombre("Sector N" + i);
 					sectores.add(s);
-				}
+				} 
+				s = new Sector();
+				s.setNombre("Boton de Panico");
+				sectores.add(s);
 				return sectores;
 			} catch (JAXBException e) {
 				e.printStackTrace();

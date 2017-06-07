@@ -93,10 +93,10 @@ public class GroupController {
 		Usuario usuario = usuarioDao.cargar(file);
 		String groupName = request.params("groupName");
 		Grupo grupo = usuario.getSingleGrupoByName(groupName);
-		
-		if(!grupos.isInit())
+		if(!grupos.isInit()){
 			grupos.init();
-		
+		}
+
 		if(!grupo.getPeers().isEmpty()){
 			grupos.abandonarGrupo(grupo);
 		}

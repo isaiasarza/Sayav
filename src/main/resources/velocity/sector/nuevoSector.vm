@@ -11,14 +11,11 @@
 
 <table>
  <caption>Sectores Existentes</caption>
-  <thead>
     <tr>
       <th>Estado</th>
       <th>Nombre</th>
     </tr>
-  </thead>
   #foreach($sector in $listaSectores) 
-  	<tbody>
 	<tr>
     	#if($!sector.isActivado())
     	<td>
@@ -27,7 +24,7 @@
          	</form>
         </td>
         
-         	<div class="alert">	
+         	<div class="dangerAlert">	
 	   		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>$msg.get("ALARM_ACTIVATE_SECTOR") $sector.getNombre()
 	   		</div>
         	
@@ -40,6 +37,7 @@
         </td>
       	#end 
       	
+      	#if(!$!sector.getNombre().equals("Boton de Panico"))
     	<td>
     	 	<form id="tabla" method="post" action="$WebPath.getRenombrarSector()">
     	 		<input type="text" name="nuevoNombreSector" value="$!sector.getNombre()" required>
@@ -48,8 +46,15 @@ l				<input type="submit" value=$msg.get("SECTOR_UPDATE") >
             	   	              
          	</form>
         </td>
+        #else
+        <td>
+    	 	<form id="tabla" method="post" action="$WebPath.getRenombrarSector()">
+    	 		<input type="text" name="nuevoNombreSector" value="$!sector.getNombre()" disabled>
+l				<input type="submit" value=$msg.get("SECTOR_UPDATE") disabled>       	   	              
+         	</form>
+        </td>
+        #end
 	</tr>
-    </tbody>
    #end     
 </table>
 

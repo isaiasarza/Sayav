@@ -2,5 +2,5 @@
 <Configurator xmlns="http://www.example.org/Mensaje">
     <Broker>tcp://192.168.1.34:1883</Broker>
     <Port>29111</Port>
-    <Sectores>4</Sectores>
+    <Sectores>5</Sectores>
 </Configurator>

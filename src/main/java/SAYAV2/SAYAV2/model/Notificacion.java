@@ -8,6 +8,7 @@
 
 package SAYAV2.SAYAV2.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -54,7 +55,6 @@ public class Notificacion {
     @XmlElement(name = "Fecha", required = true)
     @XmlSchemaType(name = "date")
     protected Date fecha;
-    
     
 
     public Notificacion() {
@@ -132,6 +132,11 @@ public class Notificacion {
      */
     public void setFecha(Date value) {
         this.fecha = value;
+    }
+    
+    public String imprimirFecha(){
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM hh:mm");
+    	return format.format(this.fecha);
     }
 
 }

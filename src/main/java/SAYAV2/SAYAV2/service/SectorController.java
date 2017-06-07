@@ -55,6 +55,7 @@ public class SectorController {
 	};
 
 	public static Route numeroSectores = (Request request, Response response) -> {
+		LoginController.ensureUserIsLoggedIn(request, response);
 
 		Map<String, Object> model = new HashMap<>();
 
@@ -67,17 +68,18 @@ public class SectorController {
 
 		model.put("numeroSectores", numeroSectores);
 		// Voy creando el numero de sectores definidos por el usuario
-		for (int i = 1; i <= numeroSectores; i++) {
-			Sector sector = new Sector();
-			// sector.setId(String.valueOf(i));
+		Sector sector;
+		for (int i = 1; i < numeroSectores; i++) {
+			sector = new Sector();
 			sector.setNombre("n" + i);
 			sector.setActivado(false);
 			usuario.getSectores().add(sector);
 		}
+		sector = new Sector();
+		sector.setNombre("Boton de Panico");
+		usuario.getSectores().add(sector);
 		UsuarioController.setCurrentUser(usuario);
 		usuarioDao.guardar(usuario, file);
-		// UsuarioDao.getInstance().guardar(usuario,
-		// UsuarioController.getFile());
 		model.put("user", usuario);
 		model.put("listaSectores", usuario.getSectores());
 
@@ -179,6 +181,9 @@ public class SectorController {
 			mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 			tiposDao.setTipo(mensaje,TipoMensajeUtils.ALERTA);
 			
+			if(!grupos.isInit()){
+				grupos.init();
+			}
 			grupos.notificarGrupos(usuario.getGrupos(), mensaje);
 			grupos.notificarMoviles(usuario.getDispositivosMoviles(), mensaje);
 			

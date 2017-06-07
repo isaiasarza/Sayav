@@ -116,14 +116,14 @@ public class MensajeriaImpl implements Mensajeria {
 					gruposImpl.recibirNuevoMiembro(msg);
 					DatoGrupo datos = this.json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
 					notificacion.setDescripcion("El miembro " +  datos.getMiembro().getDireccion() 
-						+ " es parte del grupo " + datos.getGrupo().toString());
+						+ " es parte del grupo " + datos.getGrupo().getNombre());
 					notificacionesDao.agregarNotificacion(notificacion);
 					return;
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_GRUPO)) {
 					gruposImpl.recibirNuevoGrupo(msg);
 					DatoGrupo datos = this.json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
-					notificacion.setDescripcion("Fue agregado al grupo " + datos.getGrupo().toString());
+					notificacion.setDescripcion("Fue agregado al grupo " + datos.getGrupo().getNombre());
 					notificacionesDao.agregarNotificacion(notificacion);
 					
 					return;
@@ -132,7 +132,7 @@ public class MensajeriaImpl implements Mensajeria {
 					gruposImpl.recibirBajaMiembro(msg);
 					DatoGrupo datos = this.json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
 					notificacion.setDescripcion("El miembro " +  datos.getMiembro().getDireccion() 
-						+ " dejo de ser parte del grupo " + datos.getGrupo().toString() );
+						+ " dejo de ser parte del grupo " + datos.getGrupo().getNombre() );
 					notificacionesDao.agregarNotificacion(notificacion);
 					return;
 				}
@@ -153,7 +153,7 @@ public class MensajeriaImpl implements Mensajeria {
 				gruposImpl.confirmarAñadirMiembro(msg);
 				DatoGrupo datos = this.json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
 				notificacion.setDescripcion("El miembro " +  datos.getMiembro().getDireccion() 
-						+ " es parte del grupo " + datos.getGrupo().toString());
+						+ " es parte del grupo " + datos.getGrupo().getNombre());
 				notificacionesDao.agregarNotificacion(notificacion);
 				return;
 			}
@@ -176,13 +176,13 @@ public class MensajeriaImpl implements Mensajeria {
 	public void propagarMensaje(Mensaje msg, Grupo g) throws Exception {
 
 		for (Peer miembro : g.getPeers()) {
-
 			Mensaje mensaje = new Mensaje();
 			mensaje.setDescripcion(msg.getDescripcion());
 			mensaje.setDatos(msg.getDatos());
 			mensaje.setOrigen(msg.getOrigen());
 			mensaje.setDestino(miembro.getDireccion());
 			mensaje.setTipoMensaje(msg.getTipoMensaje());
+			mensaje.setTipoHandshake(msg.getTipoHandshake());
 			if (msg.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST)) {
 				enviarSolicitud(mensaje);
 			} else {
