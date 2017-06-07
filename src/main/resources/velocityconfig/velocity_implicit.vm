@@ -73,7 +73,7 @@
 #* @vtlvariable name="listaSectores" type="java.util.ArrayList<SAYAV2.SAYAV2.model.Sector>" *#
 #* @vtlvariable name="numeroSectores" type="java.lang.Integer" *#
 #* @vtlvariable name="existingSector" type="java.lang.Integer" *#
-#* @vtlvariable name="listaMensajes" type="java.util.ArrayList<SAYAV2.SAYAV2.model.MensajeDato>" *#
+#* @vtlvariable name="mensajesPendientes" type="SAYAV2.SAYAV2.model.MensajesPendientes" *# 
 
 
 #* @vtlvariable name="existingMember" type="java.lang.String" *#

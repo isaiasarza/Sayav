@@ -68,8 +68,8 @@
         		##	<li><a href=$WebPath.getDispositivos()>Movil</a> </li>
         			<li><a href=$WebPath.getSector()>Sectores</a> </li>
         			<li><a href=$WebPath.getNewGroup()>Grupo</a> </li>
-        		##	<li><a href=$WebPath.getViewAllMessages()>Mensajes</a> </li>
-        			<li><a href=$WebPath.getVerVotaciones()>Votaciones</a> </li>
+        	        <li><a href=$WebPath.getViewAllMessages()>Mensajes</a> </li> 
+            		<li><a href=$WebPath.getVerVotaciones()>Votaciones</a> </li>
         			<li><a href=$WebPath.getShowNotification()>Notificaciones</a> </li>
         			
       			</ul>

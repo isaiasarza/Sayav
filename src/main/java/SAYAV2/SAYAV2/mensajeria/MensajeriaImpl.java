@@ -232,7 +232,7 @@ public class MensajeriaImpl implements Mensajeria {
 			return false;
 		}
 		if (msg.getEstado().equals(EstadoUtils.CONFIRMADO)) {
-			eliminarMensaje(msg);
+			//eliminarMensaje(msg);
 			return false;
 		}
 		if (FechaUtils.diffDays(msg.getFechaReenvio(), fechaActual) < msg.getTipoMensaje().getQuantum()) {
@@ -296,7 +296,7 @@ public class MensajeriaImpl implements Mensajeria {
 		Mensaje nuevo =  (Mensaje) msg.clone();
 		nuevo.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
 		nuevo.setOrigen("");
-		nuevo.setDestino("");
+	    nuevo.setDestino("a"); 
 		nuevo.setOrigen(msg.getDestino());
 		nuevo.setDestino(msg.getOrigen());
 		enviarConfirmacion(nuevo);

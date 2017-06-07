@@ -52,7 +52,8 @@ public class PathUtil {
 		@Getter
 		public static final String VIEW_ALL_GROUPS = "/group/new/";
 		@Getter
-		public static final String VIEW_ALL_MESSAGES = "/messages/";
+		public static final String VIEW_ALL_MESSAGES = "/mensajes/";
+
 		@Getter
 		public static final String NEW_GROUP_MEMBER = "/group/new/:groupName/";
 		public static final String VIEW_NEW_MEMBER = "/group/new/member/";
@@ -84,6 +85,23 @@ public class PathUtil {
 		public static final String VER_VOTACIONES = "/grupo/votaciones/";
 		public static final String VOTO = "/grupo/votaciones/:voto/:id/";
 
+		public static final String ELIMINAR_MENSAJE = "/mensajes/eliminar/:mensajeId/";
+		public static final String ELIMINAR = "/mensajes/eliminar/";
+
+		public static final String VER_DESCRIPCION = "/mensajes/descripcion/";
+
+		public static String getEliminar() {
+			return ELIMINAR;
+		}
+
+		public static String getEliminarMensaje() {
+			return ELIMINAR_MENSAJE;
+		}
+
+		public static String getVerDescripcion() {
+			return VER_DESCRIPCION;
+		}
+
 		public static String getShowNotification() {
 			return SHOW_NOTIFICATION;
 		}
@@ -99,7 +117,6 @@ public class PathUtil {
 		public static String getIndex() {
 			return INDEX;
 		}
-		
 
 		public static String getVoto() {
 			return VOTO;
@@ -112,7 +129,7 @@ public class PathUtil {
 		public static String getLogout() {
 			return LOGOUT;
 		}
-		
+
 		public static String getSolicitar() {
 			return SOLICITAR;
 		}
@@ -120,7 +137,6 @@ public class PathUtil {
 		public static String getVerVotaciones() {
 			return VER_VOTACIONES;
 		}
-
 
 		public static String getRegistration() {
 			return REGISTRATION;
@@ -275,7 +291,7 @@ public class PathUtil {
 		public static final String NEW_GROUP = "/velocity/grupo/new_group.vm";
 		public static final String NOT_FOUND = "/velocity/notFound.vm";
 		public static final String VIEW_ALL_GROUPS = "/velocity/user_data/view_groups.vm";
-		public static final String VIEW_ALL_MESSAGES = "/velocity/user_data/view_messages.vm";
+	    public static final String VIEW_ALL_MESSAGES = "/velocity/mensaje/mensajes.vm"; 
 		public static final String NEW_GROUP_MEMBER = "/velocity/user_data/new_member.vm";
 		public static final String VIEW_GROUP_MEMBER = "/velocity/grupo/view_members.vm";
 		public final static String DISPOSITIVO = "/velocity/dispositivo/nuevoDispositivo.vm";

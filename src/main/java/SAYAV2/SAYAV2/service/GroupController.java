@@ -9,10 +9,12 @@ import javax.xml.bind.JAXBException;
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.RequestUtil;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
+import SAYAV2.SAYAV2.dao.MensajePendienteDao;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
 import SAYAV2.SAYAV2.dao.VotacionesDao;
 import SAYAV2.SAYAV2.mensajeria.Mensaje;
 import SAYAV2.SAYAV2.model.Grupo;
+import SAYAV2.SAYAV2.model.MensajesPendientes;
 import SAYAV2.SAYAV2.model.Peer;
 import SAYAV2.SAYAV2.model.Usuario;
 import SAYAV2.SAYAV2.notificacion.GruposImpl;
@@ -28,8 +30,10 @@ public class GroupController {
 	private static File file = new File("SAYAV");
 	private static GruposImpl grupos = new GruposImpl();
 	private static File votacionesPendientesFile = new File("votaciones_pendientes");
-	private static	File votacionesFile = new File("votaciones");
+	private static File votacionesFile = new File("votaciones"); 
+	private static File mensajesFile = new File("Mensajes"); 
 	private static VotacionesDao votacionesDao = VotacionesDao.getInstance();
+	private static MensajePendienteDao mensajesDao = MensajePendienteDao.getInstance(); 
 
 	public static Route getNewGroup = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
@@ -90,8 +94,11 @@ public class GroupController {
 		String groupName = request.params("groupName");
 		Grupo grupo = usuario.getSingleGrupoByName(groupName);
 		
+		if(!grupos.isInit())
+			grupos.init();
+		
 		if(!grupo.getPeers().isEmpty()){
-			//TODO propagar mi propia baja del grupo
+			grupos.abandonarGrupo(grupo);
 		}
 		usuarioDao.eliminarGrupo(grupo);
 		request.session().removeAttribute("user");
@@ -290,4 +297,64 @@ public class GroupController {
 	};
 	
 
+	public static Route getAllMenssages = (Request request, Response response) -> { 
+	    LoginController.ensureUserIsLoggedIn(request, response); 
+	    Map<String, Object> model = new HashMap<>(); 
+	    Mensaje mensaje = new Mensaje(); 
+	    Usuario usuario = usuarioDao.cargar(file); 
+	    MensajesPendientes mp; 
+	 
+	    try { 
+	 
+	      mp = mensajesDao.cargar(mensajesFile); 
+	      // List<Mensaje> listaMensajes = new ArrayList<Mensaje>(); 
+	 
+	      for (Mensaje m : mp.getMensaje()) { 
+	 
+	        // MensajeDato mensajeDato = 
+	        // jsonTransformer.getGson().fromJson(m.getDatos(), 
+	        // MensajeDato.class); 
+	        // listaMensajes.add(mensajeDato); 
+	      } 
+	    } catch (JAXBException e) { 
+	      mp = new MensajesPendientes(); 
+	    } 
+	 
+	    model.put("user", usuario); 
+	    model.put("mensajesPendientes", mp); 
+	 
+	    System.out.println(response.raw().getStatus()); 
+	 
+	    return ViewUtil.render(request, model, PathUtil.Template.VIEW_ALL_MESSAGES); 
+	 
+	  }; 
+	 
+	  public static Route eliminarMensaje = (Request request, Response response) -> { 
+	 
+	    Map<String, Object> model = new HashMap<>(); 
+	    System.out.println("Eliminar Mensaje"); 
+	    Usuario usuario = usuarioDao.cargar(file); 
+	 
+	    String mensajeId = request.params("mensajeId"); 
+	     
+	    mensajesDao.setFile(mensajesFile); 
+	    Mensaje eliminado = mensajesDao.eliminarMensajeId(mensajeId); 
+	    if(eliminado == null){ 
+	       model.put("eliminacionFallida", true);   
+	       request.session().removeAttribute("mensajesPendientes"); 
+	    } 
+	    else model.put("eliminacionExitosa", true); 
+	   
+	     
+	    request.session().attribute("mensajesPendientes", mensajesDao.cargar(mensajesFile)); 
+	       
+	     
+	    request.session().attribute("user", usuario); 
+	     
+	     
+	    response.redirect(PathUtil.Web.VIEW_ALL_MESSAGES); 
+	   
+	    return null; 
+	  }; 
+	
 }

@@ -7,6 +7,7 @@
 
 package SAYAV2.SAYAV2.mensajeria;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -49,7 +50,8 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "id", "origen", "destino", "fechaCreacion","fechaReenvio", "estado", "datos", "descripcion","tipoHandshake", "tipoMensaje" })
+@XmlType(name = "", propOrder = { "id", "origen", "destino", "fechaCreacion", "fechaReenvio", "estado", "datos", 
+	    "descripcion", "tipoHandshake", "tipoMensaje" }) 
 @XmlRootElement(name = "Mensaje")
 public class Mensaje  implements Cloneable{
 
@@ -309,6 +311,22 @@ public class Mensaje  implements Cloneable{
 
 
 	
-	
+	public String imprimirFechaCreacion() { 
+		 
+	    String pattern = "dd/MM/yyyy hh:mm"; 
+	    SimpleDateFormat format = new SimpleDateFormat(pattern); 
+	    return format.format(this.fechaCreacion); 
+	 
+	  } 
+	 
+	   
+	   
+	  public String imprimirFechaReenvio() { 
+	 
+	    String pattern = "dd/MM/yyyy hh:mm"; 
+	    SimpleDateFormat format = new SimpleDateFormat(pattern); 
+	    return format.format(this.fechaReenvio); 
+	 
+	  } 
 
 }

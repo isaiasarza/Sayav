@@ -120,6 +120,14 @@ public class Application {
 			
 			get(PathUtil.Web.SHOW_NOTIFICATION,NotificationController.mostrarNotificacion);
 
+			
+			//Mensajes Pendientes
+			 get(PathUtil.Web.VIEW_ALL_MESSAGES, GroupController.getAllMenssages);
+			 
+		     post(PathUtil.Web.ELIMINAR_MENSAJE, GroupController.eliminarMensaje);
+		 
+			
+			
 			// // REST Notificaciones Push
 			// get(PathUtil.Web.NOTIFICATION_PUSH, (req, res) -> "Get Token");
 			// post(PathUtil.Web.NOTIFICATION_PUSH,

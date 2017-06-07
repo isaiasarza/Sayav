@@ -1,0 +1,87 @@
+#parse("/velocity/layout.vm") 
+#@mainLayout() 
+ 
+  <h1>$msg.get("LIST_MESSAGE_HEADING")</h1> 
+   
+<head> 
+<style> 
+div { 
+    text-align: center; 
+    border-radius: 5px; 
+    background-color: #f2f2f2; 
+    padding: 12px; 
+} 
+table { 
+    margin: auto; 
+    font-family: arial, sans-serif; 
+    border-collapse: collapse; 
+    width: 80%; 
+} 
+ 
+td, th { 
+    border: 1px solid #dddddd; 
+    text-align: left; 
+    padding: 8px; 
+} 
+ 
+tr:nth-child(even) { 
+    background-color: #dddddd; 
+} 
+</style> 
+</head> 
+<body> 
+ 
+ 
+ 
+    #if($mostrarNotificacion) 
+    <div class="infoAlert">   
+         <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Prueba 
+     </div> 
+  #end 
+ 
+ 
+         
+  <table> 
+      <tr> 
+        <th align="center">Origen</th> 
+        <th align="center">Destino</th> 
+        <th align="center">Estado</th> 
+        <th align="center">Creacion</th> 
+        <th align="center">Reenvio</th>   
+          <th align="center">Descripcion</th> 
+         
+       
+      #foreach($!m in $!mensajesPendientes.getMensaje()) 
+      <tr> 
+            <td> $!m.getOrigen()</td> 
+            <td> $!m.getDestino()</td> 
+            <td> $!m.getEstado()</td> 
+            <td> $!m.imprimirFechaCreacion()</td> 
+            <td> $!m.imprimirFechaReenvio()</td> 
+             
+            <td> 
+          <form id="tabla" method="post" action="$WebPath.getVerDescripcion()"> 
+           <input type="submit" value="Ver" >                    
+           </form> 
+           </td> 
+             
+             
+            #if($m.getEstado().equals("Confirmado"))       
+            <td> 
+          <form id="tabla" method="post" action="$WebPath.getEliminar()$m.getId()/"> 
+           <input type="submit" value="Eliminar" >                    
+           </form> 
+           </td> 
+            #else 
+            <td> 
+          <form id="tabla" method="post" action="$WebPath.getEliminar()$m.getId()/"> 
+           <input type="submit" value="Eliminar" disabled >                    
+           </form> 
+           </td> 
+            #end 
+      </tr> 
+      #end 
+       
+    </table>     
+       
+#end 
