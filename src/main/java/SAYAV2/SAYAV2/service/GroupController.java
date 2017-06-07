@@ -8,9 +8,7 @@ import javax.xml.bind.JAXBException;
 
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.RequestUtil;
-import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
-import SAYAV2.SAYAV2.bussines.ControllerMQTT;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
 import SAYAV2.SAYAV2.dao.VotacionesDao;
 import SAYAV2.SAYAV2.mensajeria.Mensaje;
@@ -28,7 +26,6 @@ public class GroupController {
 
 	private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
 	private static File file = new File("SAYAV");
-	private static ControllerMQTT not = ControllerMQTT.getInstance();
 	private static GruposImpl grupos = new GruposImpl();
 	private static File votacionesPendientesFile = new File("votaciones_pendientes");
 	private static	File votacionesFile = new File("votaciones");
@@ -37,23 +34,13 @@ public class GroupController {
 	public static Route getNewGroup = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
 		Map<String, Object> model = new HashMap<>();
-		//System.out.println("Nuevo Grupo");
 		Usuario usuario = usuarioDao.cargar(file);
 		System.out.println(usuario);
 
 		Mensaje mensaje = new Mensaje();
-//		mensaje.setTipo(TipoMensaje.ALERTA);
 		model.put("mensaje", mensaje);
 
 		model.put("user", usuario);
-
-		// Verifico el estado del response HTTP
-		// if(response.raw().getStatus() ==
-		// javax.ws.rs.core.Response.Status.OK.getStatusCode())
-		// System.out.println("Ok");
-		//
-		// System.out.println(response.raw().getStatus());
-
 		return ViewUtil.render(request, model, PathUtil.Template.NEW_GROUP);
 
 	};
@@ -66,23 +53,19 @@ public class GroupController {
 		String nombre = RequestUtil.getNewGroupName(request);
         
 		Grupo nuevoGrupo = new Grupo(nombre);
-		 
+		
+		if(nombre.contains("/")){
+			model.put("invalidUsername", true);
+			model.put("user", usuario);
+			return ViewUtil.render(request, model, PathUtil.Template.NEW_GROUP);
+		}		 
 		if (usuario.addGrupo(nuevoGrupo)) {
 			model.put("addGroupSucceeded", true);
 			model.put("user", usuario);
-
 			usuarioDao.guardar(usuario, file);
-			String nuevoMiembro = nuevoGrupo.getId()+ "/" + TipoMensajeUtils.NUEVO_MIEMBRO;
-			System.out.println(nuevoMiembro);
-
-            not.receive(nuevoMiembro,2);
-			
-
 		} else {
 			model.put("user", usuario);
-
 			model.put("existingGroup", true);
-
 		}
 
 		return ViewUtil.render(request, model, PathUtil.Template.NEW_GROUP);
@@ -103,32 +86,20 @@ public class GroupController {
 
 	public static Route leaveGroup = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
-		Map<String, Object> model = new HashMap<>();
 		Usuario usuario = usuarioDao.cargar(file);
 		String groupName = request.params("groupName");
 		Grupo grupo = usuario.getSingleGrupoByName(groupName);
 		
-		
 		if(!grupo.getPeers().isEmpty()){
-//			if(Notificacion.verConectividad(grupo.getPeers())){
-//				model.put("leaveGroupFailed", true);			
-//				return ViewUtil.render(request, model, PathUtil.Template.NEW_GROUP);
-//			}
-//
-//			if(notificarAbandonoGrupos(groupName)){
-//				usuario.removeGrupo(groupName);
-//				usuarioDao.guardar(usuario, file);
-//				
-//				model.put("leaveGroupSucceeded", true);
-//			}else{
-//				
-//				model.put("leaveGroupFailed", true);			
-//			}
-
+			//TODO propagar mi propia baja del grupo
 		}
-	
-		model.put("user", usuario);
-		return ViewUtil.render(request, model, PathUtil.Template.NEW_GROUP);
+		usuarioDao.eliminarGrupo(grupo);
+		request.session().removeAttribute("user");
+		request.session().attribute("user",usuario);
+		request.session().attribute("leaveGroupSucceeded", true);
+
+		response.redirect(PathUtil.Web.NEW_GROUP);
+		return null;
 
 	};
 	public static Route getNewGroupMember = (Request request, Response response) -> {
@@ -157,26 +128,20 @@ public class GroupController {
 
 		memberDomain = RequestUtil.getQueryMemberDomain(request);
 		
-		if(memberDomain.contains("http://") || memberDomain.contains("/")){
+		if(memberDomain.contains("/")){
 			model.put("invalidDomain", true);
 			model.put("user", usuario);
+			model.put("group", grupo);
+			model.put("groupName", groupName);
 			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
 		}
 		
-		//String[] schemes = {"http","https"};
 
-		//UrlValidator urlValidator = new UrlValidator(schemes);
-		
 		model.put("groupName", groupName);
 		model.put("group", grupo);
 		model.put("user", usuario);
 		
-		//if(urlValidator.isValid(memberDomain)){
-		//	model.put("invalidDomain", true);
-		//	model.put("user", usuario);
-		//
-		//	return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
-		//}
+
 		if(memberDomain.equals(usuario.getSubdominio()) || memberDomain.equals("localhost:")){
 			System.out.println("El miembro es el mismo usuario");
 			model.put("memberIsUser", true);
@@ -198,7 +163,13 @@ public class GroupController {
 		if(!grupos.isInit()){
 			grupos.init();
 		}
-		grupos.añadirMiembro(grupo, peer);
+		if(!grupos.añadirMiembro(grupo, peer)){
+			model.put("procesandoMiembro", true);
+			model.put("user", usuario);
+			model.put("group", grupo);
+			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
+
+		}
 		
 		RequestUtil.removeSessionAttrUser(request);
 		model.put("addMemberSucceeded", true);

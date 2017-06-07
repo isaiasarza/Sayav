@@ -77,7 +77,7 @@ public class PathUtil {
 		public static final String GRUOP_NOTIFICATION = "/grupo/notificar/";
 		public static final String LEAVE = "/grupo/abandonar/";
 		public static final String LEAVE_GROUP = "/grupo/abandonar/:groupName/";
-		public static final String SHOW_NOTIFICATION = "/layout/mostrar/";
+		public static final String SHOW_NOTIFICATION = "/notificaciones/";
 		public static final String SOLICITAR = "/grupo/solicitar/:groupName/:miembro/";
 
 		public static final String SOLICITAR_BAJA = "/grupo/solicitar/";
@@ -272,12 +272,12 @@ public class PathUtil {
 		public static final String USER_DATA = "/velocity/user_data/user.vm";
 		public static final String UPDATE_USER = "/velocity/user_data/user_update.vm";
 		public static final String ALARM = "/alarm/alarm.vm";
-		public static final String NEW_GROUP = "/velocity/user_data/new_group.vm";
+		public static final String NEW_GROUP = "/velocity/grupo/new_group.vm";
 		public static final String NOT_FOUND = "/velocity/notFound.vm";
 		public static final String VIEW_ALL_GROUPS = "/velocity/user_data/view_groups.vm";
 		public static final String VIEW_ALL_MESSAGES = "/velocity/user_data/view_messages.vm";
 		public static final String NEW_GROUP_MEMBER = "/velocity/user_data/new_member.vm";
-		public static final String VIEW_GROUP_MEMBER = "/velocity/user_data/view_members.vm";
+		public static final String VIEW_GROUP_MEMBER = "/velocity/grupo/view_members.vm";
 		public final static String DISPOSITIVO = "/velocity/dispositivo/nuevoDispositivo.vm";
 		public final static String ONE_DISPOSITIVO = "/velocity/dispositivo/dispositivo.vm";
 		public final static String SECTOR = "/velocity/sector/nuevoSector.vm";
@@ -286,6 +286,7 @@ public class PathUtil {
 		public static final String GRUPO = "/velocity/grupo/nuevoGrupo.vm/";
 		public static final String LAYOUT = "/velocity/layout.vm";
 		public static final String VER_VOTACIONES = "/velocity/votacion/votacion.vm";
+		public static final String SHOW_NOTIFICATION = "/velocity/notificacion/notificacion.vm";
 
 	}
 

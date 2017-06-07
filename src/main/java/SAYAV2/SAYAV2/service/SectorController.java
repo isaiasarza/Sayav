@@ -154,7 +154,7 @@ public class SectorController {
 		Usuario usuario = usuarioDao.cargar(file);
 		Sector sector = usuario.getSector(nombreSector);
 
-		if (usuario.getAlarmaHabilitada()) {
+		if (usuario.isAlarmaHabilitada()) {
 			sector.cambiarEstado();
 			usuarioDao.guardar(usuario, file);
 			RequestUtil.removeSessionSectores(request);

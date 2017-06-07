@@ -174,4 +174,8 @@ public class RequestUtil {
 		return request.queryParams("grupoId");
 	}
 
+	public static String getQueryUsername(Request request) {
+		return request.queryParams("username");
+	}
+
 }

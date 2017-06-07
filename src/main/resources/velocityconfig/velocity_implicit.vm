@@ -37,6 +37,7 @@
 
 #* @vtlvariable name="name" type="java.lang.String" *#
 #* @vtlvariable name="lastname" type="java.lang.String" *#
+#* @vtlvariable name="username" type="java.lang.String" *#
 #* @vtlvariable name="email" type="java.lang.String" *#
 #* @vtlvariable name="address" type="java.lang.String" *#
 #* @vtlvariable name="phoneNumber" type="java.lang.String" *
@@ -44,6 +45,9 @@
 #* @vtlvariable name="mensaje" type="SAYAV2.SAYAV2.model.Mensaje" *#
 #* @vtlvariable name="psw1" type="java.lang.String" *#
 #* @vtlvariable name="ps2" type="java.lang.String" *#
+
+#* @vtlvariable name="invalidUsername" type="java.lang.String" *#
+
 
 
 
@@ -83,5 +87,9 @@
 
 #* @vtlvariable name="votaciones" type="SAYAV2.SAYAV2.notificacion.Votaciones" *#
 #* @vtlvariable name="solicitudes" type="SAYAV2.SAYAV2.notificacion.Votaciones" *#
+
+
+#* @vtlvariable name="notificaciones" type="SAYAV2.SAYAV2.model.Notificaciones" *#
+
 
 

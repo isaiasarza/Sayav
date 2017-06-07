@@ -10,6 +10,7 @@ import Datos.DatoGrupo;
 import Datos.DatoVoto;
 import SAYAV2.SAYAV2.Utils.EstadoUtils;
 import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
+import SAYAV2.SAYAV2.dao.NotificacionesDao;
 import SAYAV2.SAYAV2.dao.TipoMensajeDao;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
 import SAYAV2.SAYAV2.dao.VotacionesDao;
@@ -72,6 +73,7 @@ public class GruposImpl implements Grupos, Notificaciones {
 		this.mensajeria.init();
 	}
 
+	@SuppressWarnings("unused")
 	private void notificarNuevoMiembro(Grupo grupo, Peer miembro, String origen) throws Exception {
 		DatoGrupo datos = new DatoGrupo(miembro, grupo);
 
@@ -86,33 +88,41 @@ public class GruposImpl implements Grupos, Notificaciones {
 		mensajeria.propagarMensaje(mensaje, grupo);
 	}
 
-	private void notificarNuevoGrupo(Grupo grupo, Peer miembro, String origen) throws Exception {
+	private boolean notificarNuevoGrupo(Grupo grupo, Peer miembro, String origen) throws Exception {
 		Mensaje mensaje = new Mensaje();
-		grupo.add(origen);
 		DatoGrupo datos = new DatoGrupo(miembro, grupo);
 
 		mensaje.setOrigen(origen);
 		mensaje.setDestino(miembro.getDireccion());
 		mensaje.setEstado(EstadoUtils.PENDIENTE);
+		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 		mensaje.setTipoMensaje(mensajeria.getTipos().getTipo(TipoMensajeUtils.NUEVO_GRUPO));
 		mensaje.setFechaCreacion(new Date());
 		mensaje.setDescripcion("Usted es parte de un nuevo grupo");
 		mensaje.setDatos(json.render(datos));
+		
+		if(mensajeria.exist(datos,mensaje.getTipoMensaje(),mensaje.getTipoHandshake())){
+			return false;
+		}
+		grupo.add(origen);
 		mensajeria.enviarSolicitud(mensaje);
 		grupo.removePeer(origen);
+		return true;
 	}
 
 	@Override
-	public void añadirMiembro(Grupo grupo, Peer miembro) throws Exception {
+	public boolean añadirMiembro(Grupo grupo, Peer miembro) throws Exception {
 		Usuario usuario;
 		try {
 			usuario = usuarioDao.cargar(usuarioFile);
-			notificarNuevoGrupo(grupo, miembro, usuario.getSubdominio());
-			notificarNuevoMiembro(grupo, miembro, usuario.getSubdominio());
+			if(notificarNuevoGrupo(grupo, miembro, usuario.getSubdominio())){
+				return true;
+			}
+			//notificarNuevoMiembro(grupo, miembro, usuario.getSubdominio());
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-
+			return false;
 	}
 
 	@Override
@@ -297,7 +307,7 @@ public class GruposImpl implements Grupos, Notificaciones {
 	public void recibirAlerta(Mensaje msg) throws JAXBException {
 
 		Usuario usuario = usuarioDao.cargar(usuarioFile);
-
+		
 		notificarMoviles(usuario.getDispositivosMoviles(), msg);
 
 	}

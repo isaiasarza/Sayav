@@ -38,7 +38,7 @@ public class Application {
 
 	public static void main(String[] args) {
 		MessageChecker messageChecker = new MessageChecker();
-	
+
 		
 		try {
 			config();
@@ -52,7 +52,7 @@ public class Application {
 				System.out.println("Init Receive");
 				controllerMqtt.initReceive();
 			}
-			
+
 			messageChecker.start();
 
 			staticFiles.location("/public");
@@ -116,10 +116,9 @@ public class Application {
 			
 			post(PathUtil.Web.VOTO,GroupController.votarBaja);
 			
+			post(PathUtil.Web.LEAVE_GROUP, GroupController.leaveGroup);
 			
-			
-
-			// get(PathUtil.Web.LEAVE_GROUP, GroupController.leaveGroup);
+			get(PathUtil.Web.SHOW_NOTIFICATION,NotificationController.mostrarNotificacion);
 
 			// // REST Notificaciones Push
 			// get(PathUtil.Web.NOTIFICATION_PUSH, (req, res) -> "Get Token");

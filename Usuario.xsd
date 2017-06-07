@@ -8,7 +8,7 @@
 				<sequence>
 					<element name="Nombre" type="string" />
 					<element name="Apellido" type="string" />
-					<element name="Telefono" type="string" />
+					<element name="NombreDeUsuario" type="string" />
 					<element name="Email" type="string" minOccurs="0" />
 					<element name="Direccion" type="string" />
 					<element name="Subdominio" type="string" />

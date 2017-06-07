@@ -30,8 +30,8 @@ public class ControllerMQTT implements MqttCallback {
 	private static JsonTransformer jsonTransformer = new JsonTransformer();
 	private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
 	private static ConfiguratorDao configDao = ConfiguratorDao.getInstance();
-	private static File file = new File("SAYAV");
-	private static File configFile = new File("configurator");
+	private File file = new File("SAYAV");
+	private File configFile = new File("configurator");
 	private static MensajeriaImpl mensajeria;
 	private IMqttAsyncClient client;
 	private MqttConnectOptions options;
@@ -39,15 +39,17 @@ public class ControllerMQTT implements MqttCallback {
 	private ControllerMQTT() {
 		super();
 		try {
+			file = new File("SAYAV");
+			configFile = new File("configurator");
 			Configurator config = configDao.cargar(configFile);
 			System.out.println(config);
 			client = new MqttAsyncClient(config.getBroker(), MqttAsyncClient.generateClientId());
 			options = new MqttConnectOptions();
-		} catch (MqttException e) {
-			e.printStackTrace();
 		} catch (JAXBException e) {
 			e.printStackTrace();
-		}
+		}catch (MqttException e) {
+			e.printStackTrace();
+		} 
 	}
 
 	public static ControllerMQTT getInstance() {
@@ -86,17 +88,12 @@ public class ControllerMQTT implements MqttCallback {
 
 		Usuario usuario = usuarioDao.cargar(file);
 
-		String handshakeRequest = usuario.getSubdominio() + "/" + TipoMensajeUtils.HANDSHAKE_REQUEST;
+		String handshakeRequest = usuario.getNombreDeUsuario() + "/" + TipoMensajeUtils.HANDSHAKE_REQUEST;
 		receive(handshakeRequest, qos);
 
-		String handshakeResponse = usuario.getSubdominio() + "/" + TipoMensajeUtils.HANDSHAKE_RESPONSE;
+		String handshakeResponse = usuario.getNombreDeUsuario() + "/" + TipoMensajeUtils.HANDSHAKE_RESPONSE;
 		receive(handshakeResponse, qos);
 
-		String nuevoGrupo = usuario.getSubdominio() + "/" + TipoMensajeUtils.NUEVO_GRUPO;
-		receive(nuevoGrupo, qos);
-
-		String nuevoMiembro = usuario.getSubdominio() + "/" + TipoMensajeUtils.NUEVO_MIEMBRO;
-		receive(nuevoMiembro, qos);
 
 	}
 

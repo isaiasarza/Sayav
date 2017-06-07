@@ -10,14 +10,14 @@ import java.net.URL;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import SAYAV2.SAYAV2.model.Notification;
+import SAYAV2.SAYAV2.model.NotificationMovil;
 
 public class PostGCM {
 	/**
 	 * @param apiKey
 	 * @param notificacion
 	 */
-	public static void post(String apiKey, Notification notificacion){
+	public static void post(String apiKey, NotificationMovil notificacion){
 		try {
 //			1.URL
 			URL url = new URL("https://fcm.googleapis.com/fcm/send");

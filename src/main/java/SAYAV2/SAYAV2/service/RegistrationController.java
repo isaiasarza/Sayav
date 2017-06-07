@@ -39,6 +39,7 @@ public class RegistrationController {
 		Map<String, Object> model = new HashMap<>();
 		model.put("name", "");
 		model.put("lastname", "");
+		model.put("username", "");
 		model.put("email", "");
 		model.put("address", "");
 		model.put("subdom", "");
@@ -54,7 +55,14 @@ public class RegistrationController {
 		Map<String, Object> model = new HashMap<>();
 
 		Usuario usuario;
+		
+		String nombreDeUsuario = RequestUtil.getQueryUsername(request);
 
+		if(nombreDeUsuario.contains("/")){
+			model.put("registrationFailed", true);
+			model.put("invalidUsername",true);
+			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
+		}
 		if (!isContraseñaValida(request)) {
 			System.out.println("Contraseña invalida");
 			model.put("registrationFailed", true);
@@ -104,6 +112,8 @@ public class RegistrationController {
 		}
 		usuario.setNombre(RequestUtil.getQueryName(request));
 		usuario.setApellido(RequestUtil.getQueryLastName(request));
+		usuario.setNombreDeUsuario(RequestUtil.getQueryUsername(request));
+
 		usuario.setContraseña(RequestUtil.getQueryPassword(request));
 		usuario.setDireccion(RequestUtil.getQueryAddress(request));
 		usuario.setEmail(RequestUtil.getQueryEmail(request));

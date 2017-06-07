@@ -8,7 +8,7 @@ import javax.xml.bind.JAXBException;
 
 import SAYAV2.SAYAV2.dao.UsuarioDao;
 import SAYAV2.SAYAV2.model.DispositivoM;
-import SAYAV2.SAYAV2.model.Notification;
+import SAYAV2.SAYAV2.model.NotificationMovil;
 import SAYAV2.SAYAV2.model.Usuario;
 import spark.Request;
 import spark.Response;
@@ -55,7 +55,7 @@ public class FirebaseCloudMessageController {
 	
 	public static void post(String title, String message){
 		List<String> registration_ids = getTokens();
-		Notification notification = new Notification(registration_ids, title, message);
+		NotificationMovil notification = new NotificationMovil(registration_ids, title, message);
 		if (!notification.getRegistration_ids().isEmpty()) {
 			PostGCM.post(apiKey, notification);
 		}

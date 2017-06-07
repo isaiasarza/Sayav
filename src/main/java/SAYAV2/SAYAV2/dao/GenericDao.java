@@ -50,6 +50,7 @@ public class GenericDao<E> {
 		return entidad;
 	}
 	
+	@SuppressWarnings("unused")
 	private E actualizar(Object entidad, File file){
 
 		//TODO

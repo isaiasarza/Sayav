@@ -5,18 +5,22 @@ import java.util.Date;
 
 import javax.xml.bind.JAXBException;
 
+import Datos.DatoGrupo;
 import SAYAV2.SAYAV2.Utils.EstadoUtils;
 import SAYAV2.SAYAV2.Utils.FechaUtils;
 import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
 import SAYAV2.SAYAV2.bussines.ControllerMQTT;
 import SAYAV2.SAYAV2.dao.MensajePendienteDao;
+import SAYAV2.SAYAV2.dao.NotificacionesDao;
 import SAYAV2.SAYAV2.dao.TipoMensajeDao;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
 import SAYAV2.SAYAV2.model.Grupo;
 import SAYAV2.SAYAV2.model.MensajesPendientes;
+import SAYAV2.SAYAV2.model.Notificacion;
 import SAYAV2.SAYAV2.model.Peer;
 import SAYAV2.SAYAV2.model.TiposMensajes;
 import SAYAV2.SAYAV2.notificacion.GruposImpl;
+import SAYAV2.SAYAV2.notificacion.Votacion;
 import SAYAV2.SAYAV2.service.JsonTransformer;
 
 public class MensajeriaImpl implements Mensajeria {
@@ -24,6 +28,8 @@ public class MensajeriaImpl implements Mensajeria {
 	private static MensajeriaImpl mensImpl;
 	private UsuarioDao usuarioDao;
 	private File file;
+	private NotificacionesDao notificacionesDao;
+	private File notificacionesFile;
 	private MensajesPendientes mensajes;
 	private TipoMensajeDao tipoMensajeDao;
 	private MensajePendienteDao mensajesDao;
@@ -45,7 +51,9 @@ public class MensajeriaImpl implements Mensajeria {
 		this.usuarioDao = UsuarioDao.getInstance();
 		this.usuarioDao.setFile(file);
 		this.json = new JsonTransformer();
-
+		this.notificacionesFile = new File("notificaciones");
+		this.notificacionesDao = NotificacionesDao.getInstance();
+		this.notificacionesDao.setFile(notificacionesFile);
 		try {
 			if (mensajesFile.exists()) {
 				setMensajes(this.mensajesDao.cargar(mensajesFile));
@@ -93,26 +101,47 @@ public class MensajeriaImpl implements Mensajeria {
 	 */
 	@Override
 	public void procesarMensaje(Mensaje msg) throws Exception {
+		Notificacion notificacion = new Notificacion();
+		
 		try {
 			if (msg.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST)) {
+				
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.ALERTA)) {
 					gruposImpl.recibirAlerta(msg);
+					notificacion.setDescripcion(msg.getDescripcion());
+					notificacionesDao.agregarNotificacion(notificacion);	
 					return;
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_MIEMBRO)) {
 					gruposImpl.recibirNuevoMiembro(msg);
+					DatoGrupo datos = this.json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
+					notificacion.setDescripcion("El miembro " +  datos.getMiembro().getDireccion() 
+						+ " es parte del grupo " + datos.getGrupo().toString());
+					notificacionesDao.agregarNotificacion(notificacion);
 					return;
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_GRUPO)) {
 					gruposImpl.recibirNuevoGrupo(msg);
+					DatoGrupo datos = this.json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
+					notificacion.setDescripcion("Fue agregado al grupo " + datos.getGrupo().toString());
+					notificacionesDao.agregarNotificacion(notificacion);
+					
 					return;
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.BAJA_MIEMBRO)) {
 					gruposImpl.recibirBajaMiembro(msg);
+					DatoGrupo datos = this.json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
+					notificacion.setDescripcion("El miembro " +  datos.getMiembro().getDireccion() 
+						+ " dejo de ser parte del grupo " + datos.getGrupo().toString() );
+					notificacionesDao.agregarNotificacion(notificacion);
 					return;
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.SOLICITUD_BAJA_MIEMBRO)) {
 					gruposImpl.recibirSolicitudBaja(msg);
+					Votacion votacion = this.json.getGson().fromJson(msg.getDatos(), Votacion.class);
+					notificacion.setDescripcion("Se ha solicitado la baja del miembro " + votacion.getMiembro() + 
+							"/nPor favor vaya al menu de votacion");
+					notificacionesDao.agregarNotificacion(notificacion);
 					return;
 				}
 			}
@@ -122,6 +151,10 @@ public class MensajeriaImpl implements Mensajeria {
 			}	
 			if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_GRUPO)){
 				gruposImpl.confirmarAñadirMiembro(msg);
+				DatoGrupo datos = this.json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
+				notificacion.setDescripcion("El miembro " +  datos.getMiembro().getDireccion() 
+						+ " es parte del grupo " + datos.getGrupo().toString());
+				notificacionesDao.agregarNotificacion(notificacion);
 				return;
 			}
 		} catch (JAXBException e) {
@@ -278,8 +311,12 @@ public class MensajeriaImpl implements Mensajeria {
 		procesarMensaje(msg);
 		msg.setEstado(EstadoUtils.CONFIRMADO);
 		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
-		msg.setOrigen(msg.getDestino());
-		msg.setDestino(msg.getOrigen());
+		String origen = msg.getOrigen();
+		String destino = msg.getDestino();
+		msg.setOrigen("a");
+		msg.setDestino("b");
+		msg.setOrigen(origen);
+		msg.setDestino(destino);
 		actualizarMensaje(msg);
 
 	}
@@ -316,6 +353,16 @@ public class MensajeriaImpl implements Mensajeria {
 
 	public void setTipos(TiposMensajes tipos) {
 		this.tipos = tipos;
+	}
+
+	public boolean exist(DatoGrupo datos, TipoMensaje tipoMensaje, String tipoHandshake) {
+		try {
+			if(mensajesDao.exist(datos,tipoMensaje,tipoHandshake)){
+				return true;
+			}
+		} catch (JAXBException e) {
+		}
+		return false;
 	}
 
 }

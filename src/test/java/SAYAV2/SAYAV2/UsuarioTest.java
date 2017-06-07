@@ -24,7 +24,6 @@ public class UsuarioTest {
 		usuario.setDireccion("Entre Rios 749");
 		usuario.setEmail("arza.juan@gmail.com");
 		usuario.setSubdominio("juanjo");
-		usuario.setTelefono("2804998877");
 		usuarioFile = new File("SAYAV");
 		usuarioFile.setWritable(true);
 		usuarioFile.setReadable(true);

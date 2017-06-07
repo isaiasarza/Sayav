@@ -1,6 +1,69 @@
-#parse("/velocity/menu/menu.vm")
-#@menuLayout()
+#parse("/velocity/layout.vm")
+#@mainLayout()
 
+		
+	<form id="newGroupForm" onsubmit="return validateForm()" method="post" action="$WebPath.getNewGroup()">
+  
+  		
+  		#if($existingGroup)
+  			<div class="dangerAlert">	
+	 			<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>$msg.get("EXISTING_GROUP")
+	  		</div>
+    	#elseif($addGroupSucceeded)   
+       		<div class="successAlert">	
+	 			<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>$msg.get("NEW_GROUP_SUCCEEDED")
+	  		</div>
+       	#end
+    	#if($leaveGroupSucceeded)
+    		<div class="infoAlert">	
+	 			<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Procesando Abandono de Grupo
+	  		</div>
+    	#elseif($leaveGroupFailed)
+       		<div class="dangerAlert">	
+	 			<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>No tiene conexion
+			</div>
+		#end
+    	
+   		<h1>$msg.get("NEW_GROUP_HEADING")</h1>
+    
+    	<label>$msg.get("GROUP_LABEL_NAME")</label><br>
+    	<input type="text" name="groupName" placeholder="$msg.get("GROUP_LABEL_NAME")" value="" required><br>
+   
+    	<input type="submit" value="$msg.get("NEW_GROUP")">
+	</form>    
 	
-	<h1>Hola Mundo</h1>
+	<table >	
+  		<tr>
+    		<th  align="center"> Nombre</th>	
+    		<th align="center">Ver Miembros</th>
+    	## TODO
+    	## <th align="center">Abandonar Grupo</th>	
+  		</tr>
+  		
+  		#foreach($g in $user.getGrupos())
+  		<tr>
+   		 	<td>$g.getNombre()</td>   			
+			<td>
+   				<form id = "tabla" method="get" action="$WebPath.getViewMembers()$g.getNombre()/">
+					<input type="submit" value="Ver" >
+           		</form>
+   	     	</td> 
+	      	
+       	</tr>       
+		#end			 		
+	</table>
+	
+	<script>
+	function validateForm() {
+		var y = "false";
+    	var x = document.forms["newGroupForm"]["groupName"].value;
+    	if (x == null || x == "") {
+    		y = "true";
+        	alert("$msg.get("NEW_GROUP_ALERT_NAME")");	
+    	}    
+    	if(y == "true"){
+    		return false;
+		}
+	}
+</script>
 #end

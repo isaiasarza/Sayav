@@ -11,9 +11,10 @@ public interface Grupos {
 	 * @param grupo
 	 * @param miembro
 	 * Agrega el miembro al grupo.
+	 * @return 
 	 * @throws Exception 
 	 */
-	void añadirMiembro(Grupo grupo, Peer miembro) throws Exception;
+	boolean añadirMiembro(Grupo grupo, Peer miembro) throws Exception;
 	/**
 	 * 
 	 * @param grupo
