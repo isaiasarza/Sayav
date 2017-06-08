@@ -44,7 +44,10 @@ public class UsuarioDaoTest {
 			Usuario usuario = usuarioDao.cargar(file);
 			g = usuario.getGrupos().get(0);
 			System.out.println(g);
-			g.addPeer("lucas.ddns.net");
+			g.addPeer("charly.buckle");
+			g.addPeer("romina.stickar");
+			g.addPeer("demian.barry");
+			g.addPeer("rodrigo.rene_cura");
 			usuarioDao.guardar(usuario, file);
 			
 		} catch (JAXBException e) {

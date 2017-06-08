@@ -74,6 +74,8 @@ public class Mensaje  implements Cloneable{
 		this.tipoMensaje = new TipoMensaje();
 		this.fechaCreacion = new Date();
 		this.fechaReenvio = new Date();	
+		this.origen = "a";
+		this.destino = "b";
 	}
 	
 	
@@ -96,16 +98,27 @@ public class Mensaje  implements Cloneable{
 	
 	public Object clone(){
 		
-		Object obj = null;
+		
+		Mensaje mensaje = new Mensaje();
 		
 		try {
-			obj = super.clone();
+			mensaje.setId(id);
+			mensaje.setDatos(datos);
+			mensaje.setDescripcion(descripcion);
+			mensaje.setDestino(destino);
+			mensaje.setOrigen(origen);
+			mensaje.setEstado(estado);
+			mensaje.setTipoHandshake(tipoHandshake);
+			mensaje.setTipoMensaje(tipoMensaje);
 		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return obj;
+		return mensaje;
 		
 	}
 
@@ -327,6 +340,12 @@ public class Mensaje  implements Cloneable{
 	    SimpleDateFormat format = new SimpleDateFormat(pattern); 
 	    return format.format(this.fechaReenvio); 
 	 
-	  } 
+	  }
+
+
+
+	public String generateId() {
+		this.id = UUID.randomUUID().toString();
+	} 
 
 }

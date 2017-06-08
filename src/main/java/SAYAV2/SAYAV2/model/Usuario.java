@@ -465,10 +465,8 @@ public class Usuario {
 	}
 	
 	public Grupo getSingleGrupoById(String id){
-		Grupo nuevo = new Grupo(nombre);
-		nuevo.setId(id);
 		for(Grupo g: this.grupos){
-			if(g.equals(nuevo)){
+			if(g.getId().equals(id)){
 				return g;
 			}
 		}

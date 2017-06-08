@@ -45,7 +45,7 @@ public class MensajesPendientesController {
 		model.put("mensajesPendientes", mp);
 		model.put("listaMensajes", listaMensajes);
 
-		System.out.println(response.raw().getStatus());
+		//System.out.println(response.raw().getStatus());
 
 		return ViewUtil.render(request, model, PathUtil.Template.VIEW_ALL_MESSAGES);
 

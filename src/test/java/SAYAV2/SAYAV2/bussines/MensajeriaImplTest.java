@@ -67,7 +67,7 @@ public class MensajeriaImplTest {
 		try {
 			Grupo grupo = usuarioDao.getGrupo(0);
 			try {
-				mensaje.setOrigen(usuarioDao.getSubdominio());
+				mensaje.setOrigen(usuarioDao.getNombreDeUsuario());
 				mensajeria.propagarMensaje(mensaje, grupo);
 
 			} catch (Exception e) {

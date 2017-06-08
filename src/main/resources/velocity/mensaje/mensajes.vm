@@ -1,6 +1,6 @@
 #parse("/velocity/layout.vm") 
 #@mainLayout() 
- 
+ <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <h1>$msg.get("LIST_MESSAGE_HEADING")</h1> 
    
 <head> 
@@ -38,20 +38,23 @@ tr:nth-child(even) {
          <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Prueba 
      </div> 
   #end 
- 
+
  
          
   <table> 
+   
       <tr> 
         <th align="center">Origen</th> 
         <th align="center">Destino</th> 
         <th align="center">Estado</th> 
         <th align="center">Creacion</th> 
         <th align="center">Reenvio</th>   
-          <th align="center">Descripcion</th> 
+      	<th align="center">Descripcion</th> 
+       	<th align="center">Eliminar</th> 
          
        
-      #foreach($!m in $!mensajesPendientes.getMensaje()) 
+      #foreach($!m in $!mensajesPendientes.getMensaje())
+         
       <tr> 
             <td> $!m.getOrigen()</td> 
             <td> $!m.getDestino()</td> 
@@ -60,9 +63,9 @@ tr:nth-child(even) {
             <td> $!m.imprimirFechaReenvio()</td> 
              
             <td> 
-          <form id="tabla" method="post" action="$WebPath.getVerDescripcion()"> 
-           <input type="submit" value="Ver" >                    
-           </form> 
+          		<form id="tabla"> 
+           		<input id = "myBtn" type="button" value="Ver" onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black">                    
+           		</form> 
            </td> 
              
              
@@ -84,4 +87,8 @@ tr:nth-child(even) {
        
     </table>     
        
+<script>
+
+</script>
+
 #end 

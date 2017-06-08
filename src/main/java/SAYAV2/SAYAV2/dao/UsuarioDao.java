@@ -106,10 +106,10 @@ public class UsuarioDao extends GenericDao<Usuario> {
 		return null;
 	}
 
-	public String getSubdominio() {
+	public String getNombreDeUsuario() {
 		try {
 			Usuario usuario = usuarioDao.cargar(file);
-			return usuario.getSubdominio();
+			return usuario.getNombreDeUsuario();
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
@@ -117,6 +117,13 @@ public class UsuarioDao extends GenericDao<Usuario> {
 	}
 
 	public Grupo getGrupo(String id) {
+		try {
+			Usuario usuario = usuarioDao.cargar(file);
+			return usuario.getSingleGrupoById(id);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 

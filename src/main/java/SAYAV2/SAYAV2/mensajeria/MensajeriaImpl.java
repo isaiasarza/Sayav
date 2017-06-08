@@ -96,51 +96,66 @@ public class MensajeriaImpl implements Mensajeria {
 	 * @return Mensaje nuevo mensaje formado en la acción Este metodo toma un
 	 *         mensaje recibido, según el tipo de mensaje correspondiente toma
 	 *         la acción debida.
-	 * @throws Exception 
+	 * @throws Exception
 	 * @throws JAXBException
 	 */
 	@Override
 	public void procesarMensaje(Mensaje msg) throws Exception {
 		Notificacion notificacion = new Notificacion();
-		
+
 		try {
 			if (msg.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST)) {
-				
+
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.ALERTA)) {
 					gruposImpl.recibirAlerta(msg);
-					notificacion.setDescripcion(msg.getDescripcion());
-					notificacionesDao.agregarNotificacion(notificacion);	
+					notificacion.setTipo(msg.getTipoMensaje().getTipo());
+					notificacion.setDescripcion("Se ha activado la alarma al miembro " + msg.getOrigen());
+					notificacion.setDetalle(msg.getDescripcion());
+					notificacionesDao.agregarNotificacion(notificacion);
 					return;
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_MIEMBRO)) {
 					gruposImpl.recibirNuevoMiembro(msg);
 					DatoGrupo datos = this.json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
-					notificacion.setDescripcion("El miembro " +  datos.getMiembro().getDireccion() 
-						+ " es parte del grupo " + datos.getGrupo().getNombre());
+					notificacion.setDescripcion("El miembro " + datos.getMiembro().getDireccion()
+							+ " es parte del grupo " + datos.getGrupo().getNombre());
+					notificacion.setDetalle("Fue agregado por el miembro " + msg.getOrigen());
 					notificacionesDao.agregarNotificacion(notificacion);
 					return;
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_GRUPO)) {
 					gruposImpl.recibirNuevoGrupo(msg);
 					DatoGrupo datos = this.json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
+					notificacion.setTipo(msg.getTipoMensaje().getTipo());
 					notificacion.setDescripcion("Fue agregado al grupo " + datos.getGrupo().getNombre());
+					notificacion.setDetalle("Fue agregado por el miembro " + msg.getOrigen());
 					notificacionesDao.agregarNotificacion(notificacion);
-					
+
 					return;
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.BAJA_MIEMBRO)) {
 					gruposImpl.recibirBajaMiembro(msg);
 					DatoGrupo datos = this.json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
-					notificacion.setDescripcion("El miembro " +  datos.getMiembro().getDireccion() 
-						+ " dejo de ser parte del grupo " + datos.getGrupo().getNombre() );
+					notificacion.setTipo(msg.getTipoMensaje().getTipo());
+					notificacion.setDescripcion("El miembro " + datos.getMiembro().getDireccion()
+							+ " dejo de ser parte del grupo " + datos.getGrupo().getNombre());
+					if (msg.origen.equals(datos.getMiembro())) {
+						notificacion.setDetalle("El miembro abandono el grupo por propia voluntad.");
+					} else {
+						notificacion.setDetalle("El miembro fue dado de baja por acuerdo común en el grupo.");
+
+					}
 					notificacionesDao.agregarNotificacion(notificacion);
 					return;
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.SOLICITUD_BAJA_MIEMBRO)) {
 					gruposImpl.recibirSolicitudBaja(msg);
 					Votacion votacion = this.json.getGson().fromJson(msg.getDatos(), Votacion.class);
-					notificacion.setDescripcion("Se ha solicitado la baja del miembro " + votacion.getMiembro() + 
-							"/nPor favor vaya al menu de votacion");
+					notificacion.setTipo(msg.getTipoMensaje().getTipo());
+					notificacion.setDescripcion("Se ha solicitado la baja del miembro " + votacion.getMiembro());
+					notificacion.setDetalle(
+							"Para determinar si el miembro sera o no dado de baja, usted debera dirigirse al menu de votacion para votar."
+									+ "/nSi la mitad + 1 de los votantes estan de acuerdo, el miembro sera dado de baja.");
 					notificacionesDao.agregarNotificacion(notificacion);
 					return;
 				}
@@ -148,12 +163,13 @@ public class MensajeriaImpl implements Mensajeria {
 			if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.VOTO)) {
 				gruposImpl.recibirVoto(msg);
 				return;
-			}	
-			if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_GRUPO)){
+			}
+			if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_GRUPO)) {
 				gruposImpl.confirmarAñadirMiembro(msg);
 				DatoGrupo datos = this.json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
-				notificacion.setDescripcion("El miembro " +  datos.getMiembro().getDireccion() 
-						+ " es parte del grupo " + datos.getGrupo().getNombre());
+				notificacion.setTipo(msg.getTipoMensaje().getTipo());
+				notificacion.setDescripcion("El miembro " + datos.getMiembro().getDireccion() + " es parte del grupo "
+						+ datos.getGrupo().getNombre());
 				notificacionesDao.agregarNotificacion(notificacion);
 				return;
 			}
@@ -170,19 +186,21 @@ public class MensajeriaImpl implements Mensajeria {
 	 * @param Grupo
 	 *            g Este metodo propaga un mensaje al grupo recibido por
 	 *            parametro.
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Override
-	public void propagarMensaje(Mensaje msg, Grupo g) throws Exception {
+	public void propagarMensaje(Mensaje msg, Grupo g) {
 
 		for (Peer miembro : g.getPeers()) {
-			Mensaje mensaje = new Mensaje();
-			mensaje.setDescripcion(msg.getDescripcion());
-			mensaje.setDatos(msg.getDatos());
-			mensaje.setOrigen(msg.getOrigen());
-			mensaje.setDestino(miembro.getDireccion());
-			mensaje.setTipoMensaje(msg.getTipoMensaje());
-			mensaje.setTipoHandshake(msg.getTipoHandshake());
+			Mensaje mensaje = (Mensaje) msg.clone();
+			mensaje.setId(mensaje.generateId());
+			try {
+				mensaje.setDestino(miembro.getDireccion());
+			} catch (Exception e) {
+				e.printStackTrace();
+				break;
+			}
+
 			if (msg.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST)) {
 				enviarSolicitud(mensaje);
 			} else {
@@ -214,7 +232,7 @@ public class MensajeriaImpl implements Mensajeria {
 	@Override
 	public synchronized void actualizarMensaje(Mensaje msg) {
 		Mensaje viejo = this.mensajes.getMensaje(msg.getId());
-		viejo.setFechaReenvio(msg.getFechaReenvio());
+		viejo.setFechaReenvio(new Date());
 		viejo.setEstado(msg.getEstado());
 		mensajesDao.guardar(this.mensajes, mensajesFile);
 	}
@@ -232,7 +250,7 @@ public class MensajeriaImpl implements Mensajeria {
 			return false;
 		}
 		if (msg.getEstado().equals(EstadoUtils.CONFIRMADO)) {
-			//eliminarMensaje(msg);
+			// eliminarMensaje(msg);
 			return false;
 		}
 		if (FechaUtils.diffDays(msg.getFechaReenvio(), fechaActual) < msg.getTipoMensaje().getQuantum()) {
@@ -286,17 +304,18 @@ public class MensajeriaImpl implements Mensajeria {
 	/**
 	 * 
 	 * Se recibe una solicitud de confimacion desde otro origen
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 * 
 	 * @throws JAXBException
 	 */
 	@Override
 	public void recibirSolicitud(Mensaje msg) throws Exception {
 		procesarMensaje(msg);
-		Mensaje nuevo =  (Mensaje) msg.clone();
+		Mensaje nuevo = (Mensaje) msg.clone();
 		nuevo.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
 		nuevo.setOrigen("");
-	    nuevo.setDestino("a"); 
+		nuevo.setDestino("a");
 		nuevo.setOrigen(msg.getDestino());
 		nuevo.setDestino(msg.getOrigen());
 		enviarConfirmacion(nuevo);
@@ -304,10 +323,11 @@ public class MensajeriaImpl implements Mensajeria {
 
 	/**
 	 * Se recibe una confirmación desde otro origen
-	 * @throws JAXBException,Exception 
+	 * 
+	 * @throws JAXBException,Exception
 	 */
 	@Override
-	public void recibirConfirmación(Mensaje msg) throws JAXBException,Exception {
+	public void recibirConfirmación(Mensaje msg) throws JAXBException, Exception {
 		procesarMensaje(msg);
 		msg.setEstado(EstadoUtils.CONFIRMADO);
 		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
@@ -355,13 +375,12 @@ public class MensajeriaImpl implements Mensajeria {
 		this.tipos = tipos;
 	}
 
-	public boolean exist(DatoGrupo datos, TipoMensaje tipoMensaje, String tipoHandshake) {
-		try {
-			if(mensajesDao.exist(datos,tipoMensaje,tipoHandshake)){
-				return true;
-			}
-		} catch (JAXBException e) {
+	public boolean exist(DatoGrupo datos, TipoMensaje tipoMensaje, String tipoHandshake, String estado) {
+
+		if (mensajesDao.exist(datos, tipoMensaje, tipoHandshake, estado)) {
+			return true;
 		}
+
 		return false;
 	}
 

@@ -72,23 +72,21 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		this.mensajeria.init();
 	}
 
-	@SuppressWarnings("unused")
 	private void notificarNuevoMiembro(Grupo grupo, Peer miembro, String origen) throws Exception {
 		DatoGrupo datos = new DatoGrupo(miembro, grupo);
 
 		Mensaje mensaje = new Mensaje();
 		mensaje.setOrigen(origen);
-		mensaje.setDestino(miembro.getDireccion());
 		mensaje.setEstado(EstadoUtils.PENDIENTE);
 		mensaje.setTipoMensaje(mensajeria.getTipos().getTipo(TipoMensajeUtils.NUEVO_MIEMBRO));
-		mensaje.setFechaCreacion(new Date());
-		mensaje.setDescripcion("Usted es parte de un nuevo grupo");
+		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
+		mensaje.setDescripcion("El miembro " + miembro.getDireccion() + " es parte del grupo " + grupo.getNombre());
 		mensaje.setDatos(json.render(datos));
 		mensajeria.propagarMensaje(mensaje, grupo);
 	}
 
 	private boolean notificarNuevoGrupo(Grupo grupo, Peer miembro, String origen) throws Exception {
-		grupo.add(origen);
+		grupo.addPeer(origen);
 		Mensaje mensaje = new Mensaje();
 		DatoGrupo datos = new DatoGrupo(miembro, grupo);
 
@@ -101,7 +99,8 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		mensaje.setDescripcion("Usted es parte de un nuevo grupo");
 		mensaje.setDatos(json.render(datos));
 		
-		if(mensajeria.exist(datos,mensaje.getTipoMensaje(),mensaje.getTipoHandshake())){
+		if(mensajeria.exist(datos,mensaje.getTipoMensaje(),mensaje.getTipoHandshake(),mensaje.getEstado())){
+			grupo.removePeer(origen);
 			return false;
 		}
 		mensajeria.enviarSolicitud(mensaje);
@@ -241,7 +240,8 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 			votacion.setFinalizo(true);
 			try {
 				if (votacion.getVotantesAFavor() >= minVotantes) {
-					bajaMiembro(votacion.getGrupo(),votacion.getMiembro());
+					Grupo grupo = usuarioDao.getGrupo(votacion.getGrupo().getId());
+					bajaMiembro(grupo,votacion.getMiembro());
 				}
 			} catch (JAXBException e) {
 				e.printStackTrace();
@@ -327,7 +327,6 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 
 		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
 		System.out.println(datos);
-		datos.getGrupo().removePeer(datos.getMiembro());
 		usuarioDao.eliminarMiembro(datos.getGrupo(), datos.getMiembro());
 
 	}
@@ -368,7 +367,14 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 
 	public void confirmarAñadirMiembro(Mensaje msg) throws JAXBException {
 		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
-		this.usuarioDao.agregarMiembro(datos.getGrupo()	, datos.getMiembro());
+		String origen = usuarioDao.getNombreDeUsuario();
+		Grupo grupo = usuarioDao.getGrupo(datos.getGrupo().getId());
+		try {
+			notificarNuevoMiembro(grupo, datos.getMiembro(), origen);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		this.usuarioDao.agregarMiembro(grupo, datos.getMiembro());
 	}
 
 }

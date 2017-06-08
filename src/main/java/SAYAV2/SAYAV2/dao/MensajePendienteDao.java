@@ -63,18 +63,25 @@ public class MensajePendienteDao extends GenericDao<MensajesPendientes> {
 	
 	
 	
-	public boolean exist(DatoGrupo datos, TipoMensaje tipoMensaje, String tipoHandshake) throws JAXBException {
-		MensajesPendientes mensajes = this.cargar(file);
-		Iterator<Mensaje> iterator = mensajes.getMensaje().iterator();
-		while(iterator.hasNext()){
-			Mensaje mensaje = iterator.next();		
-			if(mensaje.getTipoMensaje().getTipo().equals(tipoMensaje.getTipo()) && mensaje.getTipoHandshake().equals(tipoHandshake)){
-				DatoGrupo datoGrupo = json.getGson().fromJson(mensaje.getDatos(), DatoGrupo.class);
-				if(datoGrupo.getGrupo().getNombre().equals(datos.getGrupo().getNombre()) && datoGrupo.getMiembro().equals(datos.getMiembro())){
-					return true;
+	public boolean exist(DatoGrupo datos, TipoMensaje tipoMensaje, String tipoHandshake,String estado){
+		MensajesPendientes mensajes;
+		try {
+			mensajes = this.cargar(file);
+			Iterator<Mensaje> iterator = mensajes.getMensaje().iterator();
+			while(iterator.hasNext()){
+				Mensaje mensaje = iterator.next();		
+				if(mensaje.getTipoMensaje().getTipo().equals(tipoMensaje.getTipo()) 
+						&& mensaje.getTipoHandshake().equals(tipoHandshake) && mensaje.getEstado().equals(estado)){
+					DatoGrupo datoGrupo = json.getGson().fromJson(mensaje.getDatos(), DatoGrupo.class);
+					if(datoGrupo.getGrupo().getNombre().equals(datos.getGrupo().getNombre()) && datoGrupo.getMiembro().equals(datos.getMiembro())){
+						return true;
+					}
 				}
 			}
-		}
+		} catch (JAXBException e) {
+			e.printStackTrace();
+			return false;
+		}	
 		return false;
 	}
 	

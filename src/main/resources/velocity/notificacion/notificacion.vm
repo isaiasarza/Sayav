@@ -3,24 +3,27 @@
 
 
 	<h1>Notificaciones</h1>
-	
-##	#if($mostrarNotificacion)
-##		<div class="infoAlert">	
-##  	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>$descripcion
-## 		</div>
-##	#end
+
 		
 	<table style="width:100%">
   		<tr>	
     		<th>Fecha</th>
+    		<th>Hora</th>   
+    		<th>Tipo</th>    				
     		<th>Descripcion</th>
+    		<th>Ver Detalle</th>   		
   		</tr>
+  	
   		#foreach($!n in $!notificaciones.getNotificacion())
   		<tr>
   			<td> $!n.imprimirFecha()</td>
-            <td> $!n.getDescripcion()</td>
-   		 	
+  			<td> $!n.imprimirHora()</td>
+           	<td> $!n.getTipo()</td> 	
+           	<td> $!n.getDescripcion()</td> 		 	
+           		 	
   		</tr>
     	#end
 	</table>
+	
+
 #end

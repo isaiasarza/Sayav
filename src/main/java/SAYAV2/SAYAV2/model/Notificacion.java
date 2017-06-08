@@ -31,6 +31,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *       &lt;sequence&gt;
  *         &lt;element name="Id" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="Descripcion" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="Tipo" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="Detalle" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="Fecha" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
@@ -43,15 +45,19 @@ import javax.xml.datatype.XMLGregorianCalendar;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Notificacion", propOrder = {
     "id",
-    "descripcion",
+    "descripcion","tipo","detalle",
     "fecha"
 })
-public class Notificacion {
+public class Notificacion implements Comparable<Notificacion>{
 
     @XmlElement(name = "Id", required = true)
     protected String id;
     @XmlElement(name = "Descripcion", required = true)
     protected String descripcion;
+    @XmlElement(name = "Tipo", required = true)
+    protected String tipo;
+    @XmlElement(name = "Detalle", required = true)
+    protected String detalle;
     @XmlElement(name = "Fecha", required = true)
     @XmlSchemaType(name = "date")
     protected Date fecha;
@@ -134,9 +140,45 @@ public class Notificacion {
         this.fecha = value;
     }
     
-    public String imprimirFecha(){
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM hh:mm");
+    
+    
+    public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
+	public String getDetalle() {
+		return detalle;
+	}
+
+	public void setDetalle(String detalle) {
+		this.detalle = detalle;
+	}
+
+	public String imprimirFecha(){
+        SimpleDateFormat format = new SimpleDateFormat("d/M");
     	return format.format(this.fecha);
     }
+    
+    public String imprimirHora(){
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+    	return format.format(this.fecha);
+    }
+
+	@Override
+	public int compareTo(Notificacion notificacion) {
+		return this.fecha.compareTo(notificacion.getFecha());
+	}
+
+	@Override
+	public String toString() {
+		return "Notificacion [id=" + id + ", descripcion=" + descripcion + ", tipo=" + tipo + ", detalle=" + detalle
+				+ ", fecha=" + fecha + "]";
+	}
+    
+    
 
 }

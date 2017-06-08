@@ -1,9 +1,9 @@
 package SAYAV2.SAYAV2.service;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.xml.bind.JAXBException;
 
 import SAYAV2.SAYAV2.Utils.PathUtil;
@@ -31,20 +31,26 @@ public class NotificationController {
 		try{
 			notificaciones = notificacionDao.cargar(notificacionesFile);
 			if(notificaciones == null){
-				notificaciones = new Notificaciones();
+				notificaciones = new Notificaciones();	
+			}else{
+				Collections.sort(notificaciones.getNotificacion());
+				Collections.reverse(notificaciones.getNotificacion());
 			}
 
 		} catch (JAXBException e) {
 			e.printStackTrace();
 			notificaciones = new Notificaciones();
-
 		}
 		
 		
-		model.put("notificaciones",notificaciones);
+		model.put("notificaciones",notificaciones.getNotificacion());
 		model.put("user", usuario);
 		return ViewUtil.render(request, model, PathUtil.Template.SHOW_NOTIFICATION);
 
 	};
+	
+
+	
+	
 
 }

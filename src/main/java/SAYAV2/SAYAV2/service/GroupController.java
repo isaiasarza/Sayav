@@ -82,7 +82,7 @@ public class GroupController {
 
 		model.put("user", usuario);
 
-		System.out.println(response.raw().getStatus());
+		//System.out.println(response.raw().getStatus());
 
 		return ViewUtil.render(request, model, PathUtil.Template.VIEW_ALL_GROUPS);
 
@@ -323,7 +323,7 @@ public class GroupController {
 	    model.put("user", usuario); 
 	    model.put("mensajesPendientes", mp); 
 	 
-	    System.out.println(response.raw().getStatus()); 
+	    //System.out.println(response.raw().getStatus()); 
 	 
 	    return ViewUtil.render(request, model, PathUtil.Template.VIEW_ALL_MESSAGES); 
 	 
