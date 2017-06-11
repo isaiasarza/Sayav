@@ -4,26 +4,50 @@
 
 	<h1>Notificaciones</h1>
 
-		
+	
 	<table style="width:100%">
+		
   		<tr>	
-    		<th>Fecha</th>
-    		<th>Hora</th>   
-    		<th>Tipo</th>    				
-    		<th>Descripcion</th>
-    		<th>Ver Detalle</th>   		
+    		 
+    		<th align="center">Tipo</th>    				
+    		<th align="center">Descripcion</th>
+    		<th align="center">Detalle</th>
+    		
   		</tr>
   	
   		#foreach($!n in $!notificaciones.getNotificacion())
+		
+	
+  		
   		<tr>
-  			<td> $!n.imprimirFecha()</td>
-  			<td> $!n.imprimirHora()</td>
-           	<td> $!n.getTipo()</td> 	
-           	<td> $!n.getDescripcion()</td> 		 	
-           		 	
-  		</tr>
+  		    <td> $!n.getTipo()</td> 	
+           	<td align="right"> $!n.getDescripcion()</td> 		 	
+           	<td> <button onclick="document.getElementById($foreach.count).style.display='block';"
+			class="w3-button">Ver</button></td>	 	
+					
+				<!-- Modal donde se muestra el detalle del mensaje -->
+			<div id=$foreach.count class="w3-modal">
+  				<div class="w3-modal-content w3-animate-top">
+    				<header class="w3-container w3-teal"> 
+      					<span onclick="document.getElementById($foreach.count).style.display='none'" 
+      					class="w3-button w3-display-topright">&times;</span>
+      					<h2>Detalle</h2>
+					</header>
+
+    				<div class="w3-container">
+    					<p>Fecha: $!n.imprimirFecha()</p>
+						<p>Hora: $!n.imprimirHora()</p>
+    					#foreach($!s in $!n.getDetalle().split(":"))
+    						<p>$!s</p>
+						#end 
+    				</div>
+				</div>
+			</div>	
+		</tr>
     	#end
 	</table>
 	
+	
+
 
 #end

@@ -55,10 +55,13 @@ public class MessageChecker implements Runnable {
 	private boolean verificarMensajesPendientes() {
 
 		Iterator<Mensaje> iterator = mensajeria.getMensajes().getMensaje().iterator();
-        Date fechaActual = new Date();
+
+		Date fechaActual = new Date();
 		while (iterator.hasNext()) {
-//			System.out.println("Verificando mensajes pendientes");
-			mensajeria.reenviarMensaje(iterator.next(), fechaActual); 
+			if(mensajeria.reenviarMensaje(iterator.next(), fechaActual)){
+				//iterator.remove();
+			}
+			
 		}
 		return check;
 	}

@@ -31,6 +31,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 	private File votacionesPendientesFile;
 	private File tiposFile;
 	private JsonTransformer json;
+	@SuppressWarnings("unused")
 	private Votaciones votaciones;
 	private Votaciones votacionesPendientes;
 	private VotacionesDao votacionesDao;
@@ -80,7 +81,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		mensaje.setEstado(EstadoUtils.PENDIENTE);
 		mensaje.setTipoMensaje(mensajeria.getTipos().getTipo(TipoMensajeUtils.NUEVO_MIEMBRO));
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
-		mensaje.setDescripcion("El miembro " + miembro.getDireccion() + " es parte del grupo " + grupo.getNombre());
+		mensaje.setDescripcion("El miembro " + miembro.getDireccion() + " es parte del grupo " + grupo.getNombre() + ":");
 		mensaje.setDatos(json.render(datos));
 		mensajeria.propagarMensaje(mensaje, grupo);
 	}
@@ -96,10 +97,10 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 		mensaje.setTipoMensaje(mensajeria.getTipos().getTipo(TipoMensajeUtils.NUEVO_GRUPO));
 		mensaje.setFechaCreacion(new Date());
-		mensaje.setDescripcion("Usted es parte de un nuevo grupo");
+		mensaje.setDescripcion("Usted es parte del grupo " + grupo.getNombre() + ":");
 		mensaje.setDatos(json.render(datos));
-		
-		if(mensajeria.exist(datos,mensaje.getTipoMensaje(),mensaje.getTipoHandshake(),mensaje.getEstado())){
+
+		if (mensajeria.exist(datos, mensaje.getTipoMensaje(), mensaje.getTipoHandshake(), mensaje.getEstado())) {
 			grupo.removePeer(origen);
 			return false;
 		}
@@ -113,13 +114,13 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		Usuario usuario;
 		try {
 			usuario = usuarioDao.cargar(usuarioFile);
-			if(notificarNuevoGrupo(grupo, miembro, usuario.getNombreDeUsuario())){
+			if (notificarNuevoGrupo(grupo, miembro, usuario.getNombreDeUsuario())) {
 				return true;
 			}
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-			return false;
+		return false;
 	}
 
 	@Override
@@ -134,9 +135,9 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		Peer solicitante = new Peer();
 		try {
 			usuario = usuarioDao.cargar(usuarioFile);
-			Votacion votacion = new Votacion(miembro, grupo);
+			Votacion votacion = new Votacion(miembro, grupo.getId());
 			votacion.setVotantesAFavor(1);
-			this.votaciones = this.votacionesDao.agregarVotacion(votacion, votaciones, votacionesFile);
+			this.votaciones = this.votacionesDao.agregarVotacion(votacion, votacionesFile);
 			solicitante.setDireccion(usuario.getNombreDeUsuario());
 			votacion.setSolicitante(solicitante);
 			votacion.setVotantesAFavor(1);
@@ -174,7 +175,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 		mensaje.setDescripcion("El miembro abandono el grupo el miembro");
 		mensaje.setDatos(json.render(datos));
-				
+
 		// Propago el mensaje para informar a todos los miembros sobre la baja
 		// de este miembro
 		mensajeria.propagarMensaje(mensaje, grupo);
@@ -200,10 +201,10 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		mensaje.setDescripcion("Voto el miembro");
 		mensaje.setDestino(votacion.getSolicitante().getDireccion());
 		mensaje.setDatos(json.render(datos));
-		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
-        mensaje.setDestino(votacion.getSolicitante().getDireccion());
+		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
+		mensaje.setDestino(votacion.getSolicitante().getDireccion());
 		// Envio mi voto
-		mensajeria.enviarConfirmacion(mensaje);
+		mensajeria.enviarSolicitud(mensaje);
 	}
 
 	@Override
@@ -214,7 +215,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		Usuario usuario = usuarioDao.cargar(usuarioFile);
 
 		// Creo un peer para mandarlo como datos
-		DatoVoto datos = new DatoVoto(votacion.getId(), true);
+		DatoVoto datos = new DatoVoto(votacion.getId(), false);
 
 		// Creo el mensaje con los datos correspondientes a un voto a favor
 		Mensaje mensaje = new Mensaje();
@@ -223,30 +224,33 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		mensaje.setDescripcion("Voto el miembro");
 		mensaje.setDestino(votacion.getSolicitante().getDireccion());
 		mensaje.setDatos(json.render(datos));
-		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
+		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 		mensaje.setDestino(votacion.getSolicitante().getDireccion());
-		
+
 		// Envio mi voto
-		mensajeria.enviarConfirmacion(mensaje);
+		mensajeria.enviarSolicitud(mensaje);
 
 	}
 
 	@Override
 	public void procesarBajaMiembro(Votacion votacion) throws Exception {
-		double minVotantes = votacion.getGrupo().getPeers().size();
+		Grupo grupo = usuarioDao.cargar(usuarioFile).getSingleGrupoById(votacion.getId());
+		double minVotantes = grupo.getPeers().size();
 		minVotantes /= 2;
 		minVotantes = Math.ceil(minVotantes);
-		if (votacion.getVotantesAFavor() + votacion.getVotantesEnContra() >= minVotantes) {
+		if (votacion.getVotantesEnContra() >= minVotantes) {
 			votacion.setFinalizo(true);
-			try {
-				if (votacion.getVotantesAFavor() >= minVotantes) {
-					Grupo grupo = usuarioDao.getGrupo(votacion.getGrupo().getId());
-					bajaMiembro(grupo,votacion.getMiembro());
-				}
-			} catch (JAXBException e) {
-				e.printStackTrace();
-			}
+			return;
 		}
+		try {
+			if (votacion.getVotantesAFavor() >= minVotantes) {
+				votacion.setFinalizo(true);
+				bajaMiembro(grupo, votacion.getMiembro());
+			}
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	private void bajaMiembro(Grupo grupo, Peer miembro) throws Exception {
@@ -306,7 +310,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 	public void recibirAlerta(Mensaje msg) throws JAXBException {
 
 		Usuario usuario = usuarioDao.cargar(usuarioFile);
-		
+
 		notificarMoviles(usuario.getDispositivosMoviles(), msg);
 
 	}
@@ -347,12 +351,17 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		DatoVoto datos = json.getGson().fromJson(msg.getDatos(), DatoVoto.class);
 		Votacion votacion = votacionesDao.getVotacion(datos.getIdVotacion(), votacionesFile);
 
+		Peer votante = new Peer(msg.getOrigen());
+		if(votacion.getVotantes().contains(votante)){
+			return;
+		}
+		votacion.getVotantes().add(votante);
 		if (datos.isVoto()) {
 			votacion.setVotantesAFavor(votacion.getVotantesAFavor() + 1);
 		} else {
 			votacion.setVotantesEnContra(votacion.getVotantesEnContra() + 1);
 		}
-		votacionesDao.guardar(votaciones,votacionesFile);
+		votacionesDao.actualizarVotacion(votacion,votacionesFile);
 		procesarBajaMiembro(votacion);
 
 	}

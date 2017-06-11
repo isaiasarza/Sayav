@@ -8,6 +8,8 @@
 
 package SAYAV2.SAYAV2.notificacion;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -15,7 +17,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import SAYAV2.SAYAV2.model.Grupo;
 import SAYAV2.SAYAV2.model.Peer;
 
 
@@ -31,13 +32,13 @@ import SAYAV2.SAYAV2.model.Peer;
  *       &lt;sequence&gt;
  *         &lt;element name="Id" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;        
  *         &lt;element name="Miembro" type="{http://www.example.org/UsuarioXMLSchema}Peer"/&gt;
- *         &lt;element name="Grupo" type="{http://www.example.org/UsuarioXMLSchema}Grupo"/&gt;
+ *         &lt;element name="GrupoId" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="VotantesAFavor" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
  *         &lt;element name="VotantesEnContra" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
  *         &lt;element name="Finalizo" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
  *         &lt;element name="Solicitante" type="{http://www.example.org/UsuarioXMLSchema}Peer"/&gt;
- *       
  *       &lt;/sequence&gt;
+ *         &lt;element name="Votantes" type="{http://www.example.org/UsuarioXMLSchema}Peer" maxOccurs="unbounded" minOccurs="0"/&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
@@ -48,19 +49,18 @@ import SAYAV2.SAYAV2.model.Peer;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Votacion", namespace = "http://www.example.org/Votaciones", propOrder = {
     "id",
-    "miembro",
-    "grupo",
+    "miembro","grupoId",
     "votantesAFavor",
     "votantesEnContra",
     "finalizo",
-    "solicitante"
+    "solicitante","votantes"
 })
 public class Votacion {
 	private String id;
     @XmlElement(name = "Miembro", namespace = "http://www.example.org/Votaciones", required = true)
     protected Peer miembro;
-    @XmlElement(name = "Grupo", namespace = "http://www.example.org/Votaciones", required = true)
-    protected Grupo grupo;
+    @XmlElement(name = "GrupoId", namespace = "http://www.example.org/Votaciones", required = true)
+    protected String grupoId;
     @XmlElement(name = "VotantesAFavor", namespace = "http://www.example.org/Votaciones")
     protected int votantesAFavor;
     @XmlElement(name = "VotantesEnContra", namespace = "http://www.example.org/Votaciones")
@@ -69,25 +69,28 @@ public class Votacion {
     protected boolean finalizo;
     @XmlElement(name = "Solicitante", namespace = "http://www.example.org/Votaciones", required = true)
     protected Peer solicitante;
-    
+    @XmlElement(name = "Votantes", namespace = "http://www.example.org/Votaciones")
+    protected List<Peer> votantes;
     
     
     public Votacion() {
 		super();
 		this.setId(UUID.randomUUID().toString());
+		this.votantes = new LinkedList<Peer>();
 
 	}
 
-	public Votacion(Peer miembro, Grupo grupo) {
-		super();
+	
+
+	public Votacion(Peer miembro2, String id2) {
 		this.setId(UUID.randomUUID().toString());
-		this.miembro = miembro;
-		this.grupo = grupo;
+		this.miembro = miembro2;
+		this.grupoId = id2;
 		this.votantesAFavor = 0;
 		this.votantesEnContra = 0;
 		this.finalizo = false;
 		this.solicitante = new Peer();
-	}
+		this.votantes = new LinkedList<Peer>();	}
 
 	/**
      * Gets the value of the miembro property.
@@ -113,31 +116,21 @@ public class Votacion {
         this.miembro = value;
     }
 
-    /**
-     * Gets the value of the grupo property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Grupo }
-     *     
-     */
-    public Grupo getGrupo() {
-        return grupo;
-    }
 
-    /**
-     * Sets the value of the grupo property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Grupo }
-     *     
-     */
-    public void setGrupo(Grupo value) {
-        this.grupo = value;
-    }
 
-    /**
+    public String getGrupoId() {
+		return grupoId;
+	}
+
+
+
+	public void setGrupoId(String grupoId) {
+		this.grupoId = grupoId;
+	}
+
+
+
+	/**
      * Gets the value of the votantesAFavor property.
      * 
      */
@@ -193,27 +186,28 @@ public class Votacion {
 		this.id = id;
 	}
 	
-	public String getPorcentajeAFavor(){
-		
-		double porcentaje = this.votantesAFavor * 100 / this.grupo.getPeers().size();
-		
-		return porcentaje + "%";
-	}
-	
-	public String getPorcentajeEnContra(){
-		
-		double porcentaje = this.votantesEnContra * 100 / this.grupo.getPeers().size();
-		
-		return porcentaje + "%";
-	}
-	
-	public String getPorcentajeVotantes(){
-		
-		double porcentaje = (this.votantesEnContra + this.votantesAFavor) * 100 / this.grupo.getPeers().size();
-		
-		return porcentaje + "%";
-	}
-
+//	public String getPorcentajeAFavor(){
+//		Grupo grupo = usuarioDao.c
+//		
+//		double porcentaje = this.votantesAFavor * 100 / grupo.getPeers().size();
+//		
+//		return porcentaje + "%";
+//	}
+//	
+//	public String getPorcentajeEnContra(){
+//		
+//		double porcentaje = this.votantesEnContra * 100 / this.grupo.getPeers().size();
+//		
+//		return porcentaje + "%";
+//	}
+//	
+//	public String getPorcentajeVotantes(){
+//		
+//		double porcentaje = (this.votantesEnContra + this.votantesAFavor) * 100 / this.grupo.getPeers().size();
+//		
+//		return porcentaje + "%";
+//	}
+//
 
 
 	public Peer getSolicitante() {
@@ -222,6 +216,48 @@ public class Votacion {
 
 	public void setSolicitante(Peer solicitante) {
 		this.solicitante = solicitante;
+	}
+
+	
+	public List<Peer> getVotantes() {
+		return votantes;
+	}
+
+	public void setVotantes(List<Peer> votantes) {
+		this.votantes = votantes;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Votacion other = (Votacion) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "Votacion [miembro=" + miembro + ", votantesAFavor=" + votantesAFavor + ", votantesEnContra="
+				+ votantesEnContra + ", finalizo=" + finalizo + "]";
 	}
 
 	

@@ -96,7 +96,7 @@ public class Votaciones {
 
 	public Votacion getVotacion(Grupo grupo, Peer miembro) {
 		for(Votacion votacion: this.votaciones){
-			if(votacion.getMiembro().equals(miembro) && votacion.grupo.equals(grupo)){
+			if(votacion.getMiembro().equals(miembro) && votacion.grupoId.equals(grupo.getId())){
 				return votacion;
 			}
 		}

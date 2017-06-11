@@ -38,6 +38,7 @@ import javax.xml.bind.annotation.XmlType;
  *           &lt;element name="estado" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *           &lt;element name="datos" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *           &lt;element name="descripcion" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *           &lt;element name="detalle" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *           &lt;element name="tipoHandshake" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="TipoMensaje" type="{http://www.example.org/Mensaje}TipoMensaje"/&gt;      
  *         &lt;/sequence&gt;
@@ -50,10 +51,10 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "id", "origen", "destino", "fechaCreacion", "fechaReenvio", "estado", "datos", 
-	    "descripcion", "tipoHandshake", "tipoMensaje" }) 
+@XmlType(name = "", propOrder = { "id", "origen", "destino", "fechaCreacion", "fechaReenvio", "estado", "datos",
+		"descripcion","detalle", "tipoHandshake", "tipoMensaje" })
 @XmlRootElement(name = "Mensaje")
-public class Mensaje  implements Cloneable{
+public class Mensaje implements Cloneable,Comparable<Mensaje> {
 
 	@XmlElement(name = "Id")
 	protected String id;
@@ -64,6 +65,7 @@ public class Mensaje  implements Cloneable{
 	protected String estado;
 	protected String datos;
 	protected String descripcion;
+	protected String detalle;
 	private String tipoHandshake;
 	@XmlElement(name = "TipoMensaje")
 	protected TipoMensaje tipoMensaje;
@@ -73,13 +75,13 @@ public class Mensaje  implements Cloneable{
 		this.id = UUID.randomUUID().toString();
 		this.tipoMensaje = new TipoMensaje();
 		this.fechaCreacion = new Date();
-		this.fechaReenvio = new Date();	
+		this.fechaReenvio = new Date();
 		this.origen = "a";
 		this.destino = "b";
+		this.descripcion = "";
+		this.detalle = "";
 	}
-	
-	
-	
+
 	public Mensaje(String id, String origen, String destino, Date fechaCreacion, Date fechaReenvio, String estado,
 			String datos, String descripcion, String tipoHandshake, TipoMensaje tipoMensaje) {
 		super();
@@ -95,31 +97,21 @@ public class Mensaje  implements Cloneable{
 		this.tipoMensaje = tipoMensaje;
 	}
 
-	
-	public Object clone(){
-		
-		
+	public Mensaje clone() {
+
 		Mensaje mensaje = new Mensaje();
-		
-		try {
-			mensaje.setId(id);
-			mensaje.setDatos(datos);
-			mensaje.setDescripcion(descripcion);
-			mensaje.setDestino(destino);
-			mensaje.setOrigen(origen);
-			mensaje.setEstado(estado);
-			mensaje.setTipoHandshake(tipoHandshake);
-			mensaje.setTipoMensaje(tipoMensaje);
-		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+
+		mensaje.setId(id);
+		mensaje.setDatos(datos);
+		mensaje.setDescripcion(descripcion);
+		mensaje.setDestino(destino);
+		mensaje.setOrigen(origen);
+		mensaje.setEstado(estado);
+		mensaje.setTipoHandshake(tipoHandshake);
+		mensaje.setTipoMensaje(tipoMensaje);
+
 		return mensaje;
-		
+
 	}
 
 	/**
@@ -143,6 +135,14 @@ public class Mensaje  implements Cloneable{
 		this.id = value;
 	}
 
+	public String getDetalle() {
+		return detalle;
+	}
+
+	public void setDetalle(String detalle) {
+		this.detalle = detalle;
+	}
+
 	/**
 	 * Gets the value of the origen property.
 	 * 
@@ -158,13 +158,10 @@ public class Mensaje  implements Cloneable{
 	 * 
 	 * @param value
 	 *            allowed object is {@link String }
-	 * @throws Exception 
+	 * @throws Exception
 	 * 
 	 */
-	public void setOrigen(String value) throws Exception {
-		if(value.equals(destino)){
-			throw new Exception();
-		}
+	public void setOrigen(String value) {
 		this.origen = value;
 	}
 
@@ -183,16 +180,12 @@ public class Mensaje  implements Cloneable{
 	 * 
 	 * @param value
 	 *            allowed object is {@link String }
-	 * @throws Exception 
+	 * @throws Exception
 	 * 
 	 */
-	public void setDestino(String value) throws Exception {
-		if(value.equals(this.origen)){
-			throw new Exception ();
-		}
+	public void setDestino(String value) {
 		this.destino = value;
 	}
-
 
 	/**
 	 * Gets the value of the datos property.
@@ -243,7 +236,7 @@ public class Mensaje  implements Cloneable{
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	
+
 	public String getTipoHandshake() {
 		return tipoHandshake;
 	}
@@ -260,41 +253,57 @@ public class Mensaje  implements Cloneable{
 		this.tipoMensaje = tipoMensaje;
 	}
 
-
-
 	public Date getFechaCreacion() {
 		return fechaCreacion;
 	}
-
-
 
 	public void setFechaCreacion(Date fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-
-
 	public Date getFechaReenvio() {
 		return fechaReenvio;
 	}
-
-
 
 	public void setFechaReenvio(Date fechaReenvio) {
 		this.fechaReenvio = fechaReenvio;
 	}
 
 
+	@Override
+	public String toString() {
+		return "Mensaje [id=" + id + ", origen=" + origen + ", destino=" + destino + ", fechaCreacion=" + fechaCreacion
+				+ ", fechaReenvio=" + fechaReenvio + ", estado=" + estado + ", datos=" + datos + ", descripcion="
+				+ descripcion + ", tipoHandshake=" + tipoHandshake + ", tipoMensaje=" + tipoMensaje + "]";
+	}
+
+	public String imprimirFechaCreacion() {
+
+		String pattern = "dd/MM/yyyy hh:mm";
+		SimpleDateFormat format = new SimpleDateFormat(pattern);
+		return format.format(this.fechaCreacion);
+
+	}
+
+	public String imprimirFechaReenvio() {
+
+		String pattern = "dd/MM/yyyy hh:mm";
+		SimpleDateFormat format = new SimpleDateFormat(pattern);
+		return format.format(this.fechaReenvio);
+
+	}
+
+	public String generateId() {
+		return this.id = UUID.randomUUID().toString();
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((fechaReenvio == null) ? 0 : fechaReenvio.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -305,10 +314,10 @@ public class Mensaje  implements Cloneable{
 		if (getClass() != obj.getClass())
 			return false;
 		Mensaje other = (Mensaje) obj;
-		if (fechaReenvio == null) {
-			if (other.fechaReenvio != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!fechaReenvio.equals(other.fechaReenvio))
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}
@@ -316,36 +325,10 @@ public class Mensaje  implements Cloneable{
 
 
 	@Override
-	public String toString() {
-		return "Mensaje [id=" + id + ", origen=" + origen + ", destino=" + destino + ", fechaCreacion=" + fechaCreacion
-				+ ", fechaReenvio=" + fechaReenvio + ", estado=" + estado + ", datos=" + datos + ", descripcion="
-				+ descripcion + ", tipoHandshake=" + tipoHandshake + ", tipoMensaje=" + tipoMensaje + "]";
+	public int compareTo(Mensaje o) {
+		return this.getFechaReenvio().compareTo(o.getFechaReenvio());
 	}
-
-
 	
-	public String imprimirFechaCreacion() { 
-		 
-	    String pattern = "dd/MM/yyyy hh:mm"; 
-	    SimpleDateFormat format = new SimpleDateFormat(pattern); 
-	    return format.format(this.fechaCreacion); 
-	 
-	  } 
-	 
-	   
-	   
-	  public String imprimirFechaReenvio() { 
-	 
-	    String pattern = "dd/MM/yyyy hh:mm"; 
-	    SimpleDateFormat format = new SimpleDateFormat(pattern); 
-	    return format.format(this.fechaReenvio); 
-	 
-	  }
-
-
-
-	public String generateId() {
-		this.id = UUID.randomUUID().toString();
-	} 
+	
 
 }

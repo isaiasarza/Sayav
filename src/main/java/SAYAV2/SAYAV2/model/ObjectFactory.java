@@ -10,6 +10,9 @@ package SAYAV2.SAYAV2.model;
 
 import javax.xml.bind.annotation.XmlRegistry;
 
+import SAYAV2.SAYAV2.notificacion.Votacion;
+import SAYAV2.SAYAV2.notificacion.Votaciones;
+
 
 /**
  * This object contains factory methods for each 

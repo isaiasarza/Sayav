@@ -1,36 +1,8 @@
 #parse("/velocity/layout.vm") 
 #@mainLayout() 
- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <h1>$msg.get("LIST_MESSAGE_HEADING")</h1> 
    
-<head> 
-<style> 
-div { 
-    text-align: center; 
-    border-radius: 5px; 
-    background-color: #f2f2f2; 
-    padding: 12px; 
-} 
-table { 
-    margin: auto; 
-    font-family: arial, sans-serif; 
-    border-collapse: collapse; 
-    width: 80%; 
-} 
- 
-td, th { 
-    border: 1px solid #dddddd; 
-    text-align: left; 
-    padding: 8px; 
-} 
- 
-tr:nth-child(even) { 
-    background-color: #dddddd; 
-} 
-</style> 
-</head> 
-<body> 
- 
+
  
  
     #if($mostrarNotificacion) 
@@ -47,10 +19,11 @@ tr:nth-child(even) {
         <th align="center">Origen</th> 
         <th align="center">Destino</th> 
         <th align="center">Estado</th> 
-        <th align="center">Creacion</th> 
-        <th align="center">Reenvio</th>   
-      	<th align="center">Descripcion</th> 
-       	<th align="center">Eliminar</th> 
+        <th align="center">Tipo</th>        
+       	<th align="center">Descripcion</th> 
+       	<th align="center">Detalle</th> 
+       	
+       	##<th align="center">Eliminar</th> 
          
        
       #foreach($!m in $!mensajesPendientes.getMensaje())
@@ -59,29 +32,53 @@ tr:nth-child(even) {
             <td> $!m.getOrigen()</td> 
             <td> $!m.getDestino()</td> 
             <td> $!m.getEstado()</td> 
-            <td> $!m.imprimirFechaCreacion()</td> 
-            <td> $!m.imprimirFechaReenvio()</td> 
+            <td> $!m.getTipoMensaje().getTipo()</td>
+            <td> $!m.getDescripcion()</td> 
+	       	<td> <button onclick="document.getElementById($foreach.count).style.display='block'"
+			class="w3-button">Ver</button></td>	 
+			
+			  <!-- Modal donde se muestra el detalle del mensaje -->
+		<div id=$foreach.count class="w3-modal">
+  			<div class="w3-modal-content w3-animate-top">
+
+    			<header class="w3-container w3-teal"> 
+      				<span onclick="document.getElementById($foreach.count).style.display='none'" 
+      				class="w3-button w3-display-topright">&times;</span>
+      				<h2>Detalle</h2>
+				</header>
+
+    			<div class="w3-container">
+			 		<p>Creacion: $!m.imprimirFechaCreacion()</p>
+			 		<p>Reenvio: $!m.imprimirFechaReenvio()</p>
+    			
+    			 #foreach($!s in $!m.getDetalle().split(":"))
+    				<p>$!s</p>
+				 #end 
+    			</div>
+
+    		</div>
+		</div>	
+  	             
+      ##      <td> 
+      ##    		<form id="tabla"> 
+      ##     		<input id = "myBtn" type="button" value="Ver" onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black">                    
+      ##     		</form> 
+      ##     </td> 
              
-            <td> 
-          		<form id="tabla"> 
-           		<input id = "myBtn" type="button" value="Ver" onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black">                    
-           		</form> 
-           </td> 
              
-             
-            #if($m.getEstado().equals("Confirmado"))       
-            <td> 
-          <form id="tabla" method="post" action="$WebPath.getEliminar()$m.getId()/"> 
-           <input type="submit" value="Eliminar" >                    
-           </form> 
-           </td> 
-            #else 
-            <td> 
-          <form id="tabla" method="post" action="$WebPath.getEliminar()$m.getId()/"> 
-           <input type="submit" value="Eliminar" disabled >                    
-           </form> 
-           </td> 
-            #end 
+      ##      #if($m.getEstado().equals("Confirmado"))       
+      ##      <td> 
+      ##    		<form id="tabla" method="post" action="$WebPath.getEliminar()$m.getId()/"> 
+      ##     			<input type="submit" value="Eliminar" >                    
+      ##     		</form> 
+      ##     	</td> 
+      ##      #else 
+      ##      <td> 
+      ##    		<form id="tabla" method="post" action="$WebPath.getEliminar()$m.getId()/"> 
+      ##     			<input type="submit" value="Eliminar" disabled >                    
+      ##     		</form> 
+      ##     	</td> 
+      ##    #end 
       </tr> 
       #end 
        

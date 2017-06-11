@@ -41,10 +41,10 @@ public class NotificationController {
 			e.printStackTrace();
 			notificaciones = new Notificaciones();
 		}
-		
-		
-		model.put("notificaciones",notificaciones.getNotificacion());
+		model.put("detalle", "holi");
+		model.put("notificaciones",notificaciones);
 		model.put("user", usuario);
+		model.put("ver", false);
 		return ViewUtil.render(request, model, PathUtil.Template.SHOW_NOTIFICATION);
 
 	};

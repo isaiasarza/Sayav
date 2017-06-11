@@ -20,7 +20,7 @@ public class GenericDao<E> {
 		this.file = file;
 	}
 
-	public void guardar(Object entidad, File file) {
+	public synchronized void guardar(Object entidad, File file) {
 		// StringWriter writer = new StringWriter();
 		JAXBContext context;
 		try {

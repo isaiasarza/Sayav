@@ -166,11 +166,11 @@ public class SectorController {
 			// Notifica Dispositivos Moviles
 			if (sector.isActivado()) {
 				titulo = "Peligro!";
-				message = "Se disparo alarma en el domicilio " + usuario.getDireccion() + "\nEl dueño del domicilio es "
-						+ usuario.getNombre() + " " + usuario.getApellido() + " " + "Sector " + sector.getNombre();
+				message = "Se disparo alarma en el domicilio " + usuario.getDireccion() + ":El dueño del domicilio es "
+						+ usuario.getNombre() + " " + usuario.getApellido() + " " + ":Sector " + sector.getNombre();
 			} else {
 				titulo = "Calmaos!";
-				message = "El domicio del camarada " + usuario.getNombre() + usuario.getApellido() + " fue intervenido";
+				message = "El domicio del camarada " + usuario.getNombre() + usuario.getApellido() + " fue intervenido:";
 			}
 
 			//FirebaseCloudMessageController.post(titulo, message);

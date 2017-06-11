@@ -16,7 +16,10 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.datatype.XMLGregorianCalendar;
+
+import SAYAV2.SAYAV2.Utils.DateAdapter;
 
 
 /**
@@ -60,6 +63,7 @@ public class Notificacion implements Comparable<Notificacion>{
     protected String detalle;
     @XmlElement(name = "Fecha", required = true)
     @XmlSchemaType(name = "date")
+    @XmlJavaTypeAdapter(DateAdapter.class)
     protected Date fecha;
     
 
@@ -172,6 +176,8 @@ public class Notificacion implements Comparable<Notificacion>{
 	public int compareTo(Notificacion notificacion) {
 		return this.fecha.compareTo(notificacion.getFecha());
 	}
+	
+	
 
 	@Override
 	public String toString() {

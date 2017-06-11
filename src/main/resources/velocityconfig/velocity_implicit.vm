@@ -7,6 +7,8 @@
 #* @vtlvariable name="menssagesPendientes" type="SAYAV2.SAYAV2.model.MensajesPendientes" *#
 
 
+
+
 #* @vtlvariable name="loggedOut" type="java.lang.String" *#
 #* @vtlvariable name="loginRedirect" type="java.lang.String" *#
 #* @vtlvariable name="menuRedirect" type="java.lang.String" *#
@@ -29,6 +31,8 @@
 #* @vtlvariable name="mensaje" type="SAYAV2.SAYAV2.mensajeria.Mensaje" *#
 #* @vtlvariable name="tipoMensaje" type="java.lang.String" *#
 
+#* @vtlvariable name="detalle" type="java.lang.String" *#
+#* @vtlvariable name="n" type="java.lang.String" *#
 
 
 
@@ -61,6 +65,9 @@
 #* @vtlvariable name="addGroupSucceeded" type="java.lang.String" *#
 
 #* @vtlvariable name="groupName" type="java.lang.String" *#
+
+#* @vtlvariable name="ver" type="java.lang.String" *#
+
 
 
 

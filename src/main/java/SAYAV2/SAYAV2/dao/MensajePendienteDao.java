@@ -36,8 +36,9 @@ public class MensajePendienteDao extends GenericDao<MensajesPendientes> {
 		MensajesPendientes mensajes = this.cargar(file);
 		Iterator<Mensaje> iterator = mensajes.getMensaje().iterator();
 		while(iterator.hasNext()){
-			if(iterator.next().equals(msg)){
+			if(iterator.next().getId().equals(msg.getId())){
 				iterator.remove();
+				this.guardar(mensajes, file);
 				return true;
 			}
 		}
@@ -45,7 +46,7 @@ public class MensajePendienteDao extends GenericDao<MensajesPendientes> {
 	}
 
 
-	 public Mensaje eliminarMensajeId(String mensajeId) throws JAXBException { 
+	 public synchronized Mensaje eliminarMensajeId(String mensajeId) throws JAXBException { 
 		   
 		    MensajesPendientes mensajes = this.cargar(file); 
 		    Iterator<Mensaje> iterator = mensajes.getMensaje().iterator(); 
@@ -63,7 +64,7 @@ public class MensajePendienteDao extends GenericDao<MensajesPendientes> {
 	
 	
 	
-	public boolean exist(DatoGrupo datos, TipoMensaje tipoMensaje, String tipoHandshake,String estado){
+	public synchronized boolean exist(DatoGrupo datos, TipoMensaje tipoMensaje, String tipoHandshake,String estado){
 		MensajesPendientes mensajes;
 		try {
 			mensajes = this.cargar(file);
@@ -83,6 +84,16 @@ public class MensajePendienteDao extends GenericDao<MensajesPendientes> {
 			return false;
 		}	
 		return false;
+	}
+	
+	public synchronized MensajesPendientes cargar(){
+		try {
+			MensajesPendientes m = super.cargar(file);
+			return m;
+		} catch (JAXBException e) {
+
+		}
+		return new MensajesPendientes();
 	}
 	
 	@Override

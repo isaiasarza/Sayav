@@ -123,6 +123,11 @@ public class MensajeriaImpl implements Mensajeria {
 					notificacionesDao.agregarNotificacion(notificacion);
 					return;
 				}
+				if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.VOTO)){
+					gruposImpl.recibirVoto(msg);
+
+					return;
+				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_GRUPO)) {
 					gruposImpl.recibirNuevoGrupo(msg);
 					DatoGrupo datos = this.json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
@@ -161,7 +166,6 @@ public class MensajeriaImpl implements Mensajeria {
 				}
 			}
 			if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.VOTO)) {
-				gruposImpl.recibirVoto(msg);
 				return;
 			}
 			if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_GRUPO)) {
@@ -171,6 +175,13 @@ public class MensajeriaImpl implements Mensajeria {
 				notificacion.setDescripcion("El miembro " + datos.getMiembro().getDireccion() + " es parte del grupo "
 						+ datos.getGrupo().getNombre());
 				notificacionesDao.agregarNotificacion(notificacion);
+				Mensaje mensaje = msg.clone();
+				mensaje.setOrigen(msg.getDestino());
+				mensaje.setDestino(msg.getOrigen());
+				mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
+				mensaje.setTipoMensaje(tipoMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.OK_CONFIRMACION));
+				mensaje.setEstado(EstadoUtils.CONFIRMADO);	
+				enviarConfirmacion(mensaje);
 				return;
 			}
 		} catch (JAXBException e) {
@@ -243,28 +254,27 @@ public class MensajeriaImpl implements Mensajeria {
 	 *            Reenvia el mensaje indicado.
 	 */
 	@Override
-	public boolean reenviarMensaje(Mensaje msg, Date fechaActual) {
+	public synchronized boolean reenviarMensaje(Mensaje msg, Date fechaActual) {
 
 		if (FechaUtils.diffDays(msg.getFechaCreacion(), fechaActual) == msg.getTipoMensaje().getTimetolive()) {
 			eliminarMensaje(msg);
-			return false;
+			return true;
 		}
 		if (msg.getEstado().equals(EstadoUtils.CONFIRMADO)) {
-			// eliminarMensaje(msg);
 			return false;
 		}
 		if (FechaUtils.diffDays(msg.getFechaReenvio(), fechaActual) < msg.getTipoMensaje().getQuantum()) {
-			return false;
+			return true;
 		}
 		msg.getFechaReenvio().setTime(fechaActual.getTime());
 		actualizarMensaje(msg);
 
 		if (msg.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST)) {
 			enviarSolicitud(msg);
-			return true;
+			return false;
 		}
 		enviarConfirmacion(msg);
-		return true;
+		return false;
 	}
 
 	/**
@@ -274,7 +284,10 @@ public class MensajeriaImpl implements Mensajeria {
 	 *            con un mensaje.
 	 */
 	@Override
-	public String enviarSolicitud(Mensaje msg) {
+	public String enviarSolicitud(Mensaje msg) throws IllegalArgumentException{
+		if(msg.getOrigen().equals(msg.getDestino())){
+			throw new IllegalArgumentException("El origen y el miembro son iguales");
+		}
 		msg.setEstado(EstadoUtils.PENDIENTE);
 		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 		guardarMensaje(msg);
@@ -291,7 +304,10 @@ public class MensajeriaImpl implements Mensajeria {
 	 *            Se envia un mensaje de confirmación a otro destino
 	 */
 	@Override
-	public void enviarConfirmacion(Mensaje msg) {
+	public void enviarConfirmacion(Mensaje msg) throws IllegalArgumentException{
+		if(msg.getOrigen().equals(msg.getDestino())){
+			throw new IllegalArgumentException("El origen y el miembro son iguales");
+		}
 		msg.setEstado(EstadoUtils.PENDIENTE);
 		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
 		String topic = msg.getDestino() + "/" + msg.getTipoHandshake();
@@ -314,11 +330,11 @@ public class MensajeriaImpl implements Mensajeria {
 		procesarMensaje(msg);
 		Mensaje nuevo = (Mensaje) msg.clone();
 		nuevo.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
-		nuevo.setOrigen("");
-		nuevo.setDestino("a");
+		nuevo.setEstado(EstadoUtils.CONFIRMADO);
 		nuevo.setOrigen(msg.getDestino());
 		nuevo.setDestino(msg.getOrigen());
 		enviarConfirmacion(nuevo);
+		
 	}
 
 	/**
@@ -333,8 +349,6 @@ public class MensajeriaImpl implements Mensajeria {
 		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
 		String origen = msg.getOrigen();
 		String destino = msg.getDestino();
-		msg.setOrigen("a");
-		msg.setDestino("b");
 		msg.setOrigen(origen);
 		msg.setDestino(destino);
 		actualizarMensaje(msg);
@@ -355,6 +369,7 @@ public class MensajeriaImpl implements Mensajeria {
 	}
 
 	public MensajesPendientes getMensajes() {
+		MensajesPendientes mensajes = mensajesDao.cargar();
 		return mensajes;
 	}
 

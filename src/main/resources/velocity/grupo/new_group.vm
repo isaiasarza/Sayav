@@ -47,14 +47,15 @@
   		<tr>
    		 	<td>$g.getNombre()</td>   			
 			<td>
-   				<form id = "tabla" method="get" action="$WebPath.getViewMembers()$g.getNombre()/">
-					<input type="submit" value="Ver" >
-           		</form>
+   	     		<form method="get" action="$WebPath.getViewMembers()$g.getNombre()/">
+                 	   <button class="w3-button">Ver</button>
+                </form> 				
    	     	</td>
    	     	<td>
-   				<form id = "tabla" method="post" action="$WebPath.getLeave()$g.getNombre()/">
-					<input type="submit" value="Abandonar" >
-           		</form>
+   	     		<form method="post" action="$WebPath.getLeave()$g.getNombre()/">
+                 	   <button class="w3-button">Abandonar</button>
+                </form>
+   		
    	     	</td>       	
        	</tr>       
 		#end			 		

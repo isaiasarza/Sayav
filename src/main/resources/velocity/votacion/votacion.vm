@@ -17,17 +17,20 @@
   		#foreach($!v in $!votaciones.getVotaciones())
   		<tr>
    		 	<td>$!v.getMiembro().getDireccion()</td>   			
- 		 	<td>$!v.getGrupo().getNombre()</td>   			
+ 		 	<td>$!user.getSingleGrupoById($!s.getGrupoId()).getNombre()</td>   			
    		 	  			
 			<td>
-   				<form id = "tabla" action="$WebPath.getVerVotaciones()aceptar/$!v.getId()/" method="post">
-					<input type="submit" value="Aceptar" >
-          		</form>
+   			
+          		
+          		<form method="post" action="$WebPath.getVerVotaciones()aceptar/$!v.getId()/">
+                 	   <button class="w3-button">Aceptar</button>
+                </form>
    	     	</td> 
    	     	<td>
-   				<form id = "tabla" action="$WebPath.getVerVotaciones()aceptar/$!v.getId()/" method="post">
-					<input type="submit" value="Rechazar" >
-           		</form>
+   	     		<form method="post" action="$WebPath.getVerVotaciones()rechazar/$!v.getId()/">
+                 	   <button class="w3-button">Rechazar</button>
+                </form>
+
    	     	</td>       	
        	</tr>       
 		#end			 		
@@ -41,16 +44,16 @@
     		<th align="center">Grupo</th>
     		<th align="center">Votos a Favor</th>
     		<th align="center">Votos en Contra</th>
-    		<th align="center">Votos Totales</th>	
+    	##	<th align="center">Votos Totales</th>	
   		</tr>
   		
   		#foreach($!s in $!solicitudes.getVotaciones())
   		<tr>
    		 	<td>$!s.getMiembro().getDireccion()</td>   			
- 		 	<td>$!s.getGrupo().getNombre()</td>   			
-  		 	<td>$!s.getPorcentajeAFavor()</td>   			
-  		 	<td>$!s.getPorcentajeEnContra()</td>   			
-  		 	<td>$!s.getPorcentajeVotantes()</td>   			
+ 		 	<td>$!user.getSingleGrupoById($!s.getGrupoId()).getNombre()</td>   			
+  		 	<td align="right">$!s.getVotantesAFavor()</td>   			
+  		 	<td align="right">$!s.getVotantesEnContra()</td>   			
+  		## 	<td>$!s.getPorcentajeVotantes()</td>   			
    				       	
        	</tr>       
 		#end			 		

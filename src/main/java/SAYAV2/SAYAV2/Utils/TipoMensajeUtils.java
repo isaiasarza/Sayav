@@ -18,4 +18,5 @@ public class TipoMensajeUtils {
 	public static final String NO_BAJA_MIEMBRO = "No se pudo dar de baja el Miembro";
 	public static final String NO_GRUPO_NUEVO = "No se pudo crear el grupo";
 	public static final String CHECK_CONNECTIVITY = "Ver Conectividad";
+	public static final String OK_CONFIRMACION = "Se recibio la confirmacion";
 }

@@ -1,10 +1,13 @@
 package SAYAV2.SAYAV2.service;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.bind.JAXBException;
+
+import org.apache.commons.validator.routines.DomainValidator;
 
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.RequestUtil;
@@ -132,10 +135,18 @@ public class GroupController {
 		groupName = request.params("groupName");
 
 		Grupo grupo = usuario.getSingleGrupoByName(groupName);
-
+		DomainValidator domainValidator = DomainValidator.getInstance(false);
 		memberDomain = RequestUtil.getQueryMemberDomain(request);
 		
 		if(memberDomain.contains("/")){
+			model.put("invalid", true);
+			model.put("user", usuario);
+			model.put("group", grupo);
+			model.put("groupName", groupName);
+			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
+		}
+		
+		if(!domainValidator.isValid(memberDomain)){
 			model.put("invalidDomain", true);
 			model.put("user", usuario);
 			model.put("group", grupo);
@@ -143,7 +154,7 @@ public class GroupController {
 			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
 		}
 		
-
+		
 		model.put("groupName", groupName);
 		model.put("group", grupo);
 		model.put("user", usuario);
@@ -217,7 +228,8 @@ public class GroupController {
 		memberDomain = request.params("miembro");
 		Peer miembro = usuarioDao.getPeer(memberDomain, grupo);
 		
-		if(!votacionesDao.exist(grupo,miembro,votacionesFile)){
+	
+		if(!votacionesDao.exist(grupo.getId(),miembro,votacionesFile)){
 			grupos.solicitarBajaMiembro(grupo, miembro);
 			model.put("solicitar",true);
 		}else{
@@ -240,9 +252,10 @@ public class GroupController {
 		Votaciones votacionesPendientes;
 		Votaciones votaciones;
 		
-		
+	
 		votacionesPendientes = set(votacionesPendientesFile);
 		votaciones = set(votacionesFile);
+		
 		
 		model.put("user", usuario);
 		model.put("currentUser", true);
@@ -300,31 +313,16 @@ public class GroupController {
 	public static Route getAllMenssages = (Request request, Response response) -> { 
 	    LoginController.ensureUserIsLoggedIn(request, response); 
 	    Map<String, Object> model = new HashMap<>(); 
-	    Mensaje mensaje = new Mensaje(); 
 	    Usuario usuario = usuarioDao.cargar(file); 
 	    MensajesPendientes mp; 
 	 
-	    try { 
-	 
-	      mp = mensajesDao.cargar(mensajesFile); 
-	      // List<Mensaje> listaMensajes = new ArrayList<Mensaje>(); 
-	 
-	      for (Mensaje m : mp.getMensaje()) { 
-	 
-	        // MensajeDato mensajeDato = 
-	        // jsonTransformer.getGson().fromJson(m.getDatos(), 
-	        // MensajeDato.class); 
-	        // listaMensajes.add(mensajeDato); 
-	      } 
-	    } catch (JAXBException e) { 
-	      mp = new MensajesPendientes(); 
-	    } 
-	 
+	    mensajesDao.setFile(mensajesFile);
+	    mp = mensajesDao.cargar(); 
+	    
+	    Collections.sort(mp.getMensaje());
+	    Collections.reverse(mp.getMensaje());
 	    model.put("user", usuario); 
 	    model.put("mensajesPendientes", mp); 
-	 
-	    //System.out.println(response.raw().getStatus()); 
-	 
 	    return ViewUtil.render(request, model, PathUtil.Template.VIEW_ALL_MESSAGES); 
 	 
 	  }; 

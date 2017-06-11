@@ -14,6 +14,8 @@ import java.util.Map;
 
 import javax.xml.bind.JAXBException;
 
+import org.apache.commons.validator.routines.DomainValidator;
+
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.RequestUtil;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
@@ -57,12 +59,19 @@ public class RegistrationController {
 		Usuario usuario;
 		
 		String nombreDeUsuario = RequestUtil.getQueryUsername(request);
-
+		DomainValidator domainValidator = DomainValidator.getInstance(false);
 		if(nombreDeUsuario.contains("/")){
 			model.put("registrationFailed", true);
 			model.put("invalidUsername",true);
 			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
 		}
+		String memberDomain = RequestUtil.getQuerySubdom(request);
+		if(!domainValidator.isValid(memberDomain)){
+			model.put("invalidDomain", true);
+			model.put("registrationFailed", true);
+			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
+		}
+		
 		if (!isContraseñaValida(request)) {
 			System.out.println("Contraseña invalida");
 			model.put("registrationFailed", true);
@@ -106,10 +115,6 @@ public class RegistrationController {
 
 		System.out.println("Inicializando Usuario");
 		Usuario usuario = new Usuario();
-		String subdominio = RequestUtil.getQuerySubdom(request);
-		if(!subdominio.contains("http://")){
-			subdominio = "http://" + subdominio;
-		}
 		usuario.setNombre(RequestUtil.getQueryName(request));
 		usuario.setApellido(RequestUtil.getQueryLastName(request));
 		usuario.setNombreDeUsuario(RequestUtil.getQueryUsername(request));

@@ -13,6 +13,7 @@
 					<element name="estado" type="string" />
 					<element name="datos" type="string" />
 					<element name="descripcion" type="string" />
+					<element name="detalle" type="string" />
 					<element name="tipoHandshake" type="string" />
 					<element name="TipoMensaje" type="tns:TipoMensaje" />
 				</sequence>
@@ -25,7 +26,7 @@
 			<element name="tipo" type="string"></element>
 			<element name="quantum" type="long"></element>
 			<element name="timetolive" type="long"></element>
-			
+
 		</sequence>
 	</complexType>
 </schema>

@@ -80,9 +80,10 @@
 			<tr>
 				<td>$!peer.getDireccion()</td>
 				<td  align="center">
-					<form id="tabla" action="$WebPath.getSolicitarBaja()$!group.getNombre()/$!peer.getDireccion()/" method="post">
-					<input type="submit" value="Solicitar" >
-					</form>
+					<form method="post" action="$WebPath.getSolicitarBaja()$!group.getNombre()/$!peer.getDireccion()/">
+                 	   <button class="w3-button">Solicitar</button>
+                	</form> 
+				
 				</td>			
 			</tr>  
 		#end 
