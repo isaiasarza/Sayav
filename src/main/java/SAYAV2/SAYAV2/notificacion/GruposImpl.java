@@ -114,7 +114,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		Usuario usuario;
 		try {
 			usuario = usuarioDao.cargar(usuarioFile);
-			if (notificarNuevoGrupo(grupo, miembro, usuario.getNombreDeUsuario())) {
+			if (notificarNuevoGrupo(grupo, miembro, usuario.getSubdominio())) {
 				return true;
 			}
 		} catch (JAXBException e) {
@@ -138,7 +138,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 			Votacion votacion = new Votacion(miembro, grupo.getId());
 			votacion.setVotantesAFavor(1);
 			this.votaciones = this.votacionesDao.agregarVotacion(votacion, votacionesFile);
-			solicitante.setDireccion(usuario.getNombreDeUsuario());
+			solicitante.setDireccion(usuario.getSubdominio());
 			votacion.setSolicitante(solicitante);
 			votacion.setVotantesAFavor(1);
 			Mensaje msg = new Mensaje();
@@ -148,7 +148,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 			msg.setDescripcion("Se ha solicitado la baja de un miembro");
 			msg.setEstado(EstadoUtils.PENDIENTE);
 			msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
-			msg.setOrigen(usuario.getNombreDeUsuario());
+			msg.setOrigen(usuario.getSubdominio());
 			notificarGrupo(grupo, msg);
 			grupo.add(miembro);
 			notificarMoviles(usuario.getDispositivosMoviles(), msg);
@@ -165,12 +165,12 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		Usuario usuario = usuarioDao.cargar(usuarioFile);
 
 		// Creo un peer para mandarlo como datos
-		Peer miembro = new Peer(usuario.getNombreDeUsuario());
+		Peer miembro = new Peer(usuario.getSubdominio());
 		DatoGrupo datos = new DatoGrupo(miembro, grupo);
 
 		// Creo el mensaje con los datos correspondientes a un abandonar grupo
 		Mensaje mensaje = new Mensaje();
-		mensaje.setOrigen(usuario.getNombreDeUsuario());
+		mensaje.setOrigen(usuario.getSubdominio());
 		mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.BAJA_MIEMBRO));
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 		mensaje.setDescripcion("El miembro abandono el grupo el miembro");
@@ -196,7 +196,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		// Creo el mensaje con los datos correspondientes a un voto a favor
 		System.out.println(datos);
 		Mensaje mensaje = new Mensaje();
-		mensaje.setOrigen(usuario.getNombreDeUsuario());
+		mensaje.setOrigen(usuario.getSubdominio());
 		mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.VOTO));
 		mensaje.setDescripcion("Voto el miembro");
 		mensaje.setDestino(votacion.getSolicitante().getDireccion());
@@ -219,7 +219,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 
 		// Creo el mensaje con los datos correspondientes a un voto a favor
 		Mensaje mensaje = new Mensaje();
-		mensaje.setOrigen(usuario.getNombreDeUsuario());
+		mensaje.setOrigen(usuario.getSubdominio());
 		mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.VOTO));
 		mensaje.setDescripcion("Voto el miembro");
 		mensaje.setDestino(votacion.getSolicitante().getDireccion());
@@ -262,7 +262,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		mensaje.setDatos(json.render(datos));
 		mensaje.setDescripcion("Se voto dar de baja al miembro");
 		mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.BAJA_MIEMBRO));
-		mensaje.setOrigen(usuario.getNombreDeUsuario());
+		mensaje.setOrigen(usuario.getSubdominio());
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 		mensaje.setEstado(EstadoUtils.PENDIENTE);
 		eliminado = notificarBajaMiembro(g, mensaje, miembro);
@@ -340,6 +340,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		Usuario usuario = usuarioDao.cargar(usuarioFile);
 
 		Votacion votacion = json.getGson().fromJson(msg.getDatos(), Votacion.class);
+		//TODO verificar que la votacion no exista, si existe se ignora la solicitud
 		votacionesPendientes = votacionesDao.agregarVotacion(votacion, votacionesPendientes, votacionesPendientesFile);
 
 		notificarMoviles(usuario.getDispositivosMoviles(), msg);
@@ -376,7 +377,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 
 	public void confirmarAñadirMiembro(Mensaje msg) throws JAXBException {
 		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
-		String origen = usuarioDao.getNombreDeUsuario();
+		String origen = usuarioDao.getSubdominio();
 		Grupo grupo = usuarioDao.getGrupo(datos.getGrupo().getId());
 		try {
 			notificarNuevoMiembro(grupo, datos.getMiembro(), origen);

@@ -126,5 +126,17 @@ public class UsuarioDao extends GenericDao<Usuario> {
 		
 		return null;
 	}
+	
+	public String getSubdominio() {
+		try {
+			Usuario usuario = usuarioDao.cargar(file);
+			return usuario.getSubdominio();
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	
 
 }
