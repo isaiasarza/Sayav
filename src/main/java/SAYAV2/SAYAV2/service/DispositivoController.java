@@ -6,7 +6,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -89,19 +88,21 @@ private static File file = new File("SAYAV");
 		
 		Map<String, Object> model = new HashMap<>();
 		System.out.println("Eliminar Dispositivo");
-		Usuario usuario = usuarioDao.cargar(file);
 		//Se agrega el dispositivo a la lista de dispositivos		
-	
+		Usuario usuario = usuarioDao.cargar(file);
 		String numero = RequestUtil.getQueryDispositivoABorrar(request);
 		DispositivoM d = usuario.getDispositivo(numero);
-		usuario.getDispositivosMoviles().remove(d);
+		if(usuarioDao.eliminarDispositivo(d,file)){
+			usuario = usuarioDao.cargar(file);
+			model.put("eliminarSuccess", true);
+			model.put("user", usuario);
+			model.put("listaDispositivos", usuario.getDispositivosMoviles()); 
+			return ViewUtil.render(request, model, PathUtil.Template.DISPOSITIVO);
+		}
 		//Actualizo el Usuario
-		UsuarioController.setCurrentUser(usuario);
-		usuarioDao.guardar(usuario, file);
-		UsuarioDao.getInstance().guardar(usuario, UsuarioController.getFile());
 		model.put("user", usuario);
-		model.put("listaDispositivos", usuario.getDispositivosMoviles()); 
-		
+		model.put("eliminarFailed", true);
+		model.put("listaDispositivos", usuario.getDispositivosMoviles()); 		
 		return ViewUtil.render(request, model, PathUtil.Template.DISPOSITIVO);
 		
 	};

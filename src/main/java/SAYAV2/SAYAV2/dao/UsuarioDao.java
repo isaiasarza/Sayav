@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import javax.xml.bind.JAXBException;
 
+import SAYAV2.SAYAV2.model.DispositivoM;
 import SAYAV2.SAYAV2.model.Grupo;
 import SAYAV2.SAYAV2.model.Peer;
 import SAYAV2.SAYAV2.model.Usuario;
@@ -138,5 +139,31 @@ public class UsuarioDao extends GenericDao<Usuario> {
 	}
 
 	
+
+	public boolean eliminarDispositivo(DispositivoM d, File file) {
+		Iterator<DispositivoM> dispositivos;
+		try {
+			Usuario usuario = this.cargar(file);
+			dispositivos = usuario.getDispositivosMoviles().iterator();
+			if(d.getToken() == null || d.getToken().isEmpty()){
+				while(dispositivos.hasNext()){
+					DispositivoM disp = dispositivos.next();
+					if(disp.getNumero().equals(d.getNumero())){
+						dispositivos.remove();
+						this.guardar(usuario, file);
+						return true;
+					}
+				}
+			}
+			if(usuario.getDispositivosMoviles().remove(d)){
+				this.guardar(usuario, file);
+				return true;
+			}
+		} catch (JAXBException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return false;
+	}
 
 }

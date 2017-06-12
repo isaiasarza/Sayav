@@ -79,9 +79,9 @@ public class Application {
 			// post(PathUtil.Web.PANIC_BUTTON, AlarmController.panicButton);
 			//
 			// //REST de dispositivos moviles
-			// get(PathUtil.Web.DISPOSITIVO,DispositivoController.dispositivoVelocityEngine);
-			// post(PathUtil.Web.DISPOSITIVO,DispositivoController.nuevoDispositivo);
-			// post(PathUtil.Web.ELIMINAR_DISPOSITIVO,DispositivoController.eliminarDispositivo);
+			 get(PathUtil.Web.DISPOSITIVO,DispositivoController.dispositivoVelocityEngine);
+			 //post(PathUtil.Web.DISPOSITIVO,DispositivoController.nuevoDispositivo);
+			 post(PathUtil.Web.ELIMINAR_DISPOSITIVO,DispositivoController.eliminarDispositivo);
 			//
 			// REST de sectores
 			get(PathUtil.Web.SECTOR, SectorController.sectorVelocityEngine);

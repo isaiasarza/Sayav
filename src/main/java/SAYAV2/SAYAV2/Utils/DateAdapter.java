@@ -23,4 +23,10 @@ public class DateAdapter extends XmlAdapter<String, Date>{
 	        }
 	}
 
+	@Override
+	public String toString() {
+		return "DateAdapter [dateFormat=" + dateFormat + "]";
+	}
+
+	
 }

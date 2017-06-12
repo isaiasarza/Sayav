@@ -294,7 +294,7 @@ public class PathUtil {
 	    public static final String VIEW_ALL_MESSAGES = "/velocity/mensaje/mensajes.vm"; 
 		public static final String NEW_GROUP_MEMBER = "/velocity/user_data/new_member.vm";
 		public static final String VIEW_GROUP_MEMBER = "/velocity/grupo/view_members.vm";
-		public final static String DISPOSITIVO = "/velocity/dispositivo/nuevoDispositivo.vm";
+		public final static String DISPOSITIVO = "/velocity/dispositivo/tablaDispositivos.vm";
 		public final static String ONE_DISPOSITIVO = "/velocity/dispositivo/dispositivo.vm";
 		public final static String SECTOR = "/velocity/sector/nuevoSector.vm";
 		public static final String TABLADISPOSITIVOS = "/velocity/dispositivo/tablaDispositivos.vm";

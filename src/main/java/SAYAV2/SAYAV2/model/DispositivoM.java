@@ -91,13 +91,11 @@ public class DispositivoM {
 	}
 
 	
-	
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((numero == null) ? 0 : numero.hashCode());
+		result = prime * result + ((token == null) ? 0 : token.hashCode());
 		return result;
 	}
 
@@ -110,10 +108,10 @@ public class DispositivoM {
 		if (getClass() != obj.getClass())
 			return false;
 		DispositivoM other = (DispositivoM) obj;
-		if (numero == null) {
-			if (other.numero != null)
+		if (token == null) {
+			if (other.token != null)
 				return false;
-		} else if (!numero.equals(other.numero))
+		} else if (!token.equals(other.token))
 			return false;
 		return true;
 	}

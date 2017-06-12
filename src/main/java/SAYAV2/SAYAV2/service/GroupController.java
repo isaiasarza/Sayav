@@ -139,7 +139,7 @@ public class GroupController {
 		memberDomain = RequestUtil.getQueryMemberDomain(request);
 		
 		if(memberDomain.contains("/")){
-			model.put("invalid", true);
+			model.put("invalidDomain", true);
 			model.put("user", usuario);
 			model.put("group", grupo);
 			model.put("groupName", groupName);

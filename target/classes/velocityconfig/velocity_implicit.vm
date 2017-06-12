@@ -73,6 +73,8 @@
 
 #* @vtlvariable name="dispositivo" type="SAYAV2.SAYAV2.model.DispositivoM" *#
 #* @vtlvariable name="dispositivoABorrar" type="SAYAV2.SAYAV2.model.DispositivoM" *#
+#* @vtlvariable name="eliminarSuccess" type="java.lang.String" *#
+#* @vtlvariable name="eliminarFailed" type="java.lang.String" *#
 
 #* @vtlvariable name="sector" type="SAYAV2.SAYAV2.model.Sector" *#
 #* @vtlvariable name="sectorRenombrar" type="SAYAV2.SAYAV2.model.Sector" *#
