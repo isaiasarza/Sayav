@@ -20,7 +20,6 @@ import SAYAV2.SAYAV2.model.Notificacion;
 import SAYAV2.SAYAV2.model.Peer;
 import SAYAV2.SAYAV2.model.TiposMensajes;
 import SAYAV2.SAYAV2.notificacion.GruposImpl;
-import SAYAV2.SAYAV2.notificacion.Votacion;
 import SAYAV2.SAYAV2.service.JsonTransformer;
 
 public class MensajeriaImpl implements Mensajeria {
@@ -101,67 +100,51 @@ public class MensajeriaImpl implements Mensajeria {
 	 */
 	@Override
 	public void procesarMensaje(Mensaje msg) throws Exception {
-		Notificacion notificacion = new Notificacion();
+		Notificacion notificacion;
 
 		try {
 			if (msg.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST)) {
 
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.ALERTA)) {
-					gruposImpl.recibirAlerta(msg);
-					notificacion.setTipo(msg.getTipoMensaje().getTipo());
-					notificacion.setDescripcion("Se ha activado la alarma al miembro " + msg.getOrigen());
-					notificacion.setDetalle(msg.getDescripcion());
+					notificacion = gruposImpl.recibirAlerta(msg);
 					notificacionesDao.agregarNotificacion(notificacion);
+					gruposImpl.notificarMoviles(null, msg);
 					return;
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_MIEMBRO)) {
-					gruposImpl.recibirNuevoMiembro(msg);
-					DatoGrupo datos = this.json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
-					notificacion.setDescripcion("El miembro " + datos.getMiembro().getDireccion()
-							+ " es parte del grupo " + datos.getGrupo().getNombre());
-					notificacion.setDetalle("Fue agregado por el miembro " + msg.getOrigen());
+					notificacion = gruposImpl.recibirNuevoMiembro(msg);
 					notificacionesDao.agregarNotificacion(notificacion);
-					return;
-				}
-				if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.VOTO)){
-					gruposImpl.recibirVoto(msg);
+					gruposImpl.notificarMoviles(null, msg);
 
 					return;
 				}
+				if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.VOTO)){
+					notificacion = gruposImpl.recibirVoto(msg);
+					if(notificacion != null){
+						notificacionesDao.agregarNotificacion(notificacion);
+					}
+					gruposImpl.notificarMoviles(null, msg);
+					return;
+				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_GRUPO)) {
-					gruposImpl.recibirNuevoGrupo(msg);
-					DatoGrupo datos = this.json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
-					notificacion.setTipo(msg.getTipoMensaje().getTipo());
-					notificacion.setDescripcion("Fue agregado al grupo " + datos.getGrupo().getNombre());
-					notificacion.setDetalle("Fue agregado por el miembro " + msg.getOrigen());
+					notificacion = gruposImpl.recibirNuevoGrupo(msg);
 					notificacionesDao.agregarNotificacion(notificacion);
+					gruposImpl.notificarMoviles(null, msg);
 
 					return;
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.BAJA_MIEMBRO)) {
-					gruposImpl.recibirBajaMiembro(msg);
-					DatoGrupo datos = this.json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
-					notificacion.setTipo(msg.getTipoMensaje().getTipo());
-					notificacion.setDescripcion("El miembro " + datos.getMiembro().getDireccion()
-							+ " dejo de ser parte del grupo " + datos.getGrupo().getNombre());
-					if (msg.origen.equals(datos.getMiembro())) {
-						notificacion.setDetalle("El miembro abandono el grupo por propia voluntad.");
-					} else {
-						notificacion.setDetalle("El miembro fue dado de baja por acuerdo común en el grupo.");
-
-					}
+					notificacion = gruposImpl.recibirBajaMiembro(msg);
 					notificacionesDao.agregarNotificacion(notificacion);
+					gruposImpl.notificarMoviles(null, msg);
+
 					return;
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.SOLICITUD_BAJA_MIEMBRO)) {
-					gruposImpl.recibirSolicitudBaja(msg);
-					Votacion votacion = this.json.getGson().fromJson(msg.getDatos(), Votacion.class);
-					notificacion.setTipo(msg.getTipoMensaje().getTipo());
-					notificacion.setDescripcion("Se ha solicitado la baja del miembro " + votacion.getMiembro());
-					notificacion.setDetalle(
-							"Para determinar si el miembro sera o no dado de baja, usted debera dirigirse al menu de votacion para votar."
-									+ "/nSi la mitad + 1 de los votantes estan de acuerdo, el miembro sera dado de baja.");
+					notificacion = gruposImpl.recibirSolicitudBaja(msg);
 					notificacionesDao.agregarNotificacion(notificacion);
+					gruposImpl.notificarMoviles(null, msg);
+
 					return;
 				}
 			}
@@ -169,12 +152,9 @@ public class MensajeriaImpl implements Mensajeria {
 				return;
 			}
 			if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_GRUPO)) {
-				gruposImpl.confirmarAñadirMiembro(msg);
-				DatoGrupo datos = this.json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
-				notificacion.setTipo(msg.getTipoMensaje().getTipo());
-				notificacion.setDescripcion("El miembro " + datos.getMiembro().getDireccion() + " es parte del grupo "
-						+ datos.getGrupo().getNombre());
+				notificacion = gruposImpl.confirmarAñadirMiembro(msg);
 				notificacionesDao.agregarNotificacion(notificacion);
+				gruposImpl.notificarMoviles(null, msg);
 				Mensaje mensaje = msg.clone();
 				mensaje.setOrigen(msg.getDestino());
 				mensaje.setDestino(msg.getOrigen());
@@ -256,10 +236,10 @@ public class MensajeriaImpl implements Mensajeria {
 	@Override
 	public synchronized boolean reenviarMensaje(Mensaje msg, Date fechaActual) {
 
-		if (FechaUtils.diffDays(msg.getFechaCreacion(), fechaActual) == msg.getTipoMensaje().getTimetolive()) {
-			eliminarMensaje(msg);
-			return true;
-		}
+//		if (FechaUtils.diffDays(msg.getFechaCreacion(), fechaActual) == msg.getTipoMensaje().getTimetolive()) {
+//			eliminarMensaje(msg);
+//			return true;
+//		}
 		if (msg.getEstado().equals(EstadoUtils.CONFIRMADO)) {
 			return false;
 		}

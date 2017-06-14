@@ -20,7 +20,6 @@
         <th align="center">Destino</th> 
         <th align="center">Estado</th> 
         <th align="center">Tipo</th>        
-       	<th align="center">Descripcion</th> 
        	<th align="center">Detalle</th> 
        	
        	##<th align="center">Eliminar</th> 
@@ -33,7 +32,6 @@
             <td> $!m.getDestino()</td> 
             <td> $!m.getEstado()</td> 
             <td> $!m.getTipoMensaje().getTipo()</td>
-            <td> $!m.getDescripcion()</td> 
 	       	<td> <button onclick="document.getElementById($foreach.count).style.display='block'"
 			class="w3-button">Ver</button></td>	 
 			
@@ -50,10 +48,13 @@
     			<div class="w3-container">
 			 		<p>Creacion: $!m.imprimirFechaCreacion()</p>
 			 		<p>Reenvio: $!m.imprimirFechaReenvio()</p>
-    			
-    			 #foreach($!s in $!m.getDetalle().split(":"))
-    				<p>$!s</p>
-				 #end 
+    				#foreach($!s1 in $!m.getDescripcion().split(":"))
+    					<p>$!s1</p>
+					 #end 
+    				
+    				 #foreach($!s2 in $!m.getDetalle().split(":"))
+    					<p>$!s2</p>
+				 	#end 
     			</div>
 
     		</div>

@@ -17,8 +17,10 @@ import SAYAV2.SAYAV2.mensajeria.Mensaje;
 import SAYAV2.SAYAV2.mensajeria.MensajeriaImpl;
 import SAYAV2.SAYAV2.model.DispositivoM;
 import SAYAV2.SAYAV2.model.Grupo;
+import SAYAV2.SAYAV2.model.Notificacion;
 import SAYAV2.SAYAV2.model.Peer;
 import SAYAV2.SAYAV2.model.Usuario;
+import SAYAV2.SAYAV2.service.FirebaseCloudMessageController;
 import SAYAV2.SAYAV2.service.JsonTransformer;
 
 public class GruposImpl implements Grupos, NotificacionesApi {
@@ -234,7 +236,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 
 	@Override
 	public void procesarBajaMiembro(Votacion votacion) throws Exception {
-		Grupo grupo = usuarioDao.cargar(usuarioFile).getSingleGrupoById(votacion.getId());
+		Grupo grupo = usuarioDao.cargar(usuarioFile).getSingleGrupoById(votacion.grupoId);
 		double minVotantes = grupo.getPeers().size();
 		minVotantes /= 2;
 		minVotantes = Math.ceil(minVotantes);
@@ -303,67 +305,100 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 
 	@Override
 	public void notificarMoviles(List<DispositivoM> moviles, Mensaje msg) {
-		// TODO Auto-generated method stub
+		FirebaseCloudMessageController.post(msg.getTipoMensaje().getTipo(), msg.getDescripcion());
 
 	}
 
-	public void recibirAlerta(Mensaje msg) throws JAXBException {
-
+	public Notificacion recibirAlerta(Mensaje msg) throws JAXBException {
+		Notificacion notificacion = new Notificacion();
 		Usuario usuario = usuarioDao.cargar(usuarioFile);
 
 		notificarMoviles(usuario.getDispositivosMoviles(), msg);
+		
+		notificacion.setTipo(msg.getTipoMensaje().getTipo());
+		notificacion.setDescripcion("Se ha activado la alarma al miembro " + msg.getOrigen());
+		notificacion.setDetalle(msg.getDescripcion());
+		return notificacion;
 
 	}
 
-	public void recibirNuevoMiembro(Mensaje msg) throws JAXBException {
+	public Notificacion recibirNuevoMiembro(Mensaje msg) throws JAXBException {
+		Notificacion notificacion = new Notificacion();
 		Usuario usuario = usuarioDao.cargar(usuarioFile);
 		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
 		usuarioDao.agregarMiembro(usuario.getSingleGrupoById(datos.getGrupo().getId()), datos.getMiembro());
+		notificacion.setDescripcion("El miembro " + datos.getMiembro().getDireccion()
+				+ " es parte del grupo " + datos.getGrupo().getNombre());
+		notificacion.setDetalle("Fue agregado por el miembro " + msg.getOrigen());
+		return notificacion;
 	}
 
-	public void recibirNuevoGrupo(Mensaje msg) throws JAXBException {
-
+	public Notificacion recibirNuevoGrupo(Mensaje msg) throws JAXBException {
+		Notificacion notificacion = new Notificacion();
 		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
+		notificacion.setTipo(msg.getTipoMensaje().getTipo());
+		notificacion.setDescripcion("Fue agregado al grupo " + datos.getGrupo().getNombre());
+		notificacion.setDetalle("Fue agregado por el miembro " + msg.getOrigen());
 		usuarioDao.agregarGrupo(datos.getGrupo());
+		return notificacion;
 	}
 
-	public void recibirBajaMiembro(Mensaje msg) throws JAXBException {
-
+	public Notificacion recibirBajaMiembro(Mensaje msg) throws JAXBException {
+		Notificacion notificacion = new Notificacion();
 		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
-		System.out.println(datos);
 		usuarioDao.eliminarMiembro(datos.getGrupo(), datos.getMiembro());
+		notificacion.setTipo(msg.getTipoMensaje().getTipo());
+		notificacion.setDescripcion("El miembro " + datos.getMiembro().getDireccion()
+				+ " dejo de ser parte del grupo " + datos.getGrupo().getNombre());
+		if (msg.getOrigen().equals(datos.getMiembro())) {
+			notificacion.setDetalle("El miembro abandono el grupo por propia voluntad.");
+		} else {
+			notificacion.setDetalle("El miembro fue dado de baja por acuerdo común en el grupo.");
 
+		}
+		return notificacion;
 	}
 
-	public void recibirSolicitudBaja(Mensaje msg) throws JAXBException {
-
+	public Notificacion recibirSolicitudBaja(Mensaje msg) throws JAXBException {
+		Notificacion notificacion = new Notificacion();
 		Usuario usuario = usuarioDao.cargar(usuarioFile);
 
 		Votacion votacion = json.getGson().fromJson(msg.getDatos(), Votacion.class);
 		//TODO verificar que la votacion no exista, si existe se ignora la solicitud
 		votacionesPendientes = votacionesDao.agregarVotacion(votacion, votacionesPendientes, votacionesPendientesFile);
-
+		notificacion.setTipo(msg.getTipoMensaje().getTipo());
+		notificacion.setDescripcion("Se ha solicitado la baja del miembro " + votacion.getMiembro().getDireccion());
+		notificacion.setDetalle(
+				"Para determinar si el miembro sera o no dado de baja, usted debera dirigirse al menu de votacion para votar:"
+						+ "Si la mitad + 1 de los votantes estan de acuerdo, el miembro sera dado de baja");
+	
 		notificarMoviles(usuario.getDispositivosMoviles(), msg);
-
+		return notificacion;
 	}
 
-	public void recibirVoto(Mensaje msg) throws Exception {
+	public Notificacion recibirVoto(Mensaje msg) throws Exception {
 
 		DatoVoto datos = json.getGson().fromJson(msg.getDatos(), DatoVoto.class);
 		Votacion votacion = votacionesDao.getVotacion(datos.getIdVotacion(), votacionesFile);
-
 		Peer votante = new Peer(msg.getOrigen());
 		if(votacion.getVotantes().contains(votante)){
-			return;
+			return null;
 		}
+		Notificacion notificacion = new Notificacion();
+		notificacion.setTipo(TipoMensajeUtils.VOTO);
+		notificacion.setDescripcion("Ha recibido un voto del miembro " + msg.getOrigen());
+		
 		votacion.getVotantes().add(votante);
 		if (datos.isVoto()) {
+			notificacion.setDetalle("El voto fue positivo");
 			votacion.setVotantesAFavor(votacion.getVotantesAFavor() + 1);
 		} else {
+			notificacion.setDetalle("El voto fue negativo");
 			votacion.setVotantesEnContra(votacion.getVotantesEnContra() + 1);
 		}
 		votacionesDao.actualizarVotacion(votacion,votacionesFile);
 		procesarBajaMiembro(votacion);
+		return notificacion;
 
 	}
 
@@ -375,7 +410,8 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		this.init = init;
 	}
 
-	public void confirmarAñadirMiembro(Mensaje msg) throws JAXBException {
+	public Notificacion confirmarAñadirMiembro(Mensaje msg) throws JAXBException {
+		Notificacion notificacion = new Notificacion();
 		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
 		String origen = usuarioDao.getSubdominio();
 		Grupo grupo = usuarioDao.getGrupo(datos.getGrupo().getId());
@@ -383,8 +419,13 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 			notificarNuevoMiembro(grupo, datos.getMiembro(), origen);
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
 		this.usuarioDao.agregarMiembro(grupo, datos.getMiembro());
+		notificacion.setTipo(msg.getTipoMensaje().getTipo());
+		notificacion.setDescripcion("El miembro " + datos.getMiembro().getDireccion() + " es parte del grupo "
+				+ datos.getGrupo().getNombre());
+		return notificacion;
 	}
 
 }

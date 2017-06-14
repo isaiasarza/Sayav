@@ -127,17 +127,17 @@ public class Application {
 		     post(PathUtil.Web.ELIMINAR_MENSAJE, GroupController.eliminarMensaje);
 		 
 			
-			
+		     post("/pru/",IndexController.pru);
 			// // REST Notificaciones Push
 			// get(PathUtil.Web.NOTIFICATION_PUSH, (req, res) -> "Get Token");
-			// post(PathUtil.Web.NOTIFICATION_PUSH,
-			// FirebaseCloudMessageController.pushNotification);
+			 post(PathUtil.Web.NOTIFICATION_PUSH,
+			 FirebaseCloudMessageController.pushNotification);
 			//
 			//
 			// // REST Nuevo Token Firebase Cloud Messaging
 			// get(PathUtil.Web.NOTIFICATION_TOKEN, (req, res) -> "Get Token");
-			// post(PathUtil.Web.NOTIFICATION_TOKEN,
-			// FirebaseCloudMessageController.postNewToken);
+			 post(PathUtil.Web.NOTIFICATION_TOKEN,
+			FirebaseCloudMessageController.postNewToken);
 
 			// get(PathUtil.Web.GRUOP_NOTIFICATION,
 			// GrupoController.getNotificar);
