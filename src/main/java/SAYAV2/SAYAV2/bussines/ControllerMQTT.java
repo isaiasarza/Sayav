@@ -88,10 +88,10 @@ public class ControllerMQTT implements MqttCallback {
 
 		Usuario usuario = usuarioDao.cargar(file);
 
-		String handshakeRequest = usuario.getNombreDeUsuario() + "/" + TipoMensajeUtils.HANDSHAKE_REQUEST;
+		String handshakeRequest = usuario.getSubdominio() + "/" + TipoMensajeUtils.HANDSHAKE_REQUEST;
 		receive(handshakeRequest, qos);
 
-		String handshakeResponse = usuario.getNombreDeUsuario() + "/" + TipoMensajeUtils.HANDSHAKE_RESPONSE;
+		String handshakeResponse = usuario.getSubdominio() + "/" + TipoMensajeUtils.HANDSHAKE_RESPONSE;
 		receive(handshakeResponse, qos);
 
 
@@ -106,7 +106,7 @@ public class ControllerMQTT implements MqttCallback {
 		try {
 			usuario = usuarioDao.cargar(file);
 			for (Grupo g : grupos) {
-				grupoTopic[i] = (g.getId() + usuario.getNombreDeUsuario() + "/" + TipoMensajeUtils.NUEVO_MIEMBRO);
+				grupoTopic[i] = (g.getId() + usuario.getSubdominio() + "/" + TipoMensajeUtils.NUEVO_MIEMBRO);
 				qoss[i] = 2;
 				i++;
 			}
@@ -124,8 +124,6 @@ public class ControllerMQTT implements MqttCallback {
 			Thread.sleep(300);
 			message.setQos(qos);
 			message.setPayload(msg.getBytes());
-			System.out.println("Topic :");
-			System.out.println(topic);
 			client.publish(topic, message);
 			// client.disconnect();
 		} catch (InterruptedException e) {
@@ -168,12 +166,12 @@ public class ControllerMQTT implements MqttCallback {
 
 	@Override
 	public void deliveryComplete(IMqttDeliveryToken arg0) {
-		System.out.println("Delivery Completed\n" + arg0);
+		
 	}
 
 	@Override
 	public void messageArrived(String topic, MqttMessage msg) throws JAXBException {
-		System.out.println("Message Arrived...");
+		
 		Mensaje mensaje;
 		String tipo;
 

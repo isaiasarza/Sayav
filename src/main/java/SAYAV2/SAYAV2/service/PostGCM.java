@@ -21,6 +21,7 @@ public class PostGCM {
 		try {
 //			1.URL
 			URL url = new URL("https://fcm.googleapis.com/fcm/send");
+			System.out.println(apiKey);
 			
 //			2.Open Connection
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -46,7 +47,7 @@ public class PostGCM {
  
             // 5.3 Copy Content "JSON" into 
             mapper.writeValue(wr, notificacion);
-            System.out.println("/n" + mapper.writeValueAsString(notificacion) + "/n");
+            System.out.println( mapper.writeValueAsString(notificacion));
  
             // 5.4 Send the request
             wr.flush();
@@ -56,7 +57,7 @@ public class PostGCM {
  
             // 6. Get the response
             int responseCode = conn.getResponseCode();
-            System.out.println("\nSending 'POST' request to URL : " + url);
+            System.out.println("Sending 'POST' request to URL : " + url);
             System.out.println("Response Code : " + responseCode);
  
             BufferedReader in = new BufferedReader(

@@ -2,32 +2,42 @@
 <ns2:TiposMensajes xmlns="http://www.example.org/Mensaje" xmlns:ns2="http://www.example.org/TiposMensajes">
     <ns2:tipos>
         <tipo>Alerta</tipo>
-        <quantum>3</quantum>
+        <quantum>1</quantum>
         <timetolive>240</timetolive>
     </ns2:tipos>
     <ns2:tipos>
         <tipo>Nuevo Miembro</tipo>
-        <quantum>240</quantum>
-        <timetolive>4800</timetolive>
+        <quantum>1</quantum>
+        <timetolive>2400</timetolive>
     </ns2:tipos>
     <ns2:tipos>
         <tipo>Nuevo Grupo</tipo>
-        <quantum>240</quantum>
-        <timetolive>480</timetolive>
+        <quantum>1</quantum>
+        <timetolive>2400</timetolive>
     </ns2:tipos>
     <ns2:tipos>
         <tipo>Baja Miembro</tipo>
-        <quantum>240</quantum>
-        <timetolive>480</timetolive>
+        <quantum>1</quantum>
+        <timetolive>2400</timetolive>
+    </ns2:tipos>
+    <ns2:tipos>
+        <tipo>Baja Grupo</tipo>
+        <quantum>1</quantum>
+        <timetolive>2400</timetolive>
     </ns2:tipos>
     <ns2:tipos>
         <tipo>Solicitud Baja Miembro</tipo>
-        <quantum>240</quantum>
-        <timetolive>240</timetolive>
+        <quantum>1</quantum>
+        <timetolive>2400</timetolive>
     </ns2:tipos>
     <ns2:tipos>
         <tipo>Voto</tipo>
-        <quantum>240</quantum>
-        <timetolive>3600</timetolive>
+        <quantum>1</quantum>
+        <timetolive>2400</timetolive>
+    </ns2:tipos>
+     <ns2:tipos>
+        <tipo>Se recibio la confirmacion</tipo>
+        <quantum>1</quantum>
+        <timetolive>2400</timetolive>
     </ns2:tipos>
 </ns2:TiposMensajes>

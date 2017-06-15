@@ -64,32 +64,5 @@ l				<input type="submit" value=$msg.get("SECTOR_UPDATE") disabled>
 
 
 
-<script>
 
-function modifica() {
-  tab=document.getElementById('tabla');
-  for (i=0; ele=tab.getElementsByTagName('input')[i]; i++) {
-    if (ele.checked) edita(ele);
-    ele.checked = false;
-  }
-}
-
-function edita(obj) {
-  padre = obj.parentNode.parentNode;
-  celda = padre.getElementsByTagName('td')[1];
-  txt = celda.innerHTML;
-  celda.innerHTML = '';
-  inp = celda.appendChild(document.createElement('input'));
-  inp.value=txt;
-  inp.onblur = function() { this.parentNode.innerHTML = this.value  }
-  
-}
-
-</script>
-
-<script>
-	function cambiarEstado() {
-	
-	}
-</script>
 #end

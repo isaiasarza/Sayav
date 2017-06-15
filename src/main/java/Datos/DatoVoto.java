@@ -4,7 +4,7 @@ public class DatoVoto {
 	
 	private String idVotacion;
 	private boolean voto;
-	
+
 	
 	public DatoVoto() {
 		super();
@@ -39,8 +39,8 @@ public class DatoVoto {
 	public String toString() {
 		return "DatoVoto [idVotacion=" + idVotacion + ", voto=" + voto + "]";
 	}
-	
-	
+
+
 	
 	
 	

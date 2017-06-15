@@ -66,7 +66,7 @@
     		<div class="collapse navbar-collapse" id="myNavbar">
       			<ul class="nav navbar-nav">
         			<li><a href=$WebPath.getUpdateU()>Datos</a> </li>
-        		##	<li><a href=$WebPath.getDispositivos()>Movil</a> </li>
+        			<li><a href=$WebPath.getDispositivo()>Movil</a> </li>
         			<li><a href=$WebPath.getSector()>Sectores</a> </li>
         			<li><a href=$WebPath.getNewGroup()>Grupo</a> </li>
         	        <li><a href=$WebPath.getViewAllMessages()>Mensajes</a> </li> 

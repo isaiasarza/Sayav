@@ -24,7 +24,7 @@
   #foreach($dispositivo in $listaDispositivos) 
   	<tbody>
     	<tr>
-    	 <td> $dispositivo.getNumero()</td>
+    	 <td> $dispositivo.getToken()</td>
          <td>
          	<form method="post" action="$WebPath.getEliminarDispositivo()">
          		<input type="hidden" name="dispositivoABorrar" value="$!dispositivo.getNumero()">

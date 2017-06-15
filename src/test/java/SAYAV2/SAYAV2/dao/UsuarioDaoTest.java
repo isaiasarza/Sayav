@@ -10,6 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import SAYAV2.SAYAV2.model.DispositivoM;
 import SAYAV2.SAYAV2.model.Grupo;
 import SAYAV2.SAYAV2.model.Usuario;
 
@@ -39,15 +40,14 @@ public class UsuarioDaoTest {
 	
 	@Test
 	public void testCargarMiembro() {
-		Grupo g;
 		try {
 			Usuario usuario = usuarioDao.cargar(file);
-			g = usuario.getGrupos().get(0);
-			System.out.println(g);
-			g.addPeer("charly.buckle");
-			g.addPeer("romina.stickar");
-			g.addPeer("demian.barry");
-			g.addPeer("rodrigo.rene_cura");
+			DispositivoM d = new DispositivoM();
+			d.setNumero("2804600698");
+			usuario.getDispositivosMoviles().add(d);
+			d.setNumero("2804585878");
+			usuario.getDispositivosMoviles().add(d);
+
 			usuarioDao.guardar(usuario, file);
 			
 		} catch (JAXBException e) {

@@ -17,7 +17,7 @@
   		#foreach($!v in $!votaciones.getVotaciones())
   		<tr>
    		 	<td>$!v.getMiembro().getDireccion()</td>   			
- 		 	<td>$!user.getSingleGrupoById($!s.getGrupoId()).getNombre()</td>   			
+ 		 	<td>$!user.getSingleGrupoById($!v.getGrupoId()).getNombre()</td>   			
    		 	  			
 			<td>
    			

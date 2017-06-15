@@ -1,7 +1,7 @@
 /**
  * 
  */
-package SAYAV2.SAYAV2.model;
+package SAYAV2.SAYAV2;
 
 import static org.junit.Assert.*;
 
@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import SAYAV2.SAYAV2.dao.ConfiguratorDao;
+import SAYAV2.SAYAV2.model.Configurator;
 
 /**
  * @author Naza
