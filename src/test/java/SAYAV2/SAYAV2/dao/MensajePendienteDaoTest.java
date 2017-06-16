@@ -46,8 +46,8 @@ public class MensajePendienteDaoTest {
 		m2.setOrigen("isaiasarza.ddns.net");
 		m2.setDestino("lucasabella.ddns.net");
 
-		m1.setEstado(EstadoUtils.CONFIRMADO);
-		m2.setEstado(EstadoUtils.PENDIENTE);
+		m1.setEstado(EstadoUtils.Estado.CONFIRMADO);
+		m2.setEstado(EstadoUtils.Estado.PENDIENTE);
 		assertTrue(mensajes.addMensaje(m1));
 		assertFalse(mensajes.addMensaje(m1));
 		assertTrue(mensajes.addMensaje(m2));

@@ -4,11 +4,13 @@ import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import javax.xml.bind.JAXBException;
 
 import org.apache.commons.validator.routines.DomainValidator;
 
+import SAYAV2.SAYAV2.Utils.EstadoUtils;
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.RequestUtil;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
@@ -315,17 +317,46 @@ public class GroupController {
 	    Map<String, Object> model = new HashMap<>(); 
 	    Usuario usuario = usuarioDao.cargar(file); 
 	    MensajesPendientes mp; 
-	 
+	    String estado = request.session().attribute("status");
+	    System.out.println(estado);
+	    if(estado == null || estado.isEmpty()){
+	    	estado = EstadoUtils.Estado.PENDIENTE;
+	    }
 	    mensajesDao.setFile(mensajesFile);
 	    mp = mensajesDao.cargar(); 
 	    
+	   
+	    Predicate<Mensaje> mensajePredicate = m-> !m.getEstado().equals(EstadoUtils.Estado.PENDIENTE);   
+	    mp.getMensaje().removeIf(mensajePredicate);
 	    Collections.sort(mp.getMensaje());
 	    Collections.reverse(mp.getMensaje());
+	    model.put("estados", EstadoUtils.Estado.class);
 	    model.put("user", usuario); 
 	    model.put("mensajesPendientes", mp); 
 	    return ViewUtil.render(request, model, PathUtil.Template.VIEW_ALL_MESSAGES); 
 	 
 	  }; 
+	  
+	  public static Route getAllMessagesByStatus = (Request request, Response response) -> { 
+		    LoginController.ensureUserIsLoggedIn(request, response);
+		    Map<String, Object> model = new HashMap<>(); 
+
+		    Usuario usuario = usuarioDao.cargar(file); 
+		    String estado = request.params("estado");
+		    
+		    MensajesPendientes mp =  mensajesDao.cargar(mensajesFile);
+		    Predicate<Mensaje> mensajePredicate = m-> !m.getEstado().equals(estado);
+	        mp.getMensaje().removeIf(mensajePredicate);
+	        Collections.sort(mp.getMensaje());
+		    Collections.reverse(mp.getMensaje());
+		    
+		    model.put("estados", EstadoUtils.Estado.class);
+		    model.put("user", usuario); 
+		    model.put("mensajesPendientes", mp);
+		    return ViewUtil.render(request, model, PathUtil.Template.VIEW_ALL_MESSAGES); 
+
+		 
+		  }; 
 	 
 	  public static Route eliminarMensaje = (Request request, Response response) -> { 
 	 
@@ -344,9 +375,8 @@ public class GroupController {
 	    else model.put("eliminacionExitosa", true); 
 	   
 	     
-	    request.session().attribute("mensajesPendientes", mensajesDao.cargar(mensajesFile)); 
-	       
-	     
+	    request.session().attribute("mensajesPendientes", mensajesDao.cargar(mensajesFile));     
+	    request.session().attribute("estados", EstadoUtils.Estado.class);
 	    request.session().attribute("user", usuario); 
 	     
 	     

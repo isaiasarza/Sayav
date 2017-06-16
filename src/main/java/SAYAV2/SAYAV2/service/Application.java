@@ -123,7 +123,8 @@ public class Application {
 			
 			//Mensajes Pendientes
 			 get(PathUtil.Web.VIEW_ALL_MESSAGES, GroupController.getAllMenssages);
-			 
+			 get(PathUtil.Web.VIEW_ALL_MESSAGES_STATUS, GroupController.getAllMessagesByStatus);
+
 		     post(PathUtil.Web.ELIMINAR_MENSAJE, GroupController.eliminarMensaje);
 		 
 			

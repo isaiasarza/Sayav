@@ -34,15 +34,11 @@ public class MensajePendienteDao extends GenericDao<MensajesPendientes> {
 
 	public synchronized boolean  eliminarMensaje(Mensaje msg) throws JAXBException {
 		MensajesPendientes mensajes = this.cargar(file);
-		Iterator<Mensaje> iterator = mensajes.getMensaje().iterator();
-		while(iterator.hasNext()){
-			if(iterator.next().getId().equals(msg.getId())){
-				iterator.remove();
-				this.guardar(mensajes, file);
-				return true;
-			}
+		if(mensajes.getMensaje().remove(msg)){
+			this.guardar(mensajes, file);
+			return true;
 		}
-		return false;
+		return false;	
 	}
 
 

@@ -8,36 +8,36 @@
     <ns2:tipos>
         <tipo>Nuevo Miembro</tipo>
         <quantum>1</quantum>
-        <timetolive>2400</timetolive>
+        <timetolive>5</timetolive>
     </ns2:tipos>
     <ns2:tipos>
         <tipo>Nuevo Grupo</tipo>
         <quantum>1</quantum>
-        <timetolive>2400</timetolive>
+        <timetolive>5</timetolive>
     </ns2:tipos>
     <ns2:tipos>
         <tipo>Baja Miembro</tipo>
         <quantum>1</quantum>
-        <timetolive>2400</timetolive>
+        <timetolive>5</timetolive>
     </ns2:tipos>
     <ns2:tipos>
         <tipo>Baja Grupo</tipo>
         <quantum>1</quantum>
-        <timetolive>2400</timetolive>
+        <timetolive>5</timetolive>
     </ns2:tipos>
     <ns2:tipos>
         <tipo>Solicitud Baja Miembro</tipo>
         <quantum>1</quantum>
-        <timetolive>2400</timetolive>
+        <timetolive>5</timetolive>
     </ns2:tipos>
     <ns2:tipos>
         <tipo>Voto</tipo>
         <quantum>1</quantum>
-        <timetolive>2400</timetolive>
+        <timetolive>5</timetolive>
     </ns2:tipos>
      <ns2:tipos>
         <tipo>Se recibio la confirmacion</tipo>
         <quantum>1</quantum>
-        <timetolive>2400</timetolive>
+        <timetolive>5</timetolive>
     </ns2:tipos>
 </ns2:TiposMensajes>

@@ -5,6 +5,8 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.xml.bind.JAXBException;
@@ -15,11 +17,13 @@ import org.junit.Test;
 
 import Datos.DatoGrupo;
 import SAYAV2.SAYAV2.Utils.EstadoUtils;
+import SAYAV2.SAYAV2.Utils.FechaUtils;
 import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
 import SAYAV2.SAYAV2.mensajeria.Mensaje;
 import SAYAV2.SAYAV2.mensajeria.MensajeriaImpl;
 import SAYAV2.SAYAV2.model.Grupo;
+import SAYAV2.SAYAV2.model.MensajesPendientes;
 import SAYAV2.SAYAV2.model.Peer;
 import SAYAV2.SAYAV2.model.Usuario;
 import SAYAV2.SAYAV2.service.JsonTransformer;
@@ -48,7 +52,7 @@ public class MensajeriaImplTest {
 		mensaje = new Mensaje();
 		mensaje.setDatos(json.render(datoGrupo));
 		mensaje.setDescripcion("Prueba2");
-		mensaje.setEstado(EstadoUtils.PENDIENTE);
+		mensaje.setEstado(EstadoUtils.Estado.PENDIENTE);
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 		mensaje.setTipoMensaje(mensajeria.getTipos().getTipo(TipoMensajeUtils.NUEVO_MIEMBRO));
 	}
@@ -68,16 +72,14 @@ public class MensajeriaImplTest {
 			Grupo grupo = usuarioDao.getGrupo(0);
 			try {
 				mensaje.setOrigen(usuarioDao.getNombreDeUsuario());
-				mensajeria.propagarMensaje(mensaje, grupo);
-
+				//mensajeria.propagarMensaje(mensaje, grupo);
+				
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-		fail("Not yet implemented");
 	}
 
 	@Test
@@ -100,10 +102,10 @@ public class MensajeriaImplTest {
 		
 		//assertTrue(mensajeria.reenviarMensaje(mensaje, fechaInicial));
 		fechaReenvio = mensaje.getFechaReenvio();
-		
+		assertTrue(mensajeria.eliminarMensaje(mensaje));
 //		assertNotEquals(fechaInicial.getTime(),fechaReenvio.getTime());
 //		
-//		mensaje.setEstado(EstadoUtils.CONFIRMADO);
+//		mensaje.setEstado(EstadoUtils.Estado.CONFIRMADO);
 //		
 //		assertFalse(mensajeria.reenviarMensaje(mensaje, fechaInicial));
 //		
@@ -121,6 +123,7 @@ public class MensajeriaImplTest {
 		System.out.println(mensaje);
 		String msg = mensajeria.enviarSolicitud(mensaje);
 		System.out.println(msg);	
+		assertTrue(mensajeria.eliminarMensaje(mensaje));
 	}
 
 	@Test
@@ -134,8 +137,8 @@ public class MensajeriaImplTest {
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 		try {
 			mensajeria.recibirSolicitud(mensaje);
+			assertTrue(mensajeria.eliminarMensaje(mensaje));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -148,6 +151,44 @@ public class MensajeriaImplTest {
 	@Test
 	public void testEliminarMensajePendiente() {
 		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testEstadoZombie(){
+		Date fechaFin =  new Date();
+
+		MensajesPendientes mensajes = mensajeria.getMensajes();
+		List<Mensaje> aux = new LinkedList<Mensaje>();
+		long diff;
+		long time;
+		for(Mensaje m: mensajes.getMensaje()){
+			diff = FechaUtils.diffDays(m.getFechaCreacion(), fechaFin);
+			time = TimeUnit.MINUTES.toMillis(m.getTipoMensaje().getTimetolive());
+			if(diff >= time && m.getEstado().equals(EstadoUtils.Estado.PENDIENTE)){
+				aux.add(m.clone());
+			}
+		}
+		
+		assertTrue(aux.isEmpty());
+	}
+	
+	@Test
+	public void testEliminarConfirmados(){
+		Date fechaFin =  new Date();
+
+		MensajesPendientes mensajes = mensajeria.getMensajes();
+		List<Mensaje> aux = new LinkedList<Mensaje>();
+		long diff;
+		long time;
+		for(Mensaje m: mensajes.getMensaje()){
+			diff = FechaUtils.diffDays(m.getFechaCreacion(), fechaFin);
+			time = TimeUnit.DAYS.toMillis(EstadoUtils.TIME_TO_LIVE_CONF);
+			if(diff >= time && m.getEstado().equals(EstadoUtils.Estado.CONFIRMADO)){
+				aux.add(m.clone());
+			}
+		}
+		
+		assertTrue(aux.isEmpty());
 	}
 
 }

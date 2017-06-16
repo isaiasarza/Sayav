@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import SAYAV2.SAYAV2.Utils.EstadoUtils;
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
 import SAYAV2.SAYAV2.dao.MensajePendienteDao;
@@ -36,6 +37,9 @@ public class MensajesPendientesController {
 		model.put("user", usuario);
 		model.put("mensaje", mensaje);
 		model.put("mensajesPendientes", mp);
+		//model.put("estado", EstadoUtils.PENDIENTE);
+		model.put("estados",EstadoUtils.class);
+
 		//model.put("listaMensajes", listaMensajes);
 
 		//System.out.println(response.raw().getStatus());

@@ -1,10 +1,7 @@
 #parse("/velocity/layout.vm") 
 #@mainLayout() 
   <h1>$msg.get("LIST_MESSAGE_HEADING")</h1> 
-   
-
- 
- 
+    
     #if($mostrarNotificacion) 
     <div class="infoAlert">   
          <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Prueba 
@@ -18,7 +15,23 @@
       <tr> 
         <th align="center">Origen</th> 
         <th align="center">Destino</th> 
-        <th align="center">Estado</th> 
+        <th align="center">
+        	<div class="dropdown">
+  				<button onclick="myFunction()" class="dropbtn">Estado</button>
+  				<div id="myDropdown" class="dropdown-content">
+  				<form method="get" action="$WebPath.getViewAllMessages()$estados.getPendiente()/"> 
+   					<button class="w3-button">Pendiente</button>               
+           		</form> 
+           		<form method="get" action="$WebPath.getViewAllMessages()$estados.getConfirmado()/"> 
+   					<button  class="w3-button">Confirmado</button>                 
+           		</form> 
+           		<form method="get" action="$WebPath.getViewAllMessages()$estados.getZombie()/"> 
+   					<button  class="w3-button">Zombie</button>                 
+           		</form> 
+    				
+  				</div>
+			</div>
+        </th> 
         <th align="center">Tipo</th>        
        	<th align="center">Detalle</th> 
        	
@@ -26,7 +39,8 @@
          
        
       #foreach($!m in $!mensajesPendientes.getMensaje())
-         
+      
+ 
       <tr> 
             <td> $!m.getOrigen()</td> 
             <td> $!m.getDestino()</td> 
@@ -60,33 +74,34 @@
     		</div>
 		</div>	
   	             
-      ##      <td> 
-      ##    		<form id="tabla"> 
-      ##     		<input id = "myBtn" type="button" value="Ver" onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black">                    
-      ##     		</form> 
-      ##     </td> 
-             
-             
-      ##      #if($m.getEstado().equals("Confirmado"))       
-      ##      <td> 
-      ##    		<form id="tabla" method="post" action="$WebPath.getEliminar()$m.getId()/"> 
-      ##     			<input type="submit" value="Eliminar" >                    
-      ##     		</form> 
-      ##     	</td> 
-      ##      #else 
-      ##      <td> 
-      ##    		<form id="tabla" method="post" action="$WebPath.getEliminar()$m.getId()/"> 
-      ##     			<input type="submit" value="Eliminar" disabled >                    
-      ##     		</form> 
-      ##     	</td> 
-      ##    #end 
       </tr> 
+     
       #end 
        
     </table>     
        
 <script>
 
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
 </script>
 
 #end 

@@ -15,6 +15,6 @@ public interface Mensajeria {
 	void enviarConfirmacion(Mensaje msg);
 	void recibirSolicitud(Mensaje msg) throws JAXBException, Exception;
 	void recibirConfirmación(Mensaje msg) throws JAXBException, Exception;
-	void eliminarMensaje(Mensaje msg);
+	boolean eliminarMensaje(Mensaje msg);
 	void actualizarMensaje(Mensaje msg);
 }

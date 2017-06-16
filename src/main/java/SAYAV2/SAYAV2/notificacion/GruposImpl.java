@@ -80,7 +80,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 
 		Mensaje mensaje = new Mensaje();
 		mensaje.setOrigen(origen);
-		mensaje.setEstado(EstadoUtils.PENDIENTE);
+		mensaje.setEstado(EstadoUtils.Estado.PENDIENTE);
 		mensaje.setTipoMensaje(mensajeria.getTipos().getTipo(TipoMensajeUtils.NUEVO_MIEMBRO));
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 		mensaje.setDescripcion("El miembro " + miembro.getDireccion() + " es parte del grupo " + grupo.getNombre() + ":");
@@ -95,7 +95,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 
 		mensaje.setOrigen(origen);
 		mensaje.setDestino(miembro.getDireccion());
-		mensaje.setEstado(EstadoUtils.PENDIENTE);
+		mensaje.setEstado(EstadoUtils.Estado.PENDIENTE);
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 		mensaje.setTipoMensaje(mensajeria.getTipos().getTipo(TipoMensajeUtils.NUEVO_GRUPO));
 		mensaje.setFechaCreacion(new Date());
@@ -148,7 +148,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 			msg.setDatos(json.render(votacion));
 			msg.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.SOLICITUD_BAJA_MIEMBRO));
 			msg.setDescripcion("Se ha solicitado la baja de un miembro");
-			msg.setEstado(EstadoUtils.PENDIENTE);
+			msg.setEstado(EstadoUtils.Estado.PENDIENTE);
 			msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 			msg.setOrigen(usuario.getSubdominio());
 			notificarGrupo(grupo, msg);
@@ -266,7 +266,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.BAJA_MIEMBRO));
 		mensaje.setOrigen(usuario.getSubdominio());
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
-		mensaje.setEstado(EstadoUtils.PENDIENTE);
+		mensaje.setEstado(EstadoUtils.Estado.PENDIENTE);
 		eliminado = notificarBajaMiembro(g, mensaje, miembro);
 		notificarBajaGrupo(mensaje, eliminado);
 	}

@@ -89,6 +89,7 @@ public class PathUtil {
 		public static final String ELIMINAR = "/mensajes/eliminar/";
 
 		public static final String VER_DESCRIPCION = "/mensajes/descripcion/";
+		public static final String VIEW_ALL_MESSAGES_STATUS = "/mensajes/:estado/";
 
 		public static String getEliminar() {
 			return ELIMINAR;

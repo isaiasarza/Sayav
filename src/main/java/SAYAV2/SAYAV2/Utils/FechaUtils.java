@@ -13,6 +13,6 @@ public class FechaUtils {
 	 */
 	public static long diffDays(Date fechaInicio, Date fechaFin){
 		long diff = fechaFin.getTime() - fechaInicio.getTime();
-		return TimeUnit.MINUTES.convert(diff, TimeUnit.MILLISECONDS);
+		return TimeUnit.MILLISECONDS.toMinutes(diff);
 	}
 }

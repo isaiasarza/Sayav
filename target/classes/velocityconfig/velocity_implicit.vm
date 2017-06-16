@@ -1,5 +1,7 @@
 #* @implicitly included *#
 #* @vtlvariable name="WebPath" type="SAYAV2.SAYAV2.Utils.PathUtil.Web" *#
+#* @vtlvariable name="estados" type="SAYAV2.SAYAV2.Utils.EstadoUtils.Estados" *#
+
 #* @vtlvariable name="msg" type="SAYAV2.SAYAV2.Utils.MessageBundle" *#
 #* @vtlvariable name="currentUser" type="java.lang.String" *#
 #* @vtlvariable name="user" type="SAYAV2.SAYAV2.model.Usuario" *#
@@ -30,6 +32,8 @@
 #* @vtlvariable name="panicButton" type="java.lang.String" *#
 #* @vtlvariable name="mensaje" type="SAYAV2.SAYAV2.mensajeria.Mensaje" *#
 #* @vtlvariable name="tipoMensaje" type="java.lang.String" *#
+#* @vtlvariable name="estado" type="java.lang.String" *#
+
 
 #* @vtlvariable name="detalle" type="java.lang.String" *#
 #* @vtlvariable name="n" type="java.lang.String" *#

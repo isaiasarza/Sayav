@@ -2,6 +2,8 @@ package SAYAV2.SAYAV2.mensajeria;
 
 import java.io.File;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.xml.bind.JAXBException;
 
@@ -160,7 +162,7 @@ public class MensajeriaImpl implements Mensajeria {
 				mensaje.setDestino(msg.getOrigen());
 				mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
 				mensaje.setTipoMensaje(tipoMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.OK_CONFIRMACION));
-				mensaje.setEstado(EstadoUtils.CONFIRMADO);	
+				mensaje.setEstado(EstadoUtils.Estado.CONFIRMADO);	
 				enviarConfirmacion(mensaje);
 				return;
 			}
@@ -231,20 +233,27 @@ public class MensajeriaImpl implements Mensajeria {
 	/**
 	 * @author
 	 * @param Mensaje
+	 * @return true si hay que eliminar el mensaje
 	 *            Reenvia el mensaje indicado.
 	 */
 	@Override
 	public synchronized boolean reenviarMensaje(Mensaje msg, Date fechaActual) {
-
-//		if (FechaUtils.diffDays(msg.getFechaCreacion(), fechaActual) == msg.getTipoMensaje().getTimetolive()) {
-//			eliminarMensaje(msg);
-//			return true;
-//		}
-		if (msg.getEstado().equals(EstadoUtils.CONFIRMADO)) {
+		long aux = TimeUnit.DAYS.toMinutes(EstadoUtils.TIME_TO_LIVE_CONF);
+		long diff = FechaUtils.diffDays(msg.getFechaCreacion(), fechaActual);
+		if (msg.getEstado().equals(EstadoUtils.Estado.CONFIRMADO) && diff >=  aux) {
+			return true;
+		}
+		if (!msg.getEstado().equals(EstadoUtils.Estado.PENDIENTE)) {
 			return false;
 		}
-		if (FechaUtils.diffDays(msg.getFechaReenvio(), fechaActual) < msg.getTipoMensaje().getQuantum()) {
-			return true;
+		
+		if (diff >= msg.getTipoMensaje().getTimetolive()) {
+			msg.setEstado(EstadoUtils.Estado.ZOMBIE);
+			actualizarMensaje(msg);
+			return false;
+		}
+		if (diff < msg.getTipoMensaje().getQuantum()) {
+			return false;
 		}
 		msg.getFechaReenvio().setTime(fechaActual.getTime());
 		actualizarMensaje(msg);
@@ -268,7 +277,7 @@ public class MensajeriaImpl implements Mensajeria {
 		if(msg.getOrigen().equals(msg.getDestino())){
 			throw new IllegalArgumentException("El origen y el miembro son iguales");
 		}
-		msg.setEstado(EstadoUtils.PENDIENTE);
+		msg.setEstado(EstadoUtils.Estado.PENDIENTE);
 		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 		guardarMensaje(msg);
 		String m = json.render(msg);
@@ -288,7 +297,7 @@ public class MensajeriaImpl implements Mensajeria {
 		if(msg.getOrigen().equals(msg.getDestino())){
 			throw new IllegalArgumentException("El origen y el miembro son iguales");
 		}
-		msg.setEstado(EstadoUtils.PENDIENTE);
+		msg.setEstado(EstadoUtils.Estado.PENDIENTE);
 		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
 		String topic = msg.getDestino() + "/" + msg.getTipoHandshake();
 		String m = json.render(msg);
@@ -310,7 +319,7 @@ public class MensajeriaImpl implements Mensajeria {
 		procesarMensaje(msg);
 		Mensaje nuevo = (Mensaje) msg.clone();
 		nuevo.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
-		nuevo.setEstado(EstadoUtils.CONFIRMADO);
+		nuevo.setEstado(EstadoUtils.Estado.CONFIRMADO);
 		nuevo.setOrigen(msg.getDestino());
 		nuevo.setDestino(msg.getOrigen());
 		enviarConfirmacion(nuevo);
@@ -325,7 +334,7 @@ public class MensajeriaImpl implements Mensajeria {
 	@Override
 	public void recibirConfirmación(Mensaje msg) throws JAXBException, Exception {
 		procesarMensaje(msg);
-		msg.setEstado(EstadoUtils.CONFIRMADO);
+		msg.setEstado(EstadoUtils.Estado.CONFIRMADO);
 		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
 		String origen = msg.getOrigen();
 		String destino = msg.getDestino();
@@ -339,13 +348,13 @@ public class MensajeriaImpl implements Mensajeria {
 	 * Se elimina un mensaje
 	 */
 	@Override
-	public synchronized void eliminarMensaje(Mensaje msg) {
+	public synchronized boolean eliminarMensaje(Mensaje msg) {
 		try {
-			mensajesDao.eliminarMensaje(msg);
+			return mensajesDao.eliminarMensaje(msg);
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-
+		return false;
 	}
 
 	public MensajesPendientes getMensajes() {
@@ -377,6 +386,11 @@ public class MensajeriaImpl implements Mensajeria {
 		}
 
 		return false;
+	}
+
+	public void actualizarMensajes(List<Mensaje> borrados) {
+		mensajes.getMensaje().removeAll(borrados);
+		mensajesDao.guardar(mensajes, mensajesFile);
 	}
 
 }
