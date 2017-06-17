@@ -17,7 +17,7 @@
         <th align="center">Destino</th> 
         <th align="center">
         	<div class="dropdown">
-  				<button onclick="myFunction()" class="dropbtn">Estado</button>
+  				<button onclick="myFunction('myDropdown')" class="dropbtn">Estado</button>
   				<div id="myDropdown" class="dropdown-content">
   				<form method="get" action="$WebPath.getViewAllMessages()$estados.getPendiente()/"> 
    					<button class="w3-button">Pendiente</button>               
@@ -44,7 +44,23 @@
       <tr> 
             <td> $!m.getOrigen()</td> 
             <td> $!m.getDestino()</td> 
+            #if( $!m.getEstado().equals($estados.getZombie()))
+            <td>
+        		<div class="dropdown">
+  					<button onclick="myFunction('myDropdown $foreach.count')" class="dropbtn">$estados.getZombie()</button>
+  					<div id="myDropdown $foreach.count" class="dropdown-content">
+  						<form method="post" action="$WebPath.getCambiarEstadoMensaje()$estados.getPendiente()/$m.getId()/"> 
+   							<button class="w3-button">Pendiente</button>               
+           				</form> 
+           				<form method="post" action="$WebPath.getCambiarEstadoMensaje()$estados.getConfirmado()/$m.getId()/"> 
+   							<button  class="w3-button">Confirmado</button>                 
+           				</form>  				
+  					</div>
+				</div>
+        	</td> 
+            #else
             <td> $!m.getEstado()</td> 
+            #end
             <td> $!m.getTipoMensaje().getTipo()</td>
 	       	<td> <button onclick="document.getElementById($foreach.count).style.display='block'"
 			class="w3-button">Ver</button></td>	 
@@ -84,8 +100,8 @@
 
 /* When the user clicks on the button, 
 toggle between hiding and showing the dropdown content */
-function myFunction() {
-    document.getElementById("myDropdown").classList.toggle("show");
+function myFunction(id) {
+    document.getElementById(id).classList.toggle("show");
 }
 
 // Close the dropdown menu if the user clicks outside of it

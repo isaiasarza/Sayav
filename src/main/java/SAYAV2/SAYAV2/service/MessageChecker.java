@@ -8,6 +8,7 @@ import java.util.Random;
 
 import SAYAV2.SAYAV2.mensajeria.Mensaje;
 import SAYAV2.SAYAV2.mensajeria.MensajeriaImpl;
+import SAYAV2.SAYAV2.model.MensajesPendientes;
 
 public class MessageChecker implements Runnable {
 
@@ -55,8 +56,8 @@ public class MessageChecker implements Runnable {
 	}
 
 	private boolean verificarMensajesPendientes() {
-
-		Iterator<Mensaje> iterator = mensajeria.getMensajes().getMensaje().iterator();
+		MensajesPendientes m = mensajeria.getMensajes();
+		Iterator<Mensaje> iterator = m.getMensaje().iterator();
 		List<Mensaje> borrados = new LinkedList<Mensaje>();
 		Date fechaActual = new Date();
 		while (iterator.hasNext()) {
@@ -68,7 +69,7 @@ public class MessageChecker implements Runnable {
 		}
 		if (!borrados.isEmpty()) {
 			System.out.println("Borrando mensajes");
-			mensajeria.actualizarMensajes(borrados);
+			mensajeria.eliminarMensajes(borrados);
 		}
 		return check;
 	}

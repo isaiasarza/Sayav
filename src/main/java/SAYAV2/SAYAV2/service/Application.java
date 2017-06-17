@@ -17,38 +17,37 @@ import SAYAV2.SAYAV2.dao.ConfiguratorDao;
 import SAYAV2.SAYAV2.model.Configurator;
 
 public class Application {
-	
+
 	static Configurator config;
 	static ConfiguratorDao configDao;
 	static File c;
 	static File sayav = new File("SAYAV");
 	static ControllerMQTT controllerMqtt;
-	
-	public static void config() throws JAXBException{
+
+	public static void config() throws JAXBException {
 		controllerMqtt = ControllerMQTT.getInstance();
 		configDao = ConfiguratorDao.getInstance();
 		c = new File("configurator");
 		config = configDao.cargar(c);
 		controllerMqtt = ControllerMQTT.getInstance();
 	}
-	
-	public static int getPort(){
+
+	public static int getPort() {
 		return config.getPort();
 	}
 
 	public static void main(String[] args) {
 		MessageChecker messageChecker = new MessageChecker();
 
-		
 		try {
 			config();
 			System.out.println(getPort());
 
 			port(getPort());
-			
+
 			controllerMqtt.start();
-			
-			if(sayav.exists()){
+
+			if (sayav.exists()) {
 				System.out.println("Init Receive");
 				controllerMqtt.initReceive();
 			}
@@ -61,7 +60,7 @@ public class Application {
 			// Set up before-filters (called before each get/post)
 			// before("*", Filters.addTrailingSlashes);
 			// before("*", Filters.handleLocaleChange);
-			
+
 			// post(PathUtil.Web.SHOW_NOTIFICATION,IndexController.mostrarNotificacion);
 
 			// REST de registro de usuario
@@ -79,9 +78,9 @@ public class Application {
 			// post(PathUtil.Web.PANIC_BUTTON, AlarmController.panicButton);
 			//
 			// //REST de dispositivos moviles
-			 get(PathUtil.Web.DISPOSITIVO,DispositivoController.dispositivoVelocityEngine);
-			 //post(PathUtil.Web.DISPOSITIVO,DispositivoController.nuevoDispositivo);
-			 post(PathUtil.Web.ELIMINAR_DISPOSITIVO,DispositivoController.eliminarDispositivo);
+			get(PathUtil.Web.DISPOSITIVO, DispositivoController.dispositivoVelocityEngine);
+			// post(PathUtil.Web.DISPOSITIVO,DispositivoController.nuevoDispositivo);
+			post(PathUtil.Web.ELIMINAR_DISPOSITIVO, DispositivoController.eliminarDispositivo);
 			//
 			// REST de sectores
 			get(PathUtil.Web.SECTOR, SectorController.sectorVelocityEngine);
@@ -109,36 +108,33 @@ public class Application {
 			post(PathUtil.Web.NEW_GROUP_MEMBER, GroupController.postNewGroupMember);
 
 			get(PathUtil.Web.VIEW_GROUP_MEMBER, GroupController.getViewMembers);
-			
+
 			get(PathUtil.Web.VER_VOTACIONES, GroupController.getVotaciones);
-			
+
 			post(PathUtil.Web.SOLICITAR, GroupController.solicitarBaja);
-			
-			post(PathUtil.Web.VOTO,GroupController.votarBaja);
-			
+
+			post(PathUtil.Web.VOTO, GroupController.votarBaja);
+
 			post(PathUtil.Web.LEAVE_GROUP, GroupController.leaveGroup);
-			
-			get(PathUtil.Web.SHOW_NOTIFICATION,NotificationController.mostrarNotificacion);
 
-			
-			//Mensajes Pendientes
-			 get(PathUtil.Web.VIEW_ALL_MESSAGES, GroupController.getAllMenssages);
-			 get(PathUtil.Web.VIEW_ALL_MESSAGES_STATUS, GroupController.getAllMessagesByStatus);
+			get(PathUtil.Web.SHOW_NOTIFICATION, NotificationController.mostrarNotificacion);
 
-		     post(PathUtil.Web.ELIMINAR_MENSAJE, GroupController.eliminarMensaje);
-		 
-			
-		     post("/pru/",IndexController.pru);
+			// Mensajes Pendientes
+			get(PathUtil.Web.VIEW_ALL_MESSAGES, GroupController.getAllMenssages);
+			get(PathUtil.Web.VIEW_ALL_MESSAGES_STATUS, GroupController.getAllMessagesByStatus);
+			post(PathUtil.Web.CAMBIAR_ESTADO_MENSAJE_ZOMBIE, GroupController.postCambiarEstado);
+			// post(PathUtil.Web.ELIMINAR_MENSAJE,
+			// GroupController.eliminarMensaje);
+
+			post("/pru/", IndexController.pru);
 			// // REST Notificaciones Push
 			// get(PathUtil.Web.NOTIFICATION_PUSH, (req, res) -> "Get Token");
-			 post(PathUtil.Web.NOTIFICATION_PUSH,
-			 FirebaseCloudMessageController.pushNotification);
+			post(PathUtil.Web.NOTIFICATION_PUSH, FirebaseCloudMessageController.pushNotification);
 			//
 			//
 			// // REST Nuevo Token Firebase Cloud Messaging
 			// get(PathUtil.Web.NOTIFICATION_TOKEN, (req, res) -> "Get Token");
-			 post(PathUtil.Web.NOTIFICATION_TOKEN,
-			FirebaseCloudMessageController.postNewToken);
+			post(PathUtil.Web.NOTIFICATION_TOKEN, FirebaseCloudMessageController.postNewToken);
 
 			// get(PathUtil.Web.GRUOP_NOTIFICATION,
 			// GrupoController.getNotificar);

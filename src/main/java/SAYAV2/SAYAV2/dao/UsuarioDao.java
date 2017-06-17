@@ -166,4 +166,19 @@ public class UsuarioDao extends GenericDao<Usuario> {
 		return false;
 	}
 
+	public boolean eliminarDispositivo(String token, File file) {
+		try {
+			Usuario usuario = this.cargar(file);
+			DispositivoM d = new DispositivoM(token);
+			if(usuario.getDispositivosMoviles().remove(d)){
+				this.guardar(usuario, file);
+				return true;
+			}
+			return false;
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }

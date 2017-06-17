@@ -27,7 +27,7 @@
     	 <td> $dispositivo.getToken()</td>
          <td>
          	<form method="post" action="$WebPath.getEliminarDispositivo()">
-         		<input type="hidden" name="dispositivoABorrar" value="$!dispositivo.getNumero()">
+         		<input type="hidden" name="dispositivoABorrar" value="$!dispositivo.getToken()">
         		<button class="w3-button">Eliminar</button>
         	</form>
     	</td>

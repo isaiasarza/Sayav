@@ -11,7 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import SAYAV2.SAYAV2.model.DispositivoM;
-import SAYAV2.SAYAV2.model.Grupo;
 import SAYAV2.SAYAV2.model.Usuario;
 
 public class UsuarioDaoTest {
@@ -43,11 +42,13 @@ public class UsuarioDaoTest {
 		try {
 			Usuario usuario = usuarioDao.cargar(file);
 			DispositivoM d = new DispositivoM();
+			DispositivoM d2 = new DispositivoM();
 			d.setNumero("2804600698");
+			d.setToken("myToken1");
 			usuario.getDispositivosMoviles().add(d);
-			d.setNumero("2804585878");
-			usuario.getDispositivosMoviles().add(d);
-
+			d2.setToken("myToken2");
+			d2.setNumero("2804585878");
+			usuario.getDispositivosMoviles().add(d2);
 			usuarioDao.guardar(usuario, file);
 			
 		} catch (JAXBException e) {

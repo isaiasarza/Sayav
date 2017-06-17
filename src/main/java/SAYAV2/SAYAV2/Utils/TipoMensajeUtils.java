@@ -19,4 +19,6 @@ public class TipoMensajeUtils {
 	public static final String NO_GRUPO_NUEVO = "No se pudo crear el grupo";
 	public static final String CHECK_CONNECTIVITY = "Ver Conectividad";
 	public static final String OK_CONFIRMACION = "Se recibio la confirmacion";
+	public static final String NUEVO_DISPOSITIVO = "Nuevo Dispositivo";
+	public static final String NOTIFICACION_MOVIL = "Notificacion Movil";
 }

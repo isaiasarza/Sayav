@@ -423,11 +423,9 @@ public class Usuario {
 	}
 
 	public DispositivoM getDispositivo(String numero) {
-		DispositivoM nuevo = new DispositivoM();
-		nuevo.setNumero(numero);
 		for (DispositivoM d : this.dispositivosMoviles) {
-			if (d.equals(nuevo))
-				return nuevo;
+			if (d.getNumero().equals(numero))
+				return d;
 		}
 		return null;
 	}

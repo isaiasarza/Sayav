@@ -40,4 +40,9 @@
         <quantum>1</quantum>
         <timetolive>5</timetolive>
     </ns2:tipos>
+    <ns2:tipos>
+        <tipo>Notificacion Movil</tipo>
+        <quantum>1</quantum>
+        <timetolive>5</timetolive>
+    </ns2:tipos>
 </ns2:TiposMensajes>

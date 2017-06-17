@@ -90,6 +90,21 @@ public class PathUtil {
 
 		public static final String VER_DESCRIPCION = "/mensajes/descripcion/";
 		public static final String VIEW_ALL_MESSAGES_STATUS = "/mensajes/:estado/";
+		public static final String CAMBIAR_ESTADO_MENSAJE_ZOMBIE = "/mensajes/estado/cambiar/:estado/:id/";
+
+		public static final String CAMBIAR_ESTADO_MENSAJE = "/mensajes/estado/cambiar/";
+
+		public static String getCambiarEstadoMensajeZombie() {
+			return CAMBIAR_ESTADO_MENSAJE_ZOMBIE;
+		}
+
+		public static String getViewAllMessagesStatus() {
+			return VIEW_ALL_MESSAGES_STATUS;
+		}
+
+		public static String getCambiarEstadoMensaje() {
+			return CAMBIAR_ESTADO_MENSAJE;
+		}
 
 		public static String getEliminar() {
 			return ELIMINAR;

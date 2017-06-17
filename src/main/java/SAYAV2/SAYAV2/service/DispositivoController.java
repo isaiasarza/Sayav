@@ -90,13 +90,19 @@ private static File file = new File("SAYAV");
 		System.out.println("Eliminar Dispositivo");
 		//Se agrega el dispositivo a la lista de dispositivos		
 		Usuario usuario = usuarioDao.cargar(file);
-		String numero = RequestUtil.getQueryDispositivoABorrar(request);
-		DispositivoM d = usuario.getDispositivo(numero);
-		if(usuarioDao.eliminarDispositivo(d,file)){
+		String token = RequestUtil.getQueryDispositivoABorrar(request);
+		
+		if(usuarioDao.eliminarDispositivo(token,file)){
+			String title = "Desvinculacion";
+			String message = "Fue desvinculado de la central " + usuario.getSubdominio();
 			usuario = usuarioDao.cargar(file);
 			model.put("eliminarSuccess", true);
 			model.put("user", usuario);
-			model.put("listaDispositivos", usuario.getDispositivosMoviles()); 
+			model.put("listaDispositivos", usuario.getDispositivosMoviles());
+			if(!FirebaseCloudMessageController.post(title, message, token)){
+						
+				//TODO reenvio
+			}
 			return ViewUtil.render(request, model, PathUtil.Template.DISPOSITIVO);
 		}
 		//Actualizo el Usuario

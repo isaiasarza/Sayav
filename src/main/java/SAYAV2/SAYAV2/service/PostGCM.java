@@ -17,7 +17,7 @@ public class PostGCM {
 	 * @param apiKey
 	 * @param notificacion
 	 */
-	public static void post(String apiKey, NotificationMovil notificacion){
+	public static boolean post(String apiKey, NotificationMovil notificacion){
 		try {
 //			1.URL
 			URL url = new URL("https://fcm.googleapis.com/fcm/send");
@@ -34,6 +34,9 @@ public class PostGCM {
 	        conn.setRequestProperty("Authorization", "key="+apiKey);
 	       
 	        conn.setDoOutput(true);
+	        
+	        conn.setConnectTimeout(10000); //set timeout to 5 seconds
+
 	        
 	        // 5. Add JSON data into POST request body 
 	        
@@ -73,11 +76,15 @@ public class PostGCM {
             // 7. Print result
             System.out.println(response.toString());
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			return false;
+		} catch (java.net.SocketTimeoutException e) {
+			   return false;
+		}catch (IOException e) {
 			e.printStackTrace();
+			return false;
 		}
+		
+		return true;
 	}
 }

@@ -91,6 +91,8 @@ public class DispositivoM {
 	}
 
 	
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

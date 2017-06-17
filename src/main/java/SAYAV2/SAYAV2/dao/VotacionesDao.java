@@ -42,7 +42,9 @@ public class VotacionesDao extends GenericDao<Votaciones> {
 
 	public Votaciones agregarVotacion(Votacion votacion, Votaciones votaciones,
 			File votacionesPendientesFile) throws JAXBException {
-		votaciones.addVotacion(votacion);
+		if(!votaciones.addVotacion(votacion)){
+			return null;
+		}
 		this.guardar(votaciones, votacionesPendientesFile);
 		votaciones.getVotaciones().clear();
 		votaciones = this.cargar(votacionesPendientesFile);

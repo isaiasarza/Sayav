@@ -37,7 +37,7 @@
 	<complexType name="DispositivoM">
 		<sequence>
 			<element name="Numero" type="string"></element>
-			<element name="Token" type="string"></element>
+			<element name="Token" type="string" maxOccurs="1" minOccurs="1"></element>
 		</sequence>
 	</complexType>
 

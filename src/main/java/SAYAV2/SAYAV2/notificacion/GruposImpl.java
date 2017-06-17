@@ -304,8 +304,14 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 	}
 
 	@Override
-	public void notificarMoviles(List<DispositivoM> moviles, Mensaje msg) {
-		FirebaseCloudMessageController.post(msg.getTipoMensaje().getTipo(), msg.getDescripcion());
+	public void notificarMoviles(List<DispositivoM> moviles, Mensaje msg) throws JAXBException {
+		if(!FirebaseCloudMessageController.post(msg.getTipoMensaje().getTipo(), msg.getDescripcion())){
+			Mensaje m = msg.clone();
+			m.setId(m.generateId());
+			m.setEstado(EstadoUtils.Estado.PENDIENTE);
+			m.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.NOTIFICACION_MOVIL));
+			mensajeria.guardarMensaje(m);
+		}
 
 	}
 
@@ -327,6 +333,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		Usuario usuario = usuarioDao.cargar(usuarioFile);
 		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
 		usuarioDao.agregarMiembro(usuario.getSingleGrupoById(datos.getGrupo().getId()), datos.getMiembro());
+		notificacion.setTipo(msg.getTipoMensaje().getTipo());
 		notificacion.setDescripcion("El miembro " + datos.getMiembro().getDireccion()
 				+ " es parte del grupo " + datos.getGrupo().getNombre());
 		notificacion.setDetalle("Fue agregado por el miembro " + msg.getOrigen());
@@ -364,8 +371,8 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		Usuario usuario = usuarioDao.cargar(usuarioFile);
 
 		Votacion votacion = json.getGson().fromJson(msg.getDatos(), Votacion.class);
-		//TODO verificar que la votacion no exista, si existe se ignora la solicitud
 		votacionesPendientes = votacionesDao.agregarVotacion(votacion, votacionesPendientes, votacionesPendientesFile);
+
 		notificacion.setTipo(msg.getTipoMensaje().getTipo());
 		notificacion.setDescripcion("Se ha solicitado la baja del miembro " + votacion.getMiembro().getDireccion());
 		notificacion.setDetalle(
@@ -398,6 +405,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		}
 		votacionesDao.actualizarVotacion(votacion,votacionesFile);
 		procesarBajaMiembro(votacion);
+		
 		return notificacion;
 
 	}
@@ -425,6 +433,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		notificacion.setTipo(msg.getTipoMensaje().getTipo());
 		notificacion.setDescripcion("El miembro " + datos.getMiembro().getDireccion() + " es parte del grupo "
 				+ datos.getGrupo().getNombre());
+		notificacion.setDetalle("El grupo ahora contiene " + datos.getGrupo().getPeers().size() + " miembros");
 		return notificacion;
 	}
 

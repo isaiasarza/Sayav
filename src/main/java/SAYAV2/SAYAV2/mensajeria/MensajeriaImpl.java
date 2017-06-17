@@ -22,6 +22,7 @@ import SAYAV2.SAYAV2.model.Notificacion;
 import SAYAV2.SAYAV2.model.Peer;
 import SAYAV2.SAYAV2.model.TiposMensajes;
 import SAYAV2.SAYAV2.notificacion.GruposImpl;
+import SAYAV2.SAYAV2.service.FirebaseCloudMessageController;
 import SAYAV2.SAYAV2.service.JsonTransformer;
 
 public class MensajeriaImpl implements Mensajeria {
@@ -240,14 +241,24 @@ public class MensajeriaImpl implements Mensajeria {
 	public synchronized boolean reenviarMensaje(Mensaje msg, Date fechaActual) {
 		long aux = TimeUnit.DAYS.toMinutes(EstadoUtils.TIME_TO_LIVE_CONF);
 		long diff = FechaUtils.diffDays(msg.getFechaCreacion(), fechaActual);
+		
 		if (msg.getEstado().equals(EstadoUtils.Estado.CONFIRMADO) && diff >=  aux) {
 			return true;
 		}
-		if (!msg.getEstado().equals(EstadoUtils.Estado.PENDIENTE)) {
+		
+		if (msg.getEstado().equals(EstadoUtils.Estado.CONFIRMADO) || msg.getEstado().equals(EstadoUtils.Estado.ZOMBIE)) {
 			return false;
 		}
 		
-		if (diff >= msg.getTipoMensaje().getTimetolive()) {
+		if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NOTIFICACION_MOVIL) && msg.getEstado().equals(EstadoUtils.Estado.PENDIENTE)){
+			if(FirebaseCloudMessageController.post(msg.getTipoMensaje().getTipo(), msg.getDescripcion())){
+				msg.setEstado(EstadoUtils.Estado.CONFIRMADO);
+				actualizarMensaje(msg);
+			}
+			return false;
+		}		
+		
+		if (msg.getEstado().equals(EstadoUtils.Estado.PENDIENTE) && diff >= msg.getTipoMensaje().getTimetolive()) {
 			msg.setEstado(EstadoUtils.Estado.ZOMBIE);
 			actualizarMensaje(msg);
 			return false;
@@ -388,7 +399,7 @@ public class MensajeriaImpl implements Mensajeria {
 		return false;
 	}
 
-	public void actualizarMensajes(List<Mensaje> borrados) {
+	public void eliminarMensajes(List<Mensaje> borrados) {
 		mensajes.getMensaje().removeAll(borrados);
 		mensajesDao.guardar(mensajes, mensajesFile);
 	}
