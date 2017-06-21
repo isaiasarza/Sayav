@@ -15,18 +15,19 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import Datos.DatoGrupo;
-import SAYAV2.SAYAV2.Utils.EstadoUtils;
-import SAYAV2.SAYAV2.Utils.FechaUtils;
-import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
-import SAYAV2.SAYAV2.dao.UsuarioDao;
-import SAYAV2.SAYAV2.mensajeria.Mensaje;
-import SAYAV2.SAYAV2.mensajeria.MensajeriaImpl;
-import SAYAV2.SAYAV2.model.Grupo;
-import SAYAV2.SAYAV2.model.MensajesPendientes;
-import SAYAV2.SAYAV2.model.Peer;
-import SAYAV2.SAYAV2.model.Usuario;
-import SAYAV2.SAYAV2.service.JsonTransformer;
+import SAYAV2.Utils.EstadoUtils;
+import SAYAV2.Utils.FechaUtils;
+import SAYAV2.Utils.FileUtils;
+import SAYAV2.Utils.TipoMensajeUtils;
+import SAYAV2.dao.UsuarioDao;
+import SAYAV2.datos.DatoGrupo;
+import SAYAV2.mensajeria.Mensaje;
+import SAYAV2.mensajeria.MensajeriaImpl;
+import SAYAV2.model.Grupo;
+import SAYAV2.model.MensajesPendientes;
+import SAYAV2.model.Peer;
+import SAYAV2.model.Usuario;
+import SAYAV2.service.JsonTransformer;
 
 public class MensajeriaImplTest {
 	
@@ -42,7 +43,7 @@ public class MensajeriaImplTest {
 	@Before
 	public void setUp() throws Exception {
 		json = new JsonTransformer();
-		File file = new File("SAYAV");
+		File file = new File(FileUtils.getUsuarioFile());
 		usuarioDao = UsuarioDao.getInstance();
 		usuarioDao.setFile(file);
 		miembro = new Peer("nuevo_miembro.ddns.net");

@@ -11,16 +11,17 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import Datos.DatoVoto;
-import SAYAV2.SAYAV2.dao.UsuarioDao;
-import SAYAV2.SAYAV2.dao.VotacionesDao;
-import SAYAV2.SAYAV2.mensajeria.Mensaje;
-import SAYAV2.SAYAV2.model.Grupo;
-import SAYAV2.SAYAV2.model.Peer;
-import SAYAV2.SAYAV2.model.Usuario;
-import SAYAV2.SAYAV2.notificacion.GruposImpl;
-import SAYAV2.SAYAV2.notificacion.Votacion;
-import SAYAV2.SAYAV2.service.JsonTransformer;
+import SAYAV2.Utils.FileUtils;
+import SAYAV2.dao.UsuarioDao;
+import SAYAV2.dao.VotacionesDao;
+import SAYAV2.datos.DatoVoto;
+import SAYAV2.mensajeria.Mensaje;
+import SAYAV2.model.Grupo;
+import SAYAV2.model.Peer;
+import SAYAV2.model.Usuario;
+import SAYAV2.notificacion.GruposImpl;
+import SAYAV2.notificacion.Votacion;
+import SAYAV2.service.JsonTransformer;
 
 public class GruposImplTest {
 	
@@ -35,13 +36,13 @@ public class GruposImplTest {
 	JsonTransformer json;
 	@Before
 	public void setUp() throws Exception {
-		usuarioFile = new File("SAYAV");
+		usuarioFile = new File(FileUtils.getUsuarioFile());
 		usuarioDao = UsuarioDao.getInstance();
 		usuario = usuarioDao.cargar(usuarioFile);
 		grupos = new GruposImpl();
 		miembro = new Peer("lucas.ddns.net");
 		grupo = usuario.getGrupos().get(0);
-		votacionesFile = new File("votaciones");
+		votacionesFile = new File(FileUtils.getVotacionesFile());
 		votacionesDao = VotacionesDao.getInstance();
 		votacionesDao.setFile(votacionesFile);
 		json = new JsonTransformer();

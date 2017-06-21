@@ -10,9 +10,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import SAYAV2.SAYAV2.Utils.EstadoUtils;
-import SAYAV2.SAYAV2.mensajeria.Mensaje;
-import SAYAV2.SAYAV2.model.MensajesPendientes;
+import SAYAV2.Utils.EstadoUtils;
+import SAYAV2.dao.MensajePendienteDao;
+import SAYAV2.mensajeria.Mensaje;
+import SAYAV2.model.MensajesPendientes;
 
 public class MensajePendienteDaoTest {
 	

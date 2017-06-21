@@ -1,14 +1,13 @@
 package SAYAV2.SAYAV2.bussines;
 
-import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import SAYAV2.SAYAV2.dao.UsuarioDao;
-import SAYAV2.SAYAV2.model.Grupo;
-import SAYAV2.SAYAV2.model.Peer;
-import SAYAV2.SAYAV2.model.Usuario;
+import SAYAV2.bussines.ControllerMQTT;
+import SAYAV2.dao.UsuarioDao;
+import SAYAV2.model.Grupo;
+import SAYAV2.model.Peer;
+import SAYAV2.model.Usuario;
 
 public class ControllerMQTTTest {
 	

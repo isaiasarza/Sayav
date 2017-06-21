@@ -7,8 +7,9 @@ import javax.xml.bind.JAXBException;
 import org.junit.Before;
 import org.junit.Test;
 
-import SAYAV2.SAYAV2.dao.UsuarioDao;
-import SAYAV2.SAYAV2.model.Usuario;
+import SAYAV2.Utils.FileUtils;
+import SAYAV2.dao.UsuarioDao;
+import SAYAV2.model.Usuario;
 
 public class UsuarioTest {
 
@@ -24,7 +25,7 @@ public class UsuarioTest {
 		usuario.setDireccion("Entre Rios 749");
 		usuario.setEmail("arza.juan@gmail.com");
 		usuario.setSubdominio("juanjo");
-		usuarioFile = new File("SAYAV");
+		usuarioFile = new File(FileUtils.getUsuarioFile());
 		usuarioFile.setWritable(true);
 		usuarioFile.setReadable(true);
 	}

@@ -1,10 +1,12 @@
 package SAYAV2.SAYAV2.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.FileNotFoundException;
 
 import org.junit.Test;
+
+import SAYAV2.service.RegistrationController;
 
 public class RegistrationControllerTest {
 

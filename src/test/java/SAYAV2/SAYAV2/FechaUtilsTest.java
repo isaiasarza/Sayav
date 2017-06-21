@@ -1,6 +1,6 @@
 package SAYAV2.SAYAV2;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -9,7 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import SAYAV2.SAYAV2.Utils.FechaUtils;
+import SAYAV2.Utils.FechaUtils;
 
 public class FechaUtilsTest {
 	

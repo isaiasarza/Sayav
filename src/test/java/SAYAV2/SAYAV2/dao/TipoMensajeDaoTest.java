@@ -1,17 +1,16 @@
 package SAYAV2.SAYAV2.dao;
 
 import java.io.File;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
-import SAYAV2.SAYAV2.mensajeria.Mensaje;
-import SAYAV2.SAYAV2.mensajeria.TipoMensaje;
-import SAYAV2.SAYAV2.model.MensajesPendientes;
-import SAYAV2.SAYAV2.model.TiposMensajes;
+import SAYAV2.Utils.FileUtils;
+import SAYAV2.Utils.TipoMensajeUtils;
+import SAYAV2.dao.TipoMensajeDao;
+import SAYAV2.mensajeria.TipoMensaje;
+import SAYAV2.model.TiposMensajes;
 
 public class TipoMensajeDaoTest {
 	TipoMensajeDao tiposMensajesDao;
@@ -19,7 +18,7 @@ public class TipoMensajeDaoTest {
 	File file;
 	@Before
 	public void setUp() throws Exception {
-		file = new File("tipos_mensajes");
+		file = new File(FileUtils.TIPOS_MENSAJES_FILE);
 		tiposMensajesDao = TipoMensajeDao.getInstance();
 		tipos = new TiposMensajes();
 	}
@@ -32,15 +31,19 @@ public class TipoMensajeDaoTest {
 
 	@Test
 	public void test() {
-		long quantumGrupo = TimeUnit.HOURS.toMinutes(4);
-		long quantumVoto = TimeUnit.HOURS.toMinutes(1);
-		long quantumAlerta = 3;
-		tipos.getTipos().add(new TipoMensaje(TipoMensajeUtils.ALERTA, quantumAlerta));
-		tipos.getTipos().add(new TipoMensaje(TipoMensajeUtils.NUEVO_MIEMBRO, quantumGrupo));
-		tipos.getTipos().add(new TipoMensaje(TipoMensajeUtils.NUEVO_GRUPO, quantumGrupo));
-		tipos.getTipos().add(new TipoMensaje(TipoMensajeUtils.BAJA_MIEMBRO, quantumGrupo));
-		tipos.getTipos().add(new TipoMensaje(TipoMensajeUtils.SOLICITUD_BAJA_MIEMBRO, quantumGrupo));
-		tipos.getTipos().add(new TipoMensaje(TipoMensajeUtils.VOTO, TimeUnit.HOURS.toMinutes(quantumVoto)));
+		long quantumGrupo = 1;
+		long timeToLive = 5;
+
+		tipos.getTipos().add(new TipoMensaje(TipoMensajeUtils.ALERTA, quantumGrupo,timeToLive));
+		tipos.getTipos().add(new TipoMensaje(TipoMensajeUtils.NUEVO_MIEMBRO, quantumGrupo, timeToLive));
+		tipos.getTipos().add(new TipoMensaje(TipoMensajeUtils.NUEVO_GRUPO, quantumGrupo, timeToLive));
+		tipos.getTipos().add(new TipoMensaje(TipoMensajeUtils.BAJA_MIEMBRO, quantumGrupo, timeToLive));
+		tipos.getTipos().add(new TipoMensaje(TipoMensajeUtils.SOLICITUD_BAJA_MIEMBRO, quantumGrupo, timeToLive));
+		tipos.getTipos().add(new TipoMensaje(TipoMensajeUtils.VOTO, quantumGrupo, timeToLive));
+		tipos.getTipos().add(new TipoMensaje(TipoMensajeUtils.NOTIFICACION_MOVIL, quantumGrupo, timeToLive));
+		tipos.getTipos().add(new TipoMensaje(TipoMensajeUtils.BAJA_GRUPO, quantumGrupo, timeToLive));
+		tipos.getTipos().add(new TipoMensaje(TipoMensajeUtils.OK_CONFIRMACION, quantumGrupo, timeToLive));
+
 		tiposMensajesDao.guardar(tipos, file);
 
 

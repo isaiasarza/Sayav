@@ -1,10 +1,9 @@
 #macro(mainLayout)
 <html>
 <head>
-    <title>$msg.get("COMMON_TITLE")</title>
+    <title>SAYAV</title>
     <link rel="stylesheet" href="/main2.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="icon" href="/favicon.png">
     <meta charset="ISO-8859-1" name="viewport" content="width=device-width, initial-scale=1">
     
     
@@ -16,21 +15,21 @@
    		<a><img id="logo1" src="/img/logo1.png" alt="Sayav"></a>
    			
    		## <ul id="chooseLanguage">
-    		<form>
-           		<input type="hidden" name="localeLanguage" value="sp"></input>
-    		</form>
+    	##	<form>
+        ##   		<input type="hidden" name="localeLanguage" value="sp"></input>
+    	##	</form>
         ## </ul> 
     
     	<ul id="menu">        
         	#if($currentUser)            
             	<li>
                 	<form method="post" action="$WebPath.getLogout()">
-                 	   <button id="logout">$msg.get("COMMON_NAV_LOGOUT")</button>
+                 	   <button id="logout">Salir</button>
                     </form>
                </li>             	                
             
             #else
-               <li><a href="$WebPath.getLogin()">$msg.get("COMMON_NAV_LOGIN")</a></li>
+               <li><a href="$WebPath.getLogin()">Iniciar Sesion</a></li>
             #end
     	</ul>
     </nav>
@@ -80,11 +79,11 @@
 		
 						#if($!user.isAlarmaHabilitada())
                 			<form method="post" action="$WebPath.getAlarm()">
-                    			<button id="alarm">$msg.get("ENABLE_ALARM")</button>
+                    			<button id="alarm">Alarma Habilitada</button>
              				</form>
                 		#else
                				<form method="post" action="$WebPath.getAlarm()">
-                    			<button id="alarm" >$msg.get("DISABLE_ALARM")</button>
+                    			<button id="alarm" >Alarma Deshabilitada</button>
                  			</form>
                 		#end
 	
