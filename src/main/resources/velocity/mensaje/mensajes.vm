@@ -1,5 +1,6 @@
 #parse("/velocity/layout.vm") 
 #@mainLayout() 
+
   <h1>$msg.get("LIST_MESSAGE_HEADING")</h1> 
     
     #if($mostrarNotificacion) 
@@ -8,14 +9,18 @@
      </div> 
   #end 
 
- 
-         
-  <table> 
-   
-      <tr> 
-        <th align="center">Origen</th> 
-        <th align="center">Destino</th> 
-        <th align="center">
+
+
+<table cellspacing="0" cellpadding="0" border="0" width="600">
+
+ <tr>
+ <td>
+ <table cellspacing="0" cellpadding="0" border="0" width="600">        
+     
+     <tr>
+      <th align="center">Origen</th> 
+      <th align="center">Destino</th> 
+       <th align="center">
         	<div class="dropdown">
   				<button onclick="myFunction()" class="dropbtn">Estado</button>
   				<div id="myDropdown" class="dropdown-content">
@@ -32,15 +37,19 @@
   				</div>
 			</div>
         </th> 
-        <th align="center">Tipo</th>        
-       	<th align="center">Detalle</th> 
+       <th align="center">Tipo</th>        
+       <th align="center">Detalle</th> 
        	
        	##<th align="center">Eliminar</th> 
          
+     </tr>
+ </table>
+      		
+  	<div style="width:700px; height:400px; overflow:auto;">
+     
+     <table cellspacing="0" cellpadding="2" border="2" width="600" >
        
       #foreach($!m in $!mensajesPendientes.getMensaje())
-      
- 
       <tr> 
             <td> $!m.getOrigen()</td> 
             <td> $!m.getDestino()</td> 
@@ -50,36 +59,39 @@
 			class="w3-button">Ver</button></td>	 
 			
 			  <!-- Modal donde se muestra el detalle del mensaje -->
-		<div id=$foreach.count class="w3-modal">
+		   <div id=$foreach.count class="w3-modal">
   			<div class="w3-modal-content w3-animate-top">
-
+       
     			<header class="w3-container w3-teal"> 
       				<span onclick="document.getElementById($foreach.count).style.display='none'" 
       				class="w3-button w3-display-topright">&times;</span>
-      				<h2>Detalle</h2>
+      				<h2 style="text-align:left">Detalle</h2>
 				</header>
 
     			<div class="w3-container">
-			 		<p>Creacion: $!m.imprimirFechaCreacion()</p>
-			 		<p>Reenvio: $!m.imprimirFechaReenvio()</p>
+			 		<p style="text-align:left">Creacion: $!m.imprimirFechaCreacion()</p>
+			 		<p style="text-align:left">Reenvio: $!m.imprimirFechaReenvio()</p>
     				#foreach($!s1 in $!m.getDescripcion().split(":"))
-    					<p>$!s1</p>
+    					<p style="text-align:left">$!s1</p>
 					 #end 
     				
     				 #foreach($!s2 in $!m.getDetalle().split(":"))
-    					<p>$!s2</p>
+    					<p style="text-align:left">$!s2</p>
 				 	#end 
     			</div>
-
     		</div>
 		</div>	
   	             
-      </tr> 
+    </tr> 
      
-      #end 
-       
-    </table>     
-       
+    #end
+            
+ </table>  
+</div>
+</td>
+</tr>
+</table>
+  
 <script>
 
 /* When the user clicks on the button, 
