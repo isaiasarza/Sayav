@@ -1,4 +1,4 @@
-package SAYAV2.service;
+package SAYAV2.SAYAV2.service;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -10,7 +10,7 @@ import java.net.URL;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import SAYAV2.model.NotificationMovil;
+import SAYAV2.SAYAV2.model.NotificationMovil;
 
 public class PostGCM {
 	/**

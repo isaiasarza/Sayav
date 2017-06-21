@@ -1,4 +1,4 @@
-package SAYAV2.notificacion;
+package SAYAV2.SAYAV2.notificacion;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -7,23 +7,24 @@ import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
-import SAYAV2.Utils.EstadoUtils;
-import SAYAV2.Utils.FileUtils;
-import SAYAV2.Utils.TipoMensajeUtils;
-import SAYAV2.dao.TipoMensajeDao;
-import SAYAV2.dao.UsuarioDao;
-import SAYAV2.dao.VotacionesDao;
-import SAYAV2.datos.DatoGrupo;
-import SAYAV2.datos.DatoVoto;
-import SAYAV2.mensajeria.Mensaje;
-import SAYAV2.mensajeria.MensajeriaImpl;
-import SAYAV2.model.DispositivoM;
-import SAYAV2.model.Grupo;
-import SAYAV2.model.Notificacion;
-import SAYAV2.model.Peer;
-import SAYAV2.model.Usuario;
-import SAYAV2.service.FirebaseCloudMessageController;
-import SAYAV2.service.JsonTransformer;
+import Datos.DatoGrupo;
+import Datos.DatoVoto;
+import SAYAV2.SAYAV2.Utils.EstadoUtils;
+import SAYAV2.SAYAV2.Utils.FileUtils;
+import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
+import SAYAV2.SAYAV2.dao.TipoMensajeDao;
+import SAYAV2.SAYAV2.dao.UsuarioDao;
+import SAYAV2.SAYAV2.dao.VotacionesDao;
+import SAYAV2.SAYAV2.mensajeria.Mensaje;
+import SAYAV2.SAYAV2.mensajeria.MensajeriaImpl;
+import SAYAV2.SAYAV2.model.DispositivoM;
+import SAYAV2.SAYAV2.model.Grupo;
+import SAYAV2.SAYAV2.model.Notificacion;
+import SAYAV2.SAYAV2.model.Peer;
+import SAYAV2.SAYAV2.model.Usuario;
+import SAYAV2.SAYAV2.service.FirebaseCloudMessageController;
+import SAYAV2.SAYAV2.service.JsonTransformer;
+
 
 public class GruposImpl implements Grupos, NotificacionesApi {
 	private static GruposImpl grupos;
@@ -83,7 +84,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		Mensaje mensaje = new Mensaje();
 		mensaje.setOrigen(origen);
 		mensaje.setEstado(EstadoUtils.Estado.PENDIENTE);
-		mensaje.setTipoMensaje(mensajeria.getTipos().getTipo(TipoMensajeUtils.NUEVO_MIEMBRO));
+		mensaje.setTipoMensaje(tiposMensajeDao.getTipo(TipoMensajeUtils.NUEVO_MIEMBRO, tiposFile));
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 		mensaje.setDescripcion("El miembro " + miembro.getDireccion() + " es parte del grupo " + grupo.getNombre() + ":");
 		mensaje.setDatos(json.render(datos));
@@ -99,7 +100,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		mensaje.setDestino(miembro.getDireccion());
 		mensaje.setEstado(EstadoUtils.Estado.PENDIENTE);
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
-		mensaje.setTipoMensaje(mensajeria.getTipos().getTipo(TipoMensajeUtils.NUEVO_GRUPO));
+		mensaje.setTipoMensaje(tiposMensajeDao.getTipo(TipoMensajeUtils.NUEVO_GRUPO, tiposFile));		
 		mensaje.setFechaCreacion(new Date());
 		mensaje.setDescripcion("Usted es parte del grupo " + grupo.getNombre() + ":");
 		mensaje.setDatos(json.render(datos));
@@ -148,7 +149,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 			Mensaje msg = new Mensaje();
 			grupo.removePeer(miembro);
 			msg.setDatos(json.render(votacion));
-			msg.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.SOLICITUD_BAJA_MIEMBRO));
+			msg.setTipoMensaje(tiposMensajeDao.getTipo(TipoMensajeUtils.SOLICITUD_BAJA_MIEMBRO,tiposFile));
 			msg.setDescripcion("Se ha solicitado la baja de un miembro");
 			msg.setEstado(EstadoUtils.Estado.PENDIENTE);
 			msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
@@ -175,7 +176,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		// Creo el mensaje con los datos correspondientes a un abandonar grupo
 		Mensaje mensaje = new Mensaje();
 		mensaje.setOrigen(usuario.getSubdominio());
-		mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.BAJA_MIEMBRO));
+		mensaje.setTipoMensaje(tiposMensajeDao.getTipo(TipoMensajeUtils.BAJA_MIEMBRO,tiposFile));
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 		mensaje.setDescripcion("El miembro abandono el grupo el miembro");
 		mensaje.setDatos(json.render(datos));
@@ -201,7 +202,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		System.out.println(datos);
 		Mensaje mensaje = new Mensaje();
 		mensaje.setOrigen(usuario.getSubdominio());
-		mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.VOTO));
+		mensaje.setTipoMensaje(tiposMensajeDao.getTipo(TipoMensajeUtils.VOTO,tiposFile));
 		mensaje.setDescripcion("Voto el miembro");
 		mensaje.setDestino(votacion.getSolicitante().getDireccion());
 		mensaje.setDatos(json.render(datos));
@@ -224,7 +225,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		// Creo el mensaje con los datos correspondientes a un voto a favor
 		Mensaje mensaje = new Mensaje();
 		mensaje.setOrigen(usuario.getSubdominio());
-		mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.VOTO));
+		mensaje.setTipoMensaje(tiposMensajeDao.getTipo(TipoMensajeUtils.VOTO,tiposFile));
 		mensaje.setDescripcion("Voto el miembro");
 		mensaje.setDestino(votacion.getSolicitante().getDireccion());
 		mensaje.setDatos(json.render(datos));
@@ -265,7 +266,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		DatoGrupo datos = new DatoGrupo(miembro, g);
 		mensaje.setDatos(json.render(datos));
 		mensaje.setDescripcion("Se voto dar de baja al miembro");
-		mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.BAJA_MIEMBRO));
+		mensaje.setTipoMensaje(tiposMensajeDao.getTipo(TipoMensajeUtils.BAJA_MIEMBRO,tiposFile));
 		mensaje.setOrigen(usuario.getSubdominio());
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 		mensaje.setEstado(EstadoUtils.Estado.PENDIENTE);
@@ -276,7 +277,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 	private void notificarBajaGrupo(Mensaje mensaje, Peer eliminado) throws Exception {
 		mensaje.setDestino(eliminado.getDireccion());
 		mensaje.setDescripcion("Usted ha sido dado de baja");
-		mensaje.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.BAJA_GRUPO));
+		mensaje.setTipoMensaje(tiposMensajeDao.getTipo(TipoMensajeUtils.BAJA_GRUPO,tiposFile));
 		mensajeria.enviarSolicitud(mensaje);
 	}
 
@@ -314,7 +315,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 			Mensaje m = msg.clone();
 			m.setId(m.generateId());
 			m.setEstado(EstadoUtils.Estado.PENDIENTE);
-			m.setTipoMensaje(tiposMensajeDao.cargar(tiposFile).getTipo(TipoMensajeUtils.NOTIFICACION_MOVIL));
+			m.setTipoMensaje(tiposMensajeDao.getTipo(TipoMensajeUtils.NOTIFICACION_MOVIL,tiposFile));
 			mensajeria.guardarMensaje(m);
 		}
 

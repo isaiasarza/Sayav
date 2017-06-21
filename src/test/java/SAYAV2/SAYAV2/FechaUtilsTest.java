@@ -9,7 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import SAYAV2.Utils.FechaUtils;
+import SAYAV2.SAYAV2.Utils.FechaUtils;
 
 public class FechaUtilsTest {
 	

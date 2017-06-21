@@ -1,4 +1,4 @@
-package SAYAV2.dao;
+package SAYAV2.SAYAV2.dao;
 
 import java.io.File;
 import java.util.Date;
@@ -6,12 +6,13 @@ import java.util.Iterator;
 
 import javax.xml.bind.JAXBException;
 
-import SAYAV2.Utils.EstadoUtils;
-import SAYAV2.datos.DatoGrupo;
-import SAYAV2.mensajeria.Mensaje;
-import SAYAV2.mensajeria.TipoMensaje;
-import SAYAV2.model.MensajesPendientes;
-import SAYAV2.service.JsonTransformer;
+import Datos.DatoGrupo;
+import SAYAV2.SAYAV2.Utils.EstadoUtils;
+import SAYAV2.SAYAV2.mensajeria.Mensaje;
+import SAYAV2.SAYAV2.mensajeria.TipoMensaje;
+import SAYAV2.SAYAV2.model.MensajesPendientes;
+import SAYAV2.SAYAV2.service.JsonTransformer;
+
 
 public class MensajePendienteDao extends GenericDao<MensajesPendientes> {
 
@@ -64,8 +65,11 @@ public class MensajePendienteDao extends GenericDao<MensajesPendientes> {
 	
 	public synchronized boolean exist(DatoGrupo datos, TipoMensaje tipoMensaje, String tipoHandshake,String estado){
 		MensajesPendientes mensajes;
-		try {
+		
 			mensajes = this.cargar(file);
+			if(mensajes == null || mensajes.getMensaje().isEmpty()){
+				return false;
+			}
 			Iterator<Mensaje> iterator = mensajes.getMensaje().iterator();
 			while(iterator.hasNext()){
 				Mensaje mensaje = iterator.next();		
@@ -77,10 +81,7 @@ public class MensajePendienteDao extends GenericDao<MensajesPendientes> {
 					}
 				}
 			}
-		} catch (JAXBException e) {
-			e.printStackTrace();
-			return false;
-		}	
+		
 		return false;
 	}
 	
@@ -95,8 +96,14 @@ public class MensajePendienteDao extends GenericDao<MensajesPendientes> {
 	}
 	
 	@Override
-	public synchronized MensajesPendientes cargar(File file) throws JAXBException {
-		return super.cargar(file);
+	public synchronized MensajesPendientes cargar(File file)  {
+		try {
+			return super.cargar(file);
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new MensajesPendientes();
 	}
 	
 	@Override

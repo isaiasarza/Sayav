@@ -1,16 +1,17 @@
-package SAYAV2.service;
+package SAYAV2.SAYAV2.service;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import SAYAV2.Utils.FileUtils;
-import SAYAV2.Utils.PathUtil;
-import SAYAV2.Utils.ViewUtil;
-import SAYAV2.dao.MensajePendienteDao;
-import SAYAV2.dao.UsuarioDao;
-import SAYAV2.model.Grupo;
-import SAYAV2.model.Usuario;
+import SAYAV2.SAYAV2.Utils.FileUtils;
+import SAYAV2.SAYAV2.Utils.PathUtil;
+import SAYAV2.SAYAV2.Utils.RequestUtil;
+import SAYAV2.SAYAV2.Utils.ViewUtil;
+import SAYAV2.SAYAV2.dao.MensajePendienteDao;
+import SAYAV2.SAYAV2.dao.UsuarioDao;
+import SAYAV2.SAYAV2.model.Grupo;
+import SAYAV2.SAYAV2.model.Usuario;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -76,7 +77,7 @@ public class GrupoController {
 
 		Grupo grupo = new Grupo();
 //		grupo.setId(usuario.getGrupos().size() + 1);
-		grupo.setNombre(SAYAV2.Utils.RequestUtil.getQueryNombreGrupo(request));
+		grupo.setNombre(RequestUtil.getQueryNombreGrupo(request));
 		return grupo;
 	}
 

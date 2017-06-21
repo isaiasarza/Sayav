@@ -7,8 +7,8 @@ import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Test;
 
-import SAYAV2.model.Usuario;
-import SAYAV2.service.UsuarioController;
+import SAYAV2.SAYAV2.model.Usuario;
+import SAYAV2.SAYAV2.service.UsuarioController;
 
 public class UsuarioControllerTest {
 	Usuario usuario;

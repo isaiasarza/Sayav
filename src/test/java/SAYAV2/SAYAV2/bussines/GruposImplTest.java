@@ -11,17 +11,17 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import SAYAV2.Utils.FileUtils;
-import SAYAV2.dao.UsuarioDao;
-import SAYAV2.dao.VotacionesDao;
-import SAYAV2.datos.DatoVoto;
-import SAYAV2.mensajeria.Mensaje;
-import SAYAV2.model.Grupo;
-import SAYAV2.model.Peer;
-import SAYAV2.model.Usuario;
-import SAYAV2.notificacion.GruposImpl;
-import SAYAV2.notificacion.Votacion;
-import SAYAV2.service.JsonTransformer;
+import Datos.DatoVoto;
+import SAYAV2.SAYAV2.Utils.FileUtils;
+import SAYAV2.SAYAV2.dao.UsuarioDao;
+import SAYAV2.SAYAV2.dao.VotacionesDao;
+import SAYAV2.SAYAV2.mensajeria.Mensaje;
+import SAYAV2.SAYAV2.model.Grupo;
+import SAYAV2.SAYAV2.model.Peer;
+import SAYAV2.SAYAV2.model.Usuario;
+import SAYAV2.SAYAV2.notificacion.GruposImpl;
+import SAYAV2.SAYAV2.notificacion.Votacion;
+import SAYAV2.SAYAV2.service.JsonTransformer;
 
 public class GruposImplTest {
 	

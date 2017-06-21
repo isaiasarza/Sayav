@@ -1,7 +1,7 @@
 #macro(mainLayout)
 <html>
 <head>
-    <title>$msg.get("COMMON_TITLE")</title>
+    <title>SAYAV</title>
     <link rel="stylesheet" href="/main2.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="icon" href="/favicon.png">
@@ -17,21 +17,89 @@
    		<a><img id="logo1" src="/img/logo1.png" alt="Sayav"></a>
    			
    		## <ul id="chooseLanguage">
-    		<form>
-           		<input type="hidden" name="localeLanguage" value="sp"></input>
-    		</form>
+    	##	<form>
+        ##   		<input type="hidden" name="localeLanguage" value="sp"></input>
+    	##	</form>
         ## </ul> 
     
     	<ul id="menu">        
         	#if($currentUser)            
             	<li>
                 	<form method="post" action="$WebPath.getLogout()">
-                 	   <button id="logout">$msg.get("COMMON_NAV_LOGOUT")</button>
+                 	   <button id="logout">Salir</button>
                     </form>
                </li>             	                
             
             #else
-               <li><a href="$WebPath.getLogin()">$msg.get("COMMON_NAV_LOGIN")</a></li>
+               <li><a href="$WebPath.getLogin()">Iniciar Sesion</a></li>
             #end
     	</ul>
     </nav>
+
+</header>
+
+
+	
+<main>
+	#if($mostrarNotificacion)
+		<div class="infoAlert">	
+  	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Prueba
+ 		</div>
+	#end
+	#if($currentUser)
+	
+	    
+	   ## <div class="row" >
+	##		<form method="post" action="$WebPath.getPanicButton()">
+    ##	    	<input type="image" id="panicButton" src="/img/boton_panico_4.png" >    
+    ##	   	</form> 
+  	##	</div>
+  		
+   	##	#if($!panicButton)
+	  ## 		<div class="problemAlert">	
+	  ## 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Se activo el boton de panico
+	  ## 		</div>
+	##	#end
+		
+		
+		<nav id ="menuFlotante" class="navbar navbar-inverse">
+	  	<div class="container-fluid">
+    		<div class="collapse navbar-collapse" id="myNavbar">
+      			<ul class="nav navbar-nav">
+        			<li><a href=$WebPath.getUpdateU()>Datos</a> </li>
+        			<li><a href=$WebPath.getDispositivo()>Movil</a> </li>
+        			<li><a href=$WebPath.getSector()>Sectores</a> </li>
+        			<li><a href=$WebPath.getNewGroup()>Grupo</a> </li>
+        	        <li><a href=$WebPath.getViewAllMessages()>Mensajes</a> </li> 
+            		<li><a href=$WebPath.getVerVotaciones()>Votaciones</a> </li>
+        			<li><a href=$WebPath.getShowNotification()>Notificaciones</a> </li>
+        			
+      			</ul>
+			</div>
+  		</div>
+		</nav>
+		
+						#if($!user.isAlarmaHabilitada())
+                			<form method="post" action="$WebPath.getAlarm()">
+                    			<button id="alarm">Alarma Habilitada</button>
+             				</form>
+                		#else
+               				<form method="post" action="$WebPath.getAlarm()">
+                    			<button id="alarm" >Alarma Deshabilitada</button>
+                 			</form>
+                		#end
+	
+            
+	#end
+	
+    <div id="content">
+    	$!bodyContent
+    </div>
+    
+</main>
+<footer>
+
+</footer>
+</body>
+</html>
+#end

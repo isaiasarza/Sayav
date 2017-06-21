@@ -1,4 +1,4 @@
-package SAYAV2.service;
+package SAYAV2.SAYAV2.service;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,15 +16,15 @@ import javax.xml.bind.JAXBException;
 
 import org.apache.commons.validator.routines.DomainValidator;
 
-import SAYAV2.Utils.FileUtils;
-import SAYAV2.Utils.PathUtil;
-import SAYAV2.Utils.RequestUtil;
-import SAYAV2.Utils.ViewUtil;
-import SAYAV2.bussines.ControllerMQTT;
-import SAYAV2.dao.ConfiguratorDao;
-import SAYAV2.model.Configurator;
-import SAYAV2.model.Sector;
-import SAYAV2.model.Usuario;
+import SAYAV2.SAYAV2.Utils.FileUtils;
+import SAYAV2.SAYAV2.Utils.PathUtil;
+import SAYAV2.SAYAV2.Utils.RequestUtil;
+import SAYAV2.SAYAV2.Utils.ViewUtil;
+import SAYAV2.SAYAV2.bussines.ControllerMQTT;
+import SAYAV2.SAYAV2.dao.ConfiguratorDao;
+import SAYAV2.SAYAV2.model.Configurator;
+import SAYAV2.SAYAV2.model.Sector;
+import SAYAV2.SAYAV2.model.Usuario;
 import spark.Request;
 import spark.Response;
 import spark.Route;

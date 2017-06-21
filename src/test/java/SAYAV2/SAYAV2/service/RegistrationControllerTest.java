@@ -6,8 +6,6 @@ import java.io.FileNotFoundException;
 
 import org.junit.Test;
 
-import SAYAV2.service.RegistrationController;
-
 public class RegistrationControllerTest {
 
 	@Test

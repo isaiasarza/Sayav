@@ -1,4 +1,4 @@
-package SAYAV2.service;
+package SAYAV2.SAYAV2.service;
 
 import java.io.File;
 import java.util.Collections;
@@ -7,13 +7,13 @@ import java.util.Map;
 
 import javax.xml.bind.JAXBException;
 
-import SAYAV2.Utils.FileUtils;
-import SAYAV2.Utils.PathUtil;
-import SAYAV2.Utils.ViewUtil;
-import SAYAV2.dao.NotificacionesDao;
-import SAYAV2.dao.UsuarioDao;
-import SAYAV2.model.Notificaciones;
-import SAYAV2.model.Usuario;
+import SAYAV2.SAYAV2.Utils.FileUtils;
+import SAYAV2.SAYAV2.Utils.PathUtil;
+import SAYAV2.SAYAV2.Utils.ViewUtil;
+import SAYAV2.SAYAV2.dao.NotificacionesDao;
+import SAYAV2.SAYAV2.dao.UsuarioDao;
+import SAYAV2.SAYAV2.model.Notificaciones;
+import SAYAV2.SAYAV2.model.Usuario;
 import spark.Request;
 import spark.Response;
 import spark.Route;

@@ -1,4 +1,4 @@
-package SAYAV2.Utils;
+package SAYAV2.SAYAV2.Utils;
 
 public class TipoMensajeUtils {
 	public static final Object OK = "Ok";

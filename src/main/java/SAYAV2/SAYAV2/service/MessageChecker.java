@@ -1,4 +1,4 @@
-package SAYAV2.service;
+package SAYAV2.SAYAV2.service;
 
 import java.util.Date;
 import java.util.Iterator;
@@ -6,9 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import SAYAV2.mensajeria.Mensaje;
-import SAYAV2.mensajeria.MensajeriaImpl;
-import SAYAV2.model.MensajesPendientes;
+import SAYAV2.SAYAV2.mensajeria.Mensaje;
+import SAYAV2.SAYAV2.mensajeria.MensajeriaImpl;
+import SAYAV2.SAYAV2.model.MensajesPendientes;
 
 public class MessageChecker implements Runnable {
 

@@ -6,7 +6,7 @@
 //
 
 
-package SAYAV2.notificacion;
+package SAYAV2.SAYAV2.notificacion;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,8 +17,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import SAYAV2.model.Grupo;
-import SAYAV2.model.Peer;
+import SAYAV2.SAYAV2.model.Grupo;
+import SAYAV2.SAYAV2.model.Peer;
+
 
 
 /**

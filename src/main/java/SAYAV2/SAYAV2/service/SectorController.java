@@ -1,4 +1,4 @@
-package SAYAV2.service;
+package SAYAV2.SAYAV2.service;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,17 +10,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import SAYAV2.Utils.FileUtils;
-import SAYAV2.Utils.PathUtil;
-import SAYAV2.Utils.RequestUtil;
-import SAYAV2.Utils.TipoMensajeUtils;
-import SAYAV2.Utils.ViewUtil;
-import SAYAV2.dao.TipoMensajeDao;
-import SAYAV2.dao.UsuarioDao;
-import SAYAV2.mensajeria.Mensaje;
-import SAYAV2.model.Sector;
-import SAYAV2.model.Usuario;
-import SAYAV2.notificacion.GruposImpl;
+import SAYAV2.SAYAV2.Utils.FileUtils;
+import SAYAV2.SAYAV2.Utils.PathUtil;
+import SAYAV2.SAYAV2.Utils.RequestUtil;
+import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
+import SAYAV2.SAYAV2.Utils.ViewUtil;
+import SAYAV2.SAYAV2.dao.TipoMensajeDao;
+import SAYAV2.SAYAV2.dao.UsuarioDao;
+import SAYAV2.SAYAV2.mensajeria.Mensaje;
+import SAYAV2.SAYAV2.model.Sector;
+import SAYAV2.SAYAV2.model.Usuario;
+import SAYAV2.SAYAV2.notificacion.GruposImpl;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -92,7 +92,7 @@ public class SectorController {
 	private static Sector initSector(Request request) {
 
 		Sector sector = new Sector();
-		sector.setNombre(SAYAV2.Utils.RequestUtil.getQueryNombre(request));
+		sector.setNombre(RequestUtil.getQueryNombre(request));
 
 		return sector;
 	}

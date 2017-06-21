@@ -6,11 +6,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import SAYAV2.Utils.FileUtils;
-import SAYAV2.Utils.TipoMensajeUtils;
-import SAYAV2.dao.TipoMensajeDao;
-import SAYAV2.mensajeria.TipoMensaje;
-import SAYAV2.model.TiposMensajes;
+import SAYAV2.SAYAV2.Utils.FileUtils;
+import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
+import SAYAV2.SAYAV2.mensajeria.TipoMensaje;
+import SAYAV2.SAYAV2.model.TiposMensajes;
 
 public class TipoMensajeDaoTest {
 	TipoMensajeDao tiposMensajesDao;

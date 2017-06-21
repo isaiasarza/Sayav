@@ -1,4 +1,4 @@
-package SAYAV2.Utils;
+package SAYAV2.SAYAV2.Utils;
 
 public class FileUtils {
 	public static final String CONFIGURATOR_FILE = "configurator";

@@ -3,7 +3,7 @@ package SAYAV2.SAYAV2.Utils;
 import java.util.List;
 
 import SAYAV2.SAYAV2.model.Sector;
-import spark.*;
+import spark.Request;
 
 public class RequestUtil {
 

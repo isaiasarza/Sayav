@@ -15,19 +15,19 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import SAYAV2.Utils.EstadoUtils;
-import SAYAV2.Utils.FechaUtils;
-import SAYAV2.Utils.FileUtils;
-import SAYAV2.Utils.TipoMensajeUtils;
-import SAYAV2.dao.UsuarioDao;
-import SAYAV2.datos.DatoGrupo;
-import SAYAV2.mensajeria.Mensaje;
-import SAYAV2.mensajeria.MensajeriaImpl;
-import SAYAV2.model.Grupo;
-import SAYAV2.model.MensajesPendientes;
-import SAYAV2.model.Peer;
-import SAYAV2.model.Usuario;
-import SAYAV2.service.JsonTransformer;
+import Datos.DatoGrupo;
+import SAYAV2.SAYAV2.Utils.EstadoUtils;
+import SAYAV2.SAYAV2.Utils.FechaUtils;
+import SAYAV2.SAYAV2.Utils.FileUtils;
+import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
+import SAYAV2.SAYAV2.dao.UsuarioDao;
+import SAYAV2.SAYAV2.mensajeria.Mensaje;
+import SAYAV2.SAYAV2.mensajeria.MensajeriaImpl;
+import SAYAV2.SAYAV2.model.Grupo;
+import SAYAV2.SAYAV2.model.MensajesPendientes;
+import SAYAV2.SAYAV2.model.Peer;
+import SAYAV2.SAYAV2.model.Usuario;
+import SAYAV2.SAYAV2.service.JsonTransformer;
 
 public class MensajeriaImplTest {
 	
@@ -55,7 +55,7 @@ public class MensajeriaImplTest {
 		mensaje.setDescripcion("Prueba2");
 		mensaje.setEstado(EstadoUtils.Estado.PENDIENTE);
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
-		mensaje.setTipoMensaje(mensajeria.getTipos().getTipo(TipoMensajeUtils.NUEVO_MIEMBRO));
+		//mensaje.setTipoMensaje(tiposMensajesDao.getTipo(TipoMensajeUtils.NUEVO_MIEMBRO));
 	}
 
 	@After

@@ -1,4 +1,4 @@
-package SAYAV2.service;
+package SAYAV2.SAYAV2.service;
 
 
 import static spark.Spark.get;
@@ -10,11 +10,11 @@ import java.io.File;
 
 import javax.xml.bind.JAXBException;
 
-import SAYAV2.Utils.FileUtils;
-import SAYAV2.Utils.PathUtil;
-import SAYAV2.bussines.ControllerMQTT;
-import SAYAV2.dao.ConfiguratorDao;
-import SAYAV2.model.Configurator;
+import SAYAV2.SAYAV2.Utils.FileUtils;
+import SAYAV2.SAYAV2.Utils.PathUtil;
+import SAYAV2.SAYAV2.bussines.ControllerMQTT;
+import SAYAV2.SAYAV2.dao.ConfiguratorDao;
+import SAYAV2.SAYAV2.model.Configurator;
 
 
 public class Application {

@@ -1,4 +1,4 @@
-package SAYAV2.service;
+package SAYAV2.SAYAV2.service;
 
 import static j2html.TagCreator.article;
 import static j2html.TagCreator.b;
@@ -16,11 +16,11 @@ import javax.xml.bind.JAXBException;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
 
-import SAYAV2.Utils.FileUtils;
-import SAYAV2.dao.UsuarioDao;
-import SAYAV2.model.Grupo;
-import SAYAV2.model.Peer;
-import SAYAV2.model.Usuario;
+import SAYAV2.SAYAV2.Utils.FileUtils;
+import SAYAV2.SAYAV2.dao.UsuarioDao;
+import SAYAV2.SAYAV2.model.Grupo;
+import SAYAV2.SAYAV2.model.Peer;
+import SAYAV2.SAYAV2.model.Usuario;
 
 
 public class PeerService {

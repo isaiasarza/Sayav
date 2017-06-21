@@ -1,10 +1,13 @@
-package SAYAV2.mensajeria;
+package SAYAV2.SAYAV2.mensajeria;
 
 import java.util.Date;
 
 import javax.xml.bind.JAXBException;
 
-import SAYAV2.model.Grupo;
+import SAYAV2.SAYAV2.model.Grupo;
+
+
+
 
 public interface Mensajeria {
 	void procesarMensaje(Mensaje msg) throws JAXBException, Exception;

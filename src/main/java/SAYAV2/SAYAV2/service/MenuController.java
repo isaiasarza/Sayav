@@ -1,10 +1,10 @@
-package SAYAV2.service;
+package SAYAV2.SAYAV2.service;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import SAYAV2.Utils.PathUtil;
-import SAYAV2.Utils.ViewUtil;
+import SAYAV2.SAYAV2.Utils.PathUtil;
+import SAYAV2.SAYAV2.Utils.ViewUtil;
 import spark.Request;
 import spark.Response;
 import spark.Route;

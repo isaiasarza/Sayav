@@ -1,9 +1,11 @@
-package SAYAV2.dao;
+package SAYAV2.SAYAV2.dao;
 
 import javax.xml.bind.JAXBException;
 
-import SAYAV2.model.Notificacion;
-import SAYAV2.model.Notificaciones;
+import SAYAV2.SAYAV2.model.Notificacion;
+import SAYAV2.SAYAV2.model.Notificaciones;
+
+
 
 public class NotificacionesDao extends GenericDao<Notificaciones> {
 	private static NotificacionesDao notificacionesDao;

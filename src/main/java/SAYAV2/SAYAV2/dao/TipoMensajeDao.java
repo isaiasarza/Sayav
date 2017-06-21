@@ -1,11 +1,13 @@
-package SAYAV2.dao;
+package SAYAV2.SAYAV2.dao;
 
 import java.io.File;
 
 import javax.xml.bind.JAXBException;
 
-import SAYAV2.mensajeria.TipoMensaje;
-import SAYAV2.model.TiposMensajes;
+import SAYAV2.SAYAV2.mensajeria.TipoMensaje;
+import SAYAV2.SAYAV2.model.TiposMensajes;
+
+
 
 public class TipoMensajeDao extends GenericDao<TiposMensajes>{
 	

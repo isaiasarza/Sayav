@@ -1,11 +1,13 @@
-package SAYAV2.bussines;
+package SAYAV2.SAYAV2.bussines;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import SAYAV2.model.DispositivoM;
-import SAYAV2.model.Sector;
-import SAYAV2.model.Usuario;
+import SAYAV2.SAYAV2.model.DispositivoM;
+import SAYAV2.SAYAV2.model.Sector;
+import SAYAV2.SAYAV2.model.Usuario;
+
+
 
 public class Alarma {
 

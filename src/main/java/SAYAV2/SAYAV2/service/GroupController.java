@@ -1,4 +1,4 @@
-package SAYAV2.service;
+package SAYAV2.SAYAV2.service;
 
 import java.io.File;
 import java.util.Collections;
@@ -10,22 +10,22 @@ import javax.xml.bind.JAXBException;
 
 import org.apache.commons.validator.routines.DomainValidator;
 
-import SAYAV2.Utils.EstadoUtils;
-import SAYAV2.Utils.FileUtils;
-import SAYAV2.Utils.PathUtil;
-import SAYAV2.Utils.RequestUtil;
-import SAYAV2.Utils.ViewUtil;
-import SAYAV2.dao.MensajePendienteDao;
-import SAYAV2.dao.UsuarioDao;
-import SAYAV2.dao.VotacionesDao;
-import SAYAV2.mensajeria.Mensaje;
-import SAYAV2.model.Grupo;
-import SAYAV2.model.MensajesPendientes;
-import SAYAV2.model.Peer;
-import SAYAV2.model.Usuario;
-import SAYAV2.notificacion.GruposImpl;
-import SAYAV2.notificacion.Votacion;
-import SAYAV2.notificacion.Votaciones;
+import SAYAV2.SAYAV2.Utils.EstadoUtils;
+import SAYAV2.SAYAV2.Utils.FileUtils;
+import SAYAV2.SAYAV2.Utils.PathUtil;
+import SAYAV2.SAYAV2.Utils.RequestUtil;
+import SAYAV2.SAYAV2.Utils.ViewUtil;
+import SAYAV2.SAYAV2.dao.MensajePendienteDao;
+import SAYAV2.SAYAV2.dao.UsuarioDao;
+import SAYAV2.SAYAV2.dao.VotacionesDao;
+import SAYAV2.SAYAV2.mensajeria.Mensaje;
+import SAYAV2.SAYAV2.model.Grupo;
+import SAYAV2.SAYAV2.model.MensajesPendientes;
+import SAYAV2.SAYAV2.model.Peer;
+import SAYAV2.SAYAV2.model.Usuario;
+import SAYAV2.SAYAV2.notificacion.GruposImpl;
+import SAYAV2.SAYAV2.notificacion.Votacion;
+import SAYAV2.SAYAV2.notificacion.Votaciones;
 import spark.Request;
 import spark.Response;
 import spark.Route;

@@ -11,9 +11,9 @@ import java.io.File;
 import org.junit.Before;
 import org.junit.Test;
 
-import SAYAV2.Utils.FileUtils;
-import SAYAV2.dao.ConfiguratorDao;
-import SAYAV2.model.Configurator;
+import SAYAV2.SAYAV2.Utils.FileUtils;
+import SAYAV2.SAYAV2.dao.ConfiguratorDao;
+import SAYAV2.SAYAV2.model.Configurator;
 
 /**
  * @author Naza

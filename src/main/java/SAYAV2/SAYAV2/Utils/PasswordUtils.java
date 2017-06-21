@@ -1,8 +1,8 @@
-package SAYAV2.Utils;
+package SAYAV2.SAYAV2.Utils;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import SAYAV2.model.Usuario;
+import SAYAV2.SAYAV2.model.Usuario;
 
 public class PasswordUtils {
 	public static String generarContraseña(Usuario usuario){

@@ -1,4 +1,4 @@
-package SAYAV2.service;
+package SAYAV2.SAYAV2.service;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -11,7 +11,7 @@ import java.net.URL;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import SAYAV2.mensajeria.Mensaje;
+import SAYAV2.SAYAV2.mensajeria.Mensaje;
 
 public class PostGrupo {
 	public static void post(String dominio, Mensaje notificacion) throws ProtocolException, MalformedURLException,IOException{

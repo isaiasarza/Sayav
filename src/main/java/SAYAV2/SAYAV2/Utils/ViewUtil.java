@@ -1,17 +1,21 @@
 package SAYAV2.SAYAV2.Utils;
 
-import org.apache.velocity.app.VelocityEngine;
-import org.eclipse.jetty.http.*;
-import spark.*;
-import spark.template.velocity.*;
-
-
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.velocity.app.VelocityEngine;
+import org.eclipse.jetty.http.HttpStatus;
+
+import spark.ModelAndView;
+import spark.Request;
+import spark.Response;
+import spark.Route;
+import spark.template.velocity.VelocityTemplateEngine;
 
 public class ViewUtil {
 

@@ -1,7 +1,7 @@
-package SAYAV2.bussines;
+package SAYAV2.SAYAV2.bussines;
 
-import SAYAV2.model.Grupo;
-import SAYAV2.model.Peer;
+import SAYAV2.SAYAV2.model.Grupo;
+import SAYAV2.SAYAV2.model.Peer;
 
 public interface Grupos {
 	void añadirMiembro(Grupo grupo, Peer miembro);

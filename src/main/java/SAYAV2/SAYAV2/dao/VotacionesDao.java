@@ -1,13 +1,14 @@
-package SAYAV2.dao;
+package SAYAV2.SAYAV2.dao;
 
 import java.io.File;
 import java.util.Iterator;
 
 import javax.xml.bind.JAXBException;
 
-import SAYAV2.model.Peer;
-import SAYAV2.notificacion.Votacion;
-import SAYAV2.notificacion.Votaciones;
+import SAYAV2.SAYAV2.model.Peer;
+import SAYAV2.SAYAV2.notificacion.Votacion;
+import SAYAV2.SAYAV2.notificacion.Votaciones;
+
 
 public class VotacionesDao extends GenericDao<Votaciones> {
 	

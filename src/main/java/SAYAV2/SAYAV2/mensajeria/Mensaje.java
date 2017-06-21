@@ -5,7 +5,7 @@
 // Generated on: 2017.05.26 at 04:38:39 PM ART 
 //
 
-package SAYAV2.mensajeria;
+package SAYAV2.SAYAV2.mensajeria;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

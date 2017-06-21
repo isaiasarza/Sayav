@@ -6,9 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import SAYAV2.Utils.FileUtils;
-import SAYAV2.dao.NotificacionesDao;
-import SAYAV2.model.Notificacion;
+import SAYAV2.SAYAV2.Utils.FileUtils;
+import SAYAV2.SAYAV2.model.Notificacion;
 
 public class NotificacionesDaoTest {
 	NotificacionesDao notisDao;

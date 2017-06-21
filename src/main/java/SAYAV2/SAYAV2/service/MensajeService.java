@@ -1,7 +1,7 @@
-package SAYAV2.service;
+package SAYAV2.SAYAV2.service;
 
-import SAYAV2.mensajeria.Mensaje;
-import SAYAV2.model.Usuario;
+import SAYAV2.SAYAV2.mensajeria.Mensaje;
+import SAYAV2.SAYAV2.model.Usuario;
 
 public class MensajeService {
 	

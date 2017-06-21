@@ -10,10 +10,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import SAYAV2.Utils.FileUtils;
-import SAYAV2.dao.UsuarioDao;
-import SAYAV2.model.DispositivoM;
-import SAYAV2.model.Usuario;
+import SAYAV2.SAYAV2.Utils.FileUtils;
+import SAYAV2.SAYAV2.model.DispositivoM;
+import SAYAV2.SAYAV2.model.Usuario;
 
 public class UsuarioDaoTest {
 	private File file;

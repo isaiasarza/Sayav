@@ -11,9 +11,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import SAYAV2.Utils.FileUtils;
-import SAYAV2.dao.VotacionesDao;
-import SAYAV2.notificacion.Votacion;
+import SAYAV2.SAYAV2.Utils.FileUtils;
+import SAYAV2.SAYAV2.notificacion.Votacion;
 
 public class VotacionesDaoTest {
 	VotacionesDao votacionesDao;
