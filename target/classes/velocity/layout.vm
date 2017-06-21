@@ -1,0 +1,37 @@
+#macro(mainLayout)
+<html>
+<head>
+    <title>$msg.get("COMMON_TITLE")</title>
+    <link rel="stylesheet" href="/main2.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="icon" href="/favicon.png">
+    
+    <meta charset="ISO-8859-1" name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+</head>
+<body>
+<header>
+   <nav> 
+   		<a><img id="logo" src="/img/alarm.png" alt="Sayav"></a>
+   		<a><img id="logo1" src="/img/logo1.png" alt="Sayav"></a>
+   			
+   		## <ul id="chooseLanguage">
+    		<form>
+           		<input type="hidden" name="localeLanguage" value="sp"></input>
+    		</form>
+        ## </ul> 
+    
+    	<ul id="menu">        
+        	#if($currentUser)            
+            	<li>
+                	<form method="post" action="$WebPath.getLogout()">
+                 	   <button id="logout">$msg.get("COMMON_NAV_LOGOUT")</button>
+                    </form>
+               </li>             	                
+            
+            #else
+               <li><a href="$WebPath.getLogin()">$msg.get("COMMON_NAV_LOGIN")</a></li>
+            #end
+    	</ul>
+    </nav>
