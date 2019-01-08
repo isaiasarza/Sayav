@@ -22,11 +22,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/Documentos/Descargas/jaxb-ri-2.2.11/jaxb-ri/lib/jaxb-core.jar"/>
-	<classpathentry kind="lib" path="D:/Documentos/Descargas/jaxb-ri-2.2.11/jaxb-ri/lib/jaxb-api.jar"/>
-	<classpathentry kind="lib" path="D:/Documentos/Descargas/jaxb-ri-2.2.11/jaxb-ri/lib/jaxb-impl.jar"/>
-	<classpathentry kind="lib" path="D:/Documentos/Descargas/jaxb-ri-2.2.11/jaxb-ri/lib/jaxb-jxc.jar"/>
-	<classpathentry kind="lib" path="D:/Documentos/Descargas/jaxb-ri-2.2.11/jaxb-ri/lib/jaxb-xjc.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources">
 		<attributes>
