@@ -1,16 +1,25 @@
 package SAYAV2.SAYAV2.mensajeria;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBException;
 
 import Datos.DatoGrupo;
+import SAYAV2.SAYAV2.Utils.ClassLoaderPathResolver;
 import SAYAV2.SAYAV2.Utils.EstadoUtils;
 import SAYAV2.SAYAV2.Utils.FechaUtils;
 import SAYAV2.SAYAV2.Utils.FileUtils;
+import SAYAV2.SAYAV2.Utils.IPathResolver;
+import SAYAV2.SAYAV2.Utils.PathResolver;
 import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
 import SAYAV2.SAYAV2.bussines.ControllerMQTT;
 import SAYAV2.SAYAV2.dao.MensajePendienteDao;
@@ -42,23 +51,31 @@ public class MensajeriaImpl implements Mensajeria {
 	private static ControllerMQTT conn;
 	private JsonTransformer json;
 	private GruposImpl gruposImpl;
+	private PathResolver pathResolver = IPathResolver.getInstance();
 
 	private MensajeriaImpl() {
 		super();
-		tiposFile = new File(FileUtils.getTiposMensajesFile());
-		mensajesFile = new File(FileUtils.getMensajesFile());
+		tiposFile = new File(pathResolver.getPath(FileUtils.getTiposMensajesFile()));
+		mensajesFile = new File(pathResolver.getPath(FileUtils.getMensajesFile()));
 		this.tipoMensajeDao = TipoMensajeDao.getInstance();
 		this.mensajesDao = MensajePendienteDao.getInstance();
 		this.mensajesDao.setFile(mensajesFile);
-		this.file = new File(FileUtils.getUsuarioFile());
+		this.file = new File(pathResolver.getPath(FileUtils.getUsuarioFile()));
 		this.usuarioDao = UsuarioDao.getInstance();
 		this.usuarioDao.setFile(file);
 		this.json = new JsonTransformer();
-		this.notificacionesFile = new File(FileUtils.getNotificacionesFile());
+		this.notificacionesFile = new File(pathResolver.getPath(FileUtils.getNotificacionesFile()));
 		this.notificacionesDao = NotificacionesDao.getInstance();
 		this.notificacionesDao.setFile(notificacionesFile);
 		try {
-			if (mensajesFile.exists()) {
+			System.out.println(pathResolver.getPath(FileUtils.getMensajesFile()));
+			/***
+			 * Forma de poder leer desde un jar
+			 * 
+			 */
+			InputStream pp = this.getClass().getResourceAsStream("/resources/files/mensajes.xml");
+			System.out.println(JAXB.unmarshal(pp,Mensajes.class));
+		if (mensajesFile.exists()) {
 				setMensajes(this.mensajesDao.cargar(mensajesFile));
 			} else {
 				this.mensajes = new MensajesPendientes();
@@ -97,8 +114,8 @@ public class MensajeriaImpl implements Mensajeria {
 	 * @param Mensaje
 	 *            msg
 	 * @return Mensaje nuevo mensaje formado en la acción Este metodo toma un
-	 *         mensaje recibido, según el tipo de mensaje correspondiente toma
-	 *         la acción debida.
+	 *         mensaje recibido, según el tipo de mensaje correspondiente toma la
+	 *         acción debida.
 	 * @throws Exception
 	 * @throws JAXBException
 	 */
@@ -163,7 +180,7 @@ public class MensajeriaImpl implements Mensajeria {
 				mensaje.setOrigen(msg.getDestino());
 				mensaje.setDestino(msg.getOrigen());
 				mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
-				mensaje.setTipoMensaje(tipoMensajeDao.getTipo(TipoMensajeUtils.OK_CONFIRMACION,tiposFile));
+				mensaje.setTipoMensaje(tipoMensajeDao.getTipo(TipoMensajeUtils.OK_CONFIRMACION, tiposFile));
 				mensaje.setEstado(EstadoUtils.Estado.CONFIRMADO);
 				enviarConfirmacion(mensaje);
 				return;
@@ -179,8 +196,7 @@ public class MensajeriaImpl implements Mensajeria {
 	 * @param Mensaje
 	 *            msg
 	 * @param Grupo
-	 *            g Este metodo propaga un mensaje al grupo recibido por
-	 *            parametro.
+	 *            g Este metodo propaga un mensaje al grupo recibido por parametro.
 	 * @throws Exception
 	 */
 	@Override
@@ -279,8 +295,8 @@ public class MensajeriaImpl implements Mensajeria {
 	/**
 	 * @author
 	 * @param Mensaje
-	 *            mensaje a enviar Envia una solicitud hacia otro destino junto
-	 *            con un mensaje.
+	 *            mensaje a enviar Envia una solicitud hacia otro destino junto con
+	 *            un mensaje.
 	 */
 	@Override
 	public String enviarSolicitud(Mensaje msg) throws IllegalArgumentException {

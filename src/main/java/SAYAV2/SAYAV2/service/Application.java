@@ -11,6 +11,8 @@ import java.io.File;
 import javax.xml.bind.JAXBException;
 
 import SAYAV2.SAYAV2.Utils.FileUtils;
+import SAYAV2.SAYAV2.Utils.IPathResolver;
+import SAYAV2.SAYAV2.Utils.PathResolver;
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.bussines.ControllerMQTT;
 import SAYAV2.SAYAV2.dao.ConfiguratorDao;
@@ -24,11 +26,12 @@ public class Application {
 	static File c;
 	static File sayav = new File(FileUtils.getUsuarioFile());
 	static ControllerMQTT controllerMqtt;
+	private static PathResolver pathResolver = IPathResolver.getInstance();
 
 	public static void config() throws JAXBException {
 		controllerMqtt = ControllerMQTT.getInstance();
 		configDao = ConfiguratorDao.getInstance();
-		c = new File(FileUtils.getConfiguratorFile());
+		c = new File(pathResolver.getPath(FileUtils.getConfiguratorFile()));
 		config = configDao.cargar(c);
 		controllerMqtt = ControllerMQTT.getInstance();
 	}

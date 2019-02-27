@@ -5,7 +5,7 @@
 <body>
 
 <h2>$msg.get("SECTOR_HEADING")</h2>   
-#parse("/velocity/layout.vm")
+#parse("resources/velocity/layout.vm")
 #@mainLayout()
 <h1>SAYAV</h1>
 <h2>Renombrar Sectores</h2>

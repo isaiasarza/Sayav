@@ -11,6 +11,8 @@ import Datos.DatoGrupo;
 import Datos.DatoVoto;
 import SAYAV2.SAYAV2.Utils.EstadoUtils;
 import SAYAV2.SAYAV2.Utils.FileUtils;
+import SAYAV2.SAYAV2.Utils.IPathResolver;
+import SAYAV2.SAYAV2.Utils.PathResolver;
 import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
 import SAYAV2.SAYAV2.dao.TipoMensajeDao;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
@@ -41,17 +43,20 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 	private Votaciones votacionesPendientes;
 	private VotacionesDao votacionesDao;
 	private TipoMensajeDao tiposMensajeDao;
+	private PathResolver pathResolver = IPathResolver.getInstance();
 
 	public GruposImpl() {
 		super();
+		this.pathResolver = IPathResolver.getInstance();
 		this.mensajeria = MensajeriaImpl.getInstance();
 		this.usuarioDao = UsuarioDao.getInstance();
-		this.usuarioFile = new File(FileUtils.getUsuarioFile());
+		this.usuarioFile = new File(pathResolver.getPath(FileUtils.getUsuarioFile()));
 		this.json = new JsonTransformer();
-		this.votacionesFile = new File(FileUtils.getVotacionesFile());
-		this.votacionesPendientesFile = new File(FileUtils.getVotacionesPendientesFile());
+		this.votacionesFile = new File(pathResolver.getPath(FileUtils.getVotacionesFile()));
+		this.votacionesPendientesFile = new File(pathResolver.getPath(FileUtils.getVotacionesPendientesFile()));
 		this.votacionesDao = VotacionesDao.getInstance();
 		this.votacionesDao.setFile(votacionesFile);
+
 		this.init = false;
 		try {
 			this.votaciones = votacionesDao.cargar(votacionesFile);
@@ -61,7 +66,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 			this.votaciones = new Votaciones();
 			this.votacionesPendientes = new Votaciones();
 		}
-		this.tiposFile = new File(FileUtils.getTiposMensajesFile());
+		this.tiposFile = new File(pathResolver.getPath(FileUtils.getTiposMensajesFile()));
 		this.tiposMensajeDao = TipoMensajeDao.getInstance();
 		this.tiposMensajeDao.setFile(tiposFile);
 	}

@@ -293,32 +293,32 @@ public class PathUtil {
 	}
 
 	public static class Template {
-		public static final String PEER = "/velocity/peer/nuevoPeer.vm/";
-		public static final String PRUEBA = "/velocity/pruebas/prueba.vm/";
-		public static final String MENU = "/velocity/menu/menu.vm";
-		public final static String INDEX = "/velocity/index/index.vm";
-		public final static String LOGIN = "/velocity/login/login.vm";
+		public static final String PEER = "resources/velocity/peer/nuevoPeer.vm/";
+		public static final String PRUEBA = "resources/velocity/pruebas/prueba.vm/";
+		public static final String MENU = "resources/velocity/menu/menu.vm";
+		public final static String INDEX = "resources/velocity/index/index.vm";
+		public final static String LOGIN = "resources/velocity/login/login.vm";
 		public final static String REGISTRATION = "/velocity/login/registration.vm";
 		public final static String BOOKS_ALL = "/velocity/book/all.vm";
 		public static final String BOOKS_ONE = "/velocity/book/one.vm";
 		public static final String USER_DATA = "/velocity/user_data/user.vm";
-		public static final String UPDATE_USER = "/velocity/user_data/user_update.vm";
-		public static final String ALARM = "/alarm/alarm.vm";
-		public static final String NEW_GROUP = "/velocity/grupo/new_group.vm";
-		public static final String NOT_FOUND = "/velocity/notFound.vm";
-		public static final String VIEW_ALL_GROUPS = "/velocity/user_data/view_groups.vm";
-	    public static final String VIEW_ALL_MESSAGES = "/velocity/mensaje/mensajes.vm"; 
-		public static final String NEW_GROUP_MEMBER = "/velocity/user_data/new_member.vm";
-		public static final String VIEW_GROUP_MEMBER = "/velocity/grupo/view_members.vm";
-		public final static String DISPOSITIVO = "/velocity/dispositivo/tablaDispositivos.vm";
-		public final static String ONE_DISPOSITIVO = "/velocity/dispositivo/dispositivo.vm";
-		public final static String SECTOR = "/velocity/sector/nuevoSector.vm";
-		public static final String TABLADISPOSITIVOS = "/velocity/dispositivo/tablaDispositivos.vm";
-		public static final String TABLASECTORES = "/velocity/sensor/tablasectores.vm";
-		public static final String GRUPO = "/velocity/grupo/nuevoGrupo.vm/";
-		public static final String LAYOUT = "/velocity/layout.vm";
-		public static final String VER_VOTACIONES = "/velocity/votacion/votacion.vm";
-		public static final String SHOW_NOTIFICATION = "/velocity/notificacion/notificacion.vm";
+		public static final String UPDATE_USER = "resources/velocity/user_data/user_update.vm";
+		public static final String ALARM = "resources/alarm/alarm.vm";
+		public static final String NEW_GROUP = "resources/velocity/grupo/new_group.vm";
+		public static final String NOT_FOUND = "resources/velocity/notFound.vm";
+		public static final String VIEW_ALL_GROUPS = "resources/velocity/user_data/view_groups.vm";
+	    public static final String VIEW_ALL_MESSAGES = "resources/velocity/mensaje/mensajes.vm"; 
+		public static final String NEW_GROUP_MEMBER = "resources/velocity/user_data/new_member.vm";
+		public static final String VIEW_GROUP_MEMBER = "resources/velocity/grupo/view_members.vm";
+		public final static String DISPOSITIVO = "resources/velocity/dispositivo/tablaDispositivos.vm";
+		public final static String ONE_DISPOSITIVO = "resources/velocity/dispositivo/dispositivo.vm";
+		public final static String SECTOR = "resources/velocity/sector/nuevoSector.vm";
+		public static final String TABLADISPOSITIVOS = "resources/velocity/dispositivo/tablaDispositivos.vm";
+		public static final String TABLASECTORES = "resources/velocity/sensor/tablasectores.vm";
+		public static final String GRUPO = "resources/velocity/grupo/nuevoGrupo.vm/";
+		public static final String LAYOUT = "resources/velocity/layout.vm";
+		public static final String VER_VOTACIONES = "resources/velocity/votacion/votacion.vm";
+		public static final String SHOW_NOTIFICATION = "resources/velocity/notificacion/notificacion.vm";
 
 	}
 

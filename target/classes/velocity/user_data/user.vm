@@ -1,4 +1,4 @@
-#parse("/velocity/menu/menu.vm")
+#parse("resources/velocity/menu/menu.vm")
 #@menuLayout()
 
 <table style="width:100%">

@@ -1,6 +1,7 @@
 package SAYAV2.SAYAV2.bussines;
 
 import java.io.File;
+import java.net.URL;
 import java.util.List;
 
 import javax.xml.bind.JAXBException;
@@ -15,6 +16,8 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttSecurityException;
 
 import SAYAV2.SAYAV2.Utils.FileUtils;
+import SAYAV2.SAYAV2.Utils.IPathResolver;
+import SAYAV2.SAYAV2.Utils.PathResolver;
 import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
 import SAYAV2.SAYAV2.dao.ConfiguratorDao;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
@@ -38,12 +41,15 @@ public class ControllerMQTT implements MqttCallback {
 	private static MensajeriaImpl mensajeria;
 	private IMqttAsyncClient client;
 	private MqttConnectOptions options;
-
+	URL url;
+	private PathResolver pathResolver = IPathResolver.getInstance();
 	private ControllerMQTT() {
 		super();
 		try {
-			file = new File(FileUtils.getUsuarioFile());
-			configFile = new File(FileUtils.getConfiguratorFile());
+			url = this.getClass().getResource("/files/configurator");
+			System.out.println(url.getPath());
+			file = new File(pathResolver.getPath(FileUtils.getUsuarioFile()));
+			configFile = new File(pathResolver.getPath(FileUtils.getConfiguratorFile()));
 			Configurator config = configDao.cargar(configFile);
 			System.out.println(config);
 			client = new MqttAsyncClient(config.getBroker(), MqttAsyncClient.generateClientId());

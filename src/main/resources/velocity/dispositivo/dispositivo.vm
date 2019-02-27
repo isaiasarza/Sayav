@@ -1,4 +1,4 @@
-#parse("/velocity/layout.vm")
+#parse("resources/velocity/layout.vm")
 #@mainLayout()
     #if($dispositivo)
     <h1>$book.getTitle()</h1>

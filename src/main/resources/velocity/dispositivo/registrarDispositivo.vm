@@ -1,4 +1,4 @@
-#parse("/velocity/layout.vm")
+#parse("resources/velocity/layout.vm")
 #@mainLayout()
 
 ##<h2>$msg.get("DISPOSITIVO_HEADING")</h2>   
