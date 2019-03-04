@@ -1,11 +1,15 @@
 package SAYAV2.SAYAV2.dao;
 
 import java.io.File;
+import java.io.InputStream;
 
+import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+
+import SAYAV2.SAYAV2.mensajeria.Mensajes;
 
 public class GenericDao<E> {
 
@@ -49,6 +53,21 @@ public class GenericDao<E> {
 
 		return entidad;
 	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public E cargar(String ruta) throws JAXBException {
+		E entidad;
+		JAXBContext context = JAXBContext.newInstance(e.getClass());
+		Unmarshaller um = context.createUnmarshaller();
+		
+		InputStream pp = this.getClass().getResourceAsStream(ruta);
+		
+		entidad = (E) um.unmarshal(pp);
+
+		return entidad;
+	}
+	
 	
 	@SuppressWarnings("unused")
 	private E actualizar(Object entidad, File file){

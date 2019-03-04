@@ -73,10 +73,10 @@ public class MensajeriaImpl implements Mensajeria {
 			 * Forma de poder leer desde un jar
 			 * 
 			 */
-			InputStream pp = this.getClass().getResourceAsStream("/resources/files/mensajes.xml");
-			System.out.println(JAXB.unmarshal(pp,Mensajes.class));
+//			InputStream pp = this.getClass().getResourceAsStream("/resources/files/mensajes.xml");
+			System.out.println(this.mensajesDao.cargar(FileUtils.MENSAJES_FILE));
 		if (mensajesFile.exists()) {
-				setMensajes(this.mensajesDao.cargar(mensajesFile));
+				setMensajes(this.mensajesDao.cargar(FileUtils.MENSAJES_FILE));
 			} else {
 				this.mensajes = new MensajesPendientes();
 			}
