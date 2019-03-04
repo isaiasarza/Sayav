@@ -20,4 +20,5 @@ public interface Mensajeria {
 	void recibirConfirmación(Mensaje msg) throws JAXBException, Exception;
 	boolean eliminarMensaje(Mensaje msg);
 	void actualizarMensaje(Mensaje msg);
+	void guardarMensaje(Mensaje msg, String ruta);
 }

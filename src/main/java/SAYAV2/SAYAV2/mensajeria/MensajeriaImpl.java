@@ -1,20 +1,17 @@
 package SAYAV2.SAYAV2.mensajeria;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Paths;
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBException;
 
 import Datos.DatoGrupo;
-import SAYAV2.SAYAV2.Utils.ClassLoaderPathResolver;
 import SAYAV2.SAYAV2.Utils.EstadoUtils;
 import SAYAV2.SAYAV2.Utils.FechaUtils;
 import SAYAV2.SAYAV2.Utils.FileUtils;
@@ -73,15 +70,26 @@ public class MensajeriaImpl implements Mensajeria {
 			 * Forma de poder leer desde un jar
 			 * 
 			 */
-//			InputStream pp = this.getClass().getResourceAsStream("/resources/files/mensajes.xml");
-			System.out.println(this.mensajesDao.cargar(FileUtils.MENSAJES_FILE));
-		if (mensajesFile.exists()) {
-				setMensajes(this.mensajesDao.cargar(FileUtils.MENSAJES_FILE));
-			} else {
+			// InputStream pp =
+			// this.getClass().getResourceAsStream("/resources/files/mensajes.xml");
+			System.out.println(
+					"Leyendo mensajes desde la concha de tu madre" + this.mensajesDao.cargar(FileUtils.MENSAJES_FILE));
+			Mensaje mensaje = new Mensaje();
+			mensaje.setDatos("MENSAJE NUEVO");
+
+			if (mensajes == null) {
 				this.mensajes = new MensajesPendientes();
+
 			}
+			setMensajes(this.mensajesDao.cargar(FileUtils.MENSAJES_FILE));
+			guardarMensaje(mensaje, FileUtils.MENSAJES_FILE);
+			System.out.println(
+					"Leyendo mensajes desde la concha de tu madre" + this.mensajesDao.cargar(FileUtils.MENSAJES_FILE));
 			setTipos(this.tipoMensajeDao.cargar(tiposFile));
 		} catch (JAXBException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -231,6 +239,32 @@ public class MensajeriaImpl implements Mensajeria {
 			this.mensajesDao.guardar(this.mensajes, mensajesFile);
 			this.mensajes = mensajesDao.cargar(mensajesFile);
 
+		}
+	}
+
+	public synchronized void guardarMensaje(Mensaje msg, String ruta) {
+		String jarPath ="";
+		
+		if (this.mensajes.addMensaje(msg)) {
+			try {
+				 jarPath = URLDecoder.decode(getClass().getProtectionDomain().getCodeSource().getLocation().getPath(),
+							"UTF-8");
+				 System.out.println("PRUEBA " +getClass().getProtectionDomain().getCodeSource());
+				 System.out.println("PRUEBA " +getClass().getProtectionDomain().getCodeSource().getLocation());
+				 System.out.println("PRUEBA " +getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+				this.mensajesDao.guardar(this.mensajes, jarPath + File.separator +ruta);
+				this.mensajes = mensajesDao.cargar(ruta);
+				System.out.println("La concha de tu madre 2.0" + this.mensajes);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JAXBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
