@@ -43,7 +43,7 @@ import SAYAV2.SAYAV2.mensajeria.Mensaje;
 @XmlType(name = "", propOrder = {
     "mensaje"
 })
-@XmlRootElement(name = "MensajesPendientes", namespace = "http://www.example.org/MensajesPendientes")
+@XmlRootElement(name = "MensajesPendientes", namespace = "http://www.example.org/response")
 public class MensajesPendientes {
 
     @XmlElement(name = "Mensaje")

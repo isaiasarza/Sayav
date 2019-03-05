@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "notificacion"
 })
-@XmlRootElement(name = "Notificaciones",namespace="http://www.example.org/Mensaje")
+@XmlRootElement(name = "Notificaciones",namespace="http://www.example.org/response")
 public class Notificaciones {
 
     @XmlElement(name = "Notificacion")

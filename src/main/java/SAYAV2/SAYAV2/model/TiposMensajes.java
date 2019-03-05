@@ -37,7 +37,7 @@ import SAYAV2.SAYAV2.mensajeria.TipoMensaje;
 @XmlType(name = "", propOrder = {
     "tipos"
 })
-@XmlRootElement(name = "TiposMensajes", namespace = "http://www.example.org/TiposMensajes")
+@XmlRootElement(name = "TiposMensajes", namespace = "http://www.example.org/response")
 public class TiposMensajes {
 
     @XmlElement(namespace = "http://www.example.org/TiposMensajes")
