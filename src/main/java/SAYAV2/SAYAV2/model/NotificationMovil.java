@@ -12,6 +12,11 @@ public class NotificationMovil implements Serializable{
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
 
 	private List<String> registration_ids;
 	

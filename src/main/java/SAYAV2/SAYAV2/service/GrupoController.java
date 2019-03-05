@@ -8,7 +8,6 @@ import SAYAV2.SAYAV2.Utils.FileUtils;
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.RequestUtil;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
-import SAYAV2.SAYAV2.dao.MensajePendienteDao;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
 import SAYAV2.SAYAV2.model.Grupo;
 import SAYAV2.SAYAV2.model.Usuario;
@@ -19,11 +18,8 @@ import spark.Route;
 @Deprecated
 public class GrupoController {
 
-	private static JsonTransformer jsonTransformer = new JsonTransformer();
 	private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
-	private static MensajePendienteDao mDao = MensajePendienteDao.getInstance();
 	private static File file = new File(FileUtils.getUsuarioFile());
-	private static File mensajesRecibidos = new File("MensajesRecibidos");
 	public static Route grupoVelocityEngine = (Request request, Response response) -> {
 
 		LoginController.ensureUserIsLoggedIn(request, response);
@@ -71,9 +67,7 @@ public class GrupoController {
 
 	private static Grupo initGrupo(Request request) {
 
-		Usuario usuario = new Usuario();
-
-		usuario = UsuarioController.getCurrentUser();
+		
 
 		Grupo grupo = new Grupo();
 //		grupo.setId(usuario.getGrupos().size() + 1);
@@ -97,7 +91,7 @@ public class GrupoController {
 	public static Route getNotificar = (Request request, Response response) -> {
 		Map<String, Object> model = new HashMap<>();
 		Usuario usuario = usuarioDao.cargar(file);
-		String url = "http://127.0.0.1:29080" + PathUtil.Web.GRUOP_NOTIFICATION;
+//		String url = "http://127.0.0.1:29080" + PathUtil.Web.GRUOP_NOTIFICATION;
 		System.out.println("Notificando");
 //    	Mensaje mensaje = new Mensaje();
 //		mensaje.setOrigen(url);

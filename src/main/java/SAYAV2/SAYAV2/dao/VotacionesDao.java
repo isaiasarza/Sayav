@@ -64,6 +64,20 @@ public class VotacionesDao extends GenericDao<Votaciones> {
 		votaciones = this.cargar(votacionesPendientesFile);
 		return votaciones;
 	}
+	
+	public Votaciones agregarVotacion(Votacion votacion, Votaciones votaciones, String votacionesPendientesFile)
+			throws JAXBException, IOException {
+		if (!votaciones.addVotacion(votacion)) {
+			return null;
+		}
+		
+			this.guardar(votaciones, votacionesPendientesFile);
+			votaciones.getVotaciones().clear();
+			votaciones = this.cargar(votacionesPendientesFile);
+		
+		return votaciones;
+	}
+
 
 	public Votaciones agregarVotacion(Votacion votacion, File votacionesPendientesFile) {
 		Votaciones votaciones;
@@ -165,6 +179,49 @@ public class VotacionesDao extends GenericDao<Votaciones> {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	public boolean actualizarVotacion(Votacion votacion, String votacionesFile) {
+		try {
+			Votaciones votaciones = this.cargar(votacionesFile);
+			int index = votaciones.getVotaciones().indexOf(votacion);
+			votaciones.getVotaciones().set(index, votacion);
+			this.guardar(votaciones, votacionesFile);
+			return true;
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
+		
+	}
+
+	public Votaciones agregarVotacion(Votacion votacion, String votacionesFile) {
+		Votaciones votaciones;
+		try {
+			votaciones = this.cargar(votacionesFile);
+			if (votaciones.getVotaciones().contains(votacion)) {
+				return null;
+			}
+			votaciones.addVotacion(votacion);
+			this.guardar(votaciones, votacionesFile);
+			votaciones.getVotaciones().clear();
+			votaciones = this.cargar(votacionesFile);
+			return votaciones;
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		votaciones = new Votaciones();
+		votaciones.addVotacion(votacion);
+		try {
+			this.guardar(votaciones, votacionesFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return votaciones;
 	}
 
 }
