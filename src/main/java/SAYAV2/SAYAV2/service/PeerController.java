@@ -25,9 +25,6 @@ public class PeerController {
 	
 		Peer peer = new Peer();
 
-		Usuario usuario;
-
-		usuario = UsuarioController.getCurrentUser();
 		
 		model.put("peer", peer);
 	
@@ -61,19 +58,12 @@ public class PeerController {
 
 		System.out.println(id);
 		
-		//Grupo grupo = buscarGrupo(id);
-		
-//		for(int i=0; i<= usuario.getGrupos().size(); i++){
-//			if(usuario.getGrupos().get(i).equals(grupo.getId()))
-//				usuario.getGrupos().get(i).getPeers().add(peer);		
-//		}
 
 		// Actualizo el Usuario
 		UsuarioController.setCurrentUser(usuario);
 
-		UsuarioDao.getInstance().guardar(usuario, UsuarioController.getFile());
+		UsuarioDao.getInstance().guardar(usuario);
 		model.put("peer", peer);
-	//	model.put("listaPeers", grupo.getPeers());
 
 		return ViewUtil.render(request, model, PathUtil.Template.PEER);
 

@@ -1,6 +1,7 @@
 package SAYAV2.SAYAV2.dao;
 
 import java.io.File;
+import java.io.IOException;
 
 import javax.xml.bind.JAXBException;
 
@@ -29,6 +30,18 @@ public class TipoMensajeDao extends GenericDao<TiposMensajes>{
 	public TipoMensaje getTipo(String tipo,File file) throws JAXBException {
 		TiposMensajes tipos = super.cargar(file);
 		TipoMensaje tipoMensaje = tipos.getTipo(tipo);
+		return tipoMensaje;
+	}
+
+	public TipoMensaje getTipo(String alerta, String tiposMensajesFile) {
+		TiposMensajes tipos;
+		TipoMensaje tipoMensaje = null;
+		try {
+			tipos = super.cargar(tiposMensajesFile);
+			tipoMensaje = tipos.getTipo(tiposMensajesFile);
+		} catch (JAXBException | IOException e) {
+			e.printStackTrace();
+		}
 		return tipoMensaje;
 	}
 	

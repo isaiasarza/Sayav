@@ -36,8 +36,8 @@ public class ControllerMQTT implements MqttCallback {
 	private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
 	private static ConfiguratorDao configDao = ConfiguratorDao.getInstance();
 	
-	//private File file;
-	//private File configFile;
+	private File file;
+	private File configFile;
 	private static MensajeriaImpl mensajeria;
 	private IMqttAsyncClient client;
 	private MqttConnectOptions options;

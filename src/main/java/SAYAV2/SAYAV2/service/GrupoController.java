@@ -59,7 +59,7 @@ public class GrupoController {
 		// Actualizo el Usuario
 		UsuarioController.setCurrentUser(usuario);
 
-		UsuarioDao.getInstance().guardar(usuario, UsuarioController.getFile());
+		UsuarioDao.getInstance().guardar(usuario);
 
 		model.put("grupo", grupo);
 		model.put("user", usuario);

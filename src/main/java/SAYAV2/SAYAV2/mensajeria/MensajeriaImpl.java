@@ -2,9 +2,6 @@ package SAYAV2.SAYAV2.mensajeria;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
-import java.net.URLDecoder;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -65,6 +62,8 @@ public class MensajeriaImpl implements Mensajeria {
 		this.notificacionesDao = NotificacionesDao.getInstance();
 		this.notificacionesDao.setFile(notificacionesFile);
 		try {
+			String ruta = System.getProperty("user.dir") + File.separator + "resources" + File.separator + "files"
+					+ File.separator + "mensajes";
 			System.out.println(pathResolver.getPath(FileUtils.getMensajesFile()));
 			/***
 			 * Forma de poder leer desde un jar
@@ -72,19 +71,15 @@ public class MensajeriaImpl implements Mensajeria {
 			 */
 			// InputStream pp =
 			// this.getClass().getResourceAsStream("/resources/files/mensajes.xml");
-			System.out.println(
-					"Leyendo mensajes desde la concha de tu madre" + this.mensajesDao.cargar(FileUtils.MENSAJES_FILE));
+			System.out.println("Ruta: -" + ruta + "-");
 			Mensaje mensaje = new Mensaje();
 			mensaje.setDatos("MENSAJE NUEVO");
 
 			if (mensajes == null) {
 				this.mensajes = new MensajesPendientes();
-
 			}
-			setMensajes(this.mensajesDao.cargar(FileUtils.MENSAJES_FILE));
-			guardarMensaje(mensaje, FileUtils.MENSAJES_FILE);
-			System.out.println(
-					"Leyendo mensajes desde la concha de tu madre" + this.mensajesDao.cargar(FileUtils.MENSAJES_FILE));
+			setMensajes(this.mensajesDao.cargar(ruta));
+			guardarMensaje(mensaje, ruta);
 			setTipos(this.tipoMensajeDao.cargar(tiposFile));
 		} catch (JAXBException e) {
 			e.printStackTrace();
@@ -243,26 +238,13 @@ public class MensajeriaImpl implements Mensajeria {
 	}
 
 	public synchronized void guardarMensaje(Mensaje msg, String ruta) {
-		String jarPath ="";
-		
 		if (this.mensajes.addMensaje(msg)) {
 			try {
-				 jarPath = URLDecoder.decode(getClass().getProtectionDomain().getCodeSource().getLocation().getPath(),
-							"UTF-8");
-				 System.out.println("PRUEBA " +getClass().getProtectionDomain().getCodeSource());
-				 System.out.println("PRUEBA " +getClass().getProtectionDomain().getCodeSource().getLocation());
-				 System.out.println("PRUEBA " +getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-				this.mensajesDao.guardar(this.mensajes, jarPath + File.separator +ruta);
+				this.mensajesDao.guardar(this.mensajes, ruta);
 				this.mensajes = mensajesDao.cargar(ruta);
-				System.out.println("La concha de tu madre 2.0" + this.mensajes);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (JAXBException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (URISyntaxException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

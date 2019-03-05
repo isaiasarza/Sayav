@@ -1,12 +1,6 @@
 package SAYAV2.SAYAV2.service;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +24,7 @@ import spark.Response;
 import spark.Route;
 
 public class RegistrationController {
-	private static File config = new File(FileUtils.getConfiguratorFile());
+	//private static File config = new File(FileUtils.getConfiguratorFile());
 	private static ConfiguratorDao configDao = ConfiguratorDao.getInstance();
 	private static ControllerMQTT controllerMqtt = ControllerMQTT.getInstance();
 
@@ -132,7 +126,7 @@ public class RegistrationController {
 		
 			Configurator configurator;
 			try {
-				configurator = configDao.cargar(config);
+				configurator = configDao.cargar(FileUtils.CONFIGURATOR_FILE);
 				int cant = configurator.getSectores();
 				List<Sector> sectores = new ArrayList<Sector>();
 				Sector s;
@@ -147,33 +141,13 @@ public class RegistrationController {
 				return sectores;
 			} catch (JAXBException e) {
 				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 			
 		
 		return null;
 	}
 
-	@Deprecated
-	public static int config() throws FileNotFoundException {
-		InputStream inputStream = new FileInputStream(config);
-		config.setReadable(true);
-
-		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-		StringBuilder out = new StringBuilder();
-		String line;
-		try {
-			while ((line = reader.readLine()) != null) {
-				out.append(line);
-			}
-			System.out.println(out.toString()); // Prints the string content
-												// read from input stream
-			int i = out.lastIndexOf(":");
-			reader.close();
-			return Integer.parseInt(out.substring(i + 1, out.toString().length()));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return -1;
-	}
+	
 }

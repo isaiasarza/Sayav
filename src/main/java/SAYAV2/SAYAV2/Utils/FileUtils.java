@@ -1,16 +1,17 @@
 package SAYAV2.SAYAV2.Utils;
 
-import java.net.URL;
+import java.io.File;
 
 public class FileUtils {
-	//public static final PathResolver pathResolver = PathResolver.getInstance();
-	public static final String CONFIGURATOR_FILE = "/resources/files/configurator";
-	public static final String USUARIO_FILE = "/resources/files/SAYAV";
-	public static final String NOTIFICACIONES_FILE = "/resources/files/notificaciones";
-	public static final String VOTACIONES_FILE = "/resources/files/votaciones";
-	public static final String VOTACIONES_PENDIENTES_FILE = "/resources/files/votaciones_pendientes";
-	public static final String MENSAJES_FILE = "/resources/files/mensajes";
-	public static final String TIPOS_MENSAJES_FILE = "/resources/files/tipos_mensajes";
+	private static final String folder =  File.separator + "resources" + File.separator + "files" + File.separator;
+	
+	public static final String CONFIGURATOR_FILE = folder  + "configurator";
+	public static final String USUARIO_FILE = folder + "SAYAV";
+	public static final String NOTIFICACIONES_FILE =  folder + "notificaciones";
+	public static final String VOTACIONES_FILE = folder + "votaciones";
+	public static final String VOTACIONES_PENDIENTES_FILE = folder + "votaciones_pendientes";
+	public static final String MENSAJES_FILE =  folder + "mensajes";
+	public static final String TIPOS_MENSAJES_FILE = folder + "tipos_mensajes";
 	public static final String WORKSPACE_PATH = "";
 
 	public static String getWORKSPACE_PATH() {

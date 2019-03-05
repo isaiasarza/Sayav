@@ -1,19 +1,14 @@
 package SAYAV2.SAYAV2.dao;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.Result;
 
 public class GenericDao<E> {
 
@@ -54,16 +49,10 @@ public class GenericDao<E> {
 			Marshaller m;
 			m = context.createMarshaller();
 			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-		//	PipedInputStream pp = (PipedInputStream) this.getClass().getResourceAsStream(ruta);
-
-		//	OutputStream outputStream = new PipedOutputStream(pp);
-			System.out.println("ruta " + ruta);
-			OutputStream outputStream = new FileOutputStream(ruta);
-			m.marshal(entidad, outputStream);
-			
+			OutputStream outputStream = new FileOutputStream(new File(ruta));
+			m.marshal(entidad, outputStream);	
 			outputStream.flush();
 			outputStream.close();
-
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
@@ -88,13 +77,11 @@ public class GenericDao<E> {
 		E entidad;
 		JAXBContext context = JAXBContext.newInstance(e.getClass());
 		Unmarshaller um = context.createUnmarshaller();
-
-		InputStream pp = this.getClass().getResourceAsStream(ruta);
-
-		entidad = (E) um.unmarshal(pp);
 		
-		pp.close();
+		File f = new File(ruta);
 
+		entidad = (E) um.unmarshal(f);
+		
 		return entidad;
 	}
 

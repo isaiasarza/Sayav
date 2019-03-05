@@ -28,10 +28,10 @@ import spark.Route;
 public class SectorController {
 
 	private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
-	private static File file = new File(FileUtils.USUARIO_FILE);
+//	private static File file = new File(FileUtils.USUARIO_FILE);
 	private static GruposImpl grupos = GruposImpl.getInstance();
 	private static TipoMensajeDao tiposDao = TipoMensajeDao.getInstance();
-	private static File tiposFile = new File(FileUtils.TIPOS_MENSAJES_FILE);
+//	private static File tiposFile = new File(FileUtils.TIPOS_MENSAJES_FILE);
 
 	public SectorController() {
 		super();
@@ -44,7 +44,7 @@ public class SectorController {
 		Map<String, Object> model = new HashMap<>();
 		Sector sector = new Sector();
 
-		Usuario usuario = usuarioDao.cargar(file);
+		Usuario usuario = usuarioDao.cargar();
 
 		int numeroSectores = 0;
 		model.put("user", usuario);
@@ -63,7 +63,7 @@ public class SectorController {
 		Usuario usuario;
 		int numeroSectores = RequestUtil.getQueryNumeroSectores(request);
 
-		usuario = usuarioDao.cargar(file);
+		usuario = usuarioDao.cargar();
 		// Cada vez que renuevo el numero de sectores, limpio la lista existente
 		usuario.getSectores().clear();
 
@@ -80,7 +80,7 @@ public class SectorController {
 		sector.setNombre("Boton de Panico");
 		usuario.getSectores().add(sector);
 		UsuarioController.setCurrentUser(usuario);
-		usuarioDao.guardar(usuario, file);
+		usuarioDao.guardar(usuario);
 		model.put("user", usuario);
 		model.put("listaSectores", usuario.getSectores());
 
@@ -118,7 +118,7 @@ public class SectorController {
 		System.out.println("Renombrar Sector");
 		Usuario usuario;
 		// Se agrega el dispositivo a la lista de dispositivos
-		usuario = usuarioDao.cargar(file);
+		usuario = usuarioDao.cargar();
 		String nombreNuevo = RequestUtil.getQueryNuevoNombre(request);
 		String nombreActual = RequestUtil.getQuerySectorRenombrar(request);
 		System.out.println(nombreActual);
@@ -137,7 +137,7 @@ public class SectorController {
 		buscarSector(nombreActual, nombreNuevo, usuario.getSectores());
 
 		System.out.println(UsuarioController.getCurrentUser());
-		usuarioDao.guardar(usuario, file);
+		usuarioDao.guardar(usuario);
 		RequestUtil.removeSessionSectores(request);
 		model.put("user", usuario);
 		model.put("listaSectores", usuario.getSectores());
@@ -146,6 +146,7 @@ public class SectorController {
 
 	};
 	
+	@SuppressWarnings("unused")
 	public static Route cambiarEstado = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
 
@@ -154,12 +155,12 @@ public class SectorController {
 
 		System.out.println("Cambiar Estado Sector " + nombreSector);
 
-		Usuario usuario = usuarioDao.cargar(file);
+		Usuario usuario = usuarioDao.cargar();
 		Sector sector = usuario.getSector(nombreSector);
 
 		if (usuario.isAlarmaHabilitada()) {
 			sector.cambiarEstado();
-			usuarioDao.guardar(usuario, file);
+			usuarioDao.guardar(usuario);
 			RequestUtil.removeSessionSectores(request);
 			//tiposDao.setFile(tiposFile);
 
@@ -180,7 +181,7 @@ public class SectorController {
 			mensaje.setOrigen(usuario.getSubdominio());
 			mensaje.setDescripcion(message);
 			mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
-			mensaje.setTipoMensaje(tiposDao.getTipo(TipoMensajeUtils.ALERTA,tiposFile));
+			mensaje.setTipoMensaje(tiposDao.getTipo(TipoMensajeUtils.ALERTA,FileUtils.TIPOS_MENSAJES_FILE));
 			
 			if(!grupos.isInit()){
 				grupos.init();

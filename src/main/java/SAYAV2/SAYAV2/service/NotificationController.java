@@ -1,6 +1,5 @@
 package SAYAV2.SAYAV2.service;
 
-import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,18 +19,18 @@ import spark.Route;
 
 public class NotificationController {
 	private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
-	private static File usuarioFile = new File(FileUtils.getUsuarioFile());
+	//private static File usuarioFile = new File(FileUtils.getUsuarioFile());
 	private static NotificacionesDao notificacionDao = NotificacionesDao.getInstance();
-	private static File notificacionesFile = new File(FileUtils.getNotificacionesFile());
+	//private static File notificacionesFile = new File(FileUtils.getNotificacionesFile());
 	
 	public static Route mostrarNotificacion = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
 		Map<String, Object> model = new HashMap<>();
 		
-		Usuario usuario = usuarioDao.cargar(usuarioFile);
+		Usuario usuario = usuarioDao.cargar();
 		Notificaciones notificaciones = null;
 		try{
-			notificaciones = notificacionDao.cargar(notificacionesFile);
+			notificaciones = notificacionDao.cargar(FileUtils.NOTIFICACIONES_FILE);
 			if(notificaciones == null){
 				notificaciones = new Notificaciones();	
 			}else{

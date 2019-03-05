@@ -5,7 +5,7 @@ import static j2html.TagCreator.b;
 import static j2html.TagCreator.p;
 import static j2html.TagCreator.span;
 
-import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -16,7 +16,6 @@ import javax.xml.bind.JAXBException;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
 
-import SAYAV2.SAYAV2.Utils.FileUtils;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
 import SAYAV2.SAYAV2.model.Grupo;
 import SAYAV2.SAYAV2.model.Peer;
@@ -27,7 +26,7 @@ public class PeerService {
 
     
 	private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
-	private static File file = new File(FileUtils.getUsuarioFile());
+	//private static File file = new File(FileUtils.getUsuarioFile());
 	
 	// this map is shared between sessions and threads, so it needs to be thread-safe (http://stackoverflow.com/a/2688817)
     static Map<Session, String> usernameMap = new ConcurrentHashMap<>();
@@ -76,9 +75,9 @@ public class PeerService {
 	}
 
     
-	public static Peer buscarPeer(String direccion) throws JAXBException{
+	public static Peer buscarPeer(String direccion) throws JAXBException, IOException{
 		
-		Usuario usuario = usuarioDao.cargar(file);
+		Usuario usuario = usuarioDao.cargar();
 
 		for (Grupo g : usuario.getGrupos())
 			for (Peer p : g.getPeers()) {

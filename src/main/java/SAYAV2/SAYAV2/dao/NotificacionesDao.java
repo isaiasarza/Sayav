@@ -1,7 +1,10 @@
 package SAYAV2.SAYAV2.dao;
 
+import java.io.IOException;
+
 import javax.xml.bind.JAXBException;
 
+import SAYAV2.SAYAV2.Utils.FileUtils;
 import SAYAV2.SAYAV2.model.Notificacion;
 import SAYAV2.SAYAV2.model.Notificaciones;
 
@@ -28,12 +31,19 @@ public class NotificacionesDao extends GenericDao<Notificaciones> {
 	public synchronized void agregarNotificacion(Notificacion notificacion) {
 		Notificaciones notificaciones;
 		try {
-			notificaciones = notificacionesDao.cargar(file);		
+			notificaciones = notificacionesDao.cargar(FileUtils.NOTIFICACIONES_FILE);		
 		} catch (JAXBException e) {
 			notificaciones = new Notificaciones();
+		} catch (IOException e) {
+			notificaciones = new Notificaciones();
+			e.printStackTrace();
 		}
 		notificaciones.getNotificacion().add(notificacion);
-		notificacionesDao.guardar(notificaciones, file);
+		try {
+			notificacionesDao.guardar(notificaciones, FileUtils.NOTIFICACIONES_FILE);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -33,10 +33,10 @@ import spark.Route;
 public class GroupController {
 
 	private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
-	private static File file = new File(FileUtils.getUsuarioFile());
+//	private static File file = new File(FileUtils.getUsuarioFile());
 	private static GruposImpl grupos = new GruposImpl();
-	private static File votacionesPendientesFile = new File(FileUtils.getVotacionesPendientesFile());
-	private static File votacionesFile = new File(FileUtils.getVotacionesFile());
+//	private static File votacionesPendientesFile = new File(FileUtils.getVotacionesPendientesFile());
+//	private static File votacionesFile = new File(FileUtils.getVotacionesFile());
 	private static File mensajesFile = new File(FileUtils.getMensajesFile());
 	private static VotacionesDao votacionesDao = VotacionesDao.getInstance();
 	private static MensajePendienteDao mensajesDao = MensajePendienteDao.getInstance();
@@ -44,7 +44,7 @@ public class GroupController {
 	public static Route getNewGroup = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
 		Map<String, Object> model = new HashMap<>();
-		Usuario usuario = usuarioDao.cargar(file);
+		Usuario usuario = usuarioDao.cargar();
 		System.out.println(usuario);
 
 		Mensaje mensaje = new Mensaje();
@@ -59,7 +59,7 @@ public class GroupController {
 		LoginController.ensureUserIsLoggedIn(request, response);
 		Map<String, Object> model = new HashMap<>();
 
-		Usuario usuario = usuarioDao.cargar(file);
+		Usuario usuario = usuarioDao.cargar();
 		String nombre = RequestUtil.getNewGroupName(request);
 
 		Grupo nuevoGrupo = new Grupo(nombre);
@@ -72,7 +72,7 @@ public class GroupController {
 		if (usuario.addGrupo(nuevoGrupo)) {
 			model.put("addGroupSucceeded", true);
 			model.put("user", usuario);
-			usuarioDao.guardar(usuario, file);
+			usuarioDao.guardar(usuario);
 		} else {
 			model.put("user", usuario);
 			model.put("existingGroup", true);
@@ -84,7 +84,7 @@ public class GroupController {
 	public static Route getAllGroups = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
 		Map<String, Object> model = new HashMap<>();
-		Usuario usuario = usuarioDao.cargar(file);
+		Usuario usuario = usuarioDao.cargar();
 
 		model.put("user", usuario);
 
@@ -96,7 +96,7 @@ public class GroupController {
 
 	public static Route leaveGroup = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
-		Usuario usuario = usuarioDao.cargar(file);
+		Usuario usuario = usuarioDao.cargar();
 		String groupName = request.params("groupName");
 		Grupo grupo = usuario.getSingleGrupoByName(groupName);
 		if (!grupos.isInit()) {
@@ -118,7 +118,7 @@ public class GroupController {
 	public static Route getNewGroupMember = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
 		Map<String, Object> model = new HashMap<>();
-		Usuario usuario = usuarioDao.cargar(file);
+		Usuario usuario = usuarioDao.cargar();
 		String groupName = request.params("groupName");
 
 		model.put("user", usuario);
@@ -134,7 +134,7 @@ public class GroupController {
 
 		System.out.println("Agregando Miembro");
 		String memberDomain, groupName;
-		Usuario usuario = usuarioDao.cargar(file);
+		Usuario usuario = usuarioDao.cargar();
 		groupName = request.params("groupName");
 
 		Grupo grupo = usuario.getSingleGrupoByName(groupName);
@@ -202,7 +202,7 @@ public class GroupController {
 		LoginController.ensureUserIsLoggedIn(request, response);
 		Map<String, Object> model = new HashMap<>();
 		System.out.println("View Members");
-		Usuario usuario = usuarioDao.cargar(file);
+		Usuario usuario = usuarioDao.cargar();
 		String groupName = request.params("groupName");
 		Grupo group = usuario.getSingleGrupoByName(groupName);
 
@@ -222,14 +222,14 @@ public class GroupController {
 		}
 
 		String memberDomain, groupName;
-		Usuario usuario = usuarioDao.cargar(file);
+		Usuario usuario = usuarioDao.cargar();
 		groupName = request.params("groupName");
 		Grupo grupo = usuario.getSingleGrupoByName(groupName);
 
 		memberDomain = request.params("miembro");
 		Peer miembro = usuarioDao.getPeer(memberDomain, grupo);
 
-		if (!votacionesDao.exist(grupo.getId(), miembro, votacionesFile)) {
+		if (!votacionesDao.exist(grupo.getId(), miembro, FileUtils.VOTACIONES_FILE)) {
 			grupos.solicitarBajaMiembro(grupo, miembro);
 			model.put("solicitar", true);
 		} else {
@@ -246,12 +246,12 @@ public class GroupController {
 		LoginController.ensureUserIsLoggedIn(request, response);
 		Map<String, Object> model = new HashMap<>();
 		System.out.println("Ver Votaciones");
-		Usuario usuario = usuarioDao.cargar(file);
+		Usuario usuario = usuarioDao.cargar();
 		Votaciones votacionesPendientes;
 		Votaciones votaciones;
 
-		votacionesPendientes = set(votacionesPendientesFile);
-		votaciones = set(votacionesFile);
+		votacionesPendientes = votacionesDao.cargar(FileUtils.VOTACIONES_PENDIENTES_FILE);
+		votaciones = votacionesDao.cargar(FileUtils.VOTACIONES_FILE);
 
 		model.put("user", usuario);
 		model.put("currentUser", true);
@@ -261,6 +261,7 @@ public class GroupController {
 		return ViewUtil.render(request, model, PathUtil.Template.VER_VOTACIONES);
 	};
 
+	@SuppressWarnings("unused")
 	private static Votaciones set(File file) throws JAXBException {
 		if (file.exists()) {
 			return votacionesDao.cargar(file);
@@ -272,7 +273,7 @@ public class GroupController {
 		LoginController.ensureUserIsLoggedIn(request, response);
 		Map<String, Object> model = new HashMap<>();
 		System.out.println("Ver Votaciones");
-		Usuario usuario = usuarioDao.cargar(file);
+		Usuario usuario = usuarioDao.cargar();
 		Votaciones votacionesPendientes;
 		Votaciones votaciones;
 
@@ -280,7 +281,7 @@ public class GroupController {
 
 		String votacionId = request.params("id");
 
-		Votacion votacion = votacionesDao.getVotacion(votacionId, votacionesPendientesFile);
+		Votacion votacion = votacionesDao.getVotacion(votacionId, FileUtils.VOTACIONES_PENDIENTES_FILE);
 
 		if (!grupos.isInit()) {
 			grupos.init();
@@ -292,9 +293,9 @@ public class GroupController {
 			grupos.rechazarBajaMiembro(votacion);
 		}
 
-		votacionesDao.eliminarVotacion(votacion, votacionesPendientesFile);
-		votacionesPendientes = set(votacionesPendientesFile);
-		votaciones = set(votacionesFile);
+		votacionesDao.eliminarVotacion(votacion, FileUtils.VOTACIONES_PENDIENTES_FILE);
+		votacionesPendientes = votacionesDao.cargar(FileUtils.VOTACIONES_PENDIENTES_FILE);
+		votaciones = votacionesDao.cargar(FileUtils.VOTACIONES_FILE);
 
 		model.put("user", usuario);
 		model.put("currentUser", true);
@@ -308,7 +309,7 @@ public class GroupController {
 	public static Route getAllMenssages = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
 		Map<String, Object> model = new HashMap<>();
-		Usuario usuario = usuarioDao.cargar(file);
+		Usuario usuario = usuarioDao.cargar();
 		MensajesPendientes mp;
 		String estado = request.session().attribute("status");
 		System.out.println(estado);
@@ -333,7 +334,7 @@ public class GroupController {
 		LoginController.ensureUserIsLoggedIn(request, response);
 		Map<String, Object> model = new HashMap<>();
 
-		Usuario usuario = usuarioDao.cargar(file);
+		Usuario usuario = usuarioDao.cargar();
 		String estado = request.params("estado");
 
 		MensajesPendientes mp = mensajesDao.cargar(mensajesFile);
@@ -353,7 +354,7 @@ public class GroupController {
 		LoginController.ensureUserIsLoggedIn(request, response);
 		Map<String, Object> model = new HashMap<>();
 
-		Usuario usuario = usuarioDao.cargar(file);
+		Usuario usuario = usuarioDao.cargar();
 		String estado = request.params("estado");
 		String id = request.params("id");
 		mensajesDao.setFile(mensajesFile);
@@ -378,7 +379,7 @@ public class GroupController {
 
 		Map<String, Object> model = new HashMap<>();
 		System.out.println("Eliminar Mensaje");
-		Usuario usuario = usuarioDao.cargar(file);
+		Usuario usuario = usuarioDao.cargar();
 
 		String mensajeId = request.params("mensajeId");
 

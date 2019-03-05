@@ -7,12 +7,11 @@ import static spark.Spark.post;
 import static spark.Spark.staticFiles;
 
 import java.io.File;
+import java.io.IOException;
 
 import javax.xml.bind.JAXBException;
 
 import SAYAV2.SAYAV2.Utils.FileUtils;
-import SAYAV2.SAYAV2.Utils.IPathResolver;
-import SAYAV2.SAYAV2.Utils.PathResolver;
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.bussines.ControllerMQTT;
 import SAYAV2.SAYAV2.dao.ConfiguratorDao;
@@ -23,16 +22,14 @@ public class Application {
 
 	static Configurator config;
 	static ConfiguratorDao configDao;
-	static File c;
+	//static File c;
 	static File sayav = new File(FileUtils.getUsuarioFile());
 	static ControllerMQTT controllerMqtt;
-	private static PathResolver pathResolver = IPathResolver.getInstance();
 
-	public static void config() throws JAXBException {
+	public static void config() throws JAXBException, IOException {
 		controllerMqtt = ControllerMQTT.getInstance();
 		configDao = ConfiguratorDao.getInstance();
-		c = new File(pathResolver.getPath(FileUtils.getConfiguratorFile()));
-		config = configDao.cargar(c);
+		config = configDao.cargar(FileUtils.CONFIGURATOR_FILE);
 		controllerMqtt = ControllerMQTT.getInstance();
 	}
 
@@ -153,6 +150,9 @@ public class Application {
 			// after("*", Filters.addGzipHeader);
 
 		} catch (JAXBException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

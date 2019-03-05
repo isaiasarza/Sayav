@@ -1,10 +1,12 @@
 package SAYAV2.SAYAV2.dao;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
 
 import javax.xml.bind.JAXBException;
 
+import SAYAV2.SAYAV2.Utils.FileUtils;
 import SAYAV2.SAYAV2.model.DispositivoM;
 import SAYAV2.SAYAV2.model.Grupo;
 import SAYAV2.SAYAV2.model.Peer;
@@ -17,12 +19,21 @@ public class UsuarioDao extends GenericDao<Usuario> {
 		super();
 		this.e = new Usuario();
 	}
+	
 
 	public static UsuarioDao getInstance() {
 		if (usuarioDao == null) {
 			usuarioDao = new UsuarioDao();
 		}
 		return usuarioDao;
+	}
+	
+	public Usuario cargar() throws JAXBException, IOException {
+		return super.cargar(FileUtils.MENSAJES_FILE);
+	}
+	
+	public void guardar(Usuario usuario) throws JAXBException, IOException {
+		super.guardar(usuario,FileUtils.MENSAJES_FILE);
 	}
 
 	public Usuario getUsuario(String email) {
@@ -176,6 +187,23 @@ public class UsuarioDao extends GenericDao<Usuario> {
 			}
 			return false;
 		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public boolean eliminarDispositivo(String token) {
+		try {
+			Usuario usuario = this.cargar();
+			DispositivoM d = new DispositivoM(token);
+			if(usuario.getDispositivosMoviles().remove(d)){
+				this.guardar(usuario, FileUtils.USUARIO_FILE);
+				return true;
+			}
+			return false;
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return false;

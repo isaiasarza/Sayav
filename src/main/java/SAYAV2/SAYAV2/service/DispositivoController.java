@@ -27,11 +27,10 @@ public class DispositivoController{
 	
 private static DispositivoDao dispositivoDao;
 private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
-private static File file = new File(FileUtils.getUsuarioFile());
+//private static File file = new File(FileUtils.getUsuarioFile());
 
 
 	public DispositivoController() {
-		// TODO Auto-generated constructor stub
 		super();
 		dispositivoDao = new DispositivoDao();
 	   
@@ -44,7 +43,7 @@ private static File file = new File(FileUtils.getUsuarioFile());
 		
 		DispositivoM dispositivo= new DispositivoM();
 	    
-		Usuario usuario = usuarioDao.cargar(file);
+		Usuario usuario = usuarioDao.cargar();
 
 		model.put("user", usuario);
 		model.put("dispositivo", dispositivo);
@@ -68,7 +67,7 @@ private static File file = new File(FileUtils.getUsuarioFile());
 		//Se agrega el dispositivo a la lista de dispositivos	
 		
 		
-		usuario = usuarioDao.cargar(file);
+		usuario = usuarioDao.cargar(FileUtils.USUARIO_FILE);
 		if(disp.getNumero().toCharArray()[0] == '0'){
 			
 		}
@@ -76,7 +75,7 @@ private static File file = new File(FileUtils.getUsuarioFile());
 
 		//Actualizo el Usuario
 		UsuarioController.setCurrentUser(usuario);			
-		UsuarioDao.getInstance().guardar(usuario, UsuarioController.getFile());
+		UsuarioDao.getInstance().guardar(usuario);
 		model.put("user", usuario);
 		model.put("dispositivo", disp);		
 		model.put("listaDispositivos", usuario.getDispositivosMoviles());
@@ -90,13 +89,13 @@ private static File file = new File(FileUtils.getUsuarioFile());
 		Map<String, Object> model = new HashMap<>();
 		System.out.println("Eliminar Dispositivo");
 		//Se agrega el dispositivo a la lista de dispositivos		
-		Usuario usuario = usuarioDao.cargar(file);
+		Usuario usuario = usuarioDao.cargar();
 		String token = RequestUtil.getQueryDispositivoABorrar(request);
 		
-		if(usuarioDao.eliminarDispositivo(token,file)){
+		if(usuarioDao.eliminarDispositivo(token)){
 			String title = "Desvinculacion";
 			String message = "Fue desvinculado de la central " + usuario.getSubdominio();
-			usuario = usuarioDao.cargar(file);
+			usuario = usuarioDao.cargar();
 			model.put("eliminarSuccess", true);
 			model.put("user", usuario);
 			model.put("listaDispositivos", usuario.getDispositivosMoviles());
