@@ -29,11 +29,11 @@ public class UsuarioDao extends GenericDao<Usuario> {
 	}
 	
 	public Usuario cargar() throws JAXBException, IOException {
-		return super.cargar(FileUtils.MENSAJES_FILE);
+		return super.cargar(FileUtils.USUARIO_FILE);
 	}
 	
 	public void guardar(Usuario usuario) throws JAXBException, IOException {
-		super.guardar(usuario,FileUtils.MENSAJES_FILE);
+		super.guardar(usuario,FileUtils.USUARIO_FILE);
 	}
 
 	public Usuario getUsuario(String email) {

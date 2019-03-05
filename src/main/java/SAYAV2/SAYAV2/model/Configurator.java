@@ -44,7 +44,7 @@ import javax.xml.bind.annotation.XmlType;
     "port",
     "sectores"
 })
-@XmlRootElement(name = "Configurator" , namespace = "http://www.example.org/Mensaje")
+@XmlRootElement(name = "Configurator" , namespace = "http://www.example.org/response")
 public class Configurator {
 
     @XmlElement(name = "Broker")

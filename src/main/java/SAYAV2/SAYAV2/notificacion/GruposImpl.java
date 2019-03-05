@@ -11,8 +11,6 @@ import Datos.DatoGrupo;
 import Datos.DatoVoto;
 import SAYAV2.SAYAV2.Utils.EstadoUtils;
 import SAYAV2.SAYAV2.Utils.FileUtils;
-import SAYAV2.SAYAV2.Utils.IPathResolver;
-import SAYAV2.SAYAV2.Utils.PathResolver;
 import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
 import SAYAV2.SAYAV2.dao.TipoMensajeDao;
 import SAYAV2.SAYAV2.dao.UsuarioDao;

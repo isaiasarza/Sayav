@@ -1,6 +1,6 @@
 package SAYAV2.SAYAV2.bussines;
 
-import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
@@ -16,8 +16,6 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttSecurityException;
 
 import SAYAV2.SAYAV2.Utils.FileUtils;
-import SAYAV2.SAYAV2.Utils.IPathResolver;
-import SAYAV2.SAYAV2.Utils.PathResolver;
 import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
 import SAYAV2.SAYAV2.dao.ConfiguratorDao;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
@@ -36,27 +34,24 @@ public class ControllerMQTT implements MqttCallback {
 	private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
 	private static ConfiguratorDao configDao = ConfiguratorDao.getInstance();
 	
-	private File file;
-	private File configFile;
+	//private File file;
+	//private File configFile;
 	private static MensajeriaImpl mensajeria;
 	private IMqttAsyncClient client;
 	private MqttConnectOptions options;
 	URL url;
-	private PathResolver pathResolver = IPathResolver.getInstance();
 	private ControllerMQTT() {
 		super();
 		try {
-			url = this.getClass().getResource("/files/configurator");
-			System.out.println(url.getPath());
-			file = new File(pathResolver.getPath(FileUtils.getUsuarioFile()));
-			configFile = new File(pathResolver.getPath(FileUtils.getConfiguratorFile()));
-			Configurator config = configDao.cargar(configFile);
+			Configurator config = configDao.cargar(FileUtils.CONFIGURATOR_FILE);
 			System.out.println(config);
 			client = new MqttAsyncClient(config.getBroker(), MqttAsyncClient.generateClientId());
 			options = new MqttConnectOptions();
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}catch (MqttException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		} 
 	}
@@ -92,10 +87,10 @@ public class ControllerMQTT implements MqttCallback {
 		}
 	}
 
-	public void initReceive() throws JAXBException {
+	public void initReceive() throws JAXBException, IOException {
 		int qos = 1;
 
-		Usuario usuario = usuarioDao.cargar(file);
+		Usuario usuario = usuarioDao.cargar();
 
 		String handshakeRequest = usuario.getSubdominio() + "/" + TipoMensajeUtils.HANDSHAKE_REQUEST;
 		receive(handshakeRequest, qos);
@@ -113,13 +108,15 @@ public class ControllerMQTT implements MqttCallback {
 		int[] qoss = new int[n];
 		Usuario usuario;
 		try {
-			usuario = usuarioDao.cargar(file);
+			usuario = usuarioDao.cargar();
 			for (Grupo g : grupos) {
 				grupoTopic[i] = (g.getId() + usuario.getSubdominio() + "/" + TipoMensajeUtils.NUEVO_MIEMBRO);
 				qoss[i] = 2;
 				i++;
 			}
 		} catch (JAXBException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 

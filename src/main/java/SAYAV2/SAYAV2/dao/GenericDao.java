@@ -44,7 +44,6 @@ public class GenericDao<E> {
 		// StringWriter writer = new StringWriter();
 		JAXBContext context;
 		try {
-
 			context = JAXBContext.newInstance(e.getClass());
 			Marshaller m;
 			m = context.createMarshaller();
@@ -74,8 +73,10 @@ public class GenericDao<E> {
 
 	@SuppressWarnings("unchecked")
 	public E cargar(String ruta) throws JAXBException, IOException {
+
 		E entidad;
 		JAXBContext context = JAXBContext.newInstance(e.getClass());
+		
 		Unmarshaller um = context.createUnmarshaller();
 		
 		File f = new File(ruta);

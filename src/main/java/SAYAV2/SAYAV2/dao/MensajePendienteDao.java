@@ -1,6 +1,7 @@
 package SAYAV2.SAYAV2.dao;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -8,6 +9,7 @@ import javax.xml.bind.JAXBException;
 
 import Datos.DatoGrupo;
 import SAYAV2.SAYAV2.Utils.EstadoUtils;
+import SAYAV2.SAYAV2.Utils.FileUtils;
 import SAYAV2.SAYAV2.mensajeria.Mensaje;
 import SAYAV2.SAYAV2.mensajeria.TipoMensaje;
 import SAYAV2.SAYAV2.model.MensajesPendientes;
@@ -87,11 +89,11 @@ public class MensajePendienteDao extends GenericDao<MensajesPendientes> {
 	
 	public synchronized MensajesPendientes cargar(){
 		try {
-			MensajesPendientes m = super.cargar(file);
+			MensajesPendientes m = super.cargar(FileUtils.MENSAJES_FILE);
 			return m;
-		} catch (JAXBException e) {
-
-		}
+		} catch (JAXBException | IOException e) {
+			e.printStackTrace();
+		} 
 		return new MensajesPendientes();
 	}
 	

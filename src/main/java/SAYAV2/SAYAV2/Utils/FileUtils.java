@@ -3,20 +3,16 @@ package SAYAV2.SAYAV2.Utils;
 import java.io.File;
 
 public class FileUtils {
-	private static final String folder =  File.separator + "resources" + File.separator + "files" + File.separator;
+	private static final String folder = System.getProperty("user.dir") + File.separator + "resources" + File.separator + "files" + File.separator;
 	
-	public static final String CONFIGURATOR_FILE = folder  + "configurator";
-	public static final String USUARIO_FILE = folder + "SAYAV";
-	public static final String NOTIFICACIONES_FILE =  folder + "notificaciones";
-	public static final String VOTACIONES_FILE = folder + "votaciones";
-	public static final String VOTACIONES_PENDIENTES_FILE = folder + "votaciones_pendientes";
-	public static final String MENSAJES_FILE =  folder + "mensajes";
-	public static final String TIPOS_MENSAJES_FILE = folder + "tipos_mensajes";
-	public static final String WORKSPACE_PATH = "";
-
-	public static String getWORKSPACE_PATH() {
-		return WORKSPACE_PATH;
-	}
+	public static final String CONFIGURATOR_FILE = folder  + "configurator.xml";
+	public static final String USUARIO_FILE = folder + "SAYAV.xml";
+	public static final String NOTIFICACIONES_FILE =  folder + "notificaciones.xml";
+	public static final String VOTACIONES_FILE = folder + "votaciones.xml";
+	public static final String VOTACIONES_PENDIENTES_FILE = folder + "votaciones_pendientes.xml";
+	public static final String MENSAJES_FILE =  folder + "mensajes.xml";
+	public static final String TIPOS_MENSAJES_FILE = folder + "tipos_mensajes.xml";
+	
 
 	public static String getConfiguratorFile() {
 		return CONFIGURATOR_FILE;
@@ -49,8 +45,5 @@ public class FileUtils {
 		return TIPOS_MENSAJES_FILE;
 	}
 
-	public static String getWorkspacePath() {
-		return WORKSPACE_PATH;
-	}
 
 }

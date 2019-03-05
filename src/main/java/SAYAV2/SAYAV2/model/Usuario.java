@@ -66,7 +66,7 @@ import javax.xml.bind.annotation.XmlType;
     "sectores",
     "grupos"
 })
-@XmlRootElement(name = "Usuario" ,namespace="http://www.example.org/Usuario")
+@XmlRootElement(name = "Usuario" ,namespace="http://www.example.org/response")
 public class Usuario {
 
     @XmlElement(name = "Nombre")

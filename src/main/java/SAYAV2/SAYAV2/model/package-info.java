@@ -5,5 +5,5 @@
 // Generated on: 2017.06.06 at 11:36:17 PM ART 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.example.org/Mensaje", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.example.org/response", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package SAYAV2.SAYAV2.model;

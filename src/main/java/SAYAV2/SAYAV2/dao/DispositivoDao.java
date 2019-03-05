@@ -50,6 +50,7 @@ public class DispositivoDao implements Dao{
 		return obj;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void update(Object obj) {
 		//StringWriter writer = new StringWriter();
 		JAXBContext context;

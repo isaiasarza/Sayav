@@ -1,6 +1,5 @@
 package SAYAV2.SAYAV2.mensajeria;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -12,8 +11,6 @@ import Datos.DatoGrupo;
 import SAYAV2.SAYAV2.Utils.EstadoUtils;
 import SAYAV2.SAYAV2.Utils.FechaUtils;
 import SAYAV2.SAYAV2.Utils.FileUtils;
-import SAYAV2.SAYAV2.Utils.IPathResolver;
-import SAYAV2.SAYAV2.Utils.PathResolver;
 import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
 import SAYAV2.SAYAV2.bussines.ControllerMQTT;
 import SAYAV2.SAYAV2.dao.MensajePendienteDao;
@@ -33,7 +30,7 @@ public class MensajeriaImpl implements Mensajeria {
 	private static MensajeriaImpl mensImpl;
 	//private File file;
 	private NotificacionesDao notificacionesDao;
-	private File notificacionesFile;
+	//private File notificacionesFile;
 	private MensajesPendientes mensajes;
 	private TipoMensajeDao tipoMensajeDao;
 	private MensajePendienteDao mensajesDao;
@@ -43,21 +40,13 @@ public class MensajeriaImpl implements Mensajeria {
 	private static ControllerMQTT conn;
 	private JsonTransformer json;
 	private GruposImpl gruposImpl;
-	private PathResolver pathResolver = IPathResolver.getInstance();
 
 	private MensajeriaImpl() {
-		super();
-		//tiposFile = new File(pathResolver.getPath(FileUtils.getTiposMensajesFile()));
-		//mensajesFile = new File(pathResolver.getPath(FileUtils.getMensajesFile()));
+		super();		
 		this.tipoMensajeDao = TipoMensajeDao.getInstance();
 		this.mensajesDao = MensajePendienteDao.getInstance();
-	//	this.mensajesDao.setFile(mensajesFile);
-	//	this.file = new File(pathResolver.getPath(FileUtils.getUsuarioFile()));
-	//	this.usuarioDao.setFile(file);
 		this.json = new JsonTransformer();
-		this.notificacionesFile = new File(pathResolver.getPath(FileUtils.getNotificacionesFile()));
 		this.notificacionesDao = NotificacionesDao.getInstance();
-		this.notificacionesDao.setFile(notificacionesFile);
 		try {
 			setMensajes(this.mensajesDao.cargar(FileUtils.MENSAJES_FILE));
 			setTipos(this.tipoMensajeDao.cargar(FileUtils.TIPOS_MENSAJES_FILE));
@@ -66,7 +55,6 @@ public class MensajeriaImpl implements Mensajeria {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public void init() {
