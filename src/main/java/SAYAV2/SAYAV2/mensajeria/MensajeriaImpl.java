@@ -19,7 +19,6 @@ import SAYAV2.SAYAV2.bussines.ControllerMQTT;
 import SAYAV2.SAYAV2.dao.MensajePendienteDao;
 import SAYAV2.SAYAV2.dao.NotificacionesDao;
 import SAYAV2.SAYAV2.dao.TipoMensajeDao;
-import SAYAV2.SAYAV2.dao.UsuarioDao;
 import SAYAV2.SAYAV2.model.Grupo;
 import SAYAV2.SAYAV2.model.MensajesPendientes;
 import SAYAV2.SAYAV2.model.Notificacion;
@@ -32,15 +31,14 @@ import SAYAV2.SAYAV2.service.JsonTransformer;
 public class MensajeriaImpl implements Mensajeria {
 
 	private static MensajeriaImpl mensImpl;
-	private UsuarioDao usuarioDao;
-	private File file;
+	//private File file;
 	private NotificacionesDao notificacionesDao;
 	private File notificacionesFile;
 	private MensajesPendientes mensajes;
 	private TipoMensajeDao tipoMensajeDao;
 	private MensajePendienteDao mensajesDao;
-	private static File tiposFile;
-	private static File mensajesFile;
+	//private static File tiposFile;
+	//private static File mensajesFile;
 	private TiposMensajes tipos;
 	private static ControllerMQTT conn;
 	private JsonTransformer json;
@@ -49,42 +47,23 @@ public class MensajeriaImpl implements Mensajeria {
 
 	private MensajeriaImpl() {
 		super();
-		tiposFile = new File(pathResolver.getPath(FileUtils.getTiposMensajesFile()));
-		mensajesFile = new File(pathResolver.getPath(FileUtils.getMensajesFile()));
+		//tiposFile = new File(pathResolver.getPath(FileUtils.getTiposMensajesFile()));
+		//mensajesFile = new File(pathResolver.getPath(FileUtils.getMensajesFile()));
 		this.tipoMensajeDao = TipoMensajeDao.getInstance();
 		this.mensajesDao = MensajePendienteDao.getInstance();
-		this.mensajesDao.setFile(mensajesFile);
-		this.file = new File(pathResolver.getPath(FileUtils.getUsuarioFile()));
-		this.usuarioDao = UsuarioDao.getInstance();
-		this.usuarioDao.setFile(file);
+	//	this.mensajesDao.setFile(mensajesFile);
+	//	this.file = new File(pathResolver.getPath(FileUtils.getUsuarioFile()));
+	//	this.usuarioDao.setFile(file);
 		this.json = new JsonTransformer();
 		this.notificacionesFile = new File(pathResolver.getPath(FileUtils.getNotificacionesFile()));
 		this.notificacionesDao = NotificacionesDao.getInstance();
 		this.notificacionesDao.setFile(notificacionesFile);
 		try {
-			String ruta = System.getProperty("user.dir") + File.separator + "resources" + File.separator + "files"
-					+ File.separator + "mensajes";
-			System.out.println(pathResolver.getPath(FileUtils.getMensajesFile()));
-			/***
-			 * Forma de poder leer desde un jar
-			 * 
-			 */
-			// InputStream pp =
-			// this.getClass().getResourceAsStream("/resources/files/mensajes.xml");
-			System.out.println("Ruta: -" + ruta + "-");
-			Mensaje mensaje = new Mensaje();
-			mensaje.setDatos("MENSAJE NUEVO");
-
-			if (mensajes == null) {
-				this.mensajes = new MensajesPendientes();
-			}
-			setMensajes(this.mensajesDao.cargar(ruta));
-			guardarMensaje(mensaje, ruta);
-			setTipos(this.tipoMensajeDao.cargar(tiposFile));
+			setMensajes(this.mensajesDao.cargar(FileUtils.MENSAJES_FILE));
+			setTipos(this.tipoMensajeDao.cargar(FileUtils.TIPOS_MENSAJES_FILE));
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -183,7 +162,7 @@ public class MensajeriaImpl implements Mensajeria {
 				mensaje.setOrigen(msg.getDestino());
 				mensaje.setDestino(msg.getOrigen());
 				mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
-				mensaje.setTipoMensaje(tipoMensajeDao.getTipo(TipoMensajeUtils.OK_CONFIRMACION, tiposFile));
+				mensaje.setTipoMensaje(tipoMensajeDao.getTipo(TipoMensajeUtils.OK_CONFIRMACION, FileUtils.MENSAJES_FILE));
 				mensaje.setEstado(EstadoUtils.Estado.CONFIRMADO);
 				enviarConfirmacion(mensaje);
 				return;
@@ -231,8 +210,14 @@ public class MensajeriaImpl implements Mensajeria {
 	@Override
 	public synchronized void guardarMensaje(Mensaje msg) {
 		if (this.mensajes.addMensaje(msg)) {
-			this.mensajesDao.guardar(this.mensajes, mensajesFile);
-			this.mensajes = mensajesDao.cargar(mensajesFile);
+			try {
+				this.mensajesDao.guardar(this.mensajes, FileUtils.MENSAJES_FILE);
+				this.mensajes = mensajesDao.cargar(FileUtils.MENSAJES_FILE);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (JAXBException e) {
+				e.printStackTrace();
+			}
 
 		}
 	}
@@ -258,7 +243,11 @@ public class MensajeriaImpl implements Mensajeria {
 		Mensaje viejo = this.mensajes.getMensaje(msg.getId());
 		viejo.setFechaReenvio(new Date());
 		viejo.setEstado(msg.getEstado());
-		mensajesDao.guardar(this.mensajes, mensajesFile);
+		try {
+			mensajesDao.guardar(this.mensajes, FileUtils.MENSAJES_FILE);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -432,7 +421,11 @@ public class MensajeriaImpl implements Mensajeria {
 
 	public void eliminarMensajes(List<Mensaje> borrados) {
 		mensajes.getMensaje().removeAll(borrados);
-		mensajesDao.guardar(mensajes, mensajesFile);
+		try {
+			mensajesDao.guardar(mensajes, FileUtils.MENSAJES_FILE);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

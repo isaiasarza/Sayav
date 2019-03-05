@@ -9,7 +9,6 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-import SAYAV2.SAYAV2.Utils.FileUtils;
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.RequestUtil;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
@@ -67,7 +66,7 @@ private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
 		//Se agrega el dispositivo a la lista de dispositivos	
 		
 		
-		usuario = usuarioDao.cargar(FileUtils.USUARIO_FILE);
+		usuario = usuarioDao.cargar();
 		if(disp.getNumero().toCharArray()[0] == '0'){
 			
 		}
