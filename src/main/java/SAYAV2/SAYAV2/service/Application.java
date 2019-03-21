@@ -11,26 +11,34 @@ import java.io.IOException;
 
 import javax.xml.bind.JAXBException;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import SAYAV2.SAYAV2.Utils.FileUtils;
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.bussines.ControllerMQTT;
 import SAYAV2.SAYAV2.dao.ConfiguratorDao;
+import SAYAV2.SAYAV2.mensajeria.Mensaje;
+import SAYAV2.SAYAV2.mensajeria.Mensajeria;
+import SAYAV2.SAYAV2.mensajeria.MensajeriaImpl;
 import SAYAV2.SAYAV2.model.Configurator;
 
 
 public class Application {
-
+	static ObjectMapper mapper; 
 	static Configurator config;
 	static ConfiguratorDao configDao;
 	//static File c;
 	static File sayav = new File(FileUtils.getUsuarioFile());
+	static Mensajeria mensajeria;
 	static ControllerMQTT controllerMqtt;
 
 	public static void config() throws JAXBException, IOException {
-		controllerMqtt = ControllerMQTT.getInstance();
+	//	controllerMqtt = ControllerMQTT.getInstance();
 		configDao = ConfiguratorDao.getInstance();
 		config = configDao.cargar(FileUtils.CONFIGURATOR_FILE);
-		controllerMqtt = ControllerMQTT.getInstance();
+		mapper = new ObjectMapper();
+		mensajeria = MensajeriaImpl.getInstance();
+	//	controllerMqtt = ControllerMQTT.getInstance();
 	}
 
 	public static int getPort() {
@@ -48,16 +56,23 @@ public class Application {
 
 			port(getPort());
 
-			controllerMqtt.start();
+		//	controllerMqtt.start();
 
 			if (sayav.exists()) {
 				System.out.println(sayav.getAbsolutePath());
-				controllerMqtt.initReceive();
+		//		controllerMqtt.initReceive();
 			}
 
 			messageChecker.start();
 
-			
+			post("/", (request,response)->{
+				Mensaje mensaje = mapper.readValue(request.bodyAsBytes(), Mensaje.class);
+				System.out.println("Mensaje recibido");
+				System.out.println(mensaje);
+				mensajeria.recibirMensaje(mensaje);
+				return "ok";
+			});
+
 
 			// Set up before-filters (called before each get/post)
 			// before("*", Filters.addTrailingSlashes);
@@ -138,12 +153,7 @@ public class Application {
 			// get(PathUtil.Web.NOTIFICATION_TOKEN, (req, res) -> "Get Token");
 			post(PathUtil.Web.NOTIFICATION_TOKEN, FirebaseCloudMessageController.postNewToken);
 
-			// get(PathUtil.Web.GRUOP_NOTIFICATION,
-			// GrupoController.getNotificar);
-			// post(PathUtil.Web.GRUOP_NOTIFICATION, GrupoController.notificar);
-			//
-			// get(PathUtil.Web.VIEW_ALL_MESSAGES,
-			// MensajesPendientesController.getAllMenssages);
+		
 
 			get("*", LoginController.serveLoginPage);
 			// Set up after-filters (called after each get/post)

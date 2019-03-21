@@ -21,4 +21,5 @@ public interface Mensajeria {
 	boolean eliminarMensaje(Mensaje msg);
 	void actualizarMensaje(Mensaje msg);
 	void guardarMensaje(Mensaje msg, String ruta);
+	void recibirMensaje(Mensaje mensaje);
 }
