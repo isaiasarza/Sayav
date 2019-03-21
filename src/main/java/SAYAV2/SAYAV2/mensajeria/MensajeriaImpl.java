@@ -12,7 +12,6 @@ import SAYAV2.SAYAV2.Utils.EstadoUtils;
 import SAYAV2.SAYAV2.Utils.FechaUtils;
 import SAYAV2.SAYAV2.Utils.FileUtils;
 import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
-import SAYAV2.SAYAV2.bussines.ControllerMQTT;
 import SAYAV2.SAYAV2.dao.MensajePendienteDao;
 import SAYAV2.SAYAV2.dao.NotificacionesDao;
 import SAYAV2.SAYAV2.dao.TipoMensajeDao;
@@ -28,21 +27,19 @@ import SAYAV2.SAYAV2.service.JsonTransformer;
 public class MensajeriaImpl implements Mensajeria {
 
 	private static MensajeriaImpl mensImpl;
-	//private File file;
 	private NotificacionesDao notificacionesDao;
-	//private File notificacionesFile;
 	private MensajesPendientes mensajes;
 	private TipoMensajeDao tipoMensajeDao;
 	private MensajePendienteDao mensajesDao;
-	//private static File tiposFile;
-	//private static File mensajesFile;
 	private TiposMensajes tipos;
-	private static ControllerMQTT conn;
+	//private static ControllerMQTT conn;
+	private Sender sender;
 	private JsonTransformer json;
 	private GruposImpl gruposImpl;
 
 	private MensajeriaImpl() {
 		super();		
+		this.sender = SenderRest.getInstance();
 		this.tipoMensajeDao = TipoMensajeDao.getInstance();
 		this.mensajesDao = MensajePendienteDao.getInstance();
 		this.json = new JsonTransformer();
@@ -72,8 +69,8 @@ public class MensajeriaImpl implements Mensajeria {
 	public static MensajeriaImpl getInstance() {
 		if (mensImpl == null) {
 			mensImpl = new MensajeriaImpl();
-			conn = ControllerMQTT.getInstance();
-			conn.start();
+			//conn = ControllerMQTT.getInstance();
+			//conn.start();
 		}
 
 		return mensImpl;
@@ -301,8 +298,9 @@ public class MensajeriaImpl implements Mensajeria {
 		guardarMensaje(msg);
 		String m = json.render(msg);
 
-		String topic = msg.getDestino() + "/" + msg.getTipoHandshake();
-		conn.send(topic, m, 2);
+		//String topic = msg.getDestino() + "/" + msg.getTipoHandshake();
+		//conn.send(topic, m, 2);
+		sender.send(msg);
 		return m;
 	}
 
@@ -318,10 +316,11 @@ public class MensajeriaImpl implements Mensajeria {
 		}
 		msg.setEstado(EstadoUtils.Estado.PENDIENTE);
 		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
-		String topic = msg.getDestino() + "/" + msg.getTipoHandshake();
-		String m = json.render(msg);
+		//String topic = msg.getDestino() + "/" + msg.getTipoHandshake();
+		//String m = json.render(msg);
 		guardarMensaje(msg);
-		conn.send(topic, m, 2);
+		sender.send(msg);
+		//conn.send(topic, m, 2);
 
 	}
 
@@ -412,6 +411,21 @@ public class MensajeriaImpl implements Mensajeria {
 		try {
 			mensajesDao.guardar(mensajes, FileUtils.MENSAJES_FILE);
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void recibirMensaje(Mensaje mensaje) {
+
+		try {
+			if (mensaje.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST)) {
+				recibirSolicitud(mensaje);
+			}
+			if (mensaje.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_RESPONSE)) {
+				recibirConfirmación(mensaje);
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

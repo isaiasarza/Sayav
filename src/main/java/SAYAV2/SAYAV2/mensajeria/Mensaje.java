@@ -60,6 +60,7 @@ public class Mensaje implements Cloneable,Comparable<Mensaje> {
 	protected String id;
 	protected String origen;
 	protected String destino;
+	//protected Peer peerOri
 	protected Date fechaCreacion;
 	protected Date fechaReenvio;
 	protected String estado;
