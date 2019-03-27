@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Usuario xmlns="http://www.example.org/response">
+    <Nombre>Lucas</Nombre>
+    <Apellido>Bobadilla</Apellido>
+    <NombreDeUsuario>Arza</NombreDeUsuario>
+    <Email>lucasboba@gmail.com</Email>
+    <Direccion>Entre Rios 749</Direccion>
+    <Subdominio>lucasboba.ddns.net</Subdominio>
+    <Contraseña>$2a$10$3jKwH0/mOFYhNtvsGKldTe4GTf7ai/puXjLZTkFc7dKe3J6sAm3oi</Contraseña>
+    <Salt>$2a$10$3jKwH0/mOFYhNtvsGKldTe</Salt>
+    <AlarmaHabilitada>true</AlarmaHabilitada>
+    <Sectores>
+        <Nombre>Baño</Nombre>
+        <Activado>false</Activado>
+    </Sectores>
+    <Sectores>
+        <Nombre>Sector N2</Nombre>
+        <Activado>false</Activado>
+    </Sectores>
+    <Sectores>
+        <Nombre>Sector N3</Nombre>
+        <Activado>false</Activado>
+    </Sectores>
+    <Sectores>
+        <Nombre>Sector N4</Nombre>
+        <Activado>false</Activado>
+    </Sectores>
+    <Sectores>
+        <Nombre>Boton de Panico</Nombre>
+        <Activado>false</Activado>
+    </Sectores>
+    <Grupos>
+        <Id>d16048da-5041-4ae8-8e1f-34d3916ca302</Id>
+        <Nombre>Familia</Nombre>
+    </Grupos>
+    <Grupos>
+        <Id>93b241d0-fda2-458f-916b-218280085d33</Id>
+        <Nombre>Universidad</Nombre>
+    </Grupos>
+</Usuario>

@@ -38,6 +38,7 @@ public class GroupController {
 //	private static File votacionesPendientesFile = new File(FileUtils.getVotacionesPendientesFile());
 //	private static File votacionesFile = new File(FileUtils.getVotacionesFile());
 	private static File mensajesFile = new File(FileUtils.getMensajesFile());
+	//private static ConfiguratorDao configuratorDao = ConfiguratorDao.getInstance();
 	private static VotacionesDao votacionesDao = VotacionesDao.getInstance();
 	private static MensajePendienteDao mensajesDao = MensajePendienteDao.getInstance();
 
@@ -134,13 +135,14 @@ public class GroupController {
 
 		System.out.println("Agregando Miembro");
 		String memberDomain, groupName;
+		int puerto;
 		Usuario usuario = usuarioDao.cargar();
 		groupName = request.params("groupName");
 
 		Grupo grupo = usuario.getSingleGrupoByName(groupName);
 		DomainValidator domainValidator = DomainValidator.getInstance(false);
 		memberDomain = RequestUtil.getQueryMemberDomain(request);
-
+		puerto = RequestUtil.getQueryPuerto(request);
 		if (memberDomain.contains("/")) {
 			model.put("invalidDomain", true);
 			model.put("user", usuario);
@@ -169,9 +171,7 @@ public class GroupController {
 			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
 		}
 
-		Peer peer = new Peer();
-		peer.setDireccion(memberDomain);
-
+		Peer peer = new Peer(memberDomain,puerto);
 		if (grupo.getPeers().contains(peer)) {
 			model.put("existingMember", true);
 			model.put("user", usuario);

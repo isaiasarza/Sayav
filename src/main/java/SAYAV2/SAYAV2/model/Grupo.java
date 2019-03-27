@@ -138,6 +138,13 @@ public class Grupo {
 		}
 		return this.peers.add(nuevo);
 	}
+	
+	public boolean addPeer(Peer nuevo){
+		if(this.peers.contains(nuevo)){
+			return false;
+		}
+		return this.peers.add(nuevo);
+	}
 
 
 	public boolean removePeer(String peer) {
@@ -201,6 +208,8 @@ public class Grupo {
 		this.peers.remove(miembro);
 
 	}
+
+	
 	
 	
 	

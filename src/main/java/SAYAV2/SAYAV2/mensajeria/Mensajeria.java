@@ -10,6 +10,7 @@ import SAYAV2.SAYAV2.model.Grupo;
 
 
 public interface Mensajeria {
+	void init();
 	void procesarMensaje(Mensaje msg) throws JAXBException, Exception;
 	void propagarMensaje(Mensaje msg, Grupo g) throws Exception;
 	void guardarMensaje(Mensaje msg);

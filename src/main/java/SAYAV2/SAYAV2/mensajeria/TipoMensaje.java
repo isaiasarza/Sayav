@@ -123,6 +123,11 @@ public class TipoMensaje {
 		this.timetolive = timetolive;
 	}
 
+	@Override
+	public String toString() {
+		return "TipoMensaje [tipo=" + tipo + ", quantum=" + quantum + ", timetolive=" + timetolive + "]";
+	}
+
     
     
     

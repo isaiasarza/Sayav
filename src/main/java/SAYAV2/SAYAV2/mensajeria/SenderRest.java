@@ -44,8 +44,9 @@ public class SenderRest implements Sender {
 
 	@Override
 	public String send(Mensaje mensaje) {
+		String destino = "http://" + mensaje.getDestino().getDireccion() + ":" + mensaje.getDestino().getPuerto();
 		try {
-			HttpResponse<String> jsonResponse = (Unirest.post(mensaje.getDestino())
+			HttpResponse<String> jsonResponse = (Unirest.post(destino)
 					.header("accept", "application/json")
 					.header("Content-Type", "application/json")
 					.body(mensaje)

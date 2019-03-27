@@ -71,8 +71,9 @@ public class MensajeriaImplTest {
 	public void testPropagarMensaje() {
 		try {
 			Grupo grupo = usuarioDao.getGrupo(0);
+			Peer peer = new Peer(usuarioDao.getSubdominio(), 8080);
 			try {
-				mensaje.setOrigen(usuarioDao.getNombreDeUsuario());
+				mensaje.setOrigen(peer);
 				//mensajeria.propagarMensaje(mensaje, grupo);
 				
 			} catch (Exception e) {

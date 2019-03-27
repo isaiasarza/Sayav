@@ -26,8 +26,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="Id" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
- *         &lt;element name="Direccion" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="Id" type="{http://www.example.org/response}Peer"/&gt;
+ *         &lt;element name="Direccion" type="{http://www.w3.org/2001/XMLSchema}Peer"/&gt;
  *         &lt;element name="Puerto" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
  *         &lt;element name="Estado" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
  *       &lt;/sequence&gt;
@@ -68,7 +68,14 @@ public class Peer {
 	}
 
 
-    /**
+    public Peer(String subdominio, Integer puerto) {
+    	super();
+		this.id = UUID.randomUUID().toString();
+		this.direccion = subdominio;
+		this.puerto = puerto;
+	}
+
+	/**
      * Gets the value of the id property.
      * 
      * @return

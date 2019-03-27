@@ -92,37 +92,60 @@ public class UsuarioDao extends GenericDao<Usuario> {
 	}
 		
 	public boolean agregarMiembro(Grupo grupo, Peer miembro) throws JAXBException{
-		Usuario usuario = this.cargar(file);
-		Grupo g = usuario.getSingleGrupoById(grupo.getId());
-		if(g.addPeer(miembro.getDireccion())){
-			this.guardar(usuario, file);
-			return true;
+		Usuario usuario;
+		try {
+			usuario = this.cargar(FileUtils.USUARIO_FILE);
+			Grupo g = usuario.getSingleGrupoById(grupo.getId());
+			if(g.addPeer(miembro.getDireccion())){
+				this.guardar(usuario, FileUtils.USUARIO_FILE);
+				return true;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		
 		return false;
 	}
 
 	public boolean agregarGrupo(Grupo grupo) throws JAXBException {
-		Usuario usuario = this.cargar(file);
-		if(usuario.addGrupo(grupo)){
-			this.guardar(usuario, file);
-			return true;
+		Usuario usuario;
+		try {
+			usuario = this.cargar(FileUtils.USUARIO_FILE);
+			if(usuario.addGrupo(grupo)){
+				this.guardar(usuario, FileUtils.USUARIO_FILE);
+				return true;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 		return false;
 	}
 
 	public Grupo getGrupo(int i) throws JAXBException {
-		Usuario usuario = this.cargar(file);
-		if(usuario.getGrupos().size() > i){
-			return usuario.getGrupos().get(i);
+		Usuario usuario;
+		try {
+			usuario = this.cargar(FileUtils.USUARIO_FILE);
+			if(usuario.getGrupos().size() > i){
+				return usuario.getGrupos().get(i);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 		return null;
 	}
 
 	public String getNombreDeUsuario() {
 		try {
-			Usuario usuario = usuarioDao.cargar(file);
+			Usuario usuario = usuarioDao.cargar(FileUtils.USUARIO_FILE);
 			return usuario.getNombreDeUsuario();
 		} catch (JAXBException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -130,9 +153,12 @@ public class UsuarioDao extends GenericDao<Usuario> {
 
 	public Grupo getGrupo(String id) {
 		try {
-			Usuario usuario = usuarioDao.cargar(file);
+			Usuario usuario = usuarioDao.cargar(FileUtils.USUARIO_FILE);
 			return usuario.getSingleGrupoById(id);
 		} catch (JAXBException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -141,9 +167,12 @@ public class UsuarioDao extends GenericDao<Usuario> {
 	
 	public String getSubdominio() {
 		try {
-			Usuario usuario = usuarioDao.cargar(file);
+			Usuario usuario = usuarioDao.cargar(FileUtils.USUARIO_FILE);
 			return usuario.getSubdominio();
 		} catch (JAXBException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

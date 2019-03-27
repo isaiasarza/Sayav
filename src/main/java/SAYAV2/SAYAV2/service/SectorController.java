@@ -9,14 +9,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.bind.JAXBException;
+
 import SAYAV2.SAYAV2.Utils.FileUtils;
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.RequestUtil;
 import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
+import SAYAV2.SAYAV2.dao.ConfiguratorDao;
 import SAYAV2.SAYAV2.dao.TipoMensajeDao;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
 import SAYAV2.SAYAV2.mensajeria.Mensaje;
+import SAYAV2.SAYAV2.model.Configurator;
+import SAYAV2.SAYAV2.model.Peer;
 import SAYAV2.SAYAV2.model.Sector;
 import SAYAV2.SAYAV2.model.Usuario;
 import SAYAV2.SAYAV2.notificacion.GruposImpl;
@@ -27,14 +32,18 @@ import spark.Route;
 public class SectorController {
 
 	private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
-//	private static File file = new File(FileUtils.USUARIO_FILE);
 	private static GruposImpl grupos = GruposImpl.getInstance();
 	private static TipoMensajeDao tiposDao = TipoMensajeDao.getInstance();
-//	private static File tiposFile = new File(FileUtils.TIPOS_MENSAJES_FILE);
-
+	private static Configurator configurator; 
 	public SectorController() {
 		super();
-		
+		try {
+			configurator = ConfiguratorDao.getInstance().cargar(FileUtils.CONFIGURATOR_FILE);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static Route sectorVelocityEngine = (Request request, Response response) -> {
@@ -175,9 +184,9 @@ public class SectorController {
 			}
 
 			//FirebaseCloudMessageController.post(titulo, message);
-
+			Peer origen = new Peer(usuario.getSubdominio(),configurator.getPort());
 			Mensaje mensaje = new Mensaje();
-			mensaje.setOrigen(usuario.getSubdominio());
+			mensaje.setOrigen(origen);
 			mensaje.setDescripcion(message);
 			mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 			mensaje.setTipoMensaje(tiposDao.getTipo(TipoMensajeUtils.ALERTA,FileUtils.TIPOS_MENSAJES_FILE));

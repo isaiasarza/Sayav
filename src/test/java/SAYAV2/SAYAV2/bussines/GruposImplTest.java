@@ -98,8 +98,8 @@ public class GruposImplTest {
 			Votacion votacion = votacionesDao.cargar(votacionesFile).getVotaciones().get(0);
 			DatoVoto datos = new DatoVoto(votacion.getId(), false);
 			Mensaje msg = new Mensaje();
-			msg.setOrigen("lucasboba.dns.net");
-			msg.setDestino("isaias_arza");
+			msg.setOrigen(miembro);
+			msg.setDestino(new Peer("isa.ddns.net", 8080));
 			msg.setDatos(json.render(datos));
 			this.grupos.recibirVoto(msg);
 			

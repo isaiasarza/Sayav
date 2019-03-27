@@ -38,6 +38,7 @@ public class Application {
 		config = configDao.cargar(FileUtils.CONFIGURATOR_FILE);
 		mapper = new ObjectMapper();
 		mensajeria = MensajeriaImpl.getInstance();
+		mensajeria.init();
 	//	controllerMqtt = ControllerMQTT.getInstance();
 	}
 
@@ -59,7 +60,7 @@ public class Application {
 		//	controllerMqtt.start();
 
 			if (sayav.exists()) {
-				System.out.println(sayav.getAbsolutePath());
+				//System.out.println(sayav.getAbsolutePath());
 		//		controllerMqtt.initReceive();
 			}
 
@@ -67,8 +68,8 @@ public class Application {
 
 			post("/", (request,response)->{
 				Mensaje mensaje = mapper.readValue(request.bodyAsBytes(), Mensaje.class);
-				System.out.println("Mensaje recibido");
-				System.out.println(mensaje);
+				//System.out.println("Mensaje recibido");
+				//System.out.println(mensaje);
 				mensajeria.recibirMensaje(mensaje);
 				return "ok";
 			});

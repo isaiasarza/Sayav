@@ -29,7 +29,7 @@ public class VotacionesDao extends GenericDao<Votaciones> {
 	}
 
 	public Votaciones eliminarVotacion(Votacion votacion, String ruta) throws JAXBException, IOException {
-		Votaciones votaciones = this.cargar(file);
+		Votaciones votaciones = this.cargar(ruta);
 		Iterator<Votacion> iterator = votaciones.getVotaciones().iterator();
 		while (iterator.hasNext()) {
 			if (iterator.next().getId().equals(votacion.getId())) {

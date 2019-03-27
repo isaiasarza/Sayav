@@ -1,4 +1,25 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<ns2:MensajesPendientes xmlns="http://www.example.org/Mensaje" xmlns:ns2="http://www.example.org/MensajesPendientes">
-
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:MensajesPendientes xmlns="http://www.example.org/Mensaje" xmlns:ns2="http://www.example.org/response">
+    <ns2:Mensaje>
+        <Id>b73abc6b-a219-4443-b55f-148a2838b13a</Id>
+        <origen>
+            <ns2:Id>aedb33be-1007-4eb7-bb98-be6708f55a0f</ns2:Id>
+            <ns2:Direccion>lucasboba.ddns.net</ns2:Direccion>
+            <ns2:Puerto>30000</ns2:Puerto>
+            <ns2:Estado>false</ns2:Estado>
+        </origen>
+        <destino>
+            <ns2:Id>f5732fc3-b5dd-4152-92ef-4ed80ed7eb2a</ns2:Id>
+            <ns2:Direccion>isaunp.ddns.net</ns2:Direccion>
+            <ns2:Puerto>20000</ns2:Puerto>
+            <ns2:Estado>false</ns2:Estado>
+        </destino>
+        <fechaCreacion>2019-03-21T16:55:28.402-03:00</fechaCreacion>
+        <fechaReenvio>2019-03-21T16:55:27.667-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"f5732fc3-b5dd-4152-92ef-4ed80ed7eb2a","direccion":"isaunp.ddns.net","puerto":20000,"estado":false},"grupo":{"id":"93b241d0-fda2-458f-916b-218280085d33","nombre":"Universidad","peers":[{"id":"aedb33be-1007-4eb7-bb98-be6708f55a0f","direccion":"lucasboba.ddns.net","puerto":30000,"estado":false}]}}</datos>
+        <descripcion>Usted es parte del grupo Universidad:</descripcion>
+        <detalle></detalle>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+    </ns2:Mensaje>
 </ns2:MensajesPendientes>

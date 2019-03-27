@@ -40,7 +40,7 @@ import SAYAV2.SAYAV2.mensajeria.TipoMensaje;
 @XmlRootElement(name = "TiposMensajes", namespace = "http://www.example.org/response")
 public class TiposMensajes {
 
-    @XmlElement(namespace = "http://www.example.org/TiposMensajes")
+    @XmlElement(namespace = "http://www.example.org/response")
     protected List<TipoMensaje> tipos;
     
     

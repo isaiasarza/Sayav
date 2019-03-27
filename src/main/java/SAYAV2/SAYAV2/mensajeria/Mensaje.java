@@ -17,6 +17,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import SAYAV2.SAYAV2.model.Peer;
+
 /**
  * <p>
  * Java class for anonymous complex type.
@@ -32,15 +34,15 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;choice&gt;
  *         &lt;sequence&gt;
  *           &lt;element name="Id" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
- *           &lt;element name="origen" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
- *           &lt;element name="destino" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *           &lt;element name="origen" type="{http://www.example.org/UsuarioXMLSchema}Peer"/&gt;
+ *           &lt;element name="destino" type="{http://www.example.org/UsuarioXMLSchema}Peer"/&gt;
  *           &lt;element name="fecha" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
  *           &lt;element name="estado" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *           &lt;element name="datos" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *           &lt;element name="descripcion" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *           &lt;element name="detalle" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *           &lt;element name="tipoHandshake" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
- *         &lt;element name="TipoMensaje" type="{http://www.example.org/Mensaje}TipoMensaje"/&gt;      
+ *         &lt;element name="TipoMensaje" type="{http://www.example.org/response}TipoMensaje"/&gt;      
  *         &lt;/sequence&gt;
  *       &lt;/choice&gt;
  *     &lt;/restriction&gt;
@@ -58,8 +60,8 @@ public class Mensaje implements Cloneable,Comparable<Mensaje> {
 
 	@XmlElement(name = "Id")
 	protected String id;
-	protected String origen;
-	protected String destino;
+	protected Peer origen;
+	protected Peer destino;
 	//protected Peer peerOri
 	protected Date fechaCreacion;
 	protected Date fechaReenvio;
@@ -77,13 +79,13 @@ public class Mensaje implements Cloneable,Comparable<Mensaje> {
 		this.tipoMensaje = new TipoMensaje();
 		this.fechaCreacion = new Date();
 		this.fechaReenvio = new Date();
-		this.origen = "a";
-		this.destino = "b";
+		this.origen = new Peer();
+		this.destino = new Peer();
 		this.descripcion = "";
 		this.detalle = "";
 	}
 
-	public Mensaje(String id, String origen, String destino, Date fechaCreacion, Date fechaReenvio, String estado,
+	public Mensaje(String id, Peer origen, Peer destino, Date fechaCreacion, Date fechaReenvio, String estado,
 			String datos, String descripcion, String tipoHandshake, TipoMensaje tipoMensaje) {
 		super();
 		this.id = id;
@@ -150,7 +152,7 @@ public class Mensaje implements Cloneable,Comparable<Mensaje> {
 	 * @return possible object is {@link String }
 	 * 
 	 */
-	public String getOrigen() {
+	public Peer getOrigen() {
 		return origen;
 	}
 
@@ -162,7 +164,7 @@ public class Mensaje implements Cloneable,Comparable<Mensaje> {
 	 * @throws Exception
 	 * 
 	 */
-	public void setOrigen(String value) {
+	public void setOrigen(Peer value) {
 		this.origen = value;
 	}
 
@@ -172,7 +174,7 @@ public class Mensaje implements Cloneable,Comparable<Mensaje> {
 	 * @return possible object is {@link String }
 	 * 
 	 */
-	public String getDestino() {
+	public Peer getDestino() {
 		return destino;
 	}
 
@@ -184,7 +186,7 @@ public class Mensaje implements Cloneable,Comparable<Mensaje> {
 	 * @throws Exception
 	 * 
 	 */
-	public void setDestino(String value) {
+	public void setDestino(Peer value) {
 		this.destino = value;
 	}
 

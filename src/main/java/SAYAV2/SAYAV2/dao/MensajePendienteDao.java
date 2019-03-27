@@ -68,7 +68,12 @@ public class MensajePendienteDao extends GenericDao<MensajesPendientes> {
 	public synchronized boolean exist(DatoGrupo datos, TipoMensaje tipoMensaje, String tipoHandshake,String estado){
 		MensajesPendientes mensajes;
 		
-			mensajes = this.cargar(file);
+			try {
+				mensajes = this.cargar(FileUtils.MENSAJES_FILE);
+			} catch (JAXBException | IOException e) {
+				e.printStackTrace();
+				return false;
+			}
 			if(mensajes == null || mensajes.getMensaje().isEmpty()){
 				return false;
 			}
