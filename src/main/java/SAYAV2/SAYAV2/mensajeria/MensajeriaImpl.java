@@ -185,6 +185,18 @@ public class MensajeriaImpl implements Mensajeria {
 		for (Peer miembro : g.getPeers()) {
 			Mensaje mensaje = (Mensaje) msg.clone();
 			mensaje.setId(mensaje.generateId());
+			DatoGrupo datos;
+			//DatoGrupo datos = json.getGson().
+			
+			if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_MIEMBRO) ) {
+				datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
+				if(datos.getMiembro().getDireccion().equals(miembro.getDireccion())) {
+					System.out.println();
+					System.out.println("Propagar Nuevo Miembro Error, no se enviará el mensaje porque el destino es el miembro");
+					System.out.println();
+					return;
+				}
+			}
 			
 			try {
 				mensaje.setDestino(miembro);

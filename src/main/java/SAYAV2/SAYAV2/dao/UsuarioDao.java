@@ -57,19 +57,26 @@ public class UsuarioDao extends GenericDao<Usuario> {
 	}
 
 	public Peer eliminarMiembro(Grupo grupo,Peer miembro) throws JAXBException{
-		Usuario usuario = this.cargar(file);
-		System.out.println(grupo.getId());
-		Grupo g = usuario.getSingleGrupoById(grupo.getId());
-		Iterator<Peer> iterator = g.getPeers().iterator();	
-		while(iterator.hasNext()){
-			Peer eliminado = iterator.next();
-			if(eliminado.getDireccion().equals(miembro.getDireccion())){	
-				Peer removed = new Peer(eliminado.getDireccion(),eliminado.getPuerto());
-				iterator.remove();
-				this.guardar(usuario, file);
-				return removed;
+		Usuario usuario;
+		try {
+			usuario = this.cargar(FileUtils.USUARIO_FILE);
+			System.out.println(grupo.getId());
+			Grupo g = usuario.getSingleGrupoById(grupo.getId());
+			Iterator<Peer> iterator = g.getPeers().iterator();	
+			while(iterator.hasNext()){
+				Peer eliminado = iterator.next();
+				if(eliminado.getDireccion().equals(miembro.getDireccion())){	
+					Peer removed = new Peer(eliminado.getDireccion(),eliminado.getPuerto());
+					iterator.remove();
+					this.guardar(usuario, FileUtils.USUARIO_FILE);
+					return removed;
+				}
 			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 		return null;
 	}
 	
@@ -79,15 +86,22 @@ public class UsuarioDao extends GenericDao<Usuario> {
 		//Primero limpio la lista de miembros correspondiente a ese grupo
 		grupo.getPeers().clear();
 	    //Elimino el grupo
-		Usuario usuario = this.cargar(file);
-		Iterator<Grupo> iterator = usuario.getGrupos().iterator();	
-		while(iterator.hasNext()){
-			if( iterator.next().getId().equals(grupo.getId())){
-				iterator.remove();
-				this.guardar(usuario, file);
-				return true;
+		Usuario usuario;
+		try {
+			usuario = this.cargar(FileUtils.USUARIO_FILE);
+			Iterator<Grupo> iterator = usuario.getGrupos().iterator();	
+			while(iterator.hasNext()){
+				if( iterator.next().getId().equals(grupo.getId())){
+					iterator.remove();
+					this.guardar(usuario, FileUtils.USUARIO_FILE);
+					return true;
+				}
 			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 		return false;
 	}
 		
@@ -196,39 +210,45 @@ public class UsuarioDao extends GenericDao<Usuario> {
 	public boolean eliminarDispositivo(DispositivoM d, File file) {
 		Iterator<DispositivoM> dispositivos;
 		try {
-			Usuario usuario = this.cargar(file);
+			Usuario usuario = this.cargar(FileUtils.USUARIO_FILE);
 			dispositivos = usuario.getDispositivosMoviles().iterator();
 			if(d.getToken() == null || d.getToken().isEmpty()){
 				while(dispositivos.hasNext()){
 					DispositivoM disp = dispositivos.next();
 					if(disp.getNumero().equals(d.getNumero())){
 						dispositivos.remove();
-						this.guardar(usuario, file);
+						this.guardar(usuario, FileUtils.USUARIO_FILE);
 						return true;
 					}
 				}
 			}
 			if(usuario.getDispositivosMoviles().remove(d)){
-				this.guardar(usuario, file);
+				this.guardar(usuario, FileUtils.USUARIO_FILE);
 				return true;
 			}
 		} catch (JAXBException e) {
 			e.printStackTrace();
 			return false;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return false;
 	}
 
 	public boolean eliminarDispositivo(String token, File file) {
 		try {
-			Usuario usuario = this.cargar(file);
+			Usuario usuario = this.cargar(FileUtils.USUARIO_FILE);
 			DispositivoM d = new DispositivoM(token);
 			if(usuario.getDispositivosMoviles().remove(d)){
-				this.guardar(usuario, file);
+				this.guardar(usuario, FileUtils.USUARIO_FILE);
 				return true;
 			}
 			return false;
 		} catch (JAXBException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
