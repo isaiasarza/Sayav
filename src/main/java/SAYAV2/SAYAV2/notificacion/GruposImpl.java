@@ -81,7 +81,12 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 	}
 
 	private void notificarNuevoMiembro(Grupo grupo, Peer miembro, Peer origen) throws Exception {
+	
 		DatoGrupo datos = new DatoGrupo(miembro, grupo);
+		
+		System.out.println();
+		System.out.println("4. Notificar Nuevo Miembro, " + datos.getMiembro().getDireccion()+ ":" + datos.getMiembro().getPuerto());
+		System.out.println();
 
 		Mensaje mensaje = new Mensaje();
 		mensaje.setOrigen(origen);
@@ -98,6 +103,9 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 	private boolean notificarNuevoGrupo(Grupo grupo, Peer miembro, Peer origen) throws Exception {
 		grupo.add(origen);
 		Mensaje mensaje = new Mensaje();
+		System.out.println();
+		System.out.println("2. Notificar Nuevo Grupo, " + miembro.getDireccion()+ ":" + miembro.getPuerto());
+		System.out.println();
 		DatoGrupo datos = new DatoGrupo(miembro, grupo);
 		
 		//System.out.println("Grupos Impl: " + tipos.getTipo(TipoMensajeUtils.NUEVO_GRUPO));
@@ -123,6 +131,9 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 
 	@Override
 	public boolean añadirMiembro(Grupo grupo, Peer miembro) throws Exception {
+		System.out.println();
+		System.out.println("1. Añadir Miembro, " + miembro.getDireccion()+ ":" + miembro.getPuerto());
+		System.out.println();
 		Usuario usuario;
 		try {
 			usuario = usuarioDao.cargar();
@@ -211,7 +222,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		DatoVoto datos = new DatoVoto(votacion.getId(), true);
 
 		// Creo el mensaje con los datos correspondientes a un voto a favor
-		System.out.println(datos);
+		//System.out.println(datos);
 		Mensaje mensaje = new Mensaje();
 		mensaje.setOrigen(votante);
 		mensaje.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.VOTO));
@@ -359,10 +370,16 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 
 	}
 
-	public Notificacion recibirNuevoMiembro(Mensaje msg) throws JAXBException, IOException {
+	public Notificacion recibirNuevoMiembro(Mensaje msg) throws Exception {
 		Notificacion notificacion = new Notificacion();
 		Usuario usuario = usuarioDao.cargar();
 		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
+		System.out.println();
+		System.out.println("8. Recibir Nuevo Miembro, " + datos.getMiembro().getDireccion()+ ":" + datos.getMiembro().getPuerto());
+		System.out.println();
+		if(datos.getMiembro().getDireccion().equals(usuario.getSubdominio())) {
+			throw new Exception();
+		}
 		usuarioDao.agregarMiembro(usuario.getSingleGrupoById(datos.getGrupo().getId()), datos.getMiembro());
 		notificacion.setTipo(msg.getTipoMensaje().getTipo());
 		notificacion.setDescripcion("El miembro " + datos.getMiembro().getDireccion()
@@ -372,11 +389,11 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 	}
 
 	public Notificacion recibirNuevoGrupo(Mensaje msg) throws JAXBException {
-		System.out.println("Recibir Nuevo Grupo");
+		//System.out.println("Recibir Nuevo Grupo");
 		Notificacion notificacion = new Notificacion();
-		System.out.println(msg.getDatos());
+		//System.out.println(msg.getDatos());
 		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
-		System.out.println("Datos Grupo: " + datos);
+		//System.out.println("Datos Grupo: " + datos);
 		//System.out.println("Tipo Mensaje: " + msg.getTipoMensaje().getTipo());
 		notificacion.setTipo(msg.getTipoMensaje().getTipo());
 		notificacion.setDescripcion("Fue agregado al grupo " + datos.getGrupo().getNombre());
@@ -423,7 +440,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 
 		DatoVoto datos = json.getGson().fromJson(msg.getDatos(), DatoVoto.class);
 		Votacion votacion = votacionesDao.getVotacion(datos.getIdVotacion(), FileUtils.VOTACIONES_FILE);
-		Peer votante = new Peer(msg.getOrigen().getDireccion());
+		Peer votante = new Peer(msg.getOrigen().getDireccion(),msg.getOrigen().getPuerto());
 		if(votacion.getVotantes().contains(votante)){
 			return null;
 		}
@@ -457,6 +474,9 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 	public Notificacion confirmarAñadirMiembro(Mensaje msg) throws JAXBException {
 		Notificacion notificacion = new Notificacion();
 		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
+		System.out.println();
+		System.out.println("3. Confirmar Añadir Miembro, " + datos.getMiembro().getDireccion()+ ":" + datos.getMiembro().getPuerto());
+		System.out.println();
 		Peer origen = new Peer(usuarioDao.getSubdominio(),configurator.getPort());
 		Grupo grupo = usuarioDao.getGrupo(datos.getGrupo().getId());
 		try {
@@ -465,6 +485,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 			e.printStackTrace();
 			return null;
 		}
+		
 		this.usuarioDao.agregarMiembro(grupo, datos.getMiembro());
 		notificacion.setTipo(msg.getTipoMensaje().getTipo());
 		notificacion.setDescripcion("El miembro " + datos.getMiembro().getDireccion() + " es parte del grupo "

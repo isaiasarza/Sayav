@@ -71,9 +71,9 @@ public class PeerController {
 
 	private static Peer initPeer(Request request) {
 
-		Peer peer = new Peer();
-		peer.setDireccion(RequestUtil.getQueryDireccion(request));
-		peer.setPuerto(RequestUtil.getQueryPuerto(request));
+		Peer peer = new Peer(RequestUtil.getQueryDireccion(request),RequestUtil.getQueryPuerto(request));
+		//peer.setDireccion(RequestUtil.getQueryDireccion(request));
+		//peer.setPuerto(RequestUtil.getQueryPuerto(request));
 		return peer;
 	}
 

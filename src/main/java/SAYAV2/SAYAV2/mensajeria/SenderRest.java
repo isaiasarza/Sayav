@@ -53,7 +53,13 @@ public class SenderRest implements Sender {
 					.asString());
 			return jsonResponse.getBody().toString();
 		} catch (UnirestException e) {
-			e.printStackTrace();
+			if(mensaje.getDestino().getPuerto() == 0) {
+				System.out.println();
+				System.out.println("Error:No se pudo enviar mensaje");
+				System.out.println("destino: " + destino );
+				System.out.println();	
+			}
+			
 			return e.getMessage();
 		}
 	}

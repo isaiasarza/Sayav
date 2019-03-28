@@ -46,7 +46,7 @@ public class MensajeriaImplTest {
 		File file = new File(FileUtils.getUsuarioFile());
 		usuarioDao = UsuarioDao.getInstance();
 		usuarioDao.setFile(file);
-		miembro = new Peer("nuevo_miembro.ddns.net");
+		miembro = new Peer("nuevo_miembro.ddns.net",9898);
 		datoGrupo = new DatoGrupo(miembro, usuarioDao.getGrupo(0));
 		mensajeria = MensajeriaImpl.getInstance();
 		mensajeria.init();

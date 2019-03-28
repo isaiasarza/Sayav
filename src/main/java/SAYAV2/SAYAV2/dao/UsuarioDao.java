@@ -64,7 +64,7 @@ public class UsuarioDao extends GenericDao<Usuario> {
 		while(iterator.hasNext()){
 			Peer eliminado = iterator.next();
 			if(eliminado.getDireccion().equals(miembro.getDireccion())){	
-				Peer removed = new Peer(eliminado.getDireccion());
+				Peer removed = new Peer(eliminado.getDireccion(),eliminado.getPuerto());
 				iterator.remove();
 				this.guardar(usuario, file);
 				return removed;
@@ -92,11 +92,21 @@ public class UsuarioDao extends GenericDao<Usuario> {
 	}
 		
 	public boolean agregarMiembro(Grupo grupo, Peer miembro) throws JAXBException{
+		System.out.println();
+		System.out.println("9. Agregar Miembro, " + miembro.getDireccion()+ ":" + miembro.getPuerto());
+		System.out.println();
 		Usuario usuario;
+		
+				
 		try {
 			usuario = this.cargar(FileUtils.USUARIO_FILE);
+			if(miembro.getDireccion().equals((usuario.getSubdominio()))) {
+				// TODO Agregar Exceptions
+				return false;
+
+			}
 			Grupo g = usuario.getSingleGrupoById(grupo.getId());
-			if(g.addPeer(miembro.getDireccion())){
+			if(g.addPeer(miembro.getDireccion(),miembro.getPuerto())){
 				this.guardar(usuario, FileUtils.USUARIO_FILE);
 				return true;
 			}
@@ -111,6 +121,9 @@ public class UsuarioDao extends GenericDao<Usuario> {
 		Usuario usuario;
 		try {
 			usuario = this.cargar(FileUtils.USUARIO_FILE);
+			if(getPeer(usuario.getSubdominio(), grupo) != null) {
+				eliminarMiembro(grupo, new Peer(usuario.getSubdominio(),0));
+			}
 			if(usuario.addGrupo(grupo)){
 				this.guardar(usuario, FileUtils.USUARIO_FILE);
 				return true;

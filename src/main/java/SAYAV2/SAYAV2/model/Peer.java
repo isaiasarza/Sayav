@@ -45,7 +45,7 @@ import javax.xml.bind.annotation.XmlType;
     "puerto",
     "estado"
 })
-public class Peer {
+public class Peer{
 
     @XmlElement(name = "Id", required = true)
     protected String id;
@@ -61,11 +61,11 @@ public class Peer {
 		this.id = UUID.randomUUID().toString();
 	}
 
-	public Peer(String direccion) {
+	/*public Peer(String direccion) {
 		super();
 		this.id = UUID.randomUUID().toString();
 		this.direccion = direccion;
-	}
+	}*/
 
 
     public Peer(String subdominio, Integer puerto) {
@@ -178,6 +178,8 @@ public class Peer {
 			return false;
 		return true;
 	}
+	
+	
 
 	@Override
 	public String toString() {

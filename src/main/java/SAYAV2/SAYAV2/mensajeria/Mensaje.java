@@ -84,6 +84,19 @@ public class Mensaje implements Cloneable,Comparable<Mensaje> {
 		this.descripcion = "";
 		this.detalle = "";
 	}
+	
+	public Mensaje(Peer origen, Peer destino) {
+		super();
+		this.id = UUID.randomUUID().toString();
+		this.tipoMensaje = new TipoMensaje();
+		this.fechaCreacion = new Date();
+		this.fechaReenvio = new Date();
+		this.origen = origen;
+		this.destino = destino;
+		this.descripcion = "";
+		this.detalle = "";
+	}
+
 
 	public Mensaje(String id, Peer origen, Peer destino, Date fechaCreacion, Date fechaReenvio, String estado,
 			String datos, String descripcion, String tipoHandshake, TipoMensaje tipoMensaje) {
@@ -102,17 +115,7 @@ public class Mensaje implements Cloneable,Comparable<Mensaje> {
 
 	public Mensaje clone() {
 
-		Mensaje mensaje = new Mensaje();
-
-		mensaje.setId(id);
-		mensaje.setDatos(datos);
-		mensaje.setDescripcion(descripcion);
-		mensaje.setDestino(destino);
-		mensaje.setOrigen(origen);
-		mensaje.setEstado(estado);
-		mensaje.setTipoHandshake(tipoHandshake);
-		mensaje.setTipoMensaje(tipoMensaje);
-
+		Mensaje mensaje = new Mensaje(id,origen,destino,fechaCreacion,fechaReenvio,estado,datos,descripcion,tipoHandshake,tipoMensaje);
 		return mensaje;
 
 	}

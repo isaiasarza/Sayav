@@ -48,8 +48,8 @@ public class MensajeriaImpl implements Mensajeria {
 		try {
 			setMensajes(this.mensajesDao.cargar(FileUtils.MENSAJES_FILE));
 			setTipos(this.tipoMensajeDao.cargar(FileUtils.TIPOS_MENSAJES_FILE));
-			System.out.println("Tipos Mensajes" + tipos.getTipos());
-			System.out.println(tipos.getTipo(TipoMensajeUtils.NUEVO_MIEMBRO));
+			//System.out.println("Tipos Mensajes" + tipos.getTipos());
+			//System.out.println(tipos.getTipo(TipoMensajeUtils.NUEVO_MIEMBRO));
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -92,6 +92,10 @@ public class MensajeriaImpl implements Mensajeria {
 	@Override
 	public void procesarMensaje(Mensaje msg) throws Exception {
 		Notificacion notificacion;
+		
+		System.out.println();
+		System.out.println("7. Procesar Mensaje, " + msg.getOrigen().getDireccion()+ ":" + msg.getOrigen().getPuerto());
+		System.out.println();
 		
 		//System.out.println("Tipo Mensaje" + msg.getTipoMensaje());
 		
@@ -181,18 +185,20 @@ public class MensajeriaImpl implements Mensajeria {
 		for (Peer miembro : g.getPeers()) {
 			Mensaje mensaje = (Mensaje) msg.clone();
 			mensaje.setId(mensaje.generateId());
+			
 			try {
 				mensaje.setDestino(miembro);
+				if (msg.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST)) {
+					enviarSolicitud(mensaje);
+				} else {
+					enviarConfirmacion(mensaje);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				break;
 			}
 
-			if (msg.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST)) {
-				enviarSolicitud(mensaje);
-			} else {
-				enviarConfirmacion(mensaje);
-			}
+			
 		}
 	}
 
@@ -212,15 +218,28 @@ public class MensajeriaImpl implements Mensajeria {
 			} catch (JAXBException e) {
 				e.printStackTrace();
 			}
-
 		}
 	}
 
 	public synchronized void guardarMensaje(Mensaje msg, String ruta) {
+		if(msg.getDestino().getPuerto() <= 0) {
+			System.out.println();
+			System.out.println("==============================Error en Notificar Nuevo Miembro=============================");
+			System.out.println();
+			System.out.println("El puerto del miembro " + msg.getDestino().getDireccion() + "es 0");
+			System.out.println();
+			System.out.println("=============================================================");
+			System.out.println();
+		}else {
+			System.out.println("Mensaje antes de guardar" + msg.getDestino());
+
+		}
 		if (this.mensajes.addMensaje(msg)) {
 			try {
 				this.mensajesDao.guardar(this.mensajes, ruta);
 				this.mensajes = mensajesDao.cargar(ruta);
+				System.out.println("Mensaje despues de guardar" + this.mensajes.getMensaje(msg.getId()));
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (JAXBException e) {
@@ -262,7 +281,7 @@ public class MensajeriaImpl implements Mensajeria {
 				|| msg.getEstado().equals(EstadoUtils.Estado.ZOMBIE)) {
 			return false;
 		}
-		System.out.println(msg.getTipoMensaje());
+		//System.out.println(msg.getTipoMensaje());
 		if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NOTIFICACION_MOVIL)
 				&& msg.getEstado().equals(EstadoUtils.Estado.PENDIENTE)) {
 			if (FirebaseCloudMessageController.post(msg.getTipoMensaje().getTipo(), msg.getDescripcion())) {
@@ -343,6 +362,9 @@ public class MensajeriaImpl implements Mensajeria {
 	 */
 	@Override
 	public void recibirSolicitud(Mensaje msg) throws Exception {
+		System.out.println();
+		System.out.println("6. Recibir Solicitud, " + msg.getOrigen().getDireccion()+ ":" + msg.getOrigen().getPuerto());
+		System.out.println();
 		procesarMensaje(msg);
 		Mensaje nuevo = (Mensaje) msg.clone();
 		nuevo.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
@@ -425,6 +447,10 @@ public class MensajeriaImpl implements Mensajeria {
 
 	@Override
 	public void recibirMensaje(Mensaje mensaje) {
+		
+		System.out.println();
+		System.out.println("5. Recibir Mensaje, " + mensaje.getOrigen().getDireccion()+ ":" + mensaje.getOrigen().getPuerto());
+		System.out.println();
 
 		try {
 			if (mensaje.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST)) {

@@ -131,8 +131,8 @@ public class Grupo {
 	}
 
 	
-	public boolean addPeer(String domain){
-		Peer nuevo = new Peer(domain);
+	public boolean addPeer(String domain,int puerto){
+		Peer nuevo = new Peer(domain,puerto);
 		if(this.peers.contains(nuevo)){
 			return false;
 		}

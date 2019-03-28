@@ -142,7 +142,8 @@ public class GroupController {
 		Grupo grupo = usuario.getSingleGrupoByName(groupName);
 		DomainValidator domainValidator = DomainValidator.getInstance(false);
 		memberDomain = RequestUtil.getQueryMemberDomain(request);
-		puerto = RequestUtil.getQueryPuerto(request);
+		puerto = RequestUtil.getQueryPuerto(request);		
+		System.out.println("Miembro: " + memberDomain + ":" + puerto);
 		if (memberDomain.contains("/")) {
 			model.put("invalidDomain", true);
 			model.put("user", usuario);

@@ -11,6 +11,7 @@ public class DatoGrupo {
 
 	public DatoGrupo() {
 		super();
+		
 	}
 	
 	

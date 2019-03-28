@@ -40,7 +40,7 @@ public class GruposImplTest {
 		usuarioDao = UsuarioDao.getInstance();
 		usuario = usuarioDao.cargar(usuarioFile);
 		grupos = new GruposImpl();
-		miembro = new Peer("lucas.ddns.net");
+		miembro = new Peer("lucas.ddns.net",9090);
 		grupo = usuario.getGrupos().get(0);
 		votacionesFile = new File(FileUtils.getVotacionesFile());
 		votacionesDao = VotacionesDao.getInstance();
@@ -94,7 +94,7 @@ public class GruposImplTest {
 	@Test
 	public void testRecibirVoto(){
 		try {
-			Peer miembro = new Peer("lucasboba.ddns.net");
+			Peer miembro = new Peer("lucasboba.ddns.net",9090);
 			Votacion votacion = votacionesDao.cargar(votacionesFile).getVotaciones().get(0);
 			DatoVoto datos = new DatoVoto(votacion.getId(), false);
 			Mensaje msg = new Mensaje();
