@@ -17,7 +17,7 @@ public class VotacionesDao extends GenericDao<Votaciones> {
 	private VotacionesDao() {
 		super();
 		this.e = new Votaciones();
-		this.file = new File("votacion");
+		//this.file = new File("votacion");
 
 	}
 
@@ -41,7 +41,7 @@ public class VotacionesDao extends GenericDao<Votaciones> {
 		return votaciones;
 	}
 
-	public Votaciones eliminarVotacion(Votacion votacion, File file) throws JAXBException {
+	/*public Votaciones eliminarVotacion(Votacion votacion, File file) throws JAXBException {
 		Votaciones votaciones = this.cargar(file);
 		Iterator<Votacion> iterator = votaciones.getVotaciones().iterator();
 		while (iterator.hasNext()) {
@@ -52,7 +52,7 @@ public class VotacionesDao extends GenericDao<Votaciones> {
 			}
 		}
 		return votaciones;
-	}
+	}*/
 
 	public Votaciones agregarVotacion(Votacion votacion, Votaciones votaciones, File votacionesPendientesFile)
 			throws JAXBException {
@@ -101,7 +101,7 @@ public class VotacionesDao extends GenericDao<Votaciones> {
 
 	}
 
-	public boolean exist(String grupoId, Peer miembro, File file) {
+	/*public boolean exist(String grupoId, Peer miembro, File file) {
 		Votaciones votaciones;
 
 		try {
@@ -116,9 +116,9 @@ public class VotacionesDao extends GenericDao<Votaciones> {
 		}
 
 		return false;
-	}
+	}*/
 
-	public Votacion getVotacion(String votacionId, File file) {
+	/*public Votacion getVotacion(String votacionId, File file) {
 		Votaciones votaciones;
 		try {
 			votaciones = this.cargar(file);
@@ -131,9 +131,9 @@ public class VotacionesDao extends GenericDao<Votaciones> {
 			e.printStackTrace();
 		}
 		return null;
-	}
+	}*/
 
-	public boolean actualizarVotacion(Votacion votacion, File votacionesFile) {
+	/*public boolean actualizarVotacion(Votacion votacion, File votacionesFile) {
 		try {
 			Votaciones votaciones = this.cargar(votacionesFile);
 			int index = votaciones.getVotaciones().indexOf(votacion);
@@ -144,7 +144,7 @@ public class VotacionesDao extends GenericDao<Votaciones> {
 			e.printStackTrace();
 		}
 		return false;
-	}
+	}*/
 
 	public Votacion getVotacion(String votacionId, String ruta) {
 		Votaciones votaciones;

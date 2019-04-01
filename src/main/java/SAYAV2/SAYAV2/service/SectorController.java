@@ -34,7 +34,7 @@ public class SectorController {
 	private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
 	private static GruposImpl grupos = GruposImpl.getInstance();
 	private static TipoMensajeDao tiposDao = TipoMensajeDao.getInstance();
-	private static Configurator configurator; 
+	private static Configurator configurator ; 
 	public SectorController() {
 		super();
 		try {
@@ -157,6 +157,8 @@ public class SectorController {
 	@SuppressWarnings("unused")
 	public static Route cambiarEstado = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
+		
+		configurator = ConfiguratorDao.getInstance().cargar(FileUtils.CONFIGURATOR_FILE);
 
 		Map<String, Object> model = new HashMap<>();
 		String nombreSector = request.params("nombre");
@@ -190,7 +192,7 @@ public class SectorController {
 			mensaje.setDescripcion(message);
 			mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 			mensaje.setTipoMensaje(tiposDao.getTipo(TipoMensajeUtils.ALERTA,FileUtils.TIPOS_MENSAJES_FILE));
-			
+	
 			if(!grupos.isInit()){
 				grupos.init();
 			}

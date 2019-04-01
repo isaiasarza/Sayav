@@ -103,19 +103,12 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 	private boolean notificarNuevoGrupo(Grupo grupo, Peer miembro, Peer origen) throws Exception {
 		grupo.add(origen);
 		Mensaje mensaje = new Mensaje();
-		System.out.println();
-		System.out.println("2. Notificar Nuevo Grupo, " + miembro.getDireccion()+ ":" + miembro.getPuerto());
-		System.out.println();
 		DatoGrupo datos = new DatoGrupo(miembro, grupo);
-		
-		//System.out.println("Grupos Impl: " + tipos.getTipo(TipoMensajeUtils.NUEVO_GRUPO));
-
 		mensaje.setOrigen(origen);
 		mensaje.setDestino(miembro);
 		mensaje.setEstado(EstadoUtils.Estado.PENDIENTE);
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 		mensaje.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.NUEVO_GRUPO));
-		//mensaje.setTipoMensaje(tiposMensajeDao.getTipo(TipoMensajeUtils.NUEVO_GRUPO, FileUtils.TIPOS_MENSAJES_FILE));		
 		mensaje.setFechaCreacion(new Date());
 		mensaje.setDescripcion("Usted es parte del grupo " + grupo.getNombre() + ":");
 		mensaje.setDatos(json.render(datos));
@@ -131,9 +124,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 
 	@Override
 	public boolean añadirMiembro(Grupo grupo, Peer miembro) throws Exception {
-		System.out.println();
-		System.out.println("1. Añadir Miembro, " + miembro.getDireccion()+ ":" + miembro.getPuerto());
-		System.out.println();
+
 		Usuario usuario;
 		try {
 			usuario = usuarioDao.cargar();
@@ -335,6 +326,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 
 	@Override
 	public void notificarGrupos(List<Grupo> grupos, Mensaje msg) throws Exception {
+
 		for (Grupo g : grupos) {
 			notificarGrupo(g, msg);
 		}
@@ -346,6 +338,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		String fecha = msg.imprimirFechaCreacion()+ " " + SimpleDateFormat.AM_PM_FIELD;
 		msg.setDescripcion(msg.getDescripcion() + " " + fecha);
 		if(!FirebaseCloudMessageController.post(msg.getTipoMensaje().getTipo(), msg.getDescripcion())){
+			System.out.println("Guardando Notificacion Push...");
 			Mensaje m = msg.clone();
 			m.setId(m.generateId());
 			m.setEstado(EstadoUtils.Estado.PENDIENTE);
@@ -431,6 +424,8 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		notificacion.setDetalle(
 				"Para determinar si el miembro sera o no dado de baja, usted debera dirigirse al menu de votacion para votar:"
 						+ "Si la mitad + 1 de los votantes estan de acuerdo, el miembro sera dado de baja");
+		
+		System.out.println(usuario.getDispositivosMoviles());
 	
 		notificarMoviles(usuario.getDispositivosMoviles(), msg);
 		return notificacion;

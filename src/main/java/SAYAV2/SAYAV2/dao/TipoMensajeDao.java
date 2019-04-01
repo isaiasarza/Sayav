@@ -35,13 +35,12 @@ public class TipoMensajeDao extends GenericDao<TiposMensajes>{
 	
 	
 
-	public TipoMensaje getTipo(String alerta, String tiposMensajesFile) {
+	public TipoMensaje getTipo(String tipo, String tiposMensajesFile) {
 		TiposMensajes tipos;
 		TipoMensaje tipoMensaje = null;
 		try {
 			tipos = super.cargar(tiposMensajesFile);
-			//System.out.println("Tipos Mensajes" + tipos.getTipos());
-			tipoMensaje = tipos.getTipo(tiposMensajesFile);
+			tipoMensaje = tipos.getTipo(tipo);
 		} catch (JAXBException | IOException e) {
 			e.printStackTrace();
 		}
