@@ -63,6 +63,15 @@ public class MensajesPendientes {
     	}
     	return this.mensaje.add(mensaje);
     }
+    
+    public boolean addMensajes(List<Mensaje> mensajes){
+    	
+    	for(Mensaje mensaje: mensajes) {
+    		addMensaje(mensaje);	
+    	}
+    	
+    	return this.mensaje.addAll(mensajes);
+    }
 
 	/**
      * Gets the value of the mensaje property.

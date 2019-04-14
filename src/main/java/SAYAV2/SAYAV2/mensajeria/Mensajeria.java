@@ -1,6 +1,7 @@
 package SAYAV2.SAYAV2.mensajeria;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
@@ -13,7 +14,9 @@ public interface Mensajeria {
 	void init();
 	void procesarMensaje(Mensaje msg) throws JAXBException, Exception;
 	void propagarMensaje(Mensaje msg, Grupo g) throws Exception;
+	void propagarMensaje(List<Mensaje> msgs);
 	void guardarMensaje(Mensaje msg);
+	void guardarMensajes(List<Mensaje> msgs);
 	boolean reenviarMensaje(Mensaje msg, Date fechaActual);
 	String enviarSolicitud(Mensaje msg);
 	void enviarConfirmacion(Mensaje msg);

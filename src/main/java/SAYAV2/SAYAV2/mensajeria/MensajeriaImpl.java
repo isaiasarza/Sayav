@@ -32,19 +32,19 @@ public class MensajeriaImpl implements Mensajeria {
 	private TipoMensajeDao tipoMensajeDao;
 	private MensajePendienteDao mensajesDao;
 	private TiposMensajes tipos;
-	//private static ControllerMQTT conn;
+	// private static ControllerMQTT conn;
 	private Sender sender;
 	private JsonTransformer json;
 	private GruposImpl gruposImpl;
 
 	private MensajeriaImpl() {
-		super();		
+		super();
 		this.sender = SenderRest.getInstance();
 		this.tipoMensajeDao = TipoMensajeDao.getInstance();
 		this.mensajesDao = MensajePendienteDao.getInstance();
 		this.json = new JsonTransformer();
 		this.notificacionesDao = NotificacionesDao.getInstance();
-		
+
 		try {
 			setMensajes(this.mensajesDao.cargar(FileUtils.MENSAJES_FILE));
 			setTipos(this.tipoMensajeDao.cargar(FileUtils.TIPOS_MENSAJES_FILE));
@@ -54,6 +54,7 @@ public class MensajeriaImpl implements Mensajeria {
 			e.printStackTrace();
 		}
 	}
+
 	@Override
 	public void init() {
 		this.gruposImpl = new GruposImpl();
@@ -70,8 +71,8 @@ public class MensajeriaImpl implements Mensajeria {
 	public static MensajeriaImpl getInstance() {
 		if (mensImpl == null) {
 			mensImpl = new MensajeriaImpl();
-			//conn = ControllerMQTT.getInstance();
-			//conn.start();
+			// conn = ControllerMQTT.getInstance();
+			// conn.start();
 		}
 
 		return mensImpl;
@@ -79,8 +80,7 @@ public class MensajeriaImpl implements Mensajeria {
 
 	/**
 	 * @author
-	 * @param Mensaje
-	 *            msg
+	 * @param Mensaje msg
 	 * @return Mensaje nuevo mensaje formado en la acción Este metodo toma un
 	 *         mensaje recibido, según el tipo de mensaje correspondiente toma la
 	 *         acción debida.
@@ -150,7 +150,8 @@ public class MensajeriaImpl implements Mensajeria {
 				mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
 				mensaje.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.OK_CONFIRMACION));
 
-				//mensaje.setTipoMensaje(tipoMensajeDao.getTipo(TipoMensajeUtils.OK_CONFIRMACION, FileUtils.MENSAJES_FILE));
+				// mensaje.setTipoMensaje(tipoMensajeDao.getTipo(TipoMensajeUtils.OK_CONFIRMACION,
+				// FileUtils.MENSAJES_FILE));
 				mensaje.setEstado(EstadoUtils.Estado.CONFIRMADO);
 				enviarConfirmacion(mensaje);
 				return;
@@ -163,10 +164,9 @@ public class MensajeriaImpl implements Mensajeria {
 
 	/**
 	 * @author
-	 * @param Mensaje
-	 *            msg
-	 * @param Grupo
-	 *            g Este metodo propaga un mensaje al grupo recibido por parametro.
+	 * @param Mensaje msg
+	 * @param Grupo   g Este metodo propaga un mensaje al grupo recibido por
+	 *                parametro.
 	 * @throws Exception
 	 */
 	@Override
@@ -176,15 +176,15 @@ public class MensajeriaImpl implements Mensajeria {
 			Mensaje mensaje = (Mensaje) msg.clone();
 			mensaje.setId(mensaje.generateId());
 			DatoGrupo datos;
-			//DatoGrupo datos = json.getGson().
-			
-			if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_MIEMBRO) ) {
+			// DatoGrupo datos = json.getGson().
+
+			if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_MIEMBRO)) {
 				datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
-				if(datos.getMiembro().getDireccion().equals(miembro.getDireccion())) {
+				if (datos.getMiembro().getDireccion().equals(miembro.getDireccion())) {
 					return;
 				}
 			}
-			
+
 			try {
 				mensaje.setDestino(miembro);
 				if (msg.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST)) {
@@ -197,14 +197,12 @@ public class MensajeriaImpl implements Mensajeria {
 				break;
 			}
 
-			
 		}
 	}
 
 	/**
 	 * @author
-	 * @param Mensaje
-	 *            mensaje a guardar Guarda el mensaje.
+	 * @param Mensaje mensaje a guardar Guarda el mensaje.
 	 */
 	@Override
 	public synchronized void guardarMensaje(Mensaje msg) {
@@ -221,11 +219,26 @@ public class MensajeriaImpl implements Mensajeria {
 	}
 
 	public synchronized void guardarMensaje(Mensaje msg, String ruta) {
-		
+
 		if (this.mensajes.addMensaje(msg)) {
 			try {
 				this.mensajesDao.guardar(this.mensajes, ruta);
 				this.mensajes = mensajesDao.cargar(ruta);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (JAXBException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public synchronized void guardarMensajes(List<Mensaje> msgs) {
+
+		if (this.mensajes.addMensajes(msgs)) {
+			try {
+				this.mensajesDao.guardar(this.mensajes, FileUtils.MENSAJES_FILE);
+				this.mensajes = mensajesDao.cargar(FileUtils.MENSAJES_FILE);
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (JAXBException e) {
@@ -297,9 +310,8 @@ public class MensajeriaImpl implements Mensajeria {
 
 	/**
 	 * @author
-	 * @param Mensaje
-	 *            mensaje a enviar Envia una solicitud hacia otro destino junto con
-	 *            un mensaje.
+	 * @param Mensaje mensaje a enviar Envia una solicitud hacia otro destino junto
+	 *                con un mensaje.
 	 */
 	@Override
 	public String enviarSolicitud(Mensaje msg) throws IllegalArgumentException {
@@ -311,29 +323,28 @@ public class MensajeriaImpl implements Mensajeria {
 		guardarMensaje(msg);
 		String m = json.render(msg);
 
-		//String topic = msg.getDestino() + "/" + msg.getTipoHandshake();
-		//conn.send(topic, m, 2);
+		// String topic = msg.getDestino() + "/" + msg.getTipoHandshake();
+		// conn.send(topic, m, 2);
 		sender.send(msg);
 		return m;
 	}
 
 	/**
 	 * @author
-	 * @param Mensaje
-	 *            Se envia un mensaje de confirmación a otro destino
+	 * @param Mensaje Se envia un mensaje de confirmación a otro destino
 	 */
 	@Override
-	public void enviarConfirmacion(Mensaje msg) throws IllegalArgumentException {
+	public void enviarConfirmacion(Mensaje msg) throws IllegalArgumentException{
 		if (msg.getOrigen().equals(msg.getDestino())) {
 			throw new IllegalArgumentException("El origen y el miembro son iguales");
 		}
 		msg.setEstado(EstadoUtils.Estado.PENDIENTE);
 		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
-		//String topic = msg.getDestino() + "/" + msg.getTipoHandshake();
-		//String m = json.render(msg);
+		// String topic = msg.getDestino() + "/" + msg.getTipoHandshake();
+		// String m = json.render(msg);
 		guardarMensaje(msg);
 		sender.send(msg);
-		//conn.send(topic, m, 2);
+		// conn.send(topic, m, 2);
 
 	}
 
@@ -367,8 +378,8 @@ public class MensajeriaImpl implements Mensajeria {
 		procesarMensaje(msg);
 		msg.setEstado(EstadoUtils.Estado.CONFIRMADO);
 		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
-		//String origen = msg.getOrigen();
-		//String destino = msg.getDestino();
+		// String origen = msg.getOrigen();
+		// String destino = msg.getDestino();
 		msg.setOrigen(msg.getOrigen());
 		msg.setDestino(msg.getDestino());
 		actualizarMensaje(msg);
@@ -440,6 +451,13 @@ public class MensajeriaImpl implements Mensajeria {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void propagarMensaje(List<Mensaje> msgs) {
+		// TODO Auto-generated method stub
+		guardarMensajes(msgs);
+		sender.send(msgs);
 	}
 
 }

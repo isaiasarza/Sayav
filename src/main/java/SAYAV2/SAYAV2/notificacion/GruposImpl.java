@@ -2,6 +2,7 @@ package SAYAV2.SAYAV2.notificacion;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -97,7 +98,9 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 		mensaje.setDescripcion("El miembro " + miembro.getDireccion() + " es parte del grupo " + grupo.getNombre() + ":");
 		mensaje.setDatos(json.render(datos));
-		mensajeria.propagarMensaje(mensaje, grupo);
+		//mensajeria.propagarMensaje(mensaje, grupo);
+		List<Mensaje> mensajes = generarMensajes(grupo, mensaje);
+		mensajeria.propagarMensaje(mensajes);
 	}
 
 	private boolean notificarNuevoGrupo(Grupo grupo, Peer miembro, Peer origen) throws Exception {
@@ -196,7 +199,9 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 
 		// Propago el mensaje para informar a todos los miembros sobre la baja
 		// de este miembro
-		mensajeria.propagarMensaje(mensaje, grupo);
+		List<Mensaje> mensajes = generarMensajes(grupo, mensaje);
+		mensajeria.propagarMensaje(mensajes);
+
 		// Elimino el grupo de mi lista de grupos
 		usuarioDao.eliminarGrupo(grupo);
 	}
@@ -315,7 +320,10 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 
 	@Override
 	public void notificarGrupo(Grupo grupo, Mensaje msg) throws Exception {
-		mensajeria.propagarMensaje(msg, grupo);
+		//mensajeria.propagarMensaje(msg, grupo);
+		List<Mensaje> mensajes = generarMensajes(grupo, msg);
+		mensajeria.propagarMensaje(mensajes);
+
 	}
 
 	@Override
@@ -489,4 +497,16 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		return notificacion;
 	}
 
+	private List<Mensaje> generarMensajes(Grupo g, Mensaje msg){
+		List<Mensaje> mensajes = new ArrayList<Mensaje>();
+		Mensaje mensaje;
+		
+		for(Peer destino: g.getPeers()) {
+			mensaje = msg.clone();
+			mensaje.setDestino(destino);
+			mensajes.add(mensaje);
+		}
+		
+		return mensajes;
+	}
 }
