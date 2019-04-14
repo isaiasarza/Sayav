@@ -1,6 +1,7 @@
 package SAYAV2.SAYAV2.mensajeria;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mashape.unirest.http.HttpResponse;
@@ -8,12 +9,12 @@ import com.mashape.unirest.http.ObjectMapper;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-public class SenderRest implements Sender {
-	
+public class SenderRest implements Sender, Runnable {
+
 	private static Sender sender;
 
 	private SenderRest() {
-		
+
 		Unirest.setObjectMapper(new ObjectMapper() {
 			private com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper = new com.fasterxml.jackson.databind.ObjectMapper();
 
@@ -33,11 +34,11 @@ public class SenderRest implements Sender {
 				}
 			}
 		});
-		
+
 	}
-	
+
 	public static Sender getInstance() {
-		if(sender == null)
+		if (sender == null)
 			sender = new SenderRest();
 		return sender;
 	}
@@ -46,22 +47,44 @@ public class SenderRest implements Sender {
 	public String send(Mensaje mensaje) {
 		String destino = "http://" + mensaje.getDestino().getDireccion() + ":" + mensaje.getDestino().getPuerto();
 		try {
-			HttpResponse<String> jsonResponse = (Unirest.post(destino)
-					.header("accept", "application/json")
-					.header("Content-Type", "application/json")
-					.body(mensaje)
-					.asString());
+			HttpResponse<String> jsonResponse = (Unirest.post(destino).header("accept", "application/json")
+					.header("Content-Type", "application/json").body(mensaje).asString());
 			return jsonResponse.getBody().toString();
 		} catch (UnirestException e) {
-			if(mensaje.getDestino().getPuerto() == 0) {
+			if (mensaje.getDestino().getPuerto() == 0) {
 				System.out.println();
 				System.out.println("Error:No se pudo enviar mensaje");
-				System.out.println("destino: " + destino );
-				System.out.println();	
+				System.out.println("destino: " + destino);
+				System.out.println();
 			}
-			
+
 			return e.getMessage();
 		}
+	}
+
+	@Override
+	public void send(List<Mensaje> mensajes) {
+		// TODO Auto-generated method stub
+		Thread thread;
+
+		for (Mensaje mensaje : mensajes) {
+
+			thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+
+					sender.send(mensaje);
+				}
+			}, "Enviando el mensaje: "+mensaje.toString());
+			thread.start();
+		}
+
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+
 	}
 
 }
