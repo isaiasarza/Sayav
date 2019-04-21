@@ -57,4 +57,10 @@ public interface Grupos {
 	 * @throws Exception 
 	 */
 	void procesarBajaMiembro(Votacion votacion) throws Exception;
+	
+//	void notificarGrupo(Grupo grupo, Mensaje msg) throws Exception;
+	
+//	void notificarGrupos(List<Grupo> grupos, Mensaje msg) throws Exception;
+
+
 }

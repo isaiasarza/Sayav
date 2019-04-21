@@ -33,12 +33,8 @@ import spark.Route;
 public class GroupController {
 
 	private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
-//	private static File file = new File(FileUtils.getUsuarioFile());
 	private static GruposImpl grupos = new GruposImpl();
-//	private static File votacionesPendientesFile = new File(FileUtils.getVotacionesPendientesFile());
-//	private static File votacionesFile = new File(FileUtils.getVotacionesFile());
 	private static File mensajesFile = new File(FileUtils.getMensajesFile());
-	//private static ConfiguratorDao configuratorDao = ConfiguratorDao.getInstance();
 	private static VotacionesDao votacionesDao = VotacionesDao.getInstance();
 	private static MensajePendienteDao mensajesDao = MensajePendienteDao.getInstance();
 
@@ -86,16 +82,14 @@ public class GroupController {
 		LoginController.ensureUserIsLoggedIn(request, response);
 		Map<String, Object> model = new HashMap<>();
 		Usuario usuario = usuarioDao.cargar();
-
 		model.put("user", usuario);
-
-		// System.out.println(response.raw().getStatus());
-
 		return ViewUtil.render(request, model, PathUtil.Template.VIEW_ALL_GROUPS);
 
 	};
 
 	public static Route leaveGroup = (Request request, Response response) -> {
+		Thread thread;
+
 		LoginController.ensureUserIsLoggedIn(request, response);
 		Usuario usuario = usuarioDao.cargar();
 		String groupName = request.params("groupName");
@@ -105,16 +99,25 @@ public class GroupController {
 		}
 
 		if (!grupo.getPeers().isEmpty()) {
+			thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						grupos.abandonarGrupo(grupo);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}, "Abandonando Grupo " + grupo.toString());
+			thread.start();
 			grupos.abandonarGrupo(grupo);
 		}
 		usuarioDao.eliminarGrupo(grupo);
 		request.session().removeAttribute("user");
 		request.session().attribute("user", usuario);
 		request.session().attribute("leaveGroupSucceeded", true);
-
 		response.redirect(PathUtil.Web.NEW_GROUP);
 		return null;
-
 	};
 	public static Route getNewGroupMember = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
@@ -132,7 +135,7 @@ public class GroupController {
 	public static Route postNewGroupMember = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
 		Map<String, Object> model = new HashMap<>();
-
+		Thread thread;
 		System.out.println("Agregando Miembro");
 		String memberDomain, groupName;
 		int puerto;
@@ -183,19 +186,34 @@ public class GroupController {
 		if (!grupos.isInit()) {
 			grupos.init();
 		}
-		if (!grupos.añadirMiembro(grupo, peer)) {
-			model.put("procesandoMiembro", true);
-			model.put("user", usuario);
-			model.put("group", grupo);
-			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
-
-		}
-
-		RequestUtil.removeSessionAttrUser(request);
-		model.put("addMemberSucceeded", true);
+		thread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					grupos.añadirMiembro(grupo, peer);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}, "Añadiendo Miembro: " + peer + " a grupo"  + grupo );
+		thread.start();
+		model.put("procesandoMiembro", true);
 		model.put("user", usuario);
 		model.put("group", grupo);
 		return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
+//		if (!grupos.añadirMiembro(grupo, peer)) {
+//			model.put("procesandoMiembro", true);
+//			model.put("user", usuario);
+//			model.put("group", grupo);
+//			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
+//
+//		}
+//
+//		RequestUtil.removeSessionAttrUser(request);
+//		model.put("addMemberSucceeded", true);
+//		model.put("user", usuario);
+//		model.put("group", grupo);
+//		return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
 
 	};
 
@@ -217,7 +235,7 @@ public class GroupController {
 	public static Route solicitarBaja = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
 		Map<String, Object> model = new HashMap<>();
-
+		Thread thread;
 		if (!grupos.isInit()) {
 			grupos.init();
 		}
@@ -231,7 +249,17 @@ public class GroupController {
 		Peer miembro = usuarioDao.getPeer(memberDomain, grupo);
 
 		if (!votacionesDao.exist(grupo.getId(), miembro, FileUtils.VOTACIONES_FILE)) {
-			grupos.solicitarBajaMiembro(grupo, miembro);
+			thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						grupos.solicitarBajaMiembro(grupo, miembro);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}, "Solicitando baja del miembro " + miembro + " en el grupo " + grupo );
+			thread.start();
 			model.put("solicitar", true);
 		} else {
 			model.put("solicitudExistente", true);
@@ -277,7 +305,7 @@ public class GroupController {
 		Usuario usuario = usuarioDao.cargar();
 		Votaciones votacionesPendientes;
 		Votaciones votaciones;
-
+		Thread thread;
 		String voto = request.params("voto");
 
 		String votacionId = request.params("id");
@@ -289,9 +317,29 @@ public class GroupController {
 		}
 
 		if (voto.equals("aceptar")) {
-			grupos.aceptarBajaMiembro(votacion);
+			thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						grupos.aceptarBajaMiembro(votacion);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}, "Voto positivo");
+			thread.start();
 		} else {
-			grupos.rechazarBajaMiembro(votacion);
+			thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						grupos.rechazarBajaMiembro(votacion);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}, "Voto negativo");
+			thread.start();
 		}
 
 		votacionesDao.eliminarVotacion(votacion, FileUtils.VOTACIONES_PENDIENTES_FILE);

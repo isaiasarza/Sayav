@@ -157,7 +157,7 @@ public class SectorController {
 	@SuppressWarnings("unused")
 	public static Route cambiarEstado = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
-		
+		Thread thread;
 		configurator = ConfiguratorDao.getInstance().cargar(FileUtils.CONFIGURATOR_FILE);
 
 		Map<String, Object> model = new HashMap<>();
@@ -196,8 +196,19 @@ public class SectorController {
 			if(!grupos.isInit()){
 				grupos.init();
 			}
-			grupos.notificarGrupos(usuario.getGrupos(), mensaje);
-			grupos.notificarMoviles(usuario.getDispositivosMoviles(), mensaje);
+			thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						grupos.notificarGrupos(usuario.getGrupos(), mensaje);
+					    grupos.notificarMoviles(usuario.getDispositivosMoviles(), mensaje);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}, "Notificando sobre alarma");
+			thread.start();
+			
 			
 			// Notifica Miembros
 //			Notificacion.notificarGrupo(usuario.getGrupos(), mensaje);

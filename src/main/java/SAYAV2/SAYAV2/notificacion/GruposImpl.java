@@ -192,7 +192,6 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		mensaje.setOrigen(miembro);
 		mensaje.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.BAJA_MIEMBRO));
 
-		//mensaje.setTipoMensaje(tiposMensajeDao.getTipo(TipoMensajeUtils.BAJA_MIEMBRO,FileUtils.TIPOS_MENSAJES_FILE));
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 		mensaje.setDescripcion("El miembro abandono el grupo el miembro");
 		mensaje.setDatos(json.render(datos));

@@ -35,7 +35,7 @@ public class PostGCM {
 	       
 	        conn.setDoOutput(true);
 	        
-	        conn.setConnectTimeout(10000); //set timeout to 5 seconds
+	        conn.setConnectTimeout(1000); //set timeout to 5 seconds
 
 	        
 	        // 5. Add JSON data into POST request body 

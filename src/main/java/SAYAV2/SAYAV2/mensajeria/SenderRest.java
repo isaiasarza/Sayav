@@ -54,36 +54,18 @@ public class SenderRest implements Sender, Runnable {
 
 					@Override
 					public void failed(UnirestException e) {
-						// TODO Auto-generated method stub
 
 					}
 
 					@Override
 					public void completed(HttpResponse<String> response) {
-						// TODO Auto-generated method stub
-
 						response.getBody().toString();
 					}
 
 					@Override
 					public void cancelled() {
-						// TODO Auto-generated method stub
-
 					}
 				});
-
-		/*
-		 * try { HttpResponse<String> jsonResponse =
-		 * (Unirest.post(destino).header("accept", "application/json")
-		 * .header("Content-Type", "application/json").body(mensaje).asString()); return
-		 * jsonResponse.getBody().toString(); } catch (UnirestException e) { if
-		 * (mensaje.getDestino().getPuerto() == 0) { System.out.println();
-		 * System.out.println("Error:No se pudo enviar mensaje");
-		 * System.out.println("destino: " + destino); System.out.println(); }
-		 * 
-		 * return e.getMessage(); }
-		 */
-
 		return null;
 	}
 
