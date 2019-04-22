@@ -100,6 +100,13 @@ public class MensajeriaImpl implements Mensajeria {
 					gruposImpl.notificarMoviles(null, msg);
 					return;
 				}
+				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.BAJA_GRUPO)) {
+					notificacion = gruposImpl.recibirAlerta(msg);
+					notificacionesDao.agregarNotificacion(notificacion);
+					gruposImpl.recibirBajaGrupo(msg);
+					//gruposImpl.abandonarGrupo(grupo);;
+					return;
+				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_MIEMBRO)) {
 					notificacion = gruposImpl.recibirNuevoMiembro(msg);
 					notificacionesDao.agregarNotificacion(notificacion);

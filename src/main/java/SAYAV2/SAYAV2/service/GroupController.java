@@ -199,7 +199,7 @@ public class GroupController {
 		thread.start();
 		model.put("procesandoMiembro", true);
 		model.put("user", usuario);
-		model.put("group", grupo);
+		model.put("grupo", grupo);
 		return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
 //		if (!grupos.añadirMiembro(grupo, peer)) {
 //			model.put("procesandoMiembro", true);
