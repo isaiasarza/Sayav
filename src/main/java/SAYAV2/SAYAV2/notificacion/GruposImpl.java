@@ -382,7 +382,9 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		if(datos.getMiembro().getDireccion().equals(usuario.getSubdominio())) {
 			throw new Exception();
 		}
-		usuarioDao.agregarMiembro(usuario.getSingleGrupoById(datos.getGrupo().getId()), datos.getMiembro());
+		if(!usuarioDao.agregarMiembro(usuario.getSingleGrupoById(datos.getGrupo().getId()), datos.getMiembro())) {
+			return null;
+		}
 		notificacion.setTipo(msg.getTipoMensaje().getTipo());
 		notificacion.setDescripcion("El miembro " + datos.getMiembro().getDireccion()
 				+ " es parte del grupo " + datos.getGrupo().getNombre());
@@ -409,7 +411,8 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		
 		Notificacion notificacion = new Notificacion();
 		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
-		usuarioDao.eliminarMiembro(datos.getGrupo(), datos.getMiembro());
+		if(usuarioDao.eliminarMiembro(datos.getGrupo(), datos.getMiembro()) == null)
+			return null;
 		notificacion.setTipo(msg.getTipoMensaje().getTipo());
 		notificacion.setDescripcion("El miembro " + datos.getMiembro().getDireccion()
 				+ " dejo de ser parte del grupo " + datos.getGrupo().getNombre());
@@ -417,7 +420,6 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 			notificacion.setDetalle("El miembro abandono el grupo por propia voluntad.");
 		} else {
 			notificacion.setDetalle("El miembro fue dado de baja por acuerdo común en el grupo.");
-
 		}
 		return notificacion;
 	}
@@ -463,9 +465,10 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 			notificacion.setDetalle("El voto fue negativo");
 			votacion.setVotantesEnContra(votacion.getVotantesEnContra() + 1);
 		}
-		votacionesDao.actualizarVotacion(votacion,FileUtils.VOTACIONES_FILE);
+		if(!votacionesDao.actualizarVotacion(votacion,FileUtils.VOTACIONES_FILE)) {
+			return null;
+		}
 		procesarBajaMiembro(votacion);
-		
 		return notificacion;
 
 	}

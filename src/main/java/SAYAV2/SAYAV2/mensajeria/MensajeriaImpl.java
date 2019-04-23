@@ -104,21 +104,21 @@ public class MensajeriaImpl implements Mensajeria {
 					notificacion = gruposImpl.recibirAlerta(msg);
 					notificacionesDao.agregarNotificacion(notificacion);
 					gruposImpl.recibirBajaGrupo(msg);
-					//gruposImpl.abandonarGrupo(grupo);;
 					return;
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_MIEMBRO)) {
 					notificacion = gruposImpl.recibirNuevoMiembro(msg);
+					if(notificacion == null)
+						return;
 					notificacionesDao.agregarNotificacion(notificacion);
 					gruposImpl.notificarMoviles(null, msg);
-
 					return;
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.VOTO)) {
 					notificacion = gruposImpl.recibirVoto(msg);
-					if (notificacion != null) {
-						notificacionesDao.agregarNotificacion(notificacion);
-					}
+					if(notificacion == null)
+						return;
+					notificacionesDao.agregarNotificacion(notificacion);	
 					gruposImpl.notificarMoviles(null, msg);
 					return;
 				}
@@ -126,21 +126,20 @@ public class MensajeriaImpl implements Mensajeria {
 					notificacion = gruposImpl.recibirNuevoGrupo(msg);
 					notificacionesDao.agregarNotificacion(notificacion);
 					gruposImpl.notificarMoviles(null, msg);
-
 					return;
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.BAJA_MIEMBRO)) {
 					notificacion = gruposImpl.recibirBajaMiembro(msg);
+					if(notificacion == null)
+						return;
 					notificacionesDao.agregarNotificacion(notificacion);
 					gruposImpl.notificarMoviles(null, msg);
-
 					return;
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.SOLICITUD_BAJA_MIEMBRO)) {
 					notificacion = gruposImpl.recibirSolicitudBaja(msg);
 					notificacionesDao.agregarNotificacion(notificacion);
 					gruposImpl.notificarMoviles(null, msg);
-
 					return;
 				}
 			}
@@ -168,6 +167,8 @@ public class MensajeriaImpl implements Mensajeria {
 		}
 
 	}
+	
+	
 
 	/**
 	 * @author
@@ -462,9 +463,21 @@ public class MensajeriaImpl implements Mensajeria {
 
 	@Override
 	public void propagarMensaje(List<Mensaje> msgs) {
-		// TODO Auto-generated method stub
 		guardarMensajes(msgs);
 		sender.send(msgs);
+	}
+	
+	public Mensaje generarRespuesta(Mensaje msg) {
+		Mensaje mensaje = msg.clone();
+		mensaje.setOrigen(msg.getDestino());
+		mensaje.setDestino(msg.getOrigen());
+		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
+		mensaje.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.OK_CONFIRMACION));
+
+		// mensaje.setTipoMensaje(tipoMensajeDao.getTipo(TipoMensajeUtils.OK_CONFIRMACION,
+		// FileUtils.MENSAJES_FILE));
+		mensaje.setEstado(EstadoUtils.Estado.CONFIRMADO);
+		return mensaje;
 	}
 
 }
