@@ -101,7 +101,7 @@ public class MensajeriaImpl implements Mensajeria {
 					return;
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.BAJA_GRUPO)) {
-					notificacion = gruposImpl.recibirAlerta(msg);
+					notificacion = gruposImpl.recibirBajaGrupo(msg);
 					notificacionesDao.agregarNotificacion(notificacion);
 					gruposImpl.recibirBajaGrupo(msg);
 					return;

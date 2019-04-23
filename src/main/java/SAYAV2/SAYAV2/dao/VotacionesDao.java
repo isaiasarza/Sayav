@@ -17,7 +17,7 @@ public class VotacionesDao extends GenericDao<Votaciones> {
 	private VotacionesDao() {
 		super();
 		this.e = new Votaciones();
-		//this.file = new File("votacion");
+		// this.file = new File("votacion");
 
 	}
 
@@ -41,18 +41,14 @@ public class VotacionesDao extends GenericDao<Votaciones> {
 		return votaciones;
 	}
 
-	/*public Votaciones eliminarVotacion(Votacion votacion, File file) throws JAXBException {
-		Votaciones votaciones = this.cargar(file);
-		Iterator<Votacion> iterator = votaciones.getVotaciones().iterator();
-		while (iterator.hasNext()) {
-			if (iterator.next().getId().equals(votacion.getId())) {
-				iterator.remove();
-				this.guardar(votaciones, file);
-				return this.cargar(file);
-			}
-		}
-		return votaciones;
-	}*/
+	/*
+	 * public Votaciones eliminarVotacion(Votacion votacion, File file) throws
+	 * JAXBException { Votaciones votaciones = this.cargar(file); Iterator<Votacion>
+	 * iterator = votaciones.getVotaciones().iterator(); while (iterator.hasNext())
+	 * { if (iterator.next().getId().equals(votacion.getId())) { iterator.remove();
+	 * this.guardar(votaciones, file); return this.cargar(file); } } return
+	 * votaciones; }
+	 */
 
 	public Votaciones agregarVotacion(Votacion votacion, Votaciones votaciones, File votacionesPendientesFile)
 			throws JAXBException {
@@ -64,17 +60,17 @@ public class VotacionesDao extends GenericDao<Votaciones> {
 		votaciones = this.cargar(votacionesPendientesFile);
 		return votaciones;
 	}
-	
+
 	public Votaciones agregarVotacion(Votacion votacion, Votaciones votaciones, String votacionesPendientesFile)
 			throws JAXBException, IOException {
 		if (!votaciones.addVotacion(votacion)) {
 			return null;
 		}
-		
-			this.guardar(votaciones, votacionesPendientesFile);
-			votaciones.getVotaciones().clear();
-			votaciones = this.cargar(votacionesPendientesFile);
-		
+
+		this.guardar(votaciones, votacionesPendientesFile);
+		votaciones.getVotaciones().clear();
+		votaciones = this.cargar(votacionesPendientesFile);
+
 		return votaciones;
 	}
 
@@ -101,50 +97,33 @@ public class VotacionesDao extends GenericDao<Votaciones> {
 
 	}
 
-	/*public boolean exist(String grupoId, Peer miembro, File file) {
-		Votaciones votaciones;
+	/*
+	 * public boolean exist(String grupoId, Peer miembro, File file) { Votaciones
+	 * votaciones;
+	 * 
+	 * try { votaciones = cargar(file); for (Votacion v :
+	 * votaciones.getVotaciones()) { if (v.getGrupoId().equals(grupoId) &&
+	 * v.getMiembro().getDireccion().equals(miembro.getDireccion())) { return true;
+	 * } } } catch (JAXBException e) { e.printStackTrace(); }
+	 * 
+	 * return false; }
+	 */
 
-		try {
-			votaciones = cargar(file);
-			for (Votacion v : votaciones.getVotaciones()) {
-				if (v.getGrupoId().equals(grupoId) && v.getMiembro().getDireccion().equals(miembro.getDireccion())) {
-					return true;
-				}
-			}
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
+	/*
+	 * public Votacion getVotacion(String votacionId, File file) { Votaciones
+	 * votaciones; try { votaciones = this.cargar(file); for (Votacion v :
+	 * votaciones.getVotaciones()) { if (v.getId().equals(votacionId)) { return v; }
+	 * } } catch (JAXBException e) { e.printStackTrace(); } return null; }
+	 */
 
-		return false;
-	}*/
-
-	/*public Votacion getVotacion(String votacionId, File file) {
-		Votaciones votaciones;
-		try {
-			votaciones = this.cargar(file);
-			for (Votacion v : votaciones.getVotaciones()) {
-				if (v.getId().equals(votacionId)) {
-					return v;
-				}
-			}
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}*/
-
-	/*public boolean actualizarVotacion(Votacion votacion, File votacionesFile) {
-		try {
-			Votaciones votaciones = this.cargar(votacionesFile);
-			int index = votaciones.getVotaciones().indexOf(votacion);
-			votaciones.getVotaciones().set(index, votacion);
-			this.guardar(votaciones, votacionesFile);
-			return true;
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
-		return false;
-	}*/
+	/*
+	 * public boolean actualizarVotacion(Votacion votacion, File votacionesFile) {
+	 * try { Votaciones votaciones = this.cargar(votacionesFile); int index =
+	 * votaciones.getVotaciones().indexOf(votacion);
+	 * votaciones.getVotaciones().set(index, votacion); this.guardar(votaciones,
+	 * votacionesFile); return true; } catch (JAXBException e) {
+	 * e.printStackTrace(); } return false; }
+	 */
 
 	public Votacion getVotacion(String votacionId, String ruta) {
 		Votaciones votaciones;
@@ -194,34 +173,32 @@ public class VotacionesDao extends GenericDao<Votaciones> {
 			e.printStackTrace();
 		}
 		return false;
-		
+
 	}
 
 	public Votaciones agregarVotacion(Votacion votacion, String votacionesFile) {
 		Votaciones votaciones;
 		try {
 			votaciones = this.cargar(votacionesFile);
-			if (votaciones.getVotaciones().contains(votacion)) {
+			if (!votaciones.addVotacion(votacion)) {
 				return null;
 			}
-			votaciones.addVotacion(votacion);
 			this.guardar(votaciones, votacionesFile);
-			votaciones.getVotaciones().clear();
-			votaciones = this.cargar(votacionesFile);
+			//votaciones.getVotaciones().clear();
 			return votaciones;
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		votaciones = new Votaciones();
+		/*votaciones = new Votaciones();
 		votaciones.addVotacion(votacion);
 		try {
 			this.guardar(votaciones, votacionesFile);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-		return votaciones;
+		}*/
+		return null;
 	}
 
 }

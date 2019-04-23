@@ -291,7 +291,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		DatoGrupo datos = new DatoGrupo(miembro, g);
 		mensaje.setDatos(json.render(datos));
 		mensaje.setDescripcion("Se voto dar de baja al miembro");
-		mensaje.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.BAJA_MIEMBRO));
+		//mensaje.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.BAJA_MIEMBRO));
 
 		//mensaje.setTipoMensaje(tiposMensajeDao.getTipo(TipoMensajeUtils.BAJA_MIEMBRO,FileUtils.TIPOS_MENSAJES_FILE));
 		mensaje.setOrigen(votante);
@@ -315,7 +315,8 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		System.out.println("Avisando a los miembros que eliminen al eliminado" + miembro);
 		System.out.println("Datos" + mensaje.getDatos());
 		Peer eliminado = usuarioDao.eliminarMiembro(g, miembro);
-		g.removePeer(miembro);
+		//g.removePeer(miembro);
+		mensaje.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.BAJA_MIEMBRO));
 		notificarGrupo(g, mensaje);
 		return eliminado;
 	}
@@ -403,7 +404,8 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		notificacion.setDescripcion("Fue agregado al grupo " + datos.getGrupo().getNombre());
 		notificacion.setDetalle("Fue agregado por el miembro " + msg.getOrigen().getDireccion());
 		datos.getGrupo().add(msg.getOrigen());
-		usuarioDao.agregarGrupo(datos.getGrupo());
+		if(!usuarioDao.agregarGrupo(datos.getGrupo()))
+			return null;
 		return notificacion;
 	}
 
@@ -431,7 +433,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		Votacion votacion = json.getGson().fromJson(msg.getDatos(), Votacion.class);
 		System.out.println(votacionesPendientes);
 		System.out.println(votacion);
-		votacionesPendientes = votacionesDao.agregarVotacion(votacion, votacionesPendientes, FileUtils.VOTACIONES_PENDIENTES_FILE);
+		votacionesPendientes = votacionesDao.agregarVotacion(votacion, FileUtils.VOTACIONES_PENDIENTES_FILE);
 
 		notificacion.setTipo(msg.getTipoMensaje().getTipo());
 		notificacion.setDescripcion("Se ha solicitado la baja del miembro " + votacion.getMiembro().getDireccion());
@@ -520,9 +522,16 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		return mensajes;
 	}
 
-	public void recibirBajaGrupo(Mensaje msg) throws Exception {
+	public Notificacion recibirBajaGrupo(Mensaje msg) throws Exception {
 		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
 		System.out.println("Eliminando el grupo " + datos.getGrupo().getNombre() +" donde usted fue dado de baja");
-		usuarioDao.eliminarGrupo(datos.getGrupo());
+		if(!usuarioDao.eliminarGrupo(datos.getGrupo()))
+			return null;
+		Notificacion notificacion = new Notificacion();
+		
+		notificacion.setTipo(msg.getTipoMensaje().getTipo());
+		notificacion.setDescripcion("Eliminando el grupo " + datos.getGrupo().getNombre());
+		notificacion.setDetalle("Fue dado de baja");
+		return notificacion;
 	}
 }
