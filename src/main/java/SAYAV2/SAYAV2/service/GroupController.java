@@ -281,7 +281,7 @@ public class GroupController {
 
 		votacionesPendientes = votacionesDao.cargar(FileUtils.VOTACIONES_PENDIENTES_FILE);
 		votaciones = votacionesDao.cargar(FileUtils.VOTACIONES_FILE);
-
+		System.out.println("PUTO ERROR" +votaciones);
 		model.put("user", usuario);
 		model.put("currentUser", true);
 		model.put("solicitudes", votaciones);

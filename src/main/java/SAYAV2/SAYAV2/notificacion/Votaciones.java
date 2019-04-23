@@ -104,4 +104,13 @@ public class Votaciones {
 		return null;
 	}
 
+
+
+	@Override
+	public String toString() {
+		return "Votaciones [votaciones=" + votaciones + "]";
+	}
+	
+	
+
 }

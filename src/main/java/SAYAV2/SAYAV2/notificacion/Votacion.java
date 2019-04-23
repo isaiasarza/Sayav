@@ -174,6 +174,7 @@ public class Votacion {
      * Sets the value of the finalizo property.
      * 
      */
+
     public void setFinalizo(boolean value) {
         this.finalizo = value;
     }
