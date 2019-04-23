@@ -429,7 +429,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		Votacion votacion = json.getGson().fromJson(msg.getDatos(), Votacion.class);
 		System.out.println(votacionesPendientes);
 		System.out.println(votacion);
-		votacionesPendientes = votacionesDao.agregarVotacion(votacion, votacionesPendientes, FileUtils.VOTACIONES_PENDIENTES_FILE);
+		votacionesPendientes = votacionesDao.agregarVotacion(votacion, FileUtils.VOTACIONES_PENDIENTES_FILE);
 
 		notificacion.setTipo(msg.getTipoMensaje().getTipo());
 		notificacion.setDescripcion("Se ha solicitado la baja del miembro " + votacion.getMiembro().getDireccion());
