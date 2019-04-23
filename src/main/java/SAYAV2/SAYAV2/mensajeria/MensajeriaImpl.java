@@ -101,10 +101,10 @@ public class MensajeriaImpl implements Mensajeria {
 					return;
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.BAJA_GRUPO)) {
-					notificacion = gruposImpl.recibirAlerta(msg);
+					notificacion = gruposImpl.recibirBajaGrupo(msg);
 					notificacionesDao.agregarNotificacion(notificacion);
 					gruposImpl.recibirBajaGrupo(msg);
-					//gruposImpl.abandonarGrupo(grupo);;
+					//TODO
 					return;
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_MIEMBRO)) {
@@ -126,7 +126,8 @@ public class MensajeriaImpl implements Mensajeria {
 					notificacion = gruposImpl.recibirNuevoGrupo(msg);
 					notificacionesDao.agregarNotificacion(notificacion);
 					gruposImpl.notificarMoviles(null, msg);
-
+					//TODO 
+					
 					return;
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.BAJA_MIEMBRO)) {
