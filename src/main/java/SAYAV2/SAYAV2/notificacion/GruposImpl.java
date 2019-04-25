@@ -348,7 +348,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		String fecha = msg.imprimirFechaCreacion()+ " " + SimpleDateFormat.AM_PM_FIELD;
 		msg.setDescripcion(msg.getDescripcion() + " " + fecha);
 		if(!FirebaseCloudMessageController.post(msg.getTipoMensaje().getTipo(), msg.getDescripcion())){
-			System.out.println("Guardando Notificacion Push...");
+			//System.out.println("Guardando Notificacion Push...");
 			Mensaje m = msg.clone();
 			m.setId(m.generateId());
 			m.setEstado(EstadoUtils.Estado.PENDIENTE);

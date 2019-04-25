@@ -474,7 +474,6 @@ public class Usuario {
 
 
 	public List<String> getTokens() {
-		// TODO Auto-generated method stub
 		List<String> registration_ids = new ArrayList<String>();
 		for(DispositivoM d: this.dispositivosMoviles){
 			if(!d.token.isEmpty())
