@@ -484,6 +484,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 	}
 
 	public Notificacion confirmarAñadirMiembro(Mensaje msg) throws JAXBException {
+		Thread thread;
 		Notificacion notificacion = new Notificacion();
 		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
 		System.out.println();
@@ -492,7 +493,19 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		Peer origen = new Peer(usuarioDao.getSubdominio(),configurator.getPort());
 		Grupo grupo = usuarioDao.getGrupo(datos.getGrupo().getId());
 		try {
-			notificarNuevoMiembro(grupo, datos.getMiembro(), origen);
+			thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						System.out.println("Notificando Nuevo Miembro");
+						grupos.notificarNuevoMiembro(grupo, datos.getMiembro(), origen);
+					} catch (Exception e) {
+						e.printStackTrace();
+						System.out.println(e);
+					}
+				}
+			}, "Notificando Nuevo Miembro");
+			thread.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

@@ -80,7 +80,8 @@ public class MensajeriaImpl implements Mensajeria {
 
 	/**
 	 * @author
-	 * @param Mensaje msg
+	 * @param Mensaje
+	 *            msg
 	 * @return Mensaje nuevo mensaje formado en la acción Este metodo toma un
 	 *         mensaje recibido, según el tipo de mensaje correspondiente toma la
 	 *         acción debida.
@@ -108,7 +109,7 @@ public class MensajeriaImpl implements Mensajeria {
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_MIEMBRO)) {
 					notificacion = gruposImpl.recibirNuevoMiembro(msg);
-					if(notificacion == null)
+					if (notificacion == null)
 						return;
 					notificacionesDao.agregarNotificacion(notificacion);
 					gruposImpl.notificarMoviles(null, msg);
@@ -116,15 +117,15 @@ public class MensajeriaImpl implements Mensajeria {
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.VOTO)) {
 					notificacion = gruposImpl.recibirVoto(msg);
-					if(notificacion == null)
+					if (notificacion == null)
 						return;
-					notificacionesDao.agregarNotificacion(notificacion);	
+					notificacionesDao.agregarNotificacion(notificacion);
 					gruposImpl.notificarMoviles(null, msg);
 					return;
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_GRUPO)) {
 					notificacion = gruposImpl.recibirNuevoGrupo(msg);
-					if(notificacion == null)
+					if (notificacion == null)
 						return;
 					notificacionesDao.agregarNotificacion(notificacion);
 					gruposImpl.notificarMoviles(null, msg);
@@ -132,7 +133,7 @@ public class MensajeriaImpl implements Mensajeria {
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.BAJA_MIEMBRO)) {
 					notificacion = gruposImpl.recibirBajaMiembro(msg);
-					if(notificacion == null)
+					if (notificacion == null)
 						return;
 					notificacionesDao.agregarNotificacion(notificacion);
 					gruposImpl.notificarMoviles(null, msg);
@@ -150,32 +151,33 @@ public class MensajeriaImpl implements Mensajeria {
 			}
 			if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_GRUPO)) {
 				System.out.println("Evaluando tratamiento de mensaje");
-				try{
-					if(mensajes.getMensaje(msg.getId()).getEstado().equals(EstadoUtils.Estado.CONFIRMADO)) {
+				try {
+					if (mensajes.getMensaje(msg.getId()).getEstado().equals(EstadoUtils.Estado.CONFIRMADO)) {
 						System.out.println("INFO: Mensaje ya confirmado, no se tratará");
-						return;						
+						return;
 					}
-				}catch(NullPointerException e) {
+				} catch (NullPointerException e) {
 					e.printStackTrace();
 				}
+				if (mensajesDao.cambiarEstado(msg.getId(), EstadoUtils.Estado.CONFIRMADO))
+					System.out.println("Se confirmo el mensaje");
+				else
+					System.out.println("No se confirmo el mensaje");
 				notificacion = gruposImpl.confirmarAñadirMiembro(msg);
 				notificacionesDao.agregarNotificacion(notificacion);
 				gruposImpl.notificarMoviles(null, msg);
-//				Mensaje mensaje = msg.clone();
-//				mensaje.setOrigen(msg.getDestino());
-//				mensaje.setDestino(msg.getOrigen());
-//				mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
-//				mensaje.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.OK_CONFIRMACION));
-//				mensaje.setEstado(EstadoUtils.Estado.CONFIRMADO);
-//				enviarConfirmacion(mensaje);
+				// Mensaje mensaje = msg.clone();
+				// mensaje.setOrigen(msg.getDestino());
+				// mensaje.setDestino(msg.getOrigen());
+				// mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
+				// mensaje.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.OK_CONFIRMACION));
+				// mensaje.setEstado(EstadoUtils.Estado.CONFIRMADO);
+				// enviarConfirmacion(mensaje);
 				return;
 			}
-		}catch(
-
-	JAXBException e)
-	{
-		e.printStackTrace();
-	}
+		}catch (JAXBException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -396,13 +398,14 @@ public class MensajeriaImpl implements Mensajeria {
 	 */
 	@Override
 	public void recibirConfirmación(Mensaje msg) throws JAXBException, Exception {
-		System.out.println("Confirmando Mensaje " + msg);
-		msg.setEstado(EstadoUtils.Estado.CONFIRMADO);
-//		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
-//		msg.setOrigen(msg.getOrigen());
-//		msg.setDestino(msg.getDestino());
-		actualizarMensaje(msg);
+		System.out.println("Confirmando Mensaje ");
 		procesarMensaje(msg);
+		msg.setEstado(EstadoUtils.Estado.CONFIRMADO);
+		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
+		msg.setOrigen(msg.getOrigen());
+		msg.setDestino(msg.getDestino());
+		actualizarMensaje(msg);
+
 	}
 
 	/**

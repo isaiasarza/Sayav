@@ -79,7 +79,7 @@ public class SenderRest implements Sender, Runnable {
 			thread = new Thread(new Runnable() {
 				@Override
 				public void run() {
-
+					System.out.println(mensaje);
 					sender.send(mensaje);
 				}
 			}, "Enviando el mensaje: " + mensaje.toString());

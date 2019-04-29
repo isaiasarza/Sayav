@@ -341,18 +341,21 @@ public class GroupController {
 			}, "Voto negativo");
 			thread.start();
 		}
-
-		votacionesDao.eliminarVotacion(votacion, FileUtils.VOTACIONES_PENDIENTES_FILE);
-		votacionesPendientes = votacionesDao.cargar(FileUtils.VOTACIONES_PENDIENTES_FILE);
-		votaciones = votacionesDao.cargar(FileUtils.VOTACIONES_FILE);
-
-		model.put("user", usuario);
-		model.put("currentUser", true);
-		model.put("solicitudes", votaciones);
-		model.put("votaciones", votacionesPendientes);
-		model.put("votacionExitosa", true);
-
-		return ViewUtil.render(request, model, PathUtil.Template.VER_VOTACIONES);
+		votacionesPendientes = votacionesDao.eliminarVotacion(votacion, FileUtils.VOTACIONES_PENDIENTES_FILE);
+		System.out.println(votacionesPendientes);
+		response.redirect(PathUtil.Web.VER_VOTACIONES);
+		return null;
+//		votacionesPendientes = votacionesDao.cargar(FileUtils.VOTACIONES_PENDIENTES_FILE);
+//		votaciones = votacionesDao.cargar(FileUtils.VOTACIONES_FILE);
+//
+//		model.put("user", usuario);
+//		model.put("currentUser", true);
+//		model.put("solicitudes", votaciones);
+//		model.put("votaciones", votacionesPendientes);
+//		model.put("votacionExitosa", true);
+//
+//		return ViewUtil.render(request, model, PathUtil.Template.VER_VOTACIONES);
+		
 	};
 
 	public static Route getAllMenssages = (Request request, Response response) -> {

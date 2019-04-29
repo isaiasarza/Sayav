@@ -121,22 +121,29 @@ public class MensajePendienteDao extends GenericDao<MensajesPendientes> {
 
 
 	public boolean cambiarEstado(String id, String estado) {
-		MensajesPendientes m = cargar();
-		Mensaje aux = new Mensaje();
-		aux.setId(id);
-		int index = m.getMensaje().indexOf(aux);
-		if(index < 0){
-			return false;
+		MensajesPendientes m;
+		try {
+			m = cargar();
+			Mensaje aux = new Mensaje();
+			aux.setId(id);
+			int index = m.getMensaje().indexOf(aux);
+			if(index < 0){
+				return false;
+			}
+			Mensaje mensaje = m.getMensaje().get(index);
+			if(estado.equals(EstadoUtils.Estado.PENDIENTE)){
+				mensaje.setFechaCreacion(new Date());
+				mensaje.setFechaReenvio(new Date());	
+			}
+			mensaje.setEstado(estado);
+			m.getMensaje().set(index, mensaje);
+			this.guardar(m, FileUtils.MENSAJES_FILE);
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		Mensaje mensaje = m.getMensaje().get(index);
-		if(estado.equals(EstadoUtils.Estado.PENDIENTE)){
-			mensaje.setFechaCreacion(new Date());
-			mensaje.setFechaReenvio(new Date());	
-		}
-		mensaje.setEstado(estado);
-		m.getMensaje().set(index, mensaje);
-		this.guardar(m, file);
-		return true;
+		return false;
+		
 	}
 	
 }
