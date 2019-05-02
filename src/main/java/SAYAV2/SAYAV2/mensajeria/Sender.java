@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface Sender {
 	
-	public String send(Mensaje mensaje);
-	public void send(List<Mensaje> mensajes);
+	public String send(Mensaje mensaje) throws MensajeNoEnviadoException;
+	public List<Mensaje> send(List<Mensaje> mensajes);
 
 }

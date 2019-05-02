@@ -96,6 +96,7 @@ public class MensajeriaImpl implements Mensajeria {
 			if (msg.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST)) {
 
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.ALERTA)) {
+					//TODO Confirmar mensaje
 					notificacion = gruposImpl.recibirAlerta(msg);
 					notificacionesDao.agregarNotificacion(notificacion);
 					gruposImpl.notificarMoviles(null, msg);
@@ -108,6 +109,7 @@ public class MensajeriaImpl implements Mensajeria {
 					return;
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_MIEMBRO)) {
+					//TODO Confirmar mensaje
 					notificacion = gruposImpl.recibirNuevoMiembro(msg);
 					if (notificacion == null)
 						return;
@@ -132,6 +134,7 @@ public class MensajeriaImpl implements Mensajeria {
 					return;
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.BAJA_MIEMBRO)) {
+					//TODO Confirmar mensaje
 					notificacion = gruposImpl.recibirBajaMiembro(msg);
 					if (notificacion == null)
 						return;
@@ -166,13 +169,6 @@ public class MensajeriaImpl implements Mensajeria {
 				notificacion = gruposImpl.confirmarAñadirMiembro(msg);
 				notificacionesDao.agregarNotificacion(notificacion);
 				gruposImpl.notificarMoviles(null, msg);
-				// Mensaje mensaje = msg.clone();
-				// mensaje.setOrigen(msg.getDestino());
-				// mensaje.setDestino(msg.getOrigen());
-				// mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
-				// mensaje.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.OK_CONFIRMACION));
-				// mensaje.setEstado(EstadoUtils.Estado.CONFIRMADO);
-				// enviarConfirmacion(mensaje);
 				return;
 			}
 		}catch (JAXBException e) {
@@ -309,6 +305,7 @@ public class MensajeriaImpl implements Mensajeria {
 			}
 			return false;
 		}
+		
 
 		if (msg.getEstado().equals(EstadoUtils.Estado.PENDIENTE) && diff >= msg.getTipoMensaje().getTimetolive()) {
 			msg.setEstado(EstadoUtils.Estado.ZOMBIE);
@@ -322,7 +319,16 @@ public class MensajeriaImpl implements Mensajeria {
 		actualizarMensaje(msg);
 
 		if (msg.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST)) {
-			enviarSolicitud(msg);
+			try {
+				enviarSolicitud(msg);
+				if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_MIEMBRO)) {
+					msg.setEstado(EstadoUtils.Estado.CONFIRMADO);
+				}
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (MensajeNoEnviadoException e) {
+				e.printStackTrace();
+			}
 			return false;
 		}
 		enviarConfirmacion(msg);
@@ -336,19 +342,17 @@ public class MensajeriaImpl implements Mensajeria {
 	 *            un mensaje.
 	 */
 	@Override
-	public String enviarSolicitud(Mensaje msg) throws IllegalArgumentException {
+	public Mensaje enviarSolicitud(Mensaje msg) throws IllegalArgumentException,MensajeNoEnviadoException {
+		if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NOTIFICACION_MOVIL))
+			return msg;
 		if (msg.getOrigen().equals(msg.getDestino())) {
 			throw new IllegalArgumentException("El origen y el miembro son iguales");
 		}
 		msg.setEstado(EstadoUtils.Estado.PENDIENTE);
 		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 		guardarMensaje(msg);
-		String m = json.render(msg);
-
-		// String topic = msg.getDestino() + "/" + msg.getTipoHandshake();
-		// conn.send(topic, m, 2);
 		sender.send(msg);
-		return m;
+		return msg;
 	}
 
 	/**
@@ -366,7 +370,11 @@ public class MensajeriaImpl implements Mensajeria {
 		// String topic = msg.getDestino() + "/" + msg.getTipoHandshake();
 		// String m = json.render(msg);
 		guardarMensaje(msg);
-		sender.send(msg);
+		try {
+			sender.send(msg);
+		} catch (MensajeNoEnviadoException e) {
+			e.printStackTrace();
+		}
 		// conn.send(topic, m, 2);
 
 	}
@@ -382,6 +390,11 @@ public class MensajeriaImpl implements Mensajeria {
 	@Override
 	public void recibirSolicitud(Mensaje msg) throws Exception {
 		procesarMensaje(msg);
+		if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_MIEMBRO)) {
+			System.out.println("Solicitud Nuevo Miembro, no requiere una confirmacion");
+			return;
+		}
+
 		Mensaje nuevo = (Mensaje) msg.clone();
 		nuevo.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
 		nuevo.setEstado(EstadoUtils.Estado.CONFIRMADO);
@@ -478,8 +491,40 @@ public class MensajeriaImpl implements Mensajeria {
 
 	@Override
 	public void propagarMensaje(List<Mensaje> msgs) {
-		guardarMensajes(msgs);
-		sender.send(msgs);
+		//guardarMensajes(msgs);
+		List<Mensaje> confirmados;
+		List<Mensaje> enviados = sender.send(msgs);
+		confirmados = confirmarSolicitudes(enviados);
+		guardarMensajes(interseccion(confirmados,msgs));
+	}
+	
+	
+	public List<Mensaje> propagarMensajes(List<Mensaje> msgs) {
+		//guardarMensajes(msgs);
+		List<Mensaje> confirmados;
+		List<Mensaje> enviados = sender.send(msgs);
+		confirmados = confirmarSolicitudes(enviados);
+		return interseccion(confirmados, msgs);
+	}
+	
+	private List<Mensaje> interseccion(List<Mensaje> confirmados, List<Mensaje> msgs) {
+		msgs.removeAll(confirmados);
+		confirmados.addAll(msgs);
+		return confirmados;
+	}
+
+	private List<Mensaje> confirmarSolicitudes(List<Mensaje> enviados) {
+		System.out.println("Confirmando Mensajes");
+		for(Mensaje mensaje: enviados) {
+			if(mensaje.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST)) {
+				if(mensaje.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_MIEMBRO)) {
+					mensaje.setEstado(EstadoUtils.Estado.CONFIRMADO);
+					System.out.println("Mensaje confirmado " + mensaje.getDestino() + " " + mensaje.getEstado());
+					continue;
+				}
+			}
+		}
+		return enviados;
 	}
 
 	public Mensaje generarRespuesta(Mensaje msg) {

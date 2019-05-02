@@ -527,6 +527,8 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		for(Peer destino: g.getPeers()) {
 			if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_MIEMBRO) && datos.getMiembro().getDireccion().equals(destino.getDireccion()))
 				continue;
+			if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NOTIFICACION_MOVIL))
+				continue;
 			mensaje = msg.clone();
 			mensaje.setDestino(destino);
 			mensajes.add(mensaje);

@@ -300,11 +300,8 @@ public class GroupController {
 
 	public static Route votarBaja = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
-		Map<String, Object> model = new HashMap<>();
 		System.out.println("Ver Votaciones");
-		Usuario usuario = usuarioDao.cargar();
 		Votaciones votacionesPendientes;
-		Votaciones votaciones;
 		Thread thread;
 		String voto = request.params("voto");
 

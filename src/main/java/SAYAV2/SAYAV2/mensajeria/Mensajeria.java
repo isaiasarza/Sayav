@@ -18,7 +18,7 @@ public interface Mensajeria {
 	void guardarMensaje(Mensaje msg);
 	void guardarMensajes(List<Mensaje> msgs);
 	boolean reenviarMensaje(Mensaje msg, Date fechaActual);
-	String enviarSolicitud(Mensaje msg);
+	Mensaje enviarSolicitud(Mensaje msg) throws IllegalArgumentException, MensajeNoEnviadoException;
 	void enviarConfirmacion(Mensaje msg);
 	void recibirSolicitud(Mensaje msg) throws JAXBException, Exception;
 	void recibirConfirmación(Mensaje msg) throws JAXBException, Exception;
