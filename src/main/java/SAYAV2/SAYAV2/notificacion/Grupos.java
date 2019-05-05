@@ -37,7 +37,7 @@ public interface Grupos {
 	 */
 	void abandonarGrupo(Grupo grupo) throws JAXBException, Exception;
 	/**
-	 * 
+	 * El miembro voto positivo y responde al que solicito
 	 * @param votacion
 	 * @throws JAXBException 
 	 * @throws
@@ -45,7 +45,7 @@ public interface Grupos {
 	 */
 	void aceptarBajaMiembro(Votacion votacion) throws JAXBException, Exception;
 	/**
-	 * 
+	 * El miembro voto negativo y responde al que solicito
 	 * @param votacion
 	 * @throws JAXBException 
 	 * @throws Exception 

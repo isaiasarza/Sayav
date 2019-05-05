@@ -26,4 +26,10 @@ public interface Mensajeria {
 	void actualizarMensaje(Mensaje msg);
 	void guardarMensaje(Mensaje msg, String ruta);
 	void recibirMensaje(Mensaje mensaje);
+	/**
+	 * 
+	 * @param mensaje
+	 * @return true si el mensaje no necesita ser confirmado
+	 */
+	boolean isConfirmable(Mensaje mensaje);
 }
