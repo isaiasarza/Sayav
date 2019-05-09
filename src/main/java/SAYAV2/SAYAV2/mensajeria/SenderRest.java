@@ -83,6 +83,8 @@ public class SenderRest implements Sender, Runnable {
 	public List<Mensaje> send(List<Mensaje> mensajes) {
 		List<Mensaje> enviados = new ArrayList<Mensaje>();
 		Thread thread;
+		if(mensajes.size() == 0)
+			return enviados;
         ExecutorService exec = Executors.newFixedThreadPool(mensajes.size());
 		List<Callable<Object>> calls = new ArrayList<Callable<Object>>();
 		for (Mensaje mensaje : mensajes) {

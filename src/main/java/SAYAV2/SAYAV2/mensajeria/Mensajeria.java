@@ -13,6 +13,7 @@ import SAYAV2.SAYAV2.model.Grupo;
 public interface Mensajeria {
 	void init();
 	void procesarMensaje(Mensaje msg) throws JAXBException, Exception;
+	@Deprecated
 	void propagarMensaje(Mensaje msg, Grupo g) throws Exception;
 	void propagarMensaje(List<Mensaje> msgs);
 	void guardarMensaje(Mensaje msg);
