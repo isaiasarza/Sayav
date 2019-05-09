@@ -24,11 +24,11 @@ public class FirebaseCloudMessageController {
 	private static String MESSAGE = "Test Message";
 	private static String apiKey = "AAAAi0VYU24:APA91bF8chF5cS1N0ialjG1hqD_yB8EU6hMAmtbabowP5Izzrm5VK6wYlMr1z1YgVndHiwBEsaVT-jotwyjU9JQxG1z0sXlyWHDpz-HU5aehgjhdxmwZ_a-_KtDtXPgp54MN6TN5IG0o";
 	@SuppressWarnings("unused")
-	private static JsonTransformer json = new  JsonTransformer();
+	private static JsonTransformer json = new JsonTransformer();
 	private static NotificacionesDao notisDao = NotificacionesDao.getInstance();
-	//private static File notis = new File(FileUtils.getNotificacionesFile());
+	// private static File notis = new File(FileUtils.getNotificacionesFile());
 	static UsuarioDao usuarioDao = UsuarioDao.getInstance();
-//	private static File file = new File(FileUtils.getUsuarioFile());
+	// private static File file = new File(FileUtils.getUsuarioFile());
 
 	public static Route getNewToken = (Request request, Response response) -> {
 		System.out.println("Llego Al Get");
@@ -37,33 +37,32 @@ public class FirebaseCloudMessageController {
 
 	public static Route postNewToken = (Request request, Response response) -> {
 		System.out.println("Llego Al Post");
-	
+
 		String token = request.params("token");
-		
-		
-		if(token != null){
+
+		if (token != null) {
 			añadirDispositivo(token);
 		}
-		
+
 		Notificacion n = new Notificacion();
 		n.setTipo(TipoMensajeUtils.NUEVO_DISPOSITIVO);
 		n.setDescripcion("Se vinculo un nuevo dispositivo:El token del mismo es:" + token);
-	//	notisDao.setFile(notis);
+		// notisDao.setFile(notis);
 		notisDao.agregarNotificacion(n);
 		return null;
 	};
 
 	public static Route pushNotification = (Request request, Response response) -> {
 		System.out.println("Llego Al Get");
-		post(TITLE,MESSAGE);
+		post(TITLE, MESSAGE);
 		return null;
 	};
-	
-	public static boolean post(String title, String message){
+
+	public static boolean post(String title, String message) {
 		List<String> registration_ids = getTokens();
 		NotificationMovil notification = new NotificationMovil(registration_ids, title, message);
 		if (!notification.getRegistration_ids().isEmpty()) {
-			return PostGCM.post(apiKey, notification);
+			PostGCM.post(apiKey, notification);
 		}
 		return false;
 	}
@@ -71,7 +70,7 @@ public class FirebaseCloudMessageController {
 	private static void añadirDispositivo(String token) throws JAXBException, IOException {
 		DispositivoM d = new DispositivoM(token);
 		Usuario usuario = usuarioDao.cargar();
-		if(!usuario.getDispositivosMoviles().contains(d)){
+		if (!usuario.getDispositivosMoviles().contains(d)) {
 			usuario.getDispositivosMoviles().add(d);
 			usuarioDao.guardar(usuario);
 		}
