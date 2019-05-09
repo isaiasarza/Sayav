@@ -1,3 +1,4 @@
+
 package SAYAV2.SAYAV2.mensajeria;
 
 import java.io.IOException;
@@ -32,7 +33,6 @@ public class MensajeriaImpl implements Mensajeria {
 	private TipoMensajeDao tipoMensajeDao;
 	private MensajePendienteDao mensajesDao;
 	private TiposMensajes tipos;
-	// private static ControllerMQTT conn;
 	private Sender sender;
 	private JsonTransformer json;
 	private GruposImpl gruposImpl;
@@ -71,8 +71,6 @@ public class MensajeriaImpl implements Mensajeria {
 	public static MensajeriaImpl getInstance() {
 		if (mensImpl == null) {
 			mensImpl = new MensajeriaImpl();
-			// conn = ControllerMQTT.getInstance();
-			// conn.start();
 		}
 
 		return mensImpl;
@@ -95,7 +93,6 @@ public class MensajeriaImpl implements Mensajeria {
 			if (msg.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST)) {
 
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.ALERTA)) {
-					// TODO Confirmar mensaje
 					notificacion = gruposImpl.recibirAlerta(msg);
 					notificacionesDao.agregarNotificacion(notificacion);
 					gruposImpl.notificarMoviles(null, msg);
@@ -108,7 +105,6 @@ public class MensajeriaImpl implements Mensajeria {
 					return;
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_MIEMBRO)) {
-					// TODO Confirmar mensaje
 					notificacion = gruposImpl.recibirNuevoMiembro(msg);
 					if (notificacion == null)
 						return;
@@ -133,7 +129,6 @@ public class MensajeriaImpl implements Mensajeria {
 					return;
 				}
 				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.BAJA_MIEMBRO)) {
-					// TODO Confirmar mensaje
 					notificacion = gruposImpl.recibirBajaMiembro(msg);
 					if (notificacion == null)
 						return;
@@ -190,15 +185,12 @@ public class MensajeriaImpl implements Mensajeria {
 			Mensaje mensaje = (Mensaje) msg.clone();
 			mensaje.setId(mensaje.generateId());
 			DatoGrupo datos;
-			// DatoGrupo datos = json.getGson().
-
 			if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_MIEMBRO)) {
 				datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
 				if (datos.getMiembro().getDireccion().equals(miembro.getDireccion())) {
 					return;
 				}
 			}
-
 			try {
 				mensaje.setDestino(miembro);
 				if (msg.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST)) {
@@ -314,11 +306,12 @@ public class MensajeriaImpl implements Mensajeria {
 		msg.getFechaReenvio().setTime(fechaActual.getTime());
 		actualizarMensaje(msg);
 
-		if (msg.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST)) {
+		if (msg.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST) && msg.getEstado().equals(EstadoUtils.Estado.PENDIENTE)) {
 			try {
 				enviarSolicitud(msg);
-				if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_MIEMBRO)) {
+				if (isConfirmable(msg)) {
 					msg.setEstado(EstadoUtils.Estado.CONFIRMADO);
+					actualizarMensaje(msg);
 				}
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
@@ -327,7 +320,10 @@ public class MensajeriaImpl implements Mensajeria {
 			}
 			return false;
 		}
-		enviarConfirmacion(msg);
+		if(msg.getEstado().equals(EstadoUtils.Estado.PENDIENTE)) {
+			enviarConfirmacion(msg);
+			actualizarMensaje(msg);
+		}
 		return false;
 	}
 
@@ -346,7 +342,7 @@ public class MensajeriaImpl implements Mensajeria {
 		msg.setEstado(EstadoUtils.Estado.PENDIENTE);
 		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 		guardarMensaje(msg);
-		sender.send(msg);
+		sender.send(msg);		
 		return msg;
 	}
 
@@ -359,18 +355,13 @@ public class MensajeriaImpl implements Mensajeria {
 		if (msg.getOrigen().equals(msg.getDestino())) {
 			throw new IllegalArgumentException("El origen y el miembro son iguales");
 		}
-		msg.setEstado(EstadoUtils.Estado.PENDIENTE);
-		msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
-		// String topic = msg.getDestino() + "/" + msg.getTipoHandshake();
-		// String m = json.render(msg);
-		guardarMensaje(msg);
 		try {
 			sender.send(msg);
+			msg.setEstado(EstadoUtils.Estado.CONFIRMADO);
+			actualizarMensaje(msg);
 		} catch (MensajeNoEnviadoException e) {
 			e.printStackTrace();
 		}
-		// conn.send(topic, m, 2);
-
 	}
 
 	/**
@@ -391,9 +382,10 @@ public class MensajeriaImpl implements Mensajeria {
 
 		Mensaje nuevo = (Mensaje) msg.clone();
 		nuevo.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_RESPONSE);
-		nuevo.setEstado(EstadoUtils.Estado.CONFIRMADO);
+		nuevo.setEstado(EstadoUtils.Estado.PENDIENTE);
 		nuevo.setOrigen(msg.getDestino());
 		nuevo.setDestino(msg.getOrigen());
+		guardarMensaje(nuevo);
 		enviarConfirmacion(nuevo);
 
 	}
