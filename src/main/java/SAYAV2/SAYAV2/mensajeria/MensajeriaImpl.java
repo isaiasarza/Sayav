@@ -509,13 +509,15 @@ public class MensajeriaImpl implements Mensajeria {
 		return enviados;
 
 	}
-
+	@Override
 	public boolean isConfirmable(Mensaje mensaje) {
+		String tipo = mensaje.getTipoMensaje().getTipo();
 		if (mensaje.getTipoHandshake().equals(TipoMensajeUtils.HANDSHAKE_REQUEST)) {
-			if (mensaje.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_MIEMBRO)
-					|| mensaje.getTipoMensaje().getTipo().equals(TipoMensajeUtils.BAJA_MIEMBRO)
-					|| mensaje.getTipoMensaje().getTipo().equals(TipoMensajeUtils.ALERTA)
-					|| mensaje.getTipoMensaje().getTipo().equals(TipoMensajeUtils.BAJA_GRUPO)) {
+			if (tipo.equals(TipoMensajeUtils.NUEVO_MIEMBRO)
+			 || tipo.equals(TipoMensajeUtils.BAJA_MIEMBRO)
+			 || tipo.equals(TipoMensajeUtils.ALERTA)
+			 || tipo.equals(TipoMensajeUtils.BAJA_GRUPO)
+			 || tipo.equals(TipoMensajeUtils.NOTIFICACION_MOVIL)) {
 				return true;
 			}
 		}
