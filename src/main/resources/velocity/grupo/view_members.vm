@@ -39,7 +39,12 @@
         	</div>
         #elseif($invalidDomain)
         	<div  class="dangerAlert">	
-	 	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>El nombre de usuario del nuevo miembro no puede contener el caracter "/"
+	 	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>El nombre de usuario del nuevo miembro no puede contener el caracter "/" y
+	 	 		debe respetar el siguiente formato xxx.xxxx.xxx
+	  		</div>
+	  	#elseif($invalidPuerto)
+        	<div  class="dangerAlert">	
+	 	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>El numero de puerto no puede ser negativo
 	  		</div>
     	#elseif($addMemberSucceeded)   
        		<div  class="infoAlert">	

@@ -154,6 +154,14 @@ public class GroupController {
 			model.put("groupName", groupName);
 			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
 		}
+		
+		if (puerto<0 || puerto ==0) {
+			model.put("invalidPuerto", true);
+			model.put("user", usuario);
+			model.put("group", grupo);
+			model.put("groupName", groupName);
+			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
+		}
 
 		if (!domainValidator.isValid(memberDomain)) {
 			model.put("invalidDomain", true);
