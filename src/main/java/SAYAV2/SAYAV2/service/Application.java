@@ -27,6 +27,7 @@ public class Application {
 	static ObjectMapper mapper; 
 	static Configurator config;
 	static ConfiguratorDao configDao;
+
 	//static File c;
 	static File sayav = new File(FileUtils.getUsuarioFile());
 	static Mensajeria mensajeria;
@@ -39,7 +40,7 @@ public class Application {
 		mapper = new ObjectMapper();
 		mensajeria = MensajeriaImpl.getInstance();
 		mensajeria.init();
-	//	controllerMqtt = ControllerMQTT.getInstance();
+   //     Spark.eventSource("/eventsource", NotificationChannel.class);
 	}
 
 	public static int getPort() {
@@ -63,6 +64,7 @@ public class Application {
 				//System.out.println(sayav.getAbsolutePath());
 		//		controllerMqtt.initReceive();
 			}
+			
 
 			messageChecker.start();
 
@@ -99,6 +101,10 @@ public class Application {
 			get(PathUtil.Web.DISPOSITIVO, DispositivoController.dispositivoVelocityEngine);
 			// post(PathUtil.Web.DISPOSITIVO,DispositivoController.nuevoDispositivo);
 			post(PathUtil.Web.ELIMINAR_DISPOSITIVO, DispositivoController.eliminarDispositivo);
+			
+			
+			
+			//get("/notify"noti.),;
 			//
 			// REST de sectores
 			get(PathUtil.Web.SECTOR, SectorController.sectorVelocityEngine);

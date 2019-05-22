@@ -30,7 +30,8 @@ import spark.Response;
 import spark.Route;
 
 public class SectorController {
-
+	
+	//private static NotificationEvent event;
 	private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
 	private static GruposImpl grupos = GruposImpl.getInstance();
 	private static TipoMensajeDao tiposDao = TipoMensajeDao.getInstance();

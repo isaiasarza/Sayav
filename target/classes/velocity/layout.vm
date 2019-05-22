@@ -11,6 +11,7 @@
     
 </head>
 <body>
+<script src="/notify.js"></script>
 <header>
    <nav> 
    		<a><img id="logo" src="/img/alarm.png" alt="Sayav"></a>

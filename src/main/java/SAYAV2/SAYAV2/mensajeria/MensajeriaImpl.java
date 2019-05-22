@@ -140,6 +140,7 @@ public class MensajeriaImpl implements Mensajeria {
 					notificacion = gruposImpl.recibirSolicitudBaja(msg);
 					notificacionesDao.agregarNotificacion(notificacion);
 					gruposImpl.notificarMoviles(null, msg);
+					
 					return;
 				}
 			}

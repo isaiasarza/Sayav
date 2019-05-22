@@ -73,7 +73,6 @@ public class UsuarioDao extends GenericDao<Usuario> {
 				}
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -98,7 +97,6 @@ public class UsuarioDao extends GenericDao<Usuario> {
 				}
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -113,7 +111,6 @@ public class UsuarioDao extends GenericDao<Usuario> {
 		try {
 			usuario = this.cargar(FileUtils.USUARIO_FILE);
 			if(miembro.getDireccion().equals((usuario.getSubdominio()))) {
-				// TODO Agregar Exceptions
 				return false;
 			}
 			Grupo g = usuario.getSingleGrupoById(grupo.getId());
@@ -140,7 +137,6 @@ public class UsuarioDao extends GenericDao<Usuario> {
 				return true;
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -155,7 +151,6 @@ public class UsuarioDao extends GenericDao<Usuario> {
 				return usuario.getGrupos().get(i);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -169,7 +164,6 @@ public class UsuarioDao extends GenericDao<Usuario> {
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -182,7 +176,6 @@ public class UsuarioDao extends GenericDao<Usuario> {
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -196,7 +189,6 @@ public class UsuarioDao extends GenericDao<Usuario> {
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -227,7 +219,6 @@ public class UsuarioDao extends GenericDao<Usuario> {
 			e.printStackTrace();
 			return false;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
@@ -245,7 +236,6 @@ public class UsuarioDao extends GenericDao<Usuario> {
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
