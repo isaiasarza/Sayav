@@ -51,8 +51,8 @@
        
       #foreach($!m in $!mensajesPendientes.getMensaje())
       <tr> 
-            <td> $!m.getOrigen()</td> 
-            <td> $!m.getDestino()</td> 
+            <td> $!m.getOrigen().getDireccion()</td> 
+            <td> $!m.getDestino().getDireccion()</td> 
             #if( $!m.getEstado().equals($estados.getZombie()))
             <td>
         		<div class="dropdown">
