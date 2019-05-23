@@ -10,6 +10,7 @@ import javax.xml.bind.JAXBException;
 import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
 import SAYAV2.SAYAV2.dao.NotificacionesDao;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
+import SAYAV2.SAYAV2.mensajeria.Mensaje;
 import SAYAV2.SAYAV2.model.DispositivoM;
 import SAYAV2.SAYAV2.model.Notificacion;
 import SAYAV2.SAYAV2.model.NotificationMovil;
@@ -20,10 +21,8 @@ import spark.Route;
 
 public class FirebaseCloudMessageController {
 
-	private static String TITLE = "Test Title";
-	private static String MESSAGE = "Test Message";
+
 	private static String apiKey = "AAAAi0VYU24:APA91bF8chF5cS1N0ialjG1hqD_yB8EU6hMAmtbabowP5Izzrm5VK6wYlMr1z1YgVndHiwBEsaVT-jotwyjU9JQxG1z0sXlyWHDpz-HU5aehgjhdxmwZ_a-_KtDtXPgp54MN6TN5IG0o";
-	@SuppressWarnings("unused")
 	private static JsonTransformer json = new JsonTransformer();
 	private static NotificacionesDao notisDao = NotificacionesDao.getInstance();
 	// private static File notis = new File(FileUtils.getNotificacionesFile());
@@ -54,15 +53,15 @@ public class FirebaseCloudMessageController {
 
 	public static Route pushNotification = (Request request, Response response) -> {
 		System.out.println("Llego Al Get");
-		post(TITLE, MESSAGE);
+		//post(TITLE, MESSAGE);
 		return null;
 	};
 
-	public static boolean post(String title, String message) {
+	public static boolean post(String title, Mensaje msg) {
 		List<String> registration_ids = getTokens();
-		NotificationMovil notification = new NotificationMovil(registration_ids, title, message);
+		NotificationMovil notification = new NotificationMovil(registration_ids, title, json.render(msg));
 		if (!notification.getRegistration_ids().isEmpty()) {
-			PostGCM.post(apiKey, notification);
+			return PostGCM.post(apiKey, notification);
 		}
 		return false;
 	}

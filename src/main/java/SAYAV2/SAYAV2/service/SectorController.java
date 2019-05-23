@@ -11,6 +11,7 @@ import java.util.Map;
 
 import javax.xml.bind.JAXBException;
 
+import SAYAV2.SAYAV2.Utils.EstadoUtils;
 import SAYAV2.SAYAV2.Utils.FileUtils;
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.RequestUtil;
@@ -191,6 +192,7 @@ public class SectorController {
 			Mensaje mensaje = new Mensaje();
 			mensaje.setOrigen(origen);
 			mensaje.setDescripcion(message);
+			mensaje.setEstado(EstadoUtils.Estado.PENDIENTE);
 			mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 			mensaje.setTipoMensaje(tiposDao.getTipo(TipoMensajeUtils.ALERTA,FileUtils.TIPOS_MENSAJES_FILE));
 	
@@ -201,18 +203,14 @@ public class SectorController {
 				@Override
 				public void run() {
 					try {
-						grupos.notificarGrupos(usuario.getGrupos(), mensaje);
 					    grupos.notificarMoviles(usuario.getDispositivosMoviles(), mensaje);
+						grupos.notificarGrupos(usuario.getGrupos(), mensaje);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
 			}, "Notificando sobre alarma");
 			thread.start();
-			
-			
-			// Notifica Miembros
-//			Notificacion.notificarGrupo(usuario.getGrupos(), mensaje);
 		}
 
 		model.put("sector", sector);

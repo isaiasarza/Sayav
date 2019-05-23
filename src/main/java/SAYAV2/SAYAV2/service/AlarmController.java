@@ -59,12 +59,16 @@ public class AlarmController {
 
 		Usuario usuario;
 		usuario = usuarioDao.cargar(FileUtils.USUARIO_FILE);
-		String message = "El boton de panico ha sido activado en el domicilio " + usuario.getDireccion()
-				+ "\nEl dueño del domicilio es " + usuario.getNombre() + " " + usuario.getApellido();
-		FirebaseCloudMessageController.post("Peligro!", message);
+		Mensaje msg = new Mensaje() ;
+		//msg.setOrigen(new Peer(usuario.getSubdominio(), ));
+		
+		msg.setDescripcion("El boton de panico ha sido activado en el domicilio "+ usuario.getDireccion()
+				+ "\nEl dueño del domicilio es " + usuario.getNombre() + " " + usuario.getApellido() );
+		
+		FirebaseCloudMessageController.post("Peligro!", msg);
 		Alarma.notificar(usuario);
 
-		notificarCentrales("Peligro!", message);
+		//notificarCentrales("Peligro!", message);
 		model.put("panicButton", true);
 		model.put("user", usuario);
 		return ViewUtil.render(request, model, PathUtil.Template.MENU);
@@ -82,15 +86,15 @@ public class AlarmController {
 		Usuario usuario = usuarioDao.cargar(FileUtils.USUARIO_FILE);
 		
 
-		if (!usuario.getGrupos().isEmpty()) {
-			for (Grupo grupo : usuario.getGrupos()) {
-				if (!grupo.getPeers().isEmpty()) {
-					for (Peer peer : grupo.getPeers()) {
-						System.out.println("Notificando Peer: " + peer.getDireccion());
-						PostGrupo.post("http://" + peer.getDireccion() + PathUtil.Web.GRUOP_NOTIFICATION, mensaje);
-					}
-				}
-			}
-		}
+//		if (!usuario.getGrupos().isEmpty()) {
+//			for (Grupo grupo : usuario.getGrupos()) {
+//				if (!grupo.getPeers().isEmpty()) {
+//					for (Peer peer : grupo.getPeers()) {
+//						System.out.println("Notificando Peer: " + peer.getDireccion());
+//						PostGrupo.post("http://" + peer.getDireccion() + PathUtil.Web.GRUOP_NOTIFICATION, mensaje);
+//					}
+//				}
+//			}
+//		}
 	}
 }

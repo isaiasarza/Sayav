@@ -289,7 +289,9 @@ public class MensajeriaImpl implements Mensajeria {
 		}
 		if (msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NOTIFICACION_MOVIL)
 				&& msg.getEstado().equals(EstadoUtils.Estado.PENDIENTE)) {
-			if (FirebaseCloudMessageController.post(msg.getTipoMensaje().getTipo(), msg.getDescripcion())) {
+			System.out.println("Reenviando notificacion movil");
+			if (FirebaseCloudMessageController.post(msg.getTipoMensaje().getTipo(), msg)) {
+				System.out.println("Confirmando notificacion movil");
 				msg.setEstado(EstadoUtils.Estado.CONFIRMADO);
 				actualizarMensaje(msg);
 			}
@@ -484,7 +486,13 @@ public class MensajeriaImpl implements Mensajeria {
 		confirmados = confirmarSolicitudes(enviados);
 		guardarMensajes(interseccion(confirmados, msgs));
 	}
-
+	
+	
+	/**
+	 * Retorna resultados
+	 * @param msgs
+	 * @return
+	 */
 	public List<Mensaje> propagarMensajes(List<Mensaje> msgs) {
 		// guardarMensajes(msgs);
 		List<Mensaje> confirmados;

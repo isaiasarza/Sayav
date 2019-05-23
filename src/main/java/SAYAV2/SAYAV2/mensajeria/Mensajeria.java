@@ -15,6 +15,11 @@ public interface Mensajeria {
 	void procesarMensaje(Mensaje msg) throws JAXBException, Exception;
 	@Deprecated
 	void propagarMensaje(Mensaje msg, Grupo g) throws Exception;
+	/**
+	 * Propaga mensajes, persiste el resultado
+	 * @param msgs
+	 * @return 
+	 */
 	void propagarMensaje(List<Mensaje> msgs);
 	void guardarMensaje(Mensaje msg);
 	void guardarMensajes(List<Mensaje> msgs);
@@ -33,4 +38,4 @@ public interface Mensajeria {
 	 * @return true si el mensaje no necesita ser confirmado
 	 */
 	boolean isConfirmable(Mensaje mensaje);
-}
+	}

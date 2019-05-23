@@ -323,7 +323,6 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 
 	@Override
 	public void notificarGrupo(Grupo grupo, Mensaje msg) throws Exception {
-		//mensajeria.propagarMensaje(msg, grupo);
 		List<Mensaje> mensajes = generarMensajes(grupo, msg);
 		mensajeria.propagarMensaje(mensajes);
 	}
@@ -336,27 +335,33 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 
 	@Override
 	public void notificarGrupos(List<Grupo> grupos, Mensaje msg) throws Exception {
-
-		for (Grupo g : grupos) {
-			notificarGrupo(g, msg);
+		if(grupos.isEmpty()) {
+			System.out.println("No hay grupos para notificar");
+			return;
 		}
+		List<Mensaje> mensajes = new ArrayList<Mensaje>();
+		for (Grupo g : grupos) {
+			mensajes.addAll(generarMensajes(g, msg));
+		}
+		mensajeria.propagarMensaje(mensajes);
 	}
 
 	@Override
 	public void notificarMoviles(List<DispositivoM> moviles, Mensaje msg) throws JAXBException {
-	
+		if(moviles.isEmpty()){
+			System.out.println("No hay dispositivos para notificar");
+			return;
+		}
 		String fecha = msg.imprimirFechaCreacion()+ " " + SimpleDateFormat.AM_PM_FIELD;
 		msg.setDescripcion(msg.getDescripcion() + " " + fecha);
-		if(!FirebaseCloudMessageController.post(msg.getTipoMensaje().getTipo(), msg.getDescripcion())){
-			//System.out.println("Guardando Notificacion Push...");
-			Mensaje m = msg.clone();
-			m.setId(m.generateId());
-			m.setEstado(EstadoUtils.Estado.PENDIENTE);
-			m.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.NOTIFICACION_MOVIL));
-
-			//m.setTipoMensaje(tiposMensajeDao.getTipo(TipoMensajeUtils.NOTIFICACION_MOVIL,FileUtils.TIPOS_MENSAJES_FILE));
-			mensajeria.guardarMensaje(m);
+		Mensaje m = msg.clone();
+		m.setId(m.generateId());
+		m.setEstado(EstadoUtils.Estado.PENDIENTE);
+		m.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.NOTIFICACION_MOVIL));
+		if(FirebaseCloudMessageController.post(msg.getTipoMensaje().getTipo(), msg)){
+			m.setEstado(EstadoUtils.Estado.CONFIRMADO);
 		}
+		mensajeria.guardarMensaje(m);
 
 	}
 
