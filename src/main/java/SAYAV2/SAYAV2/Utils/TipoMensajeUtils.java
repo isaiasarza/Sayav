@@ -1,5 +1,6 @@
 package SAYAV2.SAYAV2.Utils;
 
+import Datos.DatoGrupo;
 import SAYAV2.SAYAV2.mensajeria.Mensaje;
 
 public class TipoMensajeUtils {
@@ -24,20 +25,20 @@ public class TipoMensajeUtils {
 	public static final String NUEVO_DISPOSITIVO = "Nuevo Dispositivo";
 	public static final String NOTIFICACION_MOVIL = "Notificacion Movil";
 
-	public static String generarDetalle(Mensaje mensaje) {
 
+	public static String generarDetalle(DatoGrupo datoGrupo, Mensaje mensaje) {
 		String detalle = null;
 
 		if (mensaje.getTipoMensaje().equals(NUEVO_GRUPO))
-			detalle = "Fecha: " + mensaje.getFechaCreacion()+"Reenvio: " +mensaje.getFechaReenvio();
-		if (mensaje.getTipoMensaje().equals(NUEVO_MIEMBRO))
-			detalle = "Nuevo miembro agregado al grupo" +"Fecha: " + mensaje.getFechaCreacion()+"Reenvio: " +mensaje.getFechaReenvio();
+			detalle = "Usted es parte del grupo: " + datoGrupo.getGrupo().getNombre();
+		if (mensaje.getTipoMensaje().equals(NUEVO_MIEMBRO))	
+			detalle = "El miembro " + datoGrupo.getMiembro().getDireccion() + " es parte del grupo " + datoGrupo.getGrupo().getNombre();
 		if (mensaje.getTipoMensaje().equals(BAJA_GRUPO))
 			detalle = "Se ha dado de baja del grupo" +"Fecha: " + mensaje.getFechaCreacion()+"Reenvio: " +mensaje.getFechaReenvio();
 		if (mensaje.getTipoMensaje().equals(BAJA_MIEMBRO))
-			detalle = "Se ha dado de baja" +"Fecha: " + mensaje.getFechaCreacion()+"Reenvio: " +mensaje.getFechaReenvio();
+			detalle = "El miembro "+ datoGrupo.getMiembro().getDireccion()+ " abandono el grupo "+ datoGrupo.getGrupo().getNombre() +" Fecha: " + mensaje.getFechaCreacion()+"Reenvio: " +mensaje.getFechaReenvio();
 		if (mensaje.getTipoMensaje().equals(SOLICITUD_BAJA_MIEMBRO))
-			detalle = "Solicitud de Baja" + "Fecha: " + mensaje.getFechaCreacion()+"Reenvio: " +mensaje.getFechaReenvio();
+			detalle = "Se solicito la baja del miembro: "+ datoGrupo.getMiembro().getDireccion()+ " Solicitud de Baja" + "Fecha: " + mensaje.getFechaCreacion()+"Reenvio: " +mensaje.getFechaReenvio();
 
 		return detalle;
 	};
