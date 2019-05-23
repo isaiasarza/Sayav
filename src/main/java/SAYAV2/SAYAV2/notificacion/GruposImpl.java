@@ -93,10 +93,13 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		mensaje.setOrigen(origen);
 		mensaje.setEstado(EstadoUtils.Estado.PENDIENTE);
 		mensaje.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.NUEVO_MIEMBRO));
-
+		
 		//mensaje.setTipoMensaje(tiposMensajeDao.getTipo(TipoMensajeUtils.NUEVO_MIEMBRO, FileUtils.TIPOS_MENSAJES_FILE));
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 		mensaje.setDescripcion("El miembro " + miembro.getDireccion() + " es parte del grupo " + grupo.getNombre() + ":");
+		
+		mensaje.setDetalle(TipoMensajeUtils.generarDetalle(mensaje));
+		
 		mensaje.setDatos(json.render(datos));
 		//mensajeria.propagarMensaje(mensaje, grupo);
 		List<Mensaje> mensajes = generarMensajes(grupo, mensaje);
@@ -114,6 +117,9 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		mensaje.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.NUEVO_GRUPO));
 		mensaje.setFechaCreacion(new Date());
 		mensaje.setDescripcion("Usted es parte del grupo " + grupo.getNombre() + ":");
+		
+		mensaje.setDetalle(TipoMensajeUtils.generarDetalle(mensaje));
+		
 		mensaje.setDatos(json.render(datos));
 
 		if (mensajeria.exist(datos, mensaje.getTipoMensaje(), mensaje.getTipoHandshake(), mensaje.getEstado())) {
@@ -164,7 +170,9 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 			msg.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.SOLICITUD_BAJA_MIEMBRO));
 
 			//msg.setTipoMensaje(tiposMensajeDao.getTipo(TipoMensajeUtils.SOLICITUD_BAJA_MIEMBRO,FileUtils.TIPOS_MENSAJES_FILE));
-			msg.setDescripcion("Se ha solicitado la baja de un miembro");
+			msg.setDescripcion("Se ha solicitado la baja del miembro: " + miembro.getDireccion());
+			msg.setDetalle(TipoMensajeUtils.generarDetalle(msg));
+
 			msg.setEstado(EstadoUtils.Estado.PENDIENTE);
 			msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 			msg.setOrigen(solicitante);
@@ -193,7 +201,9 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		mensaje.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.BAJA_MIEMBRO));
 
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
-		mensaje.setDescripcion("El miembro abandono el grupo el miembro");
+		mensaje.setDescripcion("El miembro"+ miembro.getDireccion()+ "abandono el grupo "+grupo.getNombre());
+		mensaje.setDetalle(TipoMensajeUtils.generarDetalle(mensaje));
+		
 		mensaje.setDatos(json.render(datos));
 
 		// Propago el mensaje para informar a todos los miembros sobre la baja
@@ -306,8 +316,9 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		System.out.println("Avisando al miembro que fue eliminado del grupo " + eliminado);
 		System.out.println("Datos" + mensaje.getDatos());
 		mensaje.setDestino(eliminado);
-		mensaje.setDescripcion("Usted ha sido dado de baja");
 		mensaje.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.BAJA_GRUPO));
+		mensaje.setDescripcion("Usted ha sido eliminado del grupo");
+		mensaje.setDetalle(TipoMensajeUtils.generarDetalle(mensaje));
 		mensajeria.enviarSolicitud(mensaje);
 	}
 
@@ -367,7 +378,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		notificarMoviles(usuario.getDispositivosMoviles(), msg);
 		
 		notificacion.setTipo(msg.getTipoMensaje().getTipo());
-		notificacion.setDescripcion("Se ha activado la alarma al miembro " + msg.getOrigen());
+		notificacion.setDescripcion("Se ha activado la alarma al miembro " + msg.getOrigen().getDireccion());
 		notificacion.setDetalle(msg.getDescripcion());
 		return notificacion;
 

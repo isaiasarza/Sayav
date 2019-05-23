@@ -1,5 +1,7 @@
 package SAYAV2.SAYAV2.Utils;
 
+import SAYAV2.SAYAV2.mensajeria.Mensaje;
+
 public class TipoMensajeUtils {
 	public static final Object OK = "Ok";
 	public static final String HANDSHAKE_REQUEST = "Handshake Request";
@@ -21,4 +23,23 @@ public class TipoMensajeUtils {
 	public static final String OK_CONFIRMACION = "Se recibio la confirmacion";
 	public static final String NUEVO_DISPOSITIVO = "Nuevo Dispositivo";
 	public static final String NOTIFICACION_MOVIL = "Notificacion Movil";
+
+	public static String generarDetalle(Mensaje mensaje) {
+
+		String detalle = null;
+
+		if (mensaje.getTipoMensaje().equals(NUEVO_GRUPO))
+			detalle = "Fecha: " + mensaje.getFechaCreacion()+"Reenvio: " +mensaje.getFechaReenvio();
+		if (mensaje.getTipoMensaje().equals(NUEVO_MIEMBRO))
+			detalle = "Nuevo miembro agregado al grupo" +"Fecha: " + mensaje.getFechaCreacion()+"Reenvio: " +mensaje.getFechaReenvio();
+		if (mensaje.getTipoMensaje().equals(BAJA_GRUPO))
+			detalle = "Se ha dado de baja del grupo" +"Fecha: " + mensaje.getFechaCreacion()+"Reenvio: " +mensaje.getFechaReenvio();
+		if (mensaje.getTipoMensaje().equals(BAJA_MIEMBRO))
+			detalle = "Se ha dado de baja" +"Fecha: " + mensaje.getFechaCreacion()+"Reenvio: " +mensaje.getFechaReenvio();
+		if (mensaje.getTipoMensaje().equals(SOLICITUD_BAJA_MIEMBRO))
+			detalle = "Solicitud de Baja" + "Fecha: " + mensaje.getFechaCreacion()+"Reenvio: " +mensaje.getFechaReenvio();
+
+		return detalle;
+	};
+
 }
