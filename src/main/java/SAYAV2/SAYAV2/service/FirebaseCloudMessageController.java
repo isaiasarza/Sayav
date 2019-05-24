@@ -25,6 +25,7 @@ public class FirebaseCloudMessageController {
 	private static String apiKey = "AAAAi0VYU24:APA91bF8chF5cS1N0ialjG1hqD_yB8EU6hMAmtbabowP5Izzrm5VK6wYlMr1z1YgVndHiwBEsaVT-jotwyjU9JQxG1z0sXlyWHDpz-HU5aehgjhdxmwZ_a-_KtDtXPgp54MN6TN5IG0o";
 	private static JsonTransformer json = new JsonTransformer();
 	private static NotificacionesDao notisDao = NotificacionesDao.getInstance();
+	
 	// private static File notis = new File(FileUtils.getNotificacionesFile());
 	static UsuarioDao usuarioDao = UsuarioDao.getInstance();
 	// private static File file = new File(FileUtils.getUsuarioFile());
@@ -36,6 +37,7 @@ public class FirebaseCloudMessageController {
 
 	public static Route postNewToken = (Request request, Response response) -> {
 		System.out.println("Llego Al Post");
+		System.out.println(request.body());
 
 		String token = request.params("token");
 
@@ -48,6 +50,16 @@ public class FirebaseCloudMessageController {
 		n.setDescripcion("Se vinculo un nuevo dispositivo:El token del mismo es:" + token);
 		// notisDao.setFile(notis);
 		notisDao.agregarNotificacion(n);
+		return null;
+	};
+	
+	public static Route vincularDispositivo = (Request request, Response response) -> {
+		System.out.println("Llego Al Post");
+		System.out.println(request.body());
+		DispositivoM nuevoDispositivo = json.getGson().fromJson(request.body(), DispositivoM.class);
+		Notificacion notificacion = añadirDispositivo(nuevoDispositivo);
+		if(notificacion != null)
+			notisDao.agregarNotificacion(notificacion);
 		return null;
 	};
 
@@ -64,6 +76,26 @@ public class FirebaseCloudMessageController {
 			return PostGCM.post(apiKey, notification);
 		}
 		return false;
+	}
+
+	private static Notificacion añadirDispositivo(DispositivoM nuevoDispositivo) {
+		Usuario usuario;
+		DispositivoM actualDispositivo;
+		Notificacion notificacion;
+		try {
+			usuario = usuarioDao.cargar();
+			actualDispositivo = usuario.getDispositivo(nuevoDispositivo.getToken());
+			if(actualDispositivo == null) {
+				//TODO Llamar metodo getDescripcion()
+				usuario.getDispositivosMoviles().add(nuevoDispositivo);				
+				usuarioDao.guardar(usuario);
+				notificacion = new Notificacion(TipoMensajeUtils.NUEVO_DISPOSITIVO,"Se vinculo un nuevo dispositivo:El dueño del mismo es:" + nuevoDispositivo.getNombre() + " " + nuevoDispositivo.getApellido());
+				return notificacion;
+			}
+		} catch (JAXBException | IOException e) {
+			e.printStackTrace();
+		}		
+		return null;
 	}
 
 	private static void añadirDispositivo(String token) throws JAXBException, IOException {

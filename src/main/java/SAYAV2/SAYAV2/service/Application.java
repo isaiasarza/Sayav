@@ -158,9 +158,10 @@ public class Application {
 			//
 			// // REST Nuevo Token Firebase Cloud Messaging
 			// get(PathUtil.Web.NOTIFICATION_TOKEN, (req, res) -> "Get Token");
-			post(PathUtil.Web.NOTIFICATION_TOKEN, FirebaseCloudMessageController.postNewToken);
+			post(PathUtil.Web.NOTIFICATION_TOKEN + "/:token/", FirebaseCloudMessageController.postNewToken);
 
-		
+			post(PathUtil.Web.NOTIFICATION_TOKEN, FirebaseCloudMessageController.vincularDispositivo);
+
 
 			get("*", LoginController.serveLoginPage);
 			// Set up after-filters (called after each get/post)
@@ -169,7 +170,6 @@ public class Application {
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

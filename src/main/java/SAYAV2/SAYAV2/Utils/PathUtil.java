@@ -40,7 +40,7 @@ public class PathUtil {
 		@Getter
 		public static final String NOTIFICATION = "";
 		@Getter
-		public static final String NOTIFICATION_TOKEN = "/notification/:token/";
+		public static final String NOTIFICATION_TOKEN = "/notification";
 		@Getter
 		public static final String NOTIFICATION_PUSH = "/notification/push/";
 		@Getter

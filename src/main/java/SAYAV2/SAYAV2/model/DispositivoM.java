@@ -27,6 +27,8 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence&gt;
  *         &lt;element name="Numero" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="Token" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="Apellido" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="Nombre" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -36,17 +38,32 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "DispositivoM", propOrder = { "numero", "token" })
+@XmlType(name = "DispositivoM", propOrder = { "numero", "token","apellido","nombre" })
 public class DispositivoM {
 
 	@XmlElement(name = "Numero")
 	protected String numero;
 	@XmlElement(name = "Token", required = true)
 	protected String token;
+	@XmlElement(name = "Apellido", required = true)
+	protected String apellido;
+	@XmlElement(name = "Nombre", required = true)
+	protected String nombre;
 
 	public DispositivoM() {
 		super();
 	}
+	
+	
+
+	public DispositivoM(String token, String apellido, String nombre) {
+		super();
+		this.token = token;
+		this.apellido = apellido;
+		this.nombre = nombre;
+	}
+
+
 
 	public DispositivoM(String token) {
 		super();
@@ -90,9 +107,21 @@ public class DispositivoM {
 		this.token = value;
 	}
 
+	public String getApellido() {
+		return apellido;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
 	
-
-
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+	
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -120,8 +149,9 @@ public class DispositivoM {
 
 	@Override
 	public String toString() {
-		return "DispositivoM [numero=" + numero + ", token=" + token + "]";
+		return "DispositivoM [token=" + token + ", apellido=" + apellido + ", nombre=" + nombre + "]";
 	}
 
+	
 	
 }

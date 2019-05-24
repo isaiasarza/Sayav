@@ -71,6 +71,17 @@ public class Notificacion implements Comparable<Notificacion>{
 		super();
 		this.fecha = new Date();
 	}
+    
+    
+
+	public Notificacion(String descripcion, String tipo) {
+		super();
+		this.descripcion = descripcion;
+		this.tipo = tipo;
+		this.fecha = new Date();
+	}
+
+
 
 	/**
      * Gets the value of the id property.

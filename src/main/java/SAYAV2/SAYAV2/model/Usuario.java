@@ -423,9 +423,17 @@ public class Usuario {
 		return null;
 	}
 
-	public DispositivoM getDispositivo(String numero) {
+	/*public DispositivoM getDispositivo(String numero) {
 		for (DispositivoM d : this.dispositivosMoviles) {
 			if (d.getNumero().equals(numero))
+				return d;
+		}
+		return null;
+	}*/
+	
+	public DispositivoM getDispositivo(String token) {
+		for (DispositivoM d : this.dispositivosMoviles) {
+			if (d.getToken().equals(token))
 				return d;
 		}
 		return null;
