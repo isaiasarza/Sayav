@@ -25,6 +25,7 @@ public class DispositivoController{
 	
 	
 private static DispositivoDao dispositivoDao;
+private static JsonTransformer json = new JsonTransformer();
 private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
 //private static File file = new File(FileUtils.getUsuarioFile());
 
@@ -34,6 +35,16 @@ private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
 		dispositivoDao = new DispositivoDao();
 	   
 	}
+	
+public static Route getDispositivos = (Request request, Response response) ->{
+		System.out.println("Obteniendo dispositivos");
+		String data;	    
+		Usuario usuario = usuarioDao.cargar();
+		data = json.render(usuario.getDispositivosMoviles());
+		System.out.println(data);
+		response.body(data);
+		return data;		
+	};
 		
 	public static Route dispositivoVelocityEngine = (Request request, Response response) ->{
 		
@@ -109,6 +120,36 @@ private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
 		model.put("eliminarFailed", true);
 		model.put("listaDispositivos", usuario.getDispositivosMoviles()); 		
 		return ViewUtil.render(request, model, PathUtil.Template.DISPOSITIVO);
+		
+	};
+	
+public static Route eliminarDispositivoWS = (Request request, Response response) ->{
+		
+		Map<String, Object> model = new HashMap<>();
+		System.out.println("Eliminar Dispositivo");
+		//Se agrega el dispositivo a la lista de dispositivos		
+		Usuario usuario = usuarioDao.cargar();
+		String token = RequestUtil.getQueryDispositivoABorrar(request);
+		
+		if(usuarioDao.eliminarDispositivo(token)){
+			String title = "Desvinculacion";
+			String message = "Fue desvinculado de la central " + usuario.getSubdominio();
+			usuario = usuarioDao.cargar();
+			model.put("eliminarSuccess", true);
+			model.put("user", usuario);
+			model.put("listaDispositivos", usuario.getDispositivosMoviles());
+			
+			if(!FirebaseCloudMessageController.post(title, message, token)){
+						
+				//TODO reenvio
+			}
+			return ViewUtil.render(request, model, PathUtil.Template.DISPOSITIVO);
+		}
+		//Actualizo el Usuario
+		model.put("user", usuario);
+		model.put("eliminarFailed", true);
+		model.put("listaDispositivos", usuario.getDispositivosMoviles()); 		
+		return null;
 		
 	};
 

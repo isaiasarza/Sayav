@@ -21,6 +21,9 @@ import SAYAV2.SAYAV2.mensajeria.Mensaje;
 import SAYAV2.SAYAV2.mensajeria.Mensajeria;
 import SAYAV2.SAYAV2.mensajeria.MensajeriaImpl;
 import SAYAV2.SAYAV2.model.Configurator;
+import spark.Request;
+import spark.Response;
+import spark.Route;
 
 
 public class Application {
@@ -98,9 +101,26 @@ public class Application {
 			// post(PathUtil.Web.PANIC_BUTTON, AlarmController.panicButton);
 			//
 			// //REST de dispositivos moviles
+			get("/dispositivos", DispositivoController.getDispositivos);
+			
+			get("/dispositivos/ver",new Route() {
+
+				@Override
+				public Object handle(Request request, Response response) throws Exception {
+					// TODO Auto-generated method stub
+					response.redirect("/velocity/tablaDispositivos.html");
+					return null;
+				}
+				
+			});
+
+			
 			get(PathUtil.Web.DISPOSITIVO, DispositivoController.dispositivoVelocityEngine);
 			// post(PathUtil.Web.DISPOSITIVO,DispositivoController.nuevoDispositivo);
 			post(PathUtil.Web.ELIMINAR_DISPOSITIVO, DispositivoController.eliminarDispositivo);
+			
+			post("/dispositivos/eliminar", DispositivoController.eliminarDispositivoWS);
+
 			
 			
 			
@@ -160,7 +180,7 @@ public class Application {
 			// get(PathUtil.Web.NOTIFICATION_TOKEN, (req, res) -> "Get Token");
 			post(PathUtil.Web.NOTIFICATION_TOKEN + "/:token/", FirebaseCloudMessageController.postNewToken);
 
-			post(PathUtil.Web.NOTIFICATION_TOKEN, FirebaseCloudMessageController.vincularDispositivo);
+			post(PathUtil.Web.NOTIFICATION_TOKEN, "application/json", FirebaseCloudMessageController.vincularDispositivo);
 
 
 			get("*", LoginController.serveLoginPage);

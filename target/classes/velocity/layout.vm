@@ -5,13 +5,12 @@
     <link rel="stylesheet" href="/main2.css">
     <link rel="stylesheet" href="/w3.css">
     <link rel="icon" href="/img/favicon.png">
-    
+    <script type="text/javascript" src="/js/jQuery.js"></script>
     <meta charset="ISO-8859-1" name="viewport" content="width=device-width, initial-scale=1">
     
     
 </head>
 <body>
-<script src="/notify.js"></script>
 <header>
    <nav> 
    		<a><img id="logo" src="/img/alarm.png" alt="Sayav"></a>

@@ -1,12 +1,7 @@
 package SAYAV2.SAYAV2.service;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.xml.bind.JAXBException;
 
 import SAYAV2.SAYAV2.Utils.FileUtils;
 import SAYAV2.SAYAV2.Utils.PathUtil;
@@ -14,8 +9,6 @@ import SAYAV2.SAYAV2.Utils.ViewUtil;
 import SAYAV2.SAYAV2.bussines.Alarma;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
 import SAYAV2.SAYAV2.mensajeria.Mensaje;
-import SAYAV2.SAYAV2.model.Grupo;
-import SAYAV2.SAYAV2.model.Peer;
 import SAYAV2.SAYAV2.model.Usuario;
 import spark.Request;
 import spark.Response;
@@ -74,27 +67,5 @@ public class AlarmController {
 		return ViewUtil.render(request, model, PathUtil.Template.MENU);
 	};
 
-	private static void notificarCentrales(String titulo, String message)
-			throws JAXBException, ProtocolException, MalformedURLException, IOException {
-		Mensaje mensaje = new Mensaje();
-		notificarCentrales(mensaje);
-	}
-
-	public static void notificarCentrales(Mensaje mensaje)
-			throws JAXBException, ProtocolException, MalformedURLException, IOException {
-
-		Usuario usuario = usuarioDao.cargar(FileUtils.USUARIO_FILE);
-		
-
-//		if (!usuario.getGrupos().isEmpty()) {
-//			for (Grupo grupo : usuario.getGrupos()) {
-//				if (!grupo.getPeers().isEmpty()) {
-//					for (Peer peer : grupo.getPeers()) {
-//						System.out.println("Notificando Peer: " + peer.getDireccion());
-//						PostGrupo.post("http://" + peer.getDireccion() + PathUtil.Web.GRUOP_NOTIFICATION, mensaje);
-//					}
-//				}
-//			}
-//		}
-	}
+	
 }

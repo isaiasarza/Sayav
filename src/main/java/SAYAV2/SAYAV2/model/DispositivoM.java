@@ -95,6 +95,10 @@ public class DispositivoM {
 	public String getToken() {
 		return token;
 	}
+	
+	public String getOwner() {
+		return this.nombre + " " + this.apellido;
+	}
 
 	/**
 	 * Sets the value of the token property.
