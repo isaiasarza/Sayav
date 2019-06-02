@@ -9,12 +9,18 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
+import SAYAV2.SAYAV2.Utils.EstadoUtils;
+import SAYAV2.SAYAV2.Utils.FileUtils;
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.RequestUtil;
+import SAYAV2.SAYAV2.Utils.TipoMensajeUtils;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
 import SAYAV2.SAYAV2.dao.DispositivoDao;
+import SAYAV2.SAYAV2.dao.TipoMensajeDao;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
+import SAYAV2.SAYAV2.mensajeria.Mensaje;
 import SAYAV2.SAYAV2.model.DispositivoM;
+import SAYAV2.SAYAV2.model.Peer;
 import SAYAV2.SAYAV2.model.Usuario;
 import spark.Request;
 import spark.Response;
@@ -27,6 +33,7 @@ public class DispositivoController{
 private static DispositivoDao dispositivoDao;
 private static JsonTransformer json = new JsonTransformer();
 private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
+private static TipoMensajeDao tipoMensajeDao = TipoMensajeDao.getInstance();
 //private static File file = new File(FileUtils.getUsuarioFile());
 
 
@@ -104,14 +111,19 @@ public static Route getDispositivos = (Request request, Response response) ->{
 		
 		if(usuarioDao.eliminarDispositivo(token)){
 			String title = "Desvinculacion";
-			String message = "Fue desvinculado de la central " + usuario.getSubdominio();
 			usuario = usuarioDao.cargar();
+
+			Mensaje mensaje = new Mensaje();
+			mensaje.setTipoMensaje(tipoMensajeDao.getTipo(TipoMensajeUtils.NOTIFICACION_MOVIL, FileUtils.TIPOS_MENSAJES_FILE));
+			mensaje.setOrigen(new Peer(usuario.getSubdominio(),222));
+			mensaje.setDescripcion("Este dispositivo fue desvinculado de la central con subdominio: " + usuario.getSubdominio());
+			mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
+			mensaje.setEstado(EstadoUtils.Estado.PENDIENTE);
 			model.put("eliminarSuccess", true);
 			model.put("user", usuario);
 			model.put("listaDispositivos", usuario.getDispositivosMoviles());
-			if(!FirebaseCloudMessageController.post(title, message, token)){
-						
-				//TODO reenvio
+			if(FirebaseCloudMessageController.post(title, mensaje, token)){
+				mensaje.setEstado(EstadoUtils.Estado.CONFIRMADO);
 			}
 			return ViewUtil.render(request, model, PathUtil.Template.DISPOSITIVO);
 		}

@@ -131,6 +131,17 @@ public class FirebaseCloudMessageController {
 		}
 		return u.getDispositivosMoviles();
 	}
+	
+	public static boolean post(String title, Mensaje message, String token) {
+		List<String> registration_ids = new LinkedList<String>();
+		registration_ids.add(token);
+		String msg = json.render(message);
+		NotificationMovil notification = new NotificationMovil(registration_ids, title, msg);
+		if (!notification.getRegistration_ids().isEmpty()) {
+			return PostGCM.post(apiKey, notification);
+		}
+		return false;
+	}
 
 	public static boolean post(String title, String message, String token) {
 		List<String> registration_ids = new LinkedList<String>();
