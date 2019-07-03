@@ -112,7 +112,6 @@ public static Route getDispositivos = (Request request, Response response) ->{
 		if(usuarioDao.eliminarDispositivo(token)){
 			String title = "Desvinculacion";
 			usuario = usuarioDao.cargar();
-
 			Mensaje mensaje = new Mensaje();
 			mensaje.setTipoMensaje(tipoMensajeDao.getTipo(TipoMensajeUtils.NOTIFICACION_MOVIL, FileUtils.TIPOS_MENSAJES_FILE));
 			mensaje.setOrigen(new Peer(usuario.getSubdominio(),222));
@@ -132,7 +131,6 @@ public static Route getDispositivos = (Request request, Response response) ->{
 		model.put("eliminarFailed", true);
 		model.put("listaDispositivos", usuario.getDispositivosMoviles()); 		
 		return ViewUtil.render(request, model, PathUtil.Template.DISPOSITIVO);
-		
 	};
 	
 public static Route eliminarDispositivoWS = (Request request, Response response) ->{
