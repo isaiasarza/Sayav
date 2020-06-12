@@ -93,10 +93,13 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		mensaje.setOrigen(origen);
 		mensaje.setEstado(EstadoUtils.Estado.PENDIENTE);
 		mensaje.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.NUEVO_MIEMBRO));
-
+		
 		//mensaje.setTipoMensaje(tiposMensajeDao.getTipo(TipoMensajeUtils.NUEVO_MIEMBRO, FileUtils.TIPOS_MENSAJES_FILE));
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
-		mensaje.setDescripcion("El miembro " + miembro.getDireccion() + " es parte del grupo " + grupo.getNombre() + ":");
+		
+		//Seteamos el detalle del mensaje que se va a mostraren la bandeja de mensajesy notificaciones
+		mensaje.setDescripcion(TipoMensajeUtils.generarDetalle(datos, mensaje));
+		
 		mensaje.setDatos(json.render(datos));
 		//mensajeria.propagarMensaje(mensaje, grupo);
 		List<Mensaje> mensajes = generarMensajes(grupo, mensaje);
@@ -113,7 +116,9 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
 		mensaje.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.NUEVO_GRUPO));
 		mensaje.setFechaCreacion(new Date());
-		mensaje.setDescripcion("Usted es parte del grupo " + grupo.getNombre() + ":");
+	
+		mensaje.setDescripcion(TipoMensajeUtils.generarDetalle(datos, mensaje));
+		
 		mensaje.setDatos(json.render(datos));
 
 		if (mensajeria.exist(datos, mensaje.getTipoMensaje(), mensaje.getTipoHandshake(), mensaje.getEstado())) {
@@ -150,6 +155,7 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 	public void solicitarBajaMiembro(Grupo grupo, Peer miembro) throws Exception {
 		System.out.println("Solicitando Baja de " + miembro);
 		Usuario usuario;
+		DatoGrupo datos = new DatoGrupo(miembro, grupo);
 		try {
 			usuario = usuarioDao.cargar();
 			Peer solicitante = new Peer(usuario.getSubdominio(), configurator.getPort());
@@ -158,19 +164,20 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 			this.votaciones = this.votacionesDao.agregarVotacion(votacion, FileUtils.VOTACIONES_FILE);
 			votacion.setSolicitante(solicitante);
 			votacion.setVotantesAFavor(1);
-			Mensaje msg = new Mensaje();
+			Mensaje mensaje = new Mensaje();
 			grupo.removePeer(miembro);
-			msg.setDatos(json.render(votacion));
-			msg.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.SOLICITUD_BAJA_MIEMBRO));
+			mensaje.setDatos(json.render(votacion));
+			mensaje.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.SOLICITUD_BAJA_MIEMBRO));
 
 			//msg.setTipoMensaje(tiposMensajeDao.getTipo(TipoMensajeUtils.SOLICITUD_BAJA_MIEMBRO,FileUtils.TIPOS_MENSAJES_FILE));
-			msg.setDescripcion("Se ha solicitado la baja de un miembro");
-			msg.setEstado(EstadoUtils.Estado.PENDIENTE);
-			msg.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
-			msg.setOrigen(solicitante);
-			notificarGrupo(grupo, msg);
+			mensaje.setDescripcion(TipoMensajeUtils.generarDetalle(datos,mensaje));
+
+			mensaje.setEstado(EstadoUtils.Estado.PENDIENTE);
+			mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
+			mensaje.setOrigen(solicitante);
+			notificarGrupo(grupo, mensaje);
 			grupo.add(miembro);
-			notificarMoviles(usuario.getDispositivosMoviles(), msg);
+			notificarMoviles(usuario.getDispositivosMoviles(), mensaje);
 
 		} catch (JAXBException e1) {
 			e1.printStackTrace();
@@ -193,7 +200,8 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		mensaje.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.BAJA_MIEMBRO));
 
 		mensaje.setTipoHandshake(TipoMensajeUtils.HANDSHAKE_REQUEST);
-		mensaje.setDescripcion("El miembro abandono el grupo el miembro");
+		mensaje.setDescripcion(TipoMensajeUtils.generarDetalle(datos,mensaje));
+		
 		mensaje.setDatos(json.render(datos));
 
 		// Propago el mensaje para informar a todos los miembros sobre la baja
@@ -306,8 +314,8 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		System.out.println("Avisando al miembro que fue eliminado del grupo " + eliminado);
 		System.out.println("Datos" + mensaje.getDatos());
 		mensaje.setDestino(eliminado);
-		mensaje.setDescripcion("Usted ha sido dado de baja");
 		mensaje.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.BAJA_GRUPO));
+		mensaje.setDescripcion("Usted ha sido eliminado del grupo");
 		mensajeria.enviarSolicitud(mensaje);
 	}
 
@@ -322,13 +330,14 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 	}
 
 	@Override
-	public void notificarGrupo(Grupo grupo, Mensaje msg) throws Exception {
-		List<Mensaje> mensajes = generarMensajes(grupo, msg);
+	public void notificarGrupo(Grupo grupo, Mensaje mensaje) throws Exception {
+		//mensajeria.propagarMensaje(mensaje, grupo);
+		List<Mensaje> mensajes = generarMensajes(grupo, mensaje);
 		mensajeria.propagarMensaje(mensajes);
 	}
 
 	@Override
-	public void notificarMovil(DispositivoM movil, Mensaje msg) {
+	public void notificarMovil(DispositivoM movil, Mensaje mensaje) {
 		// TODO Auto-generated method stub
 
 	}
@@ -348,40 +357,40 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 
 	@Override
 	public void notificarMoviles(List<DispositivoM> moviles, Mensaje msg) throws JAXBException {
-		if(moviles.isEmpty()){
-			System.out.println("No hay dispositivos para notificar");
-			return;
-		}
+	
 		String fecha = msg.imprimirFechaCreacion()+ " " + SimpleDateFormat.AM_PM_FIELD;
 		msg.setDescripcion(msg.getDescripcion() + " " + fecha);
-		Mensaje m = msg.clone();
-		m.setId(m.generateId());
-		m.setEstado(EstadoUtils.Estado.PENDIENTE);
-		m.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.NOTIFICACION_MOVIL));
-		if(FirebaseCloudMessageController.post(msg.getTipoMensaje().getTipo(), msg)){
-			m.setEstado(EstadoUtils.Estado.CONFIRMADO);
+		if(!FirebaseCloudMessageController.post(msg.getTipoMensaje().getTipo(), msg.getDescripcion())){
+			//System.out.println("Guardando Notificacion Push...");
+			Mensaje m = msg.clone();
+			m.setId(m.generateId());
+			m.setEstado(EstadoUtils.Estado.PENDIENTE);
+			m.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.NOTIFICACION_MOVIL));
+
+			//m.setTipoMensaje(tiposMensajeDao.getTipo(TipoMensajeUtils.NOTIFICACION_MOVIL,FileUtils.TIPOS_MENSAJES_FILE));
+			mensajeria.guardarMensaje(m);
 		}
 		mensajeria.guardarMensaje(m);
 
 	}
 
-	public Notificacion recibirAlerta(Mensaje msg) throws JAXBException, IOException {
+	public Notificacion recibirAlerta(Mensaje mensaje) throws JAXBException, IOException {
 		Notificacion notificacion = new Notificacion();
 		Usuario usuario = usuarioDao.cargar();
 
-		notificarMoviles(usuario.getDispositivosMoviles(), msg);
+		notificarMoviles(usuario.getDispositivosMoviles(), mensaje);
 		
-		notificacion.setTipo(msg.getTipoMensaje().getTipo());
-		notificacion.setDescripcion("Se ha activado la alarma al miembro " + msg.getOrigen());
-		notificacion.setDetalle(msg.getDescripcion());
+		notificacion.setTipo(mensaje.getTipoMensaje().getTipo());
+		notificacion.setDescripcion("Se ha activado la alarma al miembro " + mensaje.getOrigen().getDireccion());
+		notificacion.setDetalle(mensaje.getDescripcion());
 		return notificacion;
 
 	}
 
-	public Notificacion recibirNuevoMiembro(Mensaje msg) throws Exception {
+	public Notificacion recibirNuevoMiembro(Mensaje mensaje) throws Exception {
 		Notificacion notificacion = new Notificacion();
 		Usuario usuario = usuarioDao.cargar();
-		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
+		DatoGrupo datos = json.getGson().fromJson(mensaje.getDatos(), DatoGrupo.class);
 		System.out.println();
 		System.out.println("8. Recibir Nuevo Miembro, " + datos.getMiembro().getDireccion()+ ":" + datos.getMiembro().getPuerto());
 		System.out.println();
@@ -391,39 +400,39 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		if(!usuarioDao.agregarMiembro(usuario.getSingleGrupoById(datos.getGrupo().getId()), datos.getMiembro())) {
 			return null;
 		}
-		notificacion.setTipo(msg.getTipoMensaje().getTipo());
+		notificacion.setTipo(mensaje.getTipoMensaje().getTipo());
 		notificacion.setDescripcion("El miembro " + datos.getMiembro().getDireccion()
 				+ " es parte del grupo " + datos.getGrupo().getNombre());
-		notificacion.setDetalle("Fue agregado por el miembro " + msg.getOrigen());
+		notificacion.setDetalle("Fue agregado por el miembro " + mensaje.getOrigen());
 		return notificacion;
 	}
 
-	public Notificacion recibirNuevoGrupo(Mensaje msg) throws JAXBException {
+	public Notificacion recibirNuevoGrupo(Mensaje mensaje) throws JAXBException {
 		//System.out.println("Recibir Nuevo Grupo");
 		Notificacion notificacion = new Notificacion();
 		//System.out.println(msg.getDatos());
-		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
+		DatoGrupo datos = json.getGson().fromJson(mensaje.getDatos(), DatoGrupo.class);
 		//System.out.println("Datos Grupo: " + datos);
 		//System.out.println("Tipo Mensaje: " + msg.getTipoMensaje().getTipo());
-		notificacion.setTipo(msg.getTipoMensaje().getTipo());
+		notificacion.setTipo(mensaje.getTipoMensaje().getTipo());
 		notificacion.setDescripcion("Fue agregado al grupo " + datos.getGrupo().getNombre());
-		notificacion.setDetalle("Fue agregado por el miembro " + msg.getOrigen().getDireccion());
-		datos.getGrupo().add(msg.getOrigen());
+		notificacion.setDetalle("Fue agregado por el miembro " + mensaje.getOrigen().getDireccion());
+		datos.getGrupo().add(mensaje.getOrigen());
 		if(!usuarioDao.agregarGrupo(datos.getGrupo()))
 			return null;
 		return notificacion;
 	}
 
-	public Notificacion recibirBajaMiembro(Mensaje msg) throws JAXBException {
+	public Notificacion recibirBajaMiembro(Mensaje mensaje) throws JAXBException {
 		
 		Notificacion notificacion = new Notificacion();
-		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
+		DatoGrupo datos = json.getGson().fromJson(mensaje.getDatos(), DatoGrupo.class);
 		if(usuarioDao.eliminarMiembro(datos.getGrupo(), datos.getMiembro()) == null)
 			return null;
-		notificacion.setTipo(msg.getTipoMensaje().getTipo());
+		notificacion.setTipo(mensaje.getTipoMensaje().getTipo());
 		notificacion.setDescripcion("El miembro " + datos.getMiembro().getDireccion()
 				+ " dejo de ser parte del grupo " + datos.getGrupo().getNombre());
-		if (msg.getOrigen().equals(datos.getMiembro())) {
+		if (mensaje.getOrigen().equals(datos.getMiembro())) {
 			notificacion.setDetalle("El miembro abandono el grupo por propia voluntad.");
 		} else {
 			notificacion.setDetalle("El miembro fue dado de baja por acuerdo común en el grupo.");
@@ -431,16 +440,16 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		return notificacion;
 	}
 
-	public Notificacion recibirSolicitudBaja(Mensaje msg) throws JAXBException, IOException {
+	public Notificacion recibirSolicitudBaja(Mensaje mensaje) throws JAXBException, IOException {
 		Notificacion notificacion = new Notificacion();
 		Usuario usuario = usuarioDao.cargar();
 		System.out.println("Datos solicitud baja");
-		Votacion votacion = json.getGson().fromJson(msg.getDatos(), Votacion.class);
+		Votacion votacion = json.getGson().fromJson(mensaje.getDatos(), Votacion.class);
 		System.out.println(votacionesPendientes);
 		System.out.println(votacion);
 		votacionesPendientes = votacionesDao.agregarVotacion(votacion, FileUtils.VOTACIONES_PENDIENTES_FILE);
 
-		notificacion.setTipo(msg.getTipoMensaje().getTipo());
+		notificacion.setTipo(mensaje.getTipoMensaje().getTipo());
 		notificacion.setDescripcion("Se ha solicitado la baja del miembro " + votacion.getMiembro().getDireccion());
 		notificacion.setDetalle(
 				"Para determinar si el miembro sera o no dado de baja, usted debera dirigirse al menu de votacion para votar:"
@@ -448,21 +457,21 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		
 		System.out.println(usuario.getDispositivosMoviles());
 	
-		notificarMoviles(usuario.getDispositivosMoviles(), msg);
+		notificarMoviles(usuario.getDispositivosMoviles(), mensaje);
 		return notificacion;
 	}
 
-	public Notificacion recibirVoto(Mensaje msg) throws Exception {
+	public Notificacion recibirVoto(Mensaje mensaje) throws Exception {
 
-		DatoVoto datos = json.getGson().fromJson(msg.getDatos(), DatoVoto.class);
+		DatoVoto datos = json.getGson().fromJson(mensaje.getDatos(), DatoVoto.class);
 		Votacion votacion = votacionesDao.getVotacion(datos.getIdVotacion(), FileUtils.VOTACIONES_FILE);
-		Peer votante = new Peer(msg.getOrigen().getDireccion(),msg.getOrigen().getPuerto());
+		Peer votante = new Peer(mensaje.getOrigen().getDireccion(),mensaje.getOrigen().getPuerto());
 		if(votacion.getVotantes().contains(votante)){
 			return null;
 		}
 		Notificacion notificacion = new Notificacion();
 		notificacion.setTipo(TipoMensajeUtils.VOTO);
-		notificacion.setDescripcion("Ha recibido un voto del miembro " + msg.getOrigen());
+		notificacion.setDescripcion("Ha recibido un voto del miembro " + mensaje.getOrigen());
 		
 		votacion.getVotantes().add(votante);
 		if (datos.isVoto()) {
@@ -488,10 +497,10 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		this.init = init;
 	}
 
-	public Notificacion confirmarAñadirMiembro(Mensaje msg) throws JAXBException {
+	public Notificacion confirmarAñadirMiembro(Mensaje mensaje) throws JAXBException {
 		Thread thread;
 		Notificacion notificacion = new Notificacion();
-		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
+		DatoGrupo datos = json.getGson().fromJson(mensaje.getDatos(), DatoGrupo.class);
 		System.out.println();
 		System.out.println("3. Confirmar Añadir Miembro, " + datos.getMiembro().getDireccion()+ ":" + datos.getMiembro().getPuerto());
 		System.out.println();
@@ -517,39 +526,39 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 		}
 		
 		this.usuarioDao.agregarMiembro(grupo, datos.getMiembro());
-		notificacion.setTipo(msg.getTipoMensaje().getTipo());
+		notificacion.setTipo(mensaje.getTipoMensaje().getTipo());
 		notificacion.setDescripcion("El miembro " + datos.getMiembro().getDireccion() + " es parte del grupo "
 				+ datos.getGrupo().getNombre());
 		notificacion.setDetalle("El grupo ahora contiene " + datos.getGrupo().getPeers().size() + " miembros");
 		return notificacion;
 	}
 
-	private List<Mensaje> generarMensajes(Grupo g, Mensaje msg){
+	private List<Mensaje> generarMensajes(Grupo g, Mensaje mensaje){
 		List<Mensaje> mensajes = new ArrayList<Mensaje>();
-		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
-		Mensaje mensaje;
+		DatoGrupo datos = json.getGson().fromJson(mensaje.getDatos(), DatoGrupo.class);
+		Mensaje m;
 
 		for(Peer destino: g.getPeers()) {
-			if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_MIEMBRO) && datos.getMiembro().getDireccion().equals(destino.getDireccion()))
+			if(mensaje.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NUEVO_MIEMBRO) && datos.getMiembro().getDireccion().equals(destino.getDireccion()))
 				continue;
-			if(msg.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NOTIFICACION_MOVIL))
+			if(mensaje.getTipoMensaje().getTipo().equals(TipoMensajeUtils.NOTIFICACION_MOVIL))
 				continue;
-			mensaje = msg.clone();
-			mensaje.setDestino(destino);
-			mensajes.add(mensaje);
+			m = mensaje.clone();
+			m.setDestino(destino);
+			mensajes.add(m);
 		}
 		
 		return mensajes;
 	}
 
-	public Notificacion recibirBajaGrupo(Mensaje msg) throws Exception {
-		DatoGrupo datos = json.getGson().fromJson(msg.getDatos(), DatoGrupo.class);
+	public Notificacion recibirBajaGrupo(Mensaje mensaje) throws Exception {
+		DatoGrupo datos = json.getGson().fromJson(mensaje.getDatos(), DatoGrupo.class);
 		System.out.println("Eliminando el grupo " + datos.getGrupo().getNombre() +" donde usted fue dado de baja");
 		if(!usuarioDao.eliminarGrupo(datos.getGrupo()))
 			return null;
 		Notificacion notificacion = new Notificacion();
 		
-		notificacion.setTipo(msg.getTipoMensaje().getTipo());
+		notificacion.setTipo(mensaje.getTipoMensaje().getTipo());
 		notificacion.setDescripcion("Eliminando el grupo " + datos.getGrupo().getNombre());
 		notificacion.setDetalle("Fue dado de baja");
 		return notificacion;
