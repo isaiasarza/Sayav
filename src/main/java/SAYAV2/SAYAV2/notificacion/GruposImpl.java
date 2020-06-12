@@ -357,20 +357,18 @@ public class GruposImpl implements Grupos, NotificacionesApi {
 
 	@Override
 	public void notificarMoviles(List<DispositivoM> moviles, Mensaje msg) throws JAXBException {
-	
+		//NotificacionMovil
 		String fecha = msg.imprimirFechaCreacion()+ " " + SimpleDateFormat.AM_PM_FIELD;
 		msg.setDescripcion(msg.getDescripcion() + " " + fecha);
-		if(!FirebaseCloudMessageController.post(msg.getTipoMensaje().getTipo(), msg.getDescripcion())){
+		if(!FirebaseCloudMessageController.post(msg.getTipoMensaje().getTipo(), msg)){
 			//System.out.println("Guardando Notificacion Push...");
 			Mensaje m = msg.clone();
 			m.setId(m.generateId());
 			m.setEstado(EstadoUtils.Estado.PENDIENTE);
 			m.setTipoMensaje(tipos.getTipo(TipoMensajeUtils.NOTIFICACION_MOVIL));
-
-			//m.setTipoMensaje(tiposMensajeDao.getTipo(TipoMensajeUtils.NOTIFICACION_MOVIL,FileUtils.TIPOS_MENSAJES_FILE));
 			mensajeria.guardarMensaje(m);
 		}
-		mensajeria.guardarMensaje(m);
+		//mensajeria.guardarMensaje(m);
 
 	}
 
