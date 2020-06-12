@@ -1,7 +1,10 @@
 package SAYAV2.SAYAV2.Utils;
 
-import com.fasterxml.jackson.databind.*;
-import java.io.*;
+import java.io.IOException;
+import java.io.StringWriter;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class JsonUtil {
     public static String dataToJson(Object data) {

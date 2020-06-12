@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/Notificaciones" xmlns:tns="http://www.example.org/Notificaciones" elementFormDefault="qualified">
+	<element name="Notificaciones">
+		<complexType>
+			<choice>
+				<element name="Notificacion" type="tns:Notificacion"
+					maxOccurs="unbounded" minOccurs="0">
+				</element>
+			</choice>
+		</complexType>
+	</element>
+	
+	<complexType name="Notificacion">
+		<sequence>
+			<element name="Id" type="string" />
+			<element name="Descripcion" type="string" />
+			<element name="Tipo" type="string" />
+			<element name="Detalle" type="string" />		
+			<element name="Fecha" type="date" />
+		</sequence>
+	</complexType>
+</schema>

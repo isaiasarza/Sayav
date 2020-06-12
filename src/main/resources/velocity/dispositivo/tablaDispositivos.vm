@@ -1,0 +1,54 @@
+#parse("resources/velocity/layout.vm")
+#@mainLayout()
+
+#if($eliminarSuccess)
+	<div  class="successAlert">	
+ 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Se pudo eliminar el dispositivo
+	</div>
+#elseif($eliminarFailed)
+	<div  class="dangerAlert">	
+ 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>No se pudo eliminar el dispositivo
+	</div>
+#end
+
+<h1>Dispositivos Moviles</h1>
+
+<table>
+    <tr>
+      <th align="center">Dueño</th>
+      <th align="center">Eliminar</th>
+    </tr>
+
+  
+  #foreach($dispositivo in $listaDispositivos) 
+  	<tbody>
+    	<tr>
+    	 <td> $dispositivo.getOwner()</td>
+         <td>
+     ##     <button onClick="eliminarDispositivo("+ $dispositivo.getToken() + ")" class="w3-button">Eliminar</button>
+         	<form method="post" action="$WebPath.getEliminarDispositivo()">
+         		<input type="hidden" name="dispositivoABorrar" value="$!dispositivo.getToken()">
+        		<button class="w3-button">Eliminar</button>
+        	</form>
+    	</td>
+    	</tr>
+    </tbody>
+   #end     
+</table>
+
+## <table>
+##     ##<thead>
+##          <tr>
+##               <th>Dueño</th>
+##               <th>Eliminar</th>
+##           </tr>
+##     ##</thead>
+##     <tbody id="tDispositivosBody">
+##     </tbody>
+##</table>
+
+## <!--> Funcionalidad del controlador de los dispositivos<-->
+<script type="text/javascript" src="/js/dispositivosController.js"></script> 
+
+
+#end

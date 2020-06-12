@@ -1,0 +1,78 @@
+#parse("resources/velocity/layout.vm")
+#@mainLayout()
+<h1>SAYAV</h1>
+<h2>Nuevo Dispositivo Movil</h2>
+
+
+
+
+<form id="dispositivoForm" method="post" action = "/dispositivo/">
+        <label>Codigo de Pais</label>
+        <input type="tel" id="pais"name="pais" placeholder="+54" size="3" value="+54" disabled> 
+        <label>Celular</label>
+        <input title="2804565656 o 1156565656" type="tel" id="numero" name="numero" size="10" maxlenght="10" required pattern="[1-9]{1}[0-9]{9}" placeHolder="Codigo de area sin 0 seguido de numero sin 15">
+        <input type="submit" value="Agregar">
+</form>
+
+<table id="tabla">
+  <thead>
+    <tr>
+      <th>Numeros</th>
+      <th>Tokens<th>
+      
+    </tr>
+  </thead>
+  #foreach($dispositivo in $listaDispositivos) 
+  	<tbody>
+    	<tr>
+      	 <td> $!dispositivo.getNumero()</td>
+      	 <td> $!dispositivo.getToken() </td>
+		## <td><input type="button" value="Editar" onClick="modifica()"></td>     
+    	##<td> <input type="button" value="Eliminar" onclick="deleteRow(this)"></td>
+    		<form method="post" action="$WebPath.getEliminarDispositivo()">
+    	 		<input type="hidden" name="dispositivoABorrar" value="$!dispositivo.getNumero()">
+            	<td><button id="delete">$msg.get("DISPOSITIVO_ELIMINAR")</button></td>
+         	</form>
+        </tr>
+    </tbody>
+   #end   
+</table>
+
+<script>
+
+function valida(){
+
+valor = document.getElementById("numero").value;
+if( !(/^\d{9}$/.test(valor)) ) {
+  return false;
+}
+
+
+}
+
+function deleteRow(r) {
+    var i = r.parentNode.parentNode.rowIndex;
+    document.getElementById("tabla").deleteRow(i);       
+}
+
+function modifica() {
+  tab=document.getElementById('tabla');
+  for (i=0; ele=tab.getElementsByTagName('input')[i]; i++) {
+    if (ele.checked) 
+        edita(ele);
+  ele.checked = false;
+  }
+}
+
+function edita(obj) {
+  padre = obj.parentNode.parentNode;
+  celda = padre.getElementsByTagName('td')[1];
+  txt = celda.innerHTML;
+  celda.innerHTML = '';
+  inp = celda.appendChild(document.createElement('input'));
+  inp.value=txt;
+  inp.onblur = function() { this.parentNode.innerHTML = this.value  }
+}
+
+</script>
+#end

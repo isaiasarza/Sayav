@@ -1,4 +1,4 @@
-#parse("/velocity/layout.vm")
+#parse("resources/velocity/layout.vm")
 #@mainLayout()
 
 <form id="userUpdateForm" method="post" action="$WebPath.getUpdateUser()">
@@ -18,17 +18,17 @@
     <label>$msg.get("REGISTRATION_LABEL_LASTNAME")</label><br>
     <input type="text" name="lastname" placeholder="$msg.get("REGISTRATION_LABEL_LASTNAME")" value="$!user.getApellido()" ><br>
     
+	<label>$msg.get("REGISTRATION_LABEL_USERNAME")</label><br>
+    <input type="text" name="username" placeholder="$msg.get("REGISTRATION_LABEL_USERNAME")" value="$!user.getNombreDeUsuario()" disabled><br>
+    
     <label>$msg.get("REGISTRATION_LABEL_EMAIL")</label><br>
     <input type="email" name="email" placeholder="$msg.get("REGISTRATION_LABEL_EMAIL")" value="$!user.getEmail()" ><br>
     
     <label>$msg.get("REGISTRATION_LABEL_ADDRESS")</label><br>
     <input type="text" name="address" placeholder="$msg.get("REGISTRATION_LABEL_ADDRESS")" value="$!user.getDireccion()" ><br>
-    
-    <label>$msg.get("REGISTRATION_LABEL_PHONE_NUMBER")</label><br>
-    <input type="text" name="phoneNumber" placeholder="$msg.get("REGISTRATION_LABEL_PHONE_NUMBER")" value="$!user.getTelefono()" ><br>
-    
+  
     <label>$msg.get("REGISTRATION_LABEL_SUBDOM")</label><br>
-    <input type="text" name="subdom" placeholder="$msg.get("REGISTRATION_LABEL_SUBDOM")" value="$!user.getSubdominio()" ><br>
+    <input type="text" name="subdom" placeholder="$msg.get("REGISTRATION_LABEL_SUBDOM")" value="$!user.getSubdominio()"><br>
        
     <label>$msg.get("REGISTRATION_LABEL_PASSWORD")</label><br>
     <input type="password" name="psw1" placeholder="$msg.get("REGISTRATION_LABEL_PASSWORD")" value="" ><br>

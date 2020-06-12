@@ -1,8 +1,10 @@
 package SAYAV2.SAYAV2.service;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import SAYAV2.SAYAV2.Utils.FileUtils;
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.RequestUtil;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
@@ -18,8 +20,15 @@ public class LoginController {
 	 */
 	public static Route serveLoginPage = (Request request, Response response) -> {
 		Map<String, Object> model = new HashMap<>();
+		
+		if(!isRegister()){
+			response.redirect(PathUtil.Web.REGISTRATION);
+			return null;
+		}
+
 		model.put("loggedOut", RequestUtil.removeSessionAttrLoggedOut(request));
 		model.put("loginRedirect", RequestUtil.removeSessionAttrLoginRedirect(request));
+		
 		return ViewUtil.render(request, model, PathUtil.Template.LOGIN);
 	};
 
@@ -28,9 +37,15 @@ public class LoginController {
 	 */
 	public static Route handleLoginPost = (Request request, Response response) -> {
 		Map<String, Object> model = new HashMap<>();
+		
+		if(!isRegister()){
+			response.redirect(PathUtil.Web.REGISTRATION);
+			return null;
+		}
 		System.out.println("Autentificando usuario");
 		String status;
 		Usuario usuario;
+		
 		status = UsuarioController.authenticate(RequestUtil.getQueryEmail(request), RequestUtil.getQueryPassword(request),
 				model);
 		model.put(status,true);
@@ -69,6 +84,15 @@ public class LoginController {
 			request.session().attribute("loginRedirect", request.pathInfo());
 			response.redirect(PathUtil.Web.LOGIN);
 		}
+	}
+	private static boolean isRegister() {
+		File f = new File(FileUtils.getUsuarioFile());
+
+		if(f.exists()){
+			return true;
+		}
+		f.delete();
+		return false;
 	};
 
 }

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+<h2>$msg.get("SECTOR_HEADING")</h2>   
+#parse("resources/velocity/layout.vm")
+#@mainLayout()
+<h1>SAYAV</h1>
+<h2>Renombrar Sectores</h2>
+
+<form id="sectorForm" method="post" action = "/sector/">
+
+<table id="tabla">
+  <thead>
+    <tr>
+      <th colspan="3">Sectores</th>
+    </tr>
+  </thead>
+  #foreach($sector in $listaSectores) 
+  	<tbody>
+    	<tr>
+    	 <td width="24"><input type="checkbox" /></td>
+      	 <td> $sector.getNombre()</td>
+		 <td><input type="button" value="Renombrar" onClick="modifica()"></td>     
+    	</tr>
+    </tbody>
+   #end     
+</table>
+</form>
+
+<script>
+
+function modifica() {
+  tab=document.getElementById('tabla');
+  for (i=0; ele=tab.getElementsByTagName('input')[i]; i++) {
+    if (ele.checked) edita(ele);
+    ele.checked = false;
+  }
+}
+
+function edita(obj) {
+  padre = obj.parentNode.parentNode;
+  celda = padre.getElementsByTagName('td')[1];
+  txt = celda.innerHTML;
+  celda.innerHTML = '';
+  inp = celda.appendChild(document.createElement('input'));
+  inp.value=txt;
+  inp.onblur = function() { this.parentNode.innerHTML = this.value  }
+  
+}
+
+</script>
+#end

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+div {
+    text-align: center;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 12px;
+}
+table {
+    margin: auto;
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 80%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+<table style="width:50%">
+  <h1>SECTORES</h1>
+  <tr>
+    <th>Nombre</th>
+    <th>Eliminar</th>  
+  </tr>
+  <tr>
+    <td>$sector.getNombre()</td>
+    <td><input type="checkbox" /></td>
+  </tr>
+</table>
+</body>
+</html>

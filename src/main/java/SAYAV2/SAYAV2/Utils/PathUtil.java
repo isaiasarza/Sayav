@@ -8,6 +8,10 @@ public class PathUtil {
 	// the variables from Velocity Templates
 	public static class Web {
 		@Getter
+		public static final String PEER = "/peer/";
+		@Getter
+		public static final String PEER_VER = "/peer";
+		@Getter
 		public static final String PRUEBA = "/prueba/";
 		@Getter
 		public static final String MENU = "/menu/";
@@ -18,7 +22,7 @@ public class PathUtil {
 		@Getter
 		public static final String LOGOUT = "/logout/";
 		@Getter
-		public static final String REGISTRATION = "/registration/";	
+		public static final String REGISTRATION = "/registration/";
 		@Getter
 		public static final String BOOKS = "/books/";
 		@Getter
@@ -33,63 +37,288 @@ public class PathUtil {
 		public static final String ALARM = "/alarm/";
 		@Getter
 		public static final String PANIC_BUTTON = "/alarm/panic_button/";
-		
+		@Getter
+		public static final String NOTIFICATION = "";
+		@Getter
+		public static final String NOTIFICATION_TOKEN = "/notification";
+		@Getter
+		public static final String NOTIFICATION_PUSH = "/notification/push/";
+		@Getter
+		public static final String GROUP = "/group/";
+		@Getter
+		public static final String GRUPO = "/grupo/";
+		@Getter
+		public static final String NEW_GROUP = "/group/new/";
+		@Getter
+		public static final String VIEW_ALL_GROUPS = "/group/new/";
+		@Getter
+		public static final String VIEW_ALL_MESSAGES = "/mensajes/";
+
+		@Getter
+		public static final String NEW_GROUP_MEMBER = "/group/new/:groupName/";
+		public static final String VIEW_NEW_MEMBER = "/group/new/member/";
+
+		public static final String VIEW_GROUP_MEMBER = "/group/view/members/:groupName/";
+		public static final String VIEW_MEMBERS = "/group/view/members/";
+		@Getter
+		public static final String DISPOSITIVO = "/dispositivo/";
+		@Getter
+		public static final String ELIMINAR_DISPOSITIVO = "/dispositivo/eliminar/";
+		@Getter
+		public static final String SECTOR = "/sector/";
+		@Getter
+		public static final String RENOMBRAR_SECTOR = "/sector/renombrar/";
+		@Getter
+		public static final String TABLADISPOSITIVOS = "/tabladispositivos/";
+		@Getter
+		public static final String TABLASECTORES = "/tablasectores/";
+		@Getter
+		public static final String ONE_DISPOSITIVO = "/dispositivo:numero/";
+		public static final String CAMBIAR_ESTADO = "/sector/:nombre/";
+		public static final String GRUOP_NOTIFICATION = "/grupo/notificar/";
+		public static final String LEAVE = "/grupo/abandonar/";
+		public static final String LEAVE_GROUP = "/grupo/abandonar/:groupName/";
+		public static final String SHOW_NOTIFICATION = "/notificaciones/";
+		public static final String SOLICITAR = "/grupo/solicitar/:groupName/:miembro/";
+
+		public static final String SOLICITAR_BAJA = "/grupo/solicitar/";
+		public static final String VER_VOTACIONES = "/grupo/votaciones/";
+		public static final String VOTO = "/grupo/votaciones/:voto/:id/";
+
+		public static final String ELIMINAR_MENSAJE = "/mensajes/eliminar/:mensajeId/";
+		public static final String ELIMINAR = "/mensajes/eliminar/";
+
+		public static final String VER_DESCRIPCION = "/mensajes/descripcion/";
+		public static final String VIEW_ALL_MESSAGES_STATUS = "/mensajes/:estado/";
+		public static final String CAMBIAR_ESTADO_MENSAJE_ZOMBIE = "/mensajes/estado/cambiar/:estado/:id/";
+
+		public static final String CAMBIAR_ESTADO_MENSAJE = "/mensajes/estado/cambiar/";
+
+		public static String getCambiarEstadoMensajeZombie() {
+			return CAMBIAR_ESTADO_MENSAJE_ZOMBIE;
+		}
+
+		public static String getViewAllMessagesStatus() {
+			return VIEW_ALL_MESSAGES_STATUS;
+		}
+
+		public static String getCambiarEstadoMensaje() {
+			return CAMBIAR_ESTADO_MENSAJE;
+		}
+
+		public static String getEliminar() {
+			return ELIMINAR;
+		}
+
+		public static String getEliminarMensaje() {
+			return ELIMINAR_MENSAJE;
+		}
+
+		public static String getVerDescripcion() {
+			return VER_DESCRIPCION;
+		}
+
+		public static String getShowNotification() {
+			return SHOW_NOTIFICATION;
+		}
+
+		public static String getSolicitarBaja() {
+			return SOLICITAR_BAJA;
+		}
+
 		public static String getPrueba() {
 			return PRUEBA;
 		}
+
 		public static String getIndex() {
 			return INDEX;
 		}
+
+		public static String getVoto() {
+			return VOTO;
+		}
+
 		public static String getLogin() {
 			return LOGIN;
 		}
+
 		public static String getLogout() {
 			return LOGOUT;
 		}
+
+		public static String getSolicitar() {
+			return SOLICITAR;
+		}
+
+		public static String getVerVotaciones() {
+			return VER_VOTACIONES;
+		}
+
 		public static String getRegistration() {
 			return REGISTRATION;
 		}
+
 		public static String getBooks() {
 			return BOOKS;
 		}
+
 		public static String getOneBook() {
 			return ONE_BOOK;
 		}
+
 		public static String getUserData() {
 			return USER_DATA;
 		}
+
 		public static String getAlarm() {
 			return ALARM;
 		}
+
 		public static String getMenu() {
 			return MENU;
 		}
+
 		public static String getUpdateUser() {
 			return UPDATE_USER;
 		}
+
 		public static String getUpdateU() {
 			return UPDATE_U;
 		}
+
 		public static String getPanicButton() {
 			return PANIC_BUTTON;
 		}
-		
-		
-			
+
+		public static String getNotification() {
+			return NOTIFICATION;
+		}
+
+		public static String getNotificationToken() {
+			return NOTIFICATION_TOKEN;
+		}
+
+		public static String getNotificationPush() {
+			return NOTIFICATION_PUSH;
+		}
+
+		public static String getGroup() {
+			return GROUP;
+		}
+
+		public static String getNewGroup() {
+			return NEW_GROUP;
+		}
+
+		public static String getViewAllGroups() {
+			return VIEW_ALL_GROUPS;
+		}
+
+		public static String getNewGroupMember() {
+			return NEW_GROUP_MEMBER;
+		}
+
+		public static String getViewGroupMember() {
+			return VIEW_GROUP_MEMBER;
+		}
+
+		public static String getViewMembers() {
+			return VIEW_MEMBERS;
+		}
+
+		public static String getViewNewMember() {
+			return VIEW_NEW_MEMBER;
+		}
+
+		public static String getDispositivo() {
+			return DISPOSITIVO;
+		}
+
+		public static String getEliminarDispositivo() {
+			return ELIMINAR_DISPOSITIVO;
+		}
+
+		public static String getSector() {
+			return SECTOR;
+		}
+
+		public static String getRenombrarSector() {
+			return RENOMBRAR_SECTOR;
+		}
+
+		public static String getTabladispositivos() {
+			return TABLADISPOSITIVOS;
+		}
+
+		public static String getTablasectores() {
+			return TABLASECTORES;
+		}
+
+		public static String getOneDispositivo() {
+			return ONE_DISPOSITIVO;
+		}
+
+		public static String getPeer() {
+			return PEER;
+		}
+
+		public static String getPeerVer() {
+			return PEER_VER;
+		}
+
+		public static String getGrupo() {
+			return GRUPO;
+		}
+
+		public static String getCambiarEstado() {
+			return CAMBIAR_ESTADO;
+		}
+
+		public static String getGruopNotification() {
+			return GRUOP_NOTIFICATION;
+		}
+
+		public static String getLeave() {
+			return LEAVE;
+		}
+
+		public static String getLeaveGroup() {
+			return LEAVE_GROUP;
+		}
+
+		public static String getViewAllMessages() {
+			return VIEW_ALL_MESSAGES;
+		}
+
 	}
 
 	public static class Template {
-		public static final String PRUEBA = "/velocity/pruebas/prueba.vm/";
-		public static final String MENU = "/velocity/menu/menu.vm";
-		public final static String INDEX = "/velocity/index/index.vm";
-		public final static String LOGIN = "/velocity/login/login.vm";
+		public static final String PEER = "resources/velocity/peer/nuevoPeer.vm/";
+		public static final String PRUEBA = "resources/velocity/pruebas/prueba.vm/";
+		public static final String MENU = "resources/velocity/menu/menu.vm";
+		public final static String INDEX = "resources/velocity/index/index.vm";
+		public final static String LOGIN = "resources/velocity/login/login.vm";
 		public final static String REGISTRATION = "/velocity/login/registration.vm";
 		public final static String BOOKS_ALL = "/velocity/book/all.vm";
 		public static final String BOOKS_ONE = "/velocity/book/one.vm";
 		public static final String USER_DATA = "/velocity/user_data/user.vm";
-		public static final String UPDATE_USER = "/velocity/user_data/user_update.vm";
-		public static final String ALARM = "/alarm/alarm.vm";
-		public static final String NOT_FOUND = "/velocity/notFound.vm";
+		public static final String UPDATE_USER = "resources/velocity/user_data/user_update.vm";
+		public static final String ALARM = "resources/alarm/alarm.vm";
+		public static final String NEW_GROUP = "resources/velocity/grupo/new_group.vm";
+		public static final String NOT_FOUND = "resources/velocity/notFound.vm";
+		public static final String VIEW_ALL_GROUPS = "resources/velocity/user_data/view_groups.vm";
+	    public static final String VIEW_ALL_MESSAGES = "resources/velocity/mensaje/mensajes.vm"; 
+		public static final String NEW_GROUP_MEMBER = "resources/velocity/user_data/new_member.vm";
+		public static final String VIEW_GROUP_MEMBER = "resources/velocity/grupo/view_members.vm";
+		public final static String DISPOSITIVO = "resources/velocity/dispositivo/tablaDispositivos.vm";
+		public final static String ONE_DISPOSITIVO = "resources/velocity/dispositivo/dispositivo.vm";
+		public final static String SECTOR = "resources/velocity/sector/nuevoSector.vm";
+		public static final String TABLADISPOSITIVOS = "resources/velocity/dispositivo/tablaDispositivos.vm";
+		public static final String TABLASECTORES = "resources/velocity/sensor/tablasectores.vm";
+		public static final String GRUPO = "resources/velocity/grupo/nuevoGrupo.vm/";
+		public static final String LAYOUT = "resources/velocity/layout.vm";
+		public static final String VER_VOTACIONES = "resources/velocity/votacion/votacion.vm";
+		public static final String SHOW_NOTIFICATION = "resources/velocity/notificacion/notificacion.vm";
 
 	}
 

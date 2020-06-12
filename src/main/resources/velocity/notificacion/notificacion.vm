@@ -1,0 +1,62 @@
+#parse("resources/velocity/layout.vm")
+#@mainLayout()
+
+
+	<h1>Notificaciones</h1>
+
+<table cellspacing="0" cellpadding="0" border="0" width="600">
+  <tr>
+  <td>
+   <table cellspacing="0" cellpadding="0" border="0" width="600">
+      <tr>	
+    		 
+    		<th align="center">Tipo</th>    				
+    		<th align="center">Descripcion</th>
+    		<th align="center">Detalle</th>
+    		
+  	  </tr>
+   </table>
+  </td>
+  </tr>
+<tr>
+<td>     		
+  	<div style="width:700px; height:400px; overflow:auto;">
+     
+     <table cellspacing="0" cellpadding="2" border="2" width="600" >
+  	
+  		#foreach($!n in $!notificaciones.getNotificacion())
+		
+	  	<tr>
+  		    <td> $!n.getTipo()</td> 	
+           	<td align="right"> $!n.getDescripcion()</td> 		 	
+           	<td> <button onclick="document.getElementById($foreach.count).style.display='block';"
+			class="w3-button">Ver</button></td>	 	
+			   			
+			<!-- Modal donde se muestra el detalle del mensaje -->
+			
+           <div id=$foreach.count class="w3-modal">  				
+
+                 <div class="w3-modal-content w3-animate-top">
+    				<header class="w3-container w3-teal"> 
+      					<span onclick="document.getElementById($foreach.count).style.display='none'" 
+      					class="w3-button w3-display-topright">&times;</span>
+      					<h2 style="text-align:left">Detalle</h2>
+					</header>
+
+                	<div class="w3-container">
+    					<p style="text-align:left">Fecha: $!n.imprimirFecha()</p>
+						<p style="text-align:left">Hora: $!n.imprimirHora()</p>
+    					#foreach($!s in $!n.getDetalle().split(":"))
+    						<p style="text-align:left">$!s</p>
+						#end 
+    				</div>
+			     </div>
+		   </div>
+	    </tr>
+    	#end
+     </table>  
+   </div>
+</td>
+</tr>
+</table>
+#end

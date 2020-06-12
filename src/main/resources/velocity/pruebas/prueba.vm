@@ -1,5 +1,5 @@
-#parse("/velocity/layout.vm")
-#parse("/velocityconfig/velocity_implicit.vm")
+#parse("resources/velocity/layout.vm")
+
 
 #@mainLayout()
 
@@ -8,11 +8,7 @@
   funcionalidades de Velocity Engine.
 *#
 
- <h1>$prueba.getTitulo()</h1>
-
- <h2> $prueba.getSubtitulo() </h2>
-
-
+ <h1>Notificando</h1>
 
 
 

@@ -1,6 +1,6 @@
 package SAYAV2.SAYAV2.service;
 
-import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,8 +13,8 @@ import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.RequestUtil;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
 import SAYAV2.SAYAV2.dao.UsuarioDao;
+import SAYAV2.SAYAV2.model.Sector;
 import SAYAV2.SAYAV2.model.Usuario;
-import SAYAV2.SAYAV2.service.LoginController;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -24,8 +24,7 @@ public class UsuarioController {
 
 	private static UsuarioDao usuarioDao = UsuarioDao.getInstance();
 	private static Usuario currentUser;
-	private static String fileName = "SAYAV";
-	private static File file = new File(fileName);
+	//private static File file = new File(FileUtils.getUsuarioFile());
 	
 	public UsuarioController() {
 		super();
@@ -37,19 +36,26 @@ public class UsuarioController {
 	 */
 	public static String registrarUsuario(Usuario usuario) {
 		usuarioDao = UsuarioDao.getInstance();
-//		Usuario u = new Usuario();
 		System.out.println("Registrando: " + usuario);
-		file.setWritable(true);
-		file.setReadable(true);
+
 		try {
-			usuarioDao.cargar(file);
+			usuarioDao.cargar();
 		} catch (JAXBException e) {
 			String hashedPassword = PasswordUtils.generarContraseña(usuario);
 			usuario.setContraseña(hashedPassword);
-			usuarioDao.guardar(usuario, file);
+			try {
+				usuarioDao.guardar(usuario);
+			} catch (JAXBException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 			currentUser = usuario;
 			System.out.println("Usuario guardado");
 			return "registrationSucceeded";
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return "existingUser";
 	}
@@ -67,11 +73,10 @@ public class UsuarioController {
 	public static String authenticate(String queryEmail, String queryPassword, Map<String, Object> model) {
 		usuarioDao = UsuarioDao.getInstance();
 		System.out.println("Autentificando Usuario");
-		System.out.println(file.toString());
 		Usuario usuario;
 		//leo usuario del archivo
 		try {
-			usuario = (Usuario) usuarioDao.cargar(file);
+			usuario = (Usuario) usuarioDao.cargar();
 			//System.out.println(usuario);
 			//genero contraseña hash
 			
@@ -93,6 +98,9 @@ public class UsuarioController {
 		
 		} catch (JAXBException e) {
 			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		return "authenticationFailed";
@@ -102,6 +110,7 @@ public class UsuarioController {
 		LoginController.ensureUserIsLoggedIn(request, response);
 		System.out.println("View User Data");
         Map<String, Object> model = new HashMap<>();
+        
 		model.put("menuRedirect", RequestUtil.removeSessionAttrMenuRedirect(request));
         model.put("user",currentUser);
         return ViewUtil.render(request, model, PathUtil.Template.MENU);
@@ -112,6 +121,8 @@ public class UsuarioController {
 		LoginController.ensureUserIsLoggedIn(request, response);
     	System.out.println("update");  	
     	Map<String, Object> model = new HashMap<>();
+    	Usuario usuario = usuarioDao.cargar();
+    	model.put("user", usuario);
         return ViewUtil.render(request, model, PathUtil.Template.UPDATE_USER);
     };
    
@@ -119,6 +130,10 @@ public class UsuarioController {
     public static Route showUpdate = (Request request, Response response) -> {
     	System.out.println("ShowUpdate");  
     	Map<String, Object> model = new HashMap<>();
+
+    	Sector sector = new Sector();
+        
+		model.put("sector", sector);
     	model.put("user", currentUser);
 		System.out.println(PathUtil.Web.MENU);
         return ViewUtil.render(request, model, PathUtil.Template.UPDATE_USER);
@@ -132,8 +147,7 @@ public class UsuarioController {
     	completarFormulario(model,request);
     	model.put("user", currentUser);
         return ViewUtil.render(request, model, PathUtil.Template.UPDATE_USER);
-//    	response.redirect(PathUtil.Web.UPDATE_U);
-//    	return null;
+
     };
     public static Route updateUser = (Request request, Response response) -> {
 		LoginController.ensureUserIsLoggedIn(request, response);
@@ -143,9 +157,10 @@ public class UsuarioController {
     	try{
     		if((usuario = update(request))== null){
         		model.put("wrongPassword", true);
+        		model.put("user",usuario);
         		return ViewUtil.render(request, model, PathUtil.Template.UPDATE_USER);
     		}
-    		usuarioDao.guardar(usuario, file);
+    		usuarioDao.guardar(usuario);
     		System.out.println(usuario);
 //    		request.session().attribute("updateSucceeded",true);
     		model.put("user", usuario);
@@ -160,6 +175,8 @@ public class UsuarioController {
     	
 //        return ViewUtil.render(request, model, PathUtil.Template.UPDATE_USER);
     	System.out.println("Update Succeeded");
+    	
+      
     	return ViewUtil.render(request, model, PathUtil.Template.UPDATE_USER);
 
     };
@@ -172,26 +189,19 @@ public class UsuarioController {
 		UsuarioController.currentUser = currentUser;
 	}
     
-    
-	public static File getFile() {
-		return file;
-	}
-	public static void setFile(File file) {
-		UsuarioController.file = file;
-	}
+  
 	private static void completarFormulario(Map<String, Object> model, Request request) {
 		model.put("name",currentUser.getNombre());
 		model.put("lastname", currentUser.getApellido());
 	}
-	public static Usuario update(Request request) throws JAXBException{
+	public static Usuario update(Request request) throws JAXBException, IOException{
 
-    	Usuario usuario = (Usuario) usuarioDao.cargar(file);
+    	Usuario usuario = (Usuario) usuarioDao.cargar();
         String nombre = RequestUtil.getQueryName(request);
         String apellido = RequestUtil.getQueryLastName(request);
         String domicilio = RequestUtil.getQueryAddress(request);
         String email = RequestUtil.getQueryEmail(request);
         String subdominio = RequestUtil.getQuerySubdom(request);
-        String numeroTelefono = RequestUtil.getQueryPhoneNumber(request);
         String contraseña = RequestUtil.getQueryPassword(request);
         String contraseñaRepetida = RequestUtil.getQueryRepeatPassword(request);
         if(!nombre.isEmpty())
@@ -204,13 +214,13 @@ public class UsuarioController {
         	usuario.setEmail(email);
         if(!subdominio.isEmpty())
         	usuario.setSubdominio(subdominio);
-        if(!numeroTelefono.isEmpty())
-        	usuario.setTelefono(numeroTelefono);
         if(!contraseña.isEmpty()){
-        	if(contraseña.equals(contraseñaRepetida))
-        		usuario.setContraseña(BCrypt.hashpw(contraseña, usuario.getSalt()));
-        	else
+        	if(contraseñaRepetida.isEmpty() || contraseñaRepetida == null || contraseñaRepetida == "")
         		return null;
+        	if(!contraseña.equals(contraseñaRepetida))
+        		return null;
+        	usuario.setContraseña(BCrypt.hashpw(contraseña, usuario.getSalt()));
+        	
         }
     	return usuario;
     }

@@ -1,0 +1,37 @@
+#parse("resources/velocity/layout.vm")
+#@mainLayout()
+
+##<h2>$msg.get("DISPOSITIVO_HEADING")</h2>   
+<form id="dispositivoForm" method="post" action = "/dispositivo/">
+    
+    <label>$msg.get("DISPOSITIVO_LABEL_NUMERO")</label><br>
+    <input type="number" name="numero" placeholder="$msg.get("DISPOSITIVO_LABEL_NUMERO")" value="" required><br>
+   
+    <input type="submit" value="$msg.get("DISPOSITIVO_BUTTON_REGISTRATION")">
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3">Dispositivos moviles</th>
+    </tr>
+    <tr>
+      <th>#</th>
+      <th colspan="2">Cargados</th>
+    </tr>
+  </thead>
+  #foreach($dispositivo in $listaDispositivos) 
+  	<tbody>
+    	<tr>
+    	 <td width="24"><input type="checkbox" /></td>
+      	 <td> $dispositivo.getNumero()</td>
+		 <td><input type="button" value="Editar" onClick="modifica()"></td>     
+         <td><input type="button" value="Eliminar" onclick="deleteRow(this)"></td>
+    	</tr>
+    </tbody>
+   #end     
+</table>
+</form>
+</form>
+
+
+#end

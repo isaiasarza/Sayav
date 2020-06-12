@@ -1,0 +1,135 @@
+#parse("resources/velocity/layout.vm") 
+#@mainLayout() 
+
+  <h1>$msg.get("LIST_MESSAGE_HEADING")</h1> 
+    
+    #if($mostrarNotificacion) 
+    <div class="infoAlert">   
+         <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Prueba 
+     </div> 
+  #end 
+
+
+
+<table cellspacing="0" cellpadding="0" border="0" width="600">
+
+ <tr>
+ <td>
+ <table cellspacing="0" cellpadding="0" border="0" width="600">        
+     
+     <tr>
+      <th align="center">Origen</th> 
+      <th align="center">Destino</th> 
+       <th align="center">
+        	<div class="dropdown">
+  				<button onclick="myFunction('myDropdown')" class="dropbtn">Estado</button>
+  				<div id="myDropdown" class="dropdown-content">
+  				<form method="get" action="$WebPath.getViewAllMessages()$estados.getPendiente()/"> 
+   					<button class="w3-button">Pendiente</button>               
+           		</form> 
+           		<form method="get" action="$WebPath.getViewAllMessages()$estados.getConfirmado()/"> 
+   					<button  class="w3-button">Confirmado</button>                 
+           		</form> 
+           		<form method="get" action="$WebPath.getViewAllMessages()$estados.getZombie()/"> 
+   					<button  class="w3-button">Zombie</button>                 
+           		</form> 
+    				
+  				</div>
+			</div>
+        </th> 
+       <th align="center">Tipo</th>        
+       <th align="center">Detalle</th> 
+       	
+       	##<th align="center">Eliminar</th> 
+         
+     </tr>
+ </table>
+      		
+  	<div style="width:700px; height:400px; overflow:auto;">
+     
+     <table cellspacing="0" cellpadding="2" border="2" width="600" >
+       
+      #foreach($!m in $!mensajesPendientes.getMensaje())
+      <tr> 
+            <td> $!m.getOrigen().getDireccion()</td> 
+            <td> $!m.getDestino().getDireccion()</td> 
+            #if( $!m.getEstado().equals($estados.getZombie()))
+            <td>
+        		<div class="dropdown">
+  					<button onclick="myFunction('myDropdown $foreach.count')" class="dropbtn">$estados.getZombie()</button>
+  					<div id="myDropdown $foreach.count" class="dropdown-content">
+  						<form method="post" action="$WebPath.getCambiarEstadoMensaje()$estados.getPendiente()/$m.getId()/"> 
+   							<button class="w3-button">Pendiente</button>               
+           				</form> 
+           				<form method="post" action="$WebPath.getCambiarEstadoMensaje()$estados.getConfirmado()/$m.getId()/"> 
+   							<button  class="w3-button">Confirmado</button>                 
+           				</form>  				
+  					</div>
+				</div>
+        	</td> 
+            #else
+            <td> $!m.getEstado()</td> 
+            #end
+            <td> $!m.getTipoMensaje().getTipo()</td>
+	       	<td> <button onclick="document.getElementById($foreach.count).style.display='block'"
+			class="w3-button">Ver</button></td>	 
+			
+			  <!-- Modal donde se muestra el detalle del mensaje -->
+		   <div id=$foreach.count class="w3-modal">
+  			<div class="w3-modal-content w3-animate-top">
+       
+    			<header class="w3-container w3-teal"> 
+      				<span onclick="document.getElementById($foreach.count).style.display='none'" 
+      				class="w3-button w3-display-topright">&times;</span>
+      				<h2 style="text-align:left">Detalle</h2>
+				</header>
+
+    			<div class="w3-container">
+			 		<p style="text-align:left">Creacion: $!m.imprimirFechaCreacion()</p>
+			 		<p style="text-align:left">Reenvio: $!m.imprimirFechaReenvio()</p>
+    				#foreach($!s1 in $!m.getDescripcion().split(":"))
+    					<p style="text-align:left">$!s1</p>
+					 #end 
+    				
+    				 #foreach($!s2 in $!m.getDetalle().split(":"))
+    					<p style="text-align:left">$!s2</p>
+				 	#end 
+    			</div>
+    		</div>
+		</div>	
+  	             
+    </tr> 
+     
+    #end
+            
+ </table>  
+</div>
+</td>
+</tr>
+</table>
+  
+<script>
+
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function myFunction(id) {
+    document.getElementById(id).classList.toggle("show");
+}
+
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+</script>
+
+#end 

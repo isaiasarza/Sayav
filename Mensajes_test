@@ -1,0 +1,754 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:MensajesPendientes xmlns="http://www.example.org/Mensaje" xmlns:ns2="http://www.example.org/MensajesPendientes">
+    <Mensaje>
+        <Id>d7a6ce45-2cf4-476a-b3fa-f50ac6054e05</Id>
+        <fechaCreacion>2017-06-04T20:43:25.696-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-05T00:43:25.696-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>3bc9d6c0-ed2e-4e2a-a17e-76788d8712d1</Id>
+        <fechaCreacion>2017-06-04T20:43:46.856-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T20:43:46.856-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos></datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>e68aa9c5-fd3a-4fd3-9ef1-5a8d2f4d262a</Id>
+        <fechaCreacion>2017-06-04T20:44:27.840-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-05T00:44:27.840-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>986b2321-4351-4d27-81e6-9ffa5dde9953</Id>
+        <fechaCreacion>2017-06-04T20:46:10-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-05T00:46:10-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>e4fe42ce-322a-4711-b9a4-5e7b861b248f</Id>
+        <fechaCreacion>2017-06-04T20:47:52.930-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-05T00:47:52.930-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"b908d0f8-5071-4b8a-b3df-43657f0f9553","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>d48c2669-41b6-42e5-aa49-2f0dca125a97</Id>
+        <fechaCreacion>2017-06-04T20:47:54.614-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T20:47:54.614-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"28bd32d3-be97-4b72-a277-704c30e42629","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>3465574b-4520-4a2e-afdd-228267757239</Id>
+        <fechaCreacion>2017-06-04T20:50:41.897-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T20:50:41.897-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"880ab072-2d2a-495f-9bda-e409bac2651d","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>ba0ee930-a2c6-4e6e-8e48-580b2020e71a</Id>
+        <fechaCreacion>2017-06-04T21:26:00.418-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-05T01:26:00.418-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"d9f78163-8dbc-40fe-b1af-6518177c3d3b","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>81f55082-b9aa-4fd3-995a-771714d08f33</Id>
+        <origen>http://isaiasarza.ddns.net</origen>
+        <destino>http://lucas.ddns.net</destino>
+        <fechaCreacion>2017-06-04T21:26:51.176-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T21:32:53.955-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <descripcion>Se disparo alarma en el domicilio Entre Rios 749
+El dueño del domicilio es Daniel Isaías  Arza Sector Cocina</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Alerta</tipo>
+            <quantum>3</quantum>
+            <timetolive>240</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>4b5bc7a1-d90d-4e80-bedc-ce83dfe2d3c5</Id>
+        <fechaCreacion>2017-06-04T21:39:25.886-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-05T01:39:25.886-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"55f00a52-842a-4597-8aa4-cc4c931082b7","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>3d79806b-ebf1-4901-84f1-f09518bc43e9</Id>
+        <fechaCreacion>2017-06-04T21:39:27.291-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T21:39:27.291-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"d7e7ac01-999b-4b33-a4ed-d754c73302f1","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>83694270-eb7a-4ad3-9917-ffcb39b050c3</Id>
+        <fechaCreacion>2017-06-04T21:39:28.319-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T21:39:28.319-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"3cd675a9-0735-428b-b59e-a7398745be89","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>3e341d6a-9f8e-46ef-bb81-0e056d6e8342</Id>
+        <fechaCreacion>2017-06-04T21:47:40.481-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-05T01:47:40.481-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"a32206f8-4c6d-4615-a0c1-e83d861e2c1d","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>c76b67df-efaf-4962-9890-a6f50559d586</Id>
+        <fechaCreacion>2017-06-04T21:47:41.653-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T21:47:41.653-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"ec181099-8e02-49a2-8819-4c026c0e8524","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>fa432b9a-d69c-48f4-b741-32a36648212f</Id>
+        <fechaCreacion>2017-06-04T21:47:42.573-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T21:47:42.573-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"c0284438-b5c6-4533-8482-55342a046848","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>5dcad2bd-d53e-4bb4-8213-c2e6c0e5e270</Id>
+        <origen>http://isaiasarza.ddns.net</origen>
+        <destino>http://lucas.ddns.net</destino>
+        <fechaCreacion>2017-06-04T21:47:44.104-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T21:47:44.104-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"7874c3d6-7523-494a-a229-cb62fca435ed","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>03ffd872-8439-4c15-97b2-cca0755e7521</Id>
+        <origen>http://isaiasarza.ddns.net</origen>
+        <destino>http://lucas.ddns.net</destino>
+        <fechaCreacion>2017-06-04T21:55:52.158-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T21:58:53.229-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <descripcion>El domicio del camarada Daniel Isaías Arza fue intervenido</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Alerta</tipo>
+            <quantum>3</quantum>
+            <timetolive>240</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>137027a8-91c1-42f6-967d-6f58566c21f8</Id>
+        <origen>http://isaiasarza.ddns.net</origen>
+        <destino>http://rodrigo.net</destino>
+        <fechaCreacion>2017-06-04T21:55:52.860-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T21:58:53.229-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <descripcion>El domicio del camarada Daniel Isaías Arza fue intervenido</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Alerta</tipo>
+            <quantum>3</quantum>
+            <timetolive>240</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>f31fd05e-9708-4c7d-9feb-75b3fe9b7b76</Id>
+        <origen>http://isaiasarza.ddns.net</origen>
+        <destino>http://nestorkirchner.ddns.net</destino>
+        <fechaCreacion>2017-06-04T21:55:53.504-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T21:58:56.405-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <descripcion>El domicio del camarada Daniel Isaías Arza fue intervenido</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Alerta</tipo>
+            <quantum>3</quantum>
+            <timetolive>240</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>5d65bffb-e0cb-4f9e-ab21-00106441ec70</Id>
+        <origen>http://isaiasarza.ddns.net</origen>
+        <destino>http://lucas.ddns.net</destino>
+        <fechaCreacion>2017-06-04T21:55:53.979-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T21:58:56.405-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <descripcion>El domicio del camarada Daniel Isaías Arza fue intervenido</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Alerta</tipo>
+            <quantum>3</quantum>
+            <timetolive>240</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>bc99b73e-2a7b-491f-b542-cc94d8cb7375</Id>
+        <origen>http://isaiasarza.ddns.net</origen>
+        <destino>http://choli.ddns.net</destino>
+        <fechaCreacion>2017-06-04T21:55:54.462-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T21:58:56.405-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <descripcion>El domicio del camarada Daniel Isaías Arza fue intervenido</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Alerta</tipo>
+            <quantum>3</quantum>
+            <timetolive>240</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>a77940a3-930d-48ea-aed9-eb9dc726d9fb</Id>
+        <origen>http://isaiasarza.ddns.net</origen>
+        <destino>http://PEPE.NET</destino>
+        <fechaCreacion>2017-06-04T21:55:54.916-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T21:58:56.405-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <descripcion>El domicio del camarada Daniel Isaías Arza fue intervenido</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Alerta</tipo>
+            <quantum>3</quantum>
+            <timetolive>240</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>2dab4da1-7fdf-4422-8435-c0fc44fa2f27</Id>
+        <origen>http://isaiasarza.ddns.net</origen>
+        <destino>http://choli.net</destino>
+        <fechaCreacion>2017-06-04T21:55:55.474-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T21:58:56.405-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <descripcion>El domicio del camarada Daniel Isaías Arza fue intervenido</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Alerta</tipo>
+            <quantum>3</quantum>
+            <timetolive>240</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>48d8f0bd-1313-4a68-948c-7931239a6485</Id>
+        <origen>http://isaiasarza.ddns.net</origen>
+        <destino>http://alo.ddns.net</destino>
+        <fechaCreacion>2017-06-04T21:55:56.070-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T21:58:56.405-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <descripcion>El domicio del camarada Daniel Isaías Arza fue intervenido</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Alerta</tipo>
+            <quantum>3</quantum>
+            <timetolive>240</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>32c1f9a4-1ab0-4220-80ad-abd9b60713ba</Id>
+        <origen>http://isaiasarza.ddns.net</origen>
+        <destino>http://lucas.ddns.net</destino>
+        <fechaCreacion>2017-06-04T21:55:56.535-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T21:59:01.859-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <descripcion>El domicio del camarada Daniel Isaías Arza fue intervenido</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Alerta</tipo>
+            <quantum>3</quantum>
+            <timetolive>240</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>9e768142-90ac-4065-8f62-efd52bfa6a0e</Id>
+        <origen>http://isaiasarza.ddns.net</origen>
+        <destino>http://lucas.ddns.net</destino>
+        <fechaCreacion>2017-06-04T21:55:57.124-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T21:59:01.859-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <descripcion>El domicio del camarada Daniel Isaías Arza fue intervenido</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Alerta</tipo>
+            <quantum>3</quantum>
+            <timetolive>240</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>cb2e9ea5-f340-4a7c-b8a9-8ada8833db6c</Id>
+        <origen>http://isaiasarza.ddns.net</origen>
+        <destino>http://lucas.ddns.net</destino>
+        <fechaCreacion>2017-06-04T21:55:57.627-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T21:59:01.859-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <descripcion>El domicio del camarada Daniel Isaías Arza fue intervenido</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Alerta</tipo>
+            <quantum>3</quantum>
+            <timetolive>240</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>25d6c653-4c3a-4d39-a2a3-2be4c83fa14c</Id>
+        <origen>http://isaiasarza.ddns.net</origen>
+        <destino>http://rodrigo.ddns.net</destino>
+        <fechaCreacion>2017-06-04T21:55:58.100-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T21:59:01.859-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <descripcion>El domicio del camarada Daniel Isaías Arza fue intervenido</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Alerta</tipo>
+            <quantum>3</quantum>
+            <timetolive>240</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>364be9a8-a77f-40cf-a118-2401196a1b0f</Id>
+        <origen>http://isaiasarza.ddns.net</origen>
+        <destino>http://romina.ddns.net</destino>
+        <fechaCreacion>2017-06-04T21:55:58.522-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T21:59:01.859-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <descripcion>El domicio del camarada Daniel Isaías Arza fue intervenido</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Alerta</tipo>
+            <quantum>3</quantum>
+            <timetolive>240</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>a9d69a70-b08f-4274-aad8-72de0cb853ce</Id>
+        <origen>http://isaiasarza.ddns.net</origen>
+        <destino>http://nestorkirchner.ddns.net</destino>
+        <fechaCreacion>2017-06-04T21:55:59.015-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T21:59:01.859-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <descripcion>El domicio del camarada Daniel Isaías Arza fue intervenido</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Alerta</tipo>
+            <quantum>3</quantum>
+            <timetolive>240</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>002cc45c-a860-4e3a-90b2-7846ac16ede7</Id>
+        <origen>http://isaiasarza.ddns.net</origen>
+        <destino>http://lucas.ddns.net</destino>
+        <fechaCreacion>2017-06-04T21:55:59.576-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T21:59:01.859-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <descripcion>El domicio del camarada Daniel Isaías Arza fue intervenido</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Alerta</tipo>
+            <quantum>3</quantum>
+            <timetolive>240</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>7c30ed01-1fe1-4896-8b40-e4cf6b70fd07</Id>
+        <origen>http://isaiasarza.ddns.net</origen>
+        <destino>http://emabalcazar.ddns.net</destino>
+        <fechaCreacion>2017-06-04T21:56:00.016-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T21:59:01.859-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <descripcion>El domicio del camarada Daniel Isaías Arza fue intervenido</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Alerta</tipo>
+            <quantum>3</quantum>
+            <timetolive>240</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>9f5550a9-8e76-43f4-9176-8104a348822d</Id>
+        <origen>http://isaiasarza.ddns.net</origen>
+        <destino>http://lucas.ddns.net</destino>
+        <fechaCreacion>2017-06-04T21:56:00.542-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T21:59:01.859-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <descripcion>El domicio del camarada Daniel Isaías Arza fue intervenido</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Alerta</tipo>
+            <quantum>3</quantum>
+            <timetolive>240</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>e1107f27-84ad-4be5-a145-8b1353e48eb8</Id>
+        <origen>http://isaiasarza.ddns.net</origen>
+        <destino>http://rodrigo.ddns.net</destino>
+        <fechaCreacion>2017-06-04T21:56:00.981-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T21:59:01.859-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <descripcion>El domicio del camarada Daniel Isaías Arza fue intervenido</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Alerta</tipo>
+            <quantum>3</quantum>
+            <timetolive>240</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>5ae36d69-a9d1-462e-acb0-4cabc5681c30</Id>
+        <fechaCreacion>2017-06-04T22:29:03.316-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-05T02:29:03.316-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"181d104b-01dc-4965-b5ba-307447c617d3","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>5272f6e1-5dc0-4a29-8277-6f6291b7b481</Id>
+        <fechaCreacion>2017-06-04T22:30:01.895-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-05T02:30:01.895-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"3ccf5f9a-e2b6-4931-b750-94810d21118c","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>3d2a0e72-ab5b-4519-9530-779015c1b3fa</Id>
+        <fechaCreacion>2017-06-04T22:32:30.601-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-05T02:32:30.601-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"ee8bb27a-8c21-46db-b3fa-e67274442573","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>ee9bf087-a0e9-45c9-9eba-0e469165cd81</Id>
+        <fechaCreacion>2017-06-04T22:33:00.292-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-05T02:33:00.292-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"bd1fa9e8-7c23-4e60-9ffe-ef04cb5237de","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>319cd7a2-d3ab-4cf5-a726-2072d4f3bffa</Id>
+        <fechaCreacion>2017-06-04T22:33:39.113-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-05T02:33:39.113-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"51ec8263-d059-4ebb-b600-b58a9ccda192","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>343885b0-5797-41d3-9b83-42346f33f4b4</Id>
+        <fechaCreacion>2017-06-04T22:35:56.741-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-05T02:35:56.741-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"42cac255-3546-4bb4-87d4-8aec983f4711","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>b3b51cae-f19b-44ad-a064-d3c97c20b750</Id>
+        <fechaCreacion>2017-06-04T22:37:01.759-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-05T02:37:01.759-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"22eab3ce-44ad-43e0-9212-5f28c9d142b3","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>6c37f861-eec8-4fef-872f-3c4f7a6b20a0</Id>
+        <origen>http://isaiasarza.ddns.net</origen>
+        <destino>lucas.ddns.net</destino>
+        <fechaCreacion>2017-06-04T22:38:43.198-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T22:38:43.192-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"37ba4613-6209-4da3-abea-bfe32888328c","direccion":"lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Usted es parte de un nuevo grupo</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Grupo</tipo>
+            <quantum>240</quantum>
+            <timetolive>480</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>8c2890b7-e5de-42c8-848d-9b63fd74c916</Id>
+        <fechaCreacion>2017-06-04T22:39:12.888-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-05T02:39:12.888-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"bd4a91a9-19b0-4bd5-abc1-bec86d707ee7","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>0173a355-5da1-4692-8c4e-f008d896f05c</Id>
+        <fechaCreacion>2017-06-04T22:43:50.363-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T22:43:50.363-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"75524ef8-62f6-4d56-b275-498ef04813ec","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>b202b6ef-8e3c-4570-9675-88d4fa7944b9</Id>
+        <fechaCreacion>2017-06-04T22:43:50.795-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-05T02:43:50.795-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"81dee4b6-1606-470b-9640-5895fb832eb0","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>5e64fedc-6b41-4c25-a982-ed681a22f81e</Id>
+        <fechaCreacion>2017-06-04T22:44:44.289-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-05T02:44:44.289-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"d0695979-818a-4048-8ca0-1d02e04edc2e","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>0b7b68c6-7b70-402d-8af0-c9f8bd71af0c</Id>
+        <origen>http://isaiasarza.ddns.net</origen>
+        <destino>lucas.ddns.net</destino>
+        <fechaCreacion>2017-06-04T22:50:00.564-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-04T22:50:00.550-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"c6c8dcd6-057c-434e-a5db-59716dbcd49d","direccion":"lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Usted es parte de un nuevo grupo</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Grupo</tipo>
+            <quantum>240</quantum>
+            <timetolive>480</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>3a9dfd64-13f8-4d18-a9f5-162edbb8038a</Id>
+        <fechaCreacion>2017-06-04T22:50:25.284-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-05T02:50:25.284-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"c852cebd-97ec-40a6-b823-a257372738ef","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>42cba461-e7a5-4eb9-ab8c-ac825363b760</Id>
+        <fechaCreacion>2017-06-04T22:56:14.343-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-05T02:56:14.343-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"c4576c54-e82d-4809-b097-814f97273473","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>9e1a1c49-1693-4681-9afe-a181bc58cec8</Id>
+        <fechaCreacion>2017-06-04T23:00:02.425-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-05T03:00:02.425-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"f4fdb20e-0d44-451d-a8b6-a7262f0d869f","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>217fc656-4b4b-4004-816e-1078b54e8572</Id>
+        <fechaCreacion>2017-06-04T23:01:57.833-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-05T03:01:57.833-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"09c56cce-8733-4ee9-8828-bca1069e3dd3","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+    <Mensaje>
+        <Id>61c13a56-dd91-4eb1-8d8e-60a9259bcda1</Id>
+        <fechaCreacion>2017-06-04T23:02:56.181-03:00</fechaCreacion>
+        <fechaReenvio>2017-06-05T03:02:56.181-03:00</fechaReenvio>
+        <estado>Pendiente</estado>
+        <datos>{"miembro":{"id":"c92e80de-f03d-4655-a95d-abeb4ff63e7b","direccion":"nuevo_miembro.ddns.net","puerto":0,"estado":false,"mensajes":[]},"grupo":{"id":"3364513c-1c21-4213-97d7-5f7681a292f9","nombre":"Universidad","peers":[{"id":"eb6084b0-8a49-41a7-8833-c577ad930d40","direccion":"http://lucas.ddns.net","puerto":0,"estado":false,"mensajes":[]},{"id":"f73eb8c7-489a-43d6-aa8a-41536e3fb135","direccion":"http://rodrigo.net","puerto":0,"estado":false,"mensajes":[]},{"id":"6a1e4b36-f4f1-4ffe-9ac7-cfa01a2cc19f","direccion":"http://nestorkirchner.ddns.net","puerto":0,"estado":false,"mensajes":[]}]}}</datos>
+        <descripcion>Prueba2</descripcion>
+        <tipoHandshake>Handshake Request</tipoHandshake>
+        <TipoMensaje>
+            <tipo>Nuevo Miembro</tipo>
+            <quantum>240</quantum>
+            <timetolive>4800</timetolive>
+        </TipoMensaje>
+    </Mensaje>
+</ns2:MensajesPendientes>

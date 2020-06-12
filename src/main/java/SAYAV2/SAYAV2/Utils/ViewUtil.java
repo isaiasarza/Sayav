@@ -1,17 +1,21 @@
 package SAYAV2.SAYAV2.Utils;
 
-import org.apache.velocity.app.VelocityEngine;
-import org.eclipse.jetty.http.*;
-import spark.*;
-import spark.template.velocity.*;
-
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
-import static SAYAV2.SAYAV2.Utils.RequestUtil.*;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.velocity.app.VelocityEngine;
+import org.eclipse.jetty.http.HttpStatus;
+
+import spark.ModelAndView;
+import spark.Request;
+import spark.Response;
+import spark.Route;
+import spark.template.velocity.VelocityTemplateEngine;
 
 public class ViewUtil {
 
@@ -20,9 +24,11 @@ public class ViewUtil {
     // and to see if the user is logged in
     public static String render(Request request, Map<String, Object> model, String templatePath) {
     	System.out.println("Render");
-        model.put("msg", new MessageBundle(getSessionLocale(request)));
-        model.put("currentUser", getSessionCurrentUser(request));
+    	
+        model.put("msg", new MessageBundle("sp"));
+        model.put("currentUser", RequestUtil.getSessionCurrentUser(request));
         model.put("WebPath", PathUtil.Web.class); // Access application URLs from templates
+        //System.out.println(model);
         return strictVelocityEngine().render(new ModelAndView(model, templatePath));
     }
 
@@ -39,7 +45,7 @@ public class ViewUtil {
 	}
     public static Route notAcceptable = (Request request, Response response) -> {
         response.status(HttpStatus.NOT_ACCEPTABLE_406);
-        return new MessageBundle(getSessionLocale(request)).get("ERROR_406_NOT_ACCEPTABLE");
+        return new MessageBundle(RequestUtil.getSessionLocale(request)).get("ERROR_406_NOT_ACCEPTABLE");
     };
 
     public static Route notFound = (Request request, Response response) -> {

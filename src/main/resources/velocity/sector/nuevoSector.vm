@@ -1,0 +1,68 @@
+#parse("resources/velocity/layout.vm")
+#@mainLayout()
+<h1>SAYAV</h1>
+<h2>Sectores</h2>
+
+#if($existingSector)
+	<div class="dangerAlert">	
+	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Ya existe sector con ese nombre, por favor cambielo
+  	</div>
+#end
+
+<table>
+ <caption>Sectores Existentes</caption>
+    <tr>
+      <th>Estado</th>
+      <th>Nombre</th>
+    </tr>
+  #foreach($sector in $listaSectores) 
+	<tr>
+    	#if($!sector.isActivado())
+    	<td>
+    		<form method="post" action="$WebPath.getSector()$!sector.getNombre()/">
+     			<input type="image" id="imagen1" src="/img/alarmaActivada.gif" alt="Sayav">         	              
+         	</form>
+        </td>
+        
+         	<div class="dangerAlert">	
+	   		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>$msg.get("ALARM_ACTIVATE_SECTOR") $sector.getNombre()
+	   		</div>
+        	
+        	
+      	#else
+      	<td>
+    		<form method="post" action="$WebPath.getSector()$!sector.getNombre()/">
+     			<input type="image" id="imagen2" src="/img/alarmaDesactivada.gif" alt="Sayav">         	              
+         	</form>
+        </td>
+      	#end 
+      	
+      	#if(!$!sector.getNombre().equals("Boton de Panico"))
+    	<td>
+    	 	<form id="tabla" method="post" action="$WebPath.getRenombrarSector()">
+    	 		<input type="text" name="nuevoNombreSector" value="$!sector.getNombre()" required>
+    	 		<input type="hidden" name="nombreActualSector" value="$!sector.getNombre()">	
+l				<input type="submit" value=$msg.get("SECTOR_UPDATE") >
+            	   	              
+         	</form>
+        </td>
+        #else
+        <td>
+    	 	<form id="tabla" method="post" action="$WebPath.getRenombrarSector()">
+    	 		<input type="text" name="nuevoNombreSector" value="$!sector.getNombre()" disabled>
+l				<input type="submit" value=$msg.get("SECTOR_UPDATE") disabled>       	   	              
+         	</form>
+        </td>
+        #end
+	</tr>
+   #end     
+</table>
+
+
+
+
+
+
+
+
+#end

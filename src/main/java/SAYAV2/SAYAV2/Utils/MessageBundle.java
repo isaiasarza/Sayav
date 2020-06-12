@@ -1,7 +1,8 @@
 package SAYAV2.SAYAV2.Utils;
 
-import java.text.*;
-import java.util.*;
+import java.text.MessageFormat;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class MessageBundle {
 
@@ -9,7 +10,7 @@ public class MessageBundle {
 
     public MessageBundle(String languageTag) {
         Locale locale = languageTag != null ? new Locale(languageTag) : Locale.ENGLISH;
-        this.messages = ResourceBundle.getBundle("localization/messages", locale);
+        this.messages = ResourceBundle.getBundle("resources/localization/messages", locale);
     }
 
     public String get(String message) {

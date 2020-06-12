@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/UsuarioXMLSchema"
+	xmlns:tns="http://www.example.org/UsuarioXMLSchema" elementFormDefault="qualified">
+
+	<element name="Usuario">
+		<complexType>
+			<choice>
+				<sequence>
+					<element name="Nombre" type="string" />
+					<element name="Apellido" type="string" />
+					<element name="NombreDeUsuario" type="string" />
+					<element name="Email" type="string" minOccurs="0" />
+					<element name="Direccion" type="string" />
+					<element name="Subdominio" type="string" />
+					<element name="Contraseña" type="string" />
+					<element name="Salt" type="string" />
+					<element name="AlarmaHabilitada" type="boolean" />
+				</sequence>
+				<element name="DispositivosMoviles" type="tns:DispositivoM"
+					maxOccurs="unbounded" minOccurs="0">
+				</element>
+				<element name="Sectores" type="tns:Sector" maxOccurs="unbounded"
+					minOccurs="0">
+				</element>
+				<element name="Grupos" type="tns:Grupo" maxOccurs="unbounded"
+					minOccurs="0">
+				</element>
+			</choice>
+		</complexType>
+
+	</element>
+
+
+
+
+
+	<complexType name="DispositivoM">
+		<sequence>
+			<element name="Numero" type="string"></element>
+			<element name="Token" type="string" maxOccurs="1" minOccurs="1"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="Sector">
+		<sequence>
+			<element name="Id" type="string"></element>
+			<element name="Nombre" type="string"></element>
+			<element name="Activado" type="boolean"></element>
+		</sequence>
+	</complexType>
+
+
+	<complexType name="Grupo">
+		<sequence>
+			<element name="Id" type="string"></element>
+			<element name="Nombre" type="string"></element>
+			<element name="Peers" type="tns:Peer" maxOccurs="unbounded"
+				minOccurs="0">
+			</element>
+		</sequence>
+	</complexType>
+
+	<complexType name="Peer">
+		<sequence>
+			<element name="Id" type="string" />
+			<element name="Direccion" type="string" />
+			<element name="Puerto" type="int" />
+			<element name="Estado" type="boolean" />
+		
+		</sequence>
+		
+	</complexType>
+
+
+
+
+
+</schema>

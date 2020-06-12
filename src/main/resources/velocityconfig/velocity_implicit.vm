@@ -1,8 +1,15 @@
 #* @implicitly included *#
 #* @vtlvariable name="WebPath" type="SAYAV2.SAYAV2.Utils.PathUtil.Web" *#
+#* @vtlvariable name="estados" type="SAYAV2.SAYAV2.Utils.EstadoUtils.Estados" *#
+
 #* @vtlvariable name="msg" type="SAYAV2.SAYAV2.Utils.MessageBundle" *#
 #* @vtlvariable name="currentUser" type="java.lang.String" *#
 #* @vtlvariable name="user" type="SAYAV2.SAYAV2.model.Usuario" *#
+#* @vtlvariable name="group" type="SAYAV2.SAYAV2.model.Grupo" *#
+#* @vtlvariable name="menssagesPendientes" type="SAYAV2.SAYAV2.model.MensajesPendientes" *#
+
+
+
 
 #* @vtlvariable name="loggedOut" type="java.lang.String" *#
 #* @vtlvariable name="loginRedirect" type="java.lang.String" *#
@@ -23,16 +30,32 @@
 #* @vtlvariable name="status" type="java.lang.String" *#
 #* @vtlvariable name="enableAlarm" type="java.lang.String" *#
 #* @vtlvariable name="panicButton" type="java.lang.String" *#
+#* @vtlvariable name="mensaje" type="SAYAV2.SAYAV2.mensajeria.Mensaje" *#
+#* @vtlvariable name="tipoMensaje" type="java.lang.String" *#
+#* @vtlvariable name="estado" type="java.lang.String" *#
+
+
+#* @vtlvariable name="detalle" type="java.lang.String" *#
+#* @vtlvariable name="n" type="java.lang.String" *#
+
+
+
+
 
 
 #* @vtlvariable name="name" type="java.lang.String" *#
 #* @vtlvariable name="lastname" type="java.lang.String" *#
+#* @vtlvariable name="username" type="java.lang.String" *#
 #* @vtlvariable name="email" type="java.lang.String" *#
 #* @vtlvariable name="address" type="java.lang.String" *#
 #* @vtlvariable name="phoneNumber" type="java.lang.String" *
 #* @vtlvariable name="subdom" type="SAYAV2.SAYAV2.model.Prueba" *#
+#* @vtlvariable name="mensaje" type="SAYAV2.SAYAV2.model.Mensaje" *#
 #* @vtlvariable name="psw1" type="java.lang.String" *#
 #* @vtlvariable name="ps2" type="java.lang.String" *#
+
+#* @vtlvariable name="invalidUsername" type="java.lang.String" *#
+
 
 
 
@@ -40,7 +63,47 @@
 #* @vtlvariable name="updateUser" type="java.lang.String" *#
 #* @vtlvariable name="viewUser" type="java.lang.String" *#
 
+#* @vtlvariable name="language" type="java.lang.String" *#
 
+#* @vtlvariable name="existingGroup" type="java.lang.String" *#
+#* @vtlvariable name="addGroupSucceeded" type="java.lang.String" *#
+
+#* @vtlvariable name="groupName" type="java.lang.String" *#
+
+#* @vtlvariable name="ver" type="java.lang.String" *#
+
+
+
+
+#* @vtlvariable name="dispositivo" type="SAYAV2.SAYAV2.model.DispositivoM" *#
+#* @vtlvariable name="dispositivoABorrar" type="SAYAV2.SAYAV2.model.DispositivoM" *#
+#* @vtlvariable name="eliminarSuccess" type="java.lang.String" *#
+#* @vtlvariable name="eliminarFailed" type="java.lang.String" *#
+
+#* @vtlvariable name="sector" type="SAYAV2.SAYAV2.model.Sector" *#
+#* @vtlvariable name="sectorRenombrar" type="SAYAV2.SAYAV2.model.Sector" *#
+#* @vtlvariable name="listaDispositivos" type="java.util.ArrayList<SAYAV2.SAYAV2.model.DispositivoM>" *#
+#* @vtlvariable name="listaSectores" type="java.util.ArrayList<SAYAV2.SAYAV2.model.Sector>" *#
+#* @vtlvariable name="numeroSectores" type="java.lang.Integer" *#
+#* @vtlvariable name="existingSector" type="java.lang.Integer" *#
+#* @vtlvariable name="mensajesPendientes" type="SAYAV2.SAYAV2.model.MensajesPendientes" *# 
+
+
+#* @vtlvariable name="existingMember" type="java.lang.String" *#
+#* @vtlvariable name="addMemberSucceeded" type="java.lang.String" *#
+#* @vtlvariable name="leaveGroupSucceeded" type="java.lang.String" *#
+#* @vtlvariable name="leaveGroupFailed" type="java.lang.String" *#
+#* @vtlvariable name="invalidDomain" type="java.lang.String" *#
+#* @vtlvariable name="invalidPuerto" type="java.lang.String" *#
+#* @vtlvariable name="memberIsUser" type="java.lang.String" *#
+#* @vtlvariable name="conectionProblems" type="java.lang.String" *#
+#* @vtlvariable name="existingGroupRename" type="java.lang.String" *#
+
+#* @vtlvariable name="votaciones" type="SAYAV2.SAYAV2.notificacion.Votaciones" *#
+#* @vtlvariable name="solicitudes" type="SAYAV2.SAYAV2.notificacion.Votaciones" *#
+
+
+#* @vtlvariable name="notificaciones" type="SAYAV2.SAYAV2.model.Notificaciones" *#
 
 
 

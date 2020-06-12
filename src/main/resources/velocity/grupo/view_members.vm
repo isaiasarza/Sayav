@@ -1,0 +1,98 @@
+#parse("resources/velocity/layout.vm")
+#@mainLayout()
+	<h1>Grupo "$!group.getNombre()"</h1>
+	
+	#if($conectionProblems)
+    		<div  class="dangerAlert">	
+	 	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>El miembro requerido se encuentra con problemas de conectividad, por favor intente mas tarde
+	  		</div>
+	#elseif($procesandoMiembro)
+		<div  class="infoAlert">	
+ 	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Ya se genero la solicitud, espero la respuesta del nuevo miembro.
+  		</div>
+	
+	#end
+	
+	#if($solicitar)
+		<div  class="infoAlert">	
+ 	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Procesando Solicitud.
+  		</div>
+  	#elseif($solicitudExistente)
+  		<div  class="infoAlert">	
+ 	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Ya se genero la solicitud, espere que finalize la votación.
+  		</div>
+	#end
+	#if($!group.getPeers().isEmpty())
+ 		<div class="infoAlert">	
+	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>No hay miembros
+	  	</div>
+   	#end
+	
+	<form id="newGroupMemberForm" onsubmit="return validateForm()" method="post" action="$WebPath.getNewGroup()$groupName/"> 
+  		#if($existingMember)
+  			<div  class="dangerAlert">	
+	 	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>$msg.get("EXISTING_PEER")
+        	</div>
+        #elseif($memberIsUser)
+        	<div  class="dangerAlert">	
+	 	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>No puede ingresarse a usted mismo como miembro
+        	</div>
+        #elseif($invalidDomain)
+        	<div  class="dangerAlert">	
+	 	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>El nombre de usuario del nuevo miembro no puede contener el caracter "/" y
+	 	 		debe respetar el siguiente formato xxx.xxxx.xxx
+	  		</div>
+	  	#elseif($invalidPuerto)
+        	<div  class="dangerAlert">	
+	 	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>El numero de puerto no puede ser negativo
+	  		</div>
+    	#elseif($addMemberSucceeded)   
+       		<div  class="infoAlert">	
+	 	 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Procesando Miembro
+	  		</div>
+    	#end
+   		<h2>$msg.get("NEW_GROUP_MEMBER_HEADING")</h2>
+    
+    	<label>Nombre de Usuario</label><br>
+    	<input type="text" name="memberDomain" placeholder="Ej: nombre.dns.net" value="" required><br>
+       	<input type="text" name="puerto" placeholder="Ej: 8080" value="" required><br>
+
+    	<input type="submit" value="$msg.get("NEW_GROUP_MEMBER")">
+	</form>  
+	
+	<script>
+	function validateForm() {
+		var y = "false";
+    	var x = document.forms["newGroupMemberForm"]["memberDomain"].value;
+    	if (x == null || x == "") {
+    		y = "true";
+        	alert("$msg.get("NEW_GROUP_MEMBER_ALERT_DOMAIN")");	
+    	}    
+    	if(y == "true"){
+    		return false;
+		}
+	}
+	</script>  
+ 		 
+	<table >
+  		<tr>
+    		<th align="center">Miembro</th>	
+    		<th align="center">Solicitar Baja</th>	    			    		
+  		</tr>
+  		
+  		
+  		 		
+  		#foreach($peer in $group.getPeers())
+			<tr>
+				<td>$!peer.getDireccion()</td>
+				<td  align="center">
+					<form method="post" action="$WebPath.getSolicitarBaja()$!group.getNombre()/$!peer.getDireccion()/">
+                 	   <button class="w3-button">Solicitar</button>
+                	</form> 
+				
+				</td>			
+			</tr>  
+		#end 
+							
+	</table>
+#end	

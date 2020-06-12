@@ -44,10 +44,18 @@ nav #menu {
     float: right;
 }
 
+nav ul, nav li {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
 a {
     text-decoration: none;
     color: #ff7761;
 }
+
+
 
 #menu li {
     float: left;
@@ -275,6 +283,9 @@ a .bookCover img {
     cursor: pointer;
 }
 
+
+/* Registration Form */
+
 #registrationForm {
     max-width: 400px;
     margin: 0 auto;
@@ -324,6 +335,166 @@ a .bookCover img {
     background: #274555;
     border: 0;
     cursor: pointer;
+}
+
+table{
+  color: #333;
+  font-family: sans-serif;
+  font-size: .9em;
+  font-weight: 400;
+  text-align: left;
+  line-height: 40px;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 2px solid #ffa500;
+  width: 600px;
+  margin: 25px auto;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,.16);
+  border-radius: 2px;
+}
+
+thead tr:first-child {
+  background: #ff8000;
+  color: #fff;
+  border: none;
+}
+
+th {font-weight: bold;}
+th:first-child, td:first-child {padding: 0 15px 0 20px;}
+
+thead tr:last-child th {border-bottom: 3px solid #ddd;}
+
+tbody tr:hover {background-color: rgba(237,28,64,.1);}
+tbody tr:last-child td {border: none;}
+tbody td {border-bottom: 1px solid #ddd;}
+
+td:last-child {
+  text-align: right;
+  padding-right: 20px;
+}
+
+
+#falso .button {
+  color: #aaa;
+  cursor: pointer;
+  vertical-align: middle;  
+}
+
+/*Sector Form*/
+
+#SectorForm {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+
+#sectorForm input {
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    width: 100%;
+    border-radius: 3px;
+    margin: 2px 0 20px 0;
+}
+
+#sectorForm input[type="submit"] {
+    color: white;
+    background: #274555;
+    border: 0;
+    cursor: pointer;
+	position: relative;
+    top:  0px;
+    left: 0px;
+    
+}
+
+#sectorForm table {
+  color: #333;
+  font-family: sans-serif;
+  font-size: .9em;
+  font-weight: 300;
+  text-align: left;
+  line-height: 40px;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 2px solid #ffa500;
+  width: 500px;
+  margin: 50px auto;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,.16);
+  border-radius: 2px;
+}
+
+#sectorForm thead tr:first-child {
+  background: #ff8000;
+  color: #fff;
+  border: none;
+}
+
+#sectorForm th {font-weight: bold;}
+#sectorForm th:first-child, td:first-child {padding: 0 15px 0 20px;}
+
+#sectorForm thead tr:last-child th {border-bottom: 3px solid #ddd;}
+
+#sectorForm tbody tr:hover {background-color: rgba(237,28,64,.1);}
+#sectorForm tbody tr:last-child td {border: none;}
+#sectorForm tbody td {border-bottom: 1px solid #ddd;}
+
+#sectorForm td:last-child {
+  text-align: right;
+  padding-right: 10px;
+}
+
+#sectorForm .button {
+  color: #aaa;
+  cursor: pointer;
+  vertical-align: middle;  
+}
+
+#sectorForm .editar:hover {
+  color: #0a79df;
+}
+#sectorForm .guardar:hover {
+  color: #0a79df;
+}
+#sectorForm .eliminar:hover {
+  color: #dc2a2a;
+}
+
+
+
+form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+form label {
+    display: block;
+    width: 100%
+}
+
+form input {
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    width: 100%;
+    border-radius: 3px;
+    margin: 2px 0 20px 0;
+}
+
+form input[type="submit"] {
+    color: white;
+    background: #274555;
+    border: 0;
+    cursor: pointer;
+}
+
+form .button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 }
 
 .notification {

@@ -1,13 +1,46 @@
 package SAYAV2.SAYAV2.Utils;
 
-import spark.*;
+import java.util.List;
+
+import SAYAV2.SAYAV2.model.Sector;
+import spark.Request;
 
 public class RequestUtil {
 
-	
-	
+	public static String getNewGroupName(Request request) {
+		return request.queryParams("groupName");
+	}
+
 	public static String getQueryLocale(Request request) {
-		return request.queryParams("locale");
+		return request.queryParams("localeLanguage");
+	}
+
+	public static String getQueryDispositivoABorrar(Request request) {
+		return request.queryParams("dispositivoABorrar");
+	}
+
+	public static int getQueryNumeroSectores(Request request) {
+		return Integer.valueOf(request.queryParams("numeroSectores"));
+	}
+
+	public static String getQueryNuevoNombre(Request request) {
+		return request.queryParams("nuevoNombreSector");
+	}
+
+	public static String getQueryNumero(Request request) {
+		return request.queryParams("numero");
+	}
+
+	public static String getQuerySectorRenombrar(Request request) {
+		return request.queryParams("nombreActualSector");
+	}
+
+	public static Long getParamsNumero(Request request) {
+		return Long.parseLong(request.params("numero"));
+	}
+
+	public static String getQueryNombre(Request request) {
+		return request.queryParams("nombre");
 	}
 
 	public static String getParamIsbn(Request request) {
@@ -49,6 +82,11 @@ public class RequestUtil {
 	public static String getQueryLoginRedirect(Request request) {
 		return request.queryParams("loginRedirect");
 	}
+
+	// public static String getQueryLocale(Request request) {
+	// return request.queryParams("loginRedirect");
+	// }
+
 	public static String getQueryMenuRedirect(Request request) {
 		return request.queryParams("menuRedirect");
 	}
@@ -59,6 +97,10 @@ public class RequestUtil {
 
 	public static String getSessionCurrentUser(Request request) {
 		return request.session().attribute("currentUser");
+	}
+
+	public static String getSessionLanguage(Request request) {
+		return request.session().attribute("language");
 	}
 
 	public static boolean removeSessionAttrLoggedOut(Request request) {
@@ -72,13 +114,13 @@ public class RequestUtil {
 		request.session().removeAttribute("loginRedirect");
 		return loginRedirect;
 	}
-	
+
 	public static String removeSessionAttrUser(Request request) {
 		String user = request.session().attribute("user");
 		request.session().removeAttribute("user");
 		return user;
 	}
-	
+
 	public static String removeSessionAttrMenuRedirect(Request request) {
 		String menuRedirect = request.session().attribute("menuRedirect");
 		request.session().removeAttribute("menuRedirect");
@@ -103,6 +145,37 @@ public class RequestUtil {
 
 	public static String getQueryAlarmStatus(Request request) {
 		return request.queryParams("status");
+	}
+
+	public static String getQueryMemberDomain(Request request) {
+		return request.queryParams("memberDomain");
+	}
+
+	public static List<Sector> removeSessionSectores(Request request) {
+		List<Sector> listaSectores = request.session().attribute("listaSectores");
+		// List<Sector> s = request.session().removeAttribute("listaSectores");
+		return listaSectores;
+
+	}
+
+	public static String getQueryDireccion(Request request) {
+		return request.queryParams("direccion");
+	}
+
+	public static int getQueryPuerto(Request request) {
+		return Integer.valueOf(request.queryParams("puerto"));
+	}
+
+	public static String getQueryNombreGrupo(Request request) {
+		return request.queryParams("nombre");
+	}
+
+	public static String getQueryGrupoSeleccionado(Request request) {
+		return request.queryParams("grupoId");
+	}
+
+	public static String getQueryUsername(Request request) {
+		return request.queryParams("username");
 	}
 
 }

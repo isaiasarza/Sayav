@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Usuario xmlns="http://www.example.org/UsuarioXMLSchema">
-    <Nombre>Daniel Isaías</Nombre>
-    <Apellido>Arza Echaves</Apellido>
-    <Telefono>2804380689</Telefono>
+<ns2:Usuario xmlns="http://www.example.org/Mensaje" xmlns:ns2="http://www.example.org/Usuario">
+    <Nombre>Daniel</Nombre>
+    <Apellido>Isaías</Apellido>
+    <NombreDeUsuario>Arza</NombreDeUsuario>
     <Email>arza.isaias@gmail.com</Email>
     <Direccion>Entre Rios 749</Direccion>
-    <Subdominio>isaiasarza.dyndns.dk</Subdominio>
-    <Contraseña>$2a$10$5IBepv4CBxQpW9tMbJdyme6L.tGudaGanIJmLnk93RbFeZwb1dRk.</Contraseña>
-    <Salt>$2a$10$5IBepv4CBxQpW9tMbJdyme</Salt>
-    <AlarmaHabilitada>false</AlarmaHabilitada>
-</Usuario>
+    <Subdominio>isaiasarza.ddns.net</Subdominio>
+    <Contraseña>$2a$10$3jKwH0/mOFYhNtvsGKldTe4GTf7ai/puXjLZTkFc7dKe3J6sAm3oi</Contraseña>
+    <Salt>$2a$10$3jKwH0/mOFYhNtvsGKldTe</Salt>
+    <AlarmaHabilitada>true</AlarmaHabilitada>
+    <Sectores>
+        <Nombre>Sector N1</Nombre>
+        <Activado>false</Activado>
+    </Sectores>
+    <Sectores>
+        <Nombre>Sector N2</Nombre>
+        <Activado>false</Activado>
+    </Sectores>
+    <Sectores>
+        <Nombre>Sector N3</Nombre>
+        <Activado>false</Activado>
+    </Sectores>
+    <Sectores>
+        <Nombre>Sector N4</Nombre>
+        <Activado>false</Activado>
+    </Sectores>
+    <Sectores>
+        <Nombre>Boton de Panico</Nombre>
+        <Activado>false</Activado>
+    </Sectores>
+</ns2:Usuario>

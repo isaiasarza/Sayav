@@ -1,0 +1,24 @@
+#parse("resources/velocity/layout.vm")
+#@mainLayout()
+
+
+	<h1>$msg.get("LIST_MESSAGE_HEADING")</h1>
+	
+	<p class="bad notification">Verifique que la Direccion del Miembro sea valida o pongase en contacto con el miembro</p> 	
+	
+	<table style="width:100%">
+  		<tr>
+  			<th>Tipo</th>
+    		<th>Destino</th>
+    		<th>Fecha</th>
+    		<th><button id="reenviarTodo">Reenviar Todo</button></th>		
+  		</tr>
+  		#foreach($mensaje in $listaMensajes)
+  		<tr>
+            <td> $!mensaje.getTipo()</td>
+   		 	<td> $!mensaje.getPeer()</td>
+   		 	<td> $!mensaje.getFecha()</td>
+            	<td><button id="reenviar">Reenviar</button></td>
+  		</tr>
+    	#end
+#end
