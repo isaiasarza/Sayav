@@ -147,13 +147,13 @@ public class GroupController {
 		memberDomain = RequestUtil.getQueryMemberDomain(request);
 		puerto = RequestUtil.getQueryPuerto(request);		
 		System.out.println("Miembro: " + memberDomain + ":" + puerto);
-		if (memberDomain.contains("/")) {
+		/*if (memberDomain.contains("/")) {
 			model.put("invalidDomain", true);
 			model.put("user", usuario);
 			model.put("group", grupo);
 			model.put("groupName", groupName);
 			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
-		}
+		}*/
 		
 		if (puerto<0 || puerto ==0) {
 			model.put("invalidPuerto", true);
@@ -163,13 +163,13 @@ public class GroupController {
 			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
 		}
 
-		if (!domainValidator.isValid(memberDomain)) {
-			model.put("invalidDomain", true);
-			model.put("user", usuario);
-			model.put("group", grupo);
-			model.put("groupName", groupName);
-			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
-		}
+//		if (!domainValidator.isValid(memberDomain)) {
+//			model.put("invalidDomain", true);
+//			model.put("user", usuario);
+//			model.put("group", grupo);
+//			model.put("groupName", groupName);
+//			return ViewUtil.render(request, model, PathUtil.Template.VIEW_GROUP_MEMBER);
+//		}
 
 		model.put("groupName", groupName);
 		model.put("group", grupo);

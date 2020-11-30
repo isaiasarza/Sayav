@@ -14,7 +14,6 @@ import SAYAV2.SAYAV2.Utils.FileUtils;
 import SAYAV2.SAYAV2.Utils.PathUtil;
 import SAYAV2.SAYAV2.Utils.RequestUtil;
 import SAYAV2.SAYAV2.Utils.ViewUtil;
-import SAYAV2.SAYAV2.bussines.ControllerMQTT;
 import SAYAV2.SAYAV2.dao.ConfiguratorDao;
 import SAYAV2.SAYAV2.model.Configurator;
 import SAYAV2.SAYAV2.model.Sector;
@@ -26,7 +25,7 @@ import spark.Route;
 public class RegistrationController {
 	//private static File config = new File(FileUtils.getConfiguratorFile());
 	private static ConfiguratorDao configDao = ConfiguratorDao.getInstance();
-	private static ControllerMQTT controllerMqtt = ControllerMQTT.getInstance();
+	//private static ControllerMQTT controllerMqtt = ControllerMQTT.getInstance();
 
 
 	/**
@@ -83,7 +82,7 @@ public class RegistrationController {
 		model.put("user", usuario);
 		model.put("authentificationSucceeded", true);
 		//Inicializa Receive
-		controllerMqtt.initReceive();
+	//	controllerMqtt.initReceive();
 		
 		return ViewUtil.render(request, model, PathUtil.Template.LOGIN);
 	};

@@ -15,7 +15,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import SAYAV2.SAYAV2.Utils.FileUtils;
 import SAYAV2.SAYAV2.Utils.PathUtil;
-import SAYAV2.SAYAV2.bussines.ControllerMQTT;
 import SAYAV2.SAYAV2.dao.ConfiguratorDao;
 import SAYAV2.SAYAV2.mensajeria.Mensaje;
 import SAYAV2.SAYAV2.mensajeria.Mensajeria;
@@ -34,7 +33,7 @@ public class Application {
 	//static File c;
 	static File sayav = new File(FileUtils.getUsuarioFile());
 	static Mensajeria mensajeria;
-	static ControllerMQTT controllerMqtt;
+	//static ControllerMQTT controllerMqtt;
 
 	public static void config() throws JAXBException, IOException {
 	//	controllerMqtt = ControllerMQTT.getInstance();
